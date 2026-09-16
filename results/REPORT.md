@@ -324,8 +324,8 @@ Independent cascade streams, half benign (kappa=1 unless noted) and half harmful
 | eprocess | adaptive | 0.013 ± 0.007 | 0.970 | 2.76 | 30.7 | 257.0 | 0.057 | 0.09 | 0.41 | 3.43 | 739.0 |
 | eprocess | greedy | 0.013 ± 0.007 | 0.970 | 2.76 | 30.7 | 257.1 | 0.057 | 0.09 | 0.41 | 4.35 | 427.6 |
 | eprocess | none | 0.013 ± 0.007 | 0.970 | 2.76 | 30.7 | 272.5 | 0.000 | 0.00 | 0.41 | 2.50 | 0.0 |
-| growth | none | 0.040 ± 0.011 | 0.967 | 2.79 | 33.8 | 272.5 | 0.000 | 0.00 | 1.55 | 0.90 | 0.0 |
 | excess | none | 0.047 ± 0.012 | 0.970 | 2.18 | 21.5 | 272.5 | 0.000 | 0.00 | 1.55 | 0.76 | 0.0 |
+| growth | none | 0.040 ± 0.011 | 0.967 | 2.79 | 33.8 | 272.5 | 0.000 | 0.00 | 1.55 | 0.90 | 0.0 |
 | size | none | 0.077 ± 0.015 | 0.970 | 4.41 | 92.6 | 272.5 | 0.000 | 0.00 | 1.55 | 1.03 | 0.0 |
 | cusum | none | 0.070 ± 0.015 | 0.970 | 2.43 | 25.4 | 272.5 | 0.000 | 0.00 | 0.70 | 1.04 | 0.0 |
 | sprt | none | 0.013 ± 0.007 | 0.960 | 2.72 | 30.6 | 272.5 | 0.000 | 0.00 | 0.71 | 1.36 | 0.0 |
@@ -358,8 +358,8 @@ Independent cascade streams, half benign (kappa=1 unless noted) and half harmful
 | growth | none | 0.023 ± 0.009 | 0.973 | 2.21 | 22.9 | 272.5 | 0.000 | 0.00 | 1.55 | 0.85 | 0.0 |
 | excess | none | 0.020 ± 0.008 | 0.977 | 1.74 | 16.0 | 272.5 | 0.000 | 0.00 | 1.54 | 0.79 | 0.0 |
 | logistic | none | 0.017 ± 0.007 | 0.970 | 1.80 | 17.7 | 272.5 | 0.000 | 0.00 | 1.55 | 1.85 | 0.0 |
-| immediate | none | 1.000 ± 0.000 | 1.000 | 1.00 | 10.5 | 272.5 | 0.000 | 0.00 | 1.52 | 0.29 | 0.1 |
 | never | none | 0.000 ± 0.000 | 0.000 |  |  | 272.5 | 0.000 | 0.00 |  | 1.66 | 0.0 |
+| immediate | none | 1.000 ± 0.000 | 1.000 | 1.00 | 10.5 | 272.5 | 0.000 | 0.00 | 1.52 | 0.29 | 0.1 |
 
 ### powergrid / main  (alpha=0.05, budget=10, seeds=3, calib seeds=3, benign kappa >= 1.0, harmful kappa in [1.5, 4.0], prob=wc, 300 benign / 300 harmful)
 
@@ -379,6 +379,7 @@ Independent cascade streams, half benign (kappa=1 unless noted) and half harmful
 
 | detector | container | FA | det | delay | harm@alarm | final harm | saved | benign loss | kappa MAE | detect ms | contain ms |
 |---|---|---|---|---|---|---|---|---|---|---|---|
+| eprocess | adaptive_commit | 0.007 ± 0.005 | 0.790 | 2.14 | 17.7 | 948.7 | 0.478 | 0.04 | 0.45 | 1.79 | 147.4 |
 | eprocess | greedy_p0 | 0.007 ± 0.005 | 0.790 | 2.14 | 17.7 | 1276.8 | 0.298 | 0.02 | 0.45 | 2.03 | 31.1 |
 | eprocess | adaptive_p0 | 0.007 ± 0.005 | 0.790 | 2.14 | 17.7 | 1276.8 | 0.298 | 0.02 | 0.45 | 1.61 | 37.9 |
 
@@ -395,6 +396,20 @@ Independent cascade streams, half benign (kappa=1 unless noted) and half harmful
 | logistic | none | 0.010 ± 0.006 | 0.830 | 2.49 | 17.9 | 1942.3 | 0.032 | 0.00 | 1.68 | 2.32 | 0.1 |
 | never | none | 0.000 ± 0.000 | 0.000 |  |  | 1942.3 | 0.032 | 0.00 |  | 7.24 | 0.0 |
 | immediate | none | 1.000 ± 0.000 | 1.000 | 1.00 | 8.9 | 1942.3 | 0.032 | 0.00 | 1.51 | 0.27 | 0.1 |
+
+### powergrid / dominance_null  (alpha=0.05, budget=10, seeds=3, calib seeds=3, benign kappa >= 0.5, harmful kappa in [1.5, 4.0], prob=wc, 300 benign / 300 harmful)
+
+| detector | container | FA | det | delay | harm@alarm | final harm | saved | benign loss | kappa MAE | detect ms | contain ms |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| eprocess | none | 0.003 ± 0.003 | 0.853 | 2.01 | 14.7 | 1964.7 | 0.042 | 0.00 | 0.44 | 1.69 | 0.1 |
+| sprt | none | 0.003 ± 0.003 | 0.817 | 1.69 | 13.0 | 1964.7 | 0.042 | 0.00 | 0.77 | 0.54 | 0.1 |
+| cusum | none | 0.043 ± 0.012 | 0.937 | 1.36 | 10.4 | 1964.7 | 0.042 | 0.00 | 0.72 | 0.52 | 0.0 |
+| size | none | 0.053 ± 0.013 | 0.887 | 2.71 | 21.9 | 1964.7 | 0.042 | 0.00 | 1.61 | 0.29 | 0.0 |
+| growth | none | 0.027 ± 0.009 | 0.813 | 2.27 | 17.8 | 1964.7 | 0.042 | 0.00 | 1.68 | 0.33 | 0.0 |
+| excess | none | 0.033 ± 0.010 | 0.913 | 1.38 | 10.4 | 1964.7 | 0.042 | 0.00 | 1.60 | 0.34 | 0.1 |
+| logistic | none | 0.023 ± 0.009 | 0.897 | 1.50 | 11.1 | 1964.7 | 0.042 | 0.00 | 1.61 | 1.07 | 0.0 |
+| never | none | 0.000 ± 0.000 | 0.000 |  |  | 1964.7 | 0.042 | 0.00 |  | 4.39 | 0.0 |
+| immediate | none | 1.000 ± 0.000 | 1.000 | 1.00 | 8.7 | 1964.7 | 0.042 | 0.00 | 1.52 | 0.18 | 0.1 |
 
 ## Concurrent cascades: FDR control and harm-weighted e-BH (Theorem 4)
 
