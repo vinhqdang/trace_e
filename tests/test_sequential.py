@@ -75,3 +75,37 @@ def test_all_detectors_and_containers_run():
             r = run_episode(ep, det, con, budget=3, max_rounds=20)
             assert r["harm_final"] <= r["harm_counterfactual"]
             assert r["n_intervened"] <= 3
+
+
+def test_deferred_commitment_matches_one_shot_on_same_live_edges():
+    """Key step of Theorem 3: blocking a plan's nodes only when exposed yields the same final bad set."""
+    g = _graph(0.25)
+    rng = np.random.default_rng(11)
+    checked = 0
+    for trial in range(40):
+        seeds = rng.choice(g.n, size=2, replace=False)
+        plan = [int(v) for v in rng.choice(g.n, size=6, replace=False) if v not in seeds]
+        ep_seed = int(rng.integers(2**31))
+        # one-shot: block the whole plan after round 1
+        a = Episode(g, 3.0, seeds, np.random.default_rng(ep_seed))
+        a.step()
+        a.block(plan)
+        while a.alive:
+            a.step()
+        # deferred: each round block only the planned nodes exposed to the current frontier
+        b = Episode(g, 3.0, seeds, np.random.default_rng(ep_seed))
+        b.step()
+        spent = 0
+        pending = list(plan)
+        while b.alive:
+            exposed = np.zeros(g.n, dtype=bool)
+            for u in b.frontier:
+                exposed[g.indices[g.indptr[u]: g.indptr[u + 1]]] = True
+            now = [v for v in pending if exposed[v]]
+            spent += len(b.block(now))
+            pending = [v for v in pending if v not in now]
+            b.step()
+        assert np.array_equal(a.active, b.active), trial
+        assert spent <= len(plan)
+        checked += 1
+    assert checked == 40
