@@ -175,8 +175,12 @@ $$\mathbb E_{H_\kappa}[H_\tau-H_0]\ \ge\ \frac{(1-\beta)\log\frac{1-\beta}{\alph
 
 (b) *Upper bound.* Let $\kappa_j$ be the largest grid point with
 $\kappa_j\le\kappa$, $c(\kappa_j)=(\kappa_j\log\kappa_j-\kappa_j+1)/\kappa_j$
-and $\Delta$ the maximum number of nodes exposed in one round. Then
-$$\mathbb E_{H_\kappa}[H_{\tau_\alpha}-H_0]\ \le\ \frac{\log(1/\alpha)+\log(1/w_j)+\Delta\log\kappa_j}{c(\kappa_j)}.$$
+and $\Delta$ the maximum number of nodes exposed in one round. Assume
+**(A)** every exposed node is exposed through a single frontier
+in-neighbour (exact on trees and for cascades whose frontier nodes have
+disjoint out-neighbourhoods; the general case is treated in the remark
+below). Then
+$$\mathbb E_{H_\kappa}[H_{\tau_\alpha}-H_0]\ \le\ \frac{\kappa}{\kappa_j}\cdot\frac{\log(1/\alpha)+\log(1/w_j)+\Delta\log\kappa_j}{c(\kappa_j)}.$$
 
 Consequently the number of harmful activations that AVID allows before it
 intervenes is within a factor
@@ -209,25 +213,34 @@ $L^{(j)}_t=\prod_{s\le t}\Lambda^{\kappa_j}_s$; since $E_t\ge w_jL^{(j)}_t$,
 $\tau_\alpha\le\tau_j:=\inf\{t: L^{(j)}_t\ge 1/(\alpha w_j)\}$ and
 $H_{\tau_\alpha}\le H_{\tau_j}$ (activity is monotone). At $\tau_j$ the
 overshoot is at most one round's log-likelihood ratio, bounded by
-$\Delta\log\kappa_j$, so $\mathbb E[\log L^{(j)}_{\tau_j}]\le\log(1/\alpha)+\log(1/w_j)+\Delta\log\kappa_j$.
-Per exposed node, the expected increment of $\log\Lambda^{\kappa_j}_t$ under
-the true $q=q^\kappa_t(v)$ is
-$\phi(q)=q\log\frac{q_j}{q_0}+(1-q)\log\frac{1-q_j}{1-q_0}$, increasing in
-$q$, so $\phi(q)\ge\phi(q_j)=\mathrm{kl}(q_j,q_0)$. The function
-$q_0\mapsto\mathrm{kl}(\kappa_jq_0,q_0)$ is convex with value 0 at 0, hence
-$\mathrm{kl}(\kappa_jq_0,q_0)/(\kappa_jq_0)$ is nondecreasing and bounded
-below by its limit at $0$, which is $c(\kappa_j)$. Since the expected
-number of activations of that node is $q\ge q_j=\kappa_jq_0$ (exactly
-$\kappa_jq_0$ in the single-in-neighbour case, and at least a
-$c(\kappa_j)$-proportional amount in general by the same convexity
-argument applied to the aggregated probability), the per-round expected
-increment satisfies $\mathbb E[\log\Lambda^{\kappa_j}_t\mid\mathcal F_{t-1}]\ge c(\kappa_j)\,\mathbb E[|N_t|\mid\mathcal F_{t-1}]$
-whenever $q/q_j\le$ the same ratio, and in general
-$\ge c(\kappa_j)\,\mathbb E[|N_t|\mid\mathcal F_{t-1}]\cdot(\kappa_j/\kappa)$; we absorb
-the factor $\kappa_j/\kappa\le1$ into the statement by choosing the grid
-fine enough that $\kappa_j\ge\kappa/(1+\eta)$ and report the bound with
-$c(\kappa_j)$ replaced by $c(\kappa_j)/(1+\eta)$. Wald's identity then
-yields $c(\kappa_j)\,\mathbb E[H_{\tau_j}-H_0]/(1+\eta)\le\mathbb E[\log L^{(j)}_{\tau_j}]$. $\square$
+$\Delta\log\kappa_j$ because each factor is at most $q_j/q_0\le\kappa_j$, so
+$\mathbb E[\log L^{(j)}_{\tau_j}]\le\log(1/\alpha)+\log(1/w_j)+\Delta\log\kappa_j$.
+Fix an exposed node with baseline probability $q_0=p_0(u,v)$ (assumption
+(A)), grid probability $q_j=\min(1,\kappa_jq_0)$ and true probability
+$q=\min(1,\kappa q_0)\ge q_j$. The expected increment of
+$\log\Lambda^{\kappa_j}_t$ contributed by this node is
+$\phi(q)=q\log\frac{q_j}{q_0}+(1-q)\log\frac{1-q_j}{1-q_0}$, which is affine
+and increasing in $q$, so $\phi(q)\ge\phi(q_j)=\mathrm{kl}(q_j,q_0)$.
+The map $q_0\mapsto\mathrm{kl}(\kappa_jq_0,q_0)$ is convex with value $0$
+at $0$, hence $\mathrm{kl}(\kappa_jq_0,q_0)/(\kappa_jq_0)$ is nondecreasing
+in $q_0$ and bounded below by its limit at $0$, which equals $c(\kappa_j)$.
+Therefore the node's expected evidence is at least
+$c(\kappa_j)\,q_j\ge c(\kappa_j)\,(\kappa_j/\kappa)\,q$, i.e. at least
+$c(\kappa_j)\kappa_j/\kappa$ times its expected contribution to
+$|N_t|$. Summing over exposed nodes and rounds and using Wald's identity,
+$c(\kappa_j)(\kappa_j/\kappa)\,\mathbb E[H_{\tau_j}-H_0]\le\mathbb E[\log L^{(j)}_{\tau_j}]$. $\square$
+
+*Remark (several in-neighbours).* If $v$ is exposed by a set $F_v$ of
+frontier nodes, $q^{\kappa}=1-\prod_{u\in F_v}(1-\min(1,\kappa p_0(u,v)))$.
+The function $\rho\mapsto1-\prod_u(1-\rho a_u)$ is concave with value $0$
+at $0$, so $q^{\kappa}\le(\kappa/\kappa_j)q^{\kappa_j}$ and
+$q^{\kappa_j}\le\kappa_jq^0$ still hold, and the proof goes through with
+$c(\kappa_j)$ replaced by $c(r_v)$ where $r_v=q^{\kappa_j}/q^0\in(1,\kappa_j]$
+is the node's effective multiplier; $r_v\to\kappa_j$ as the baseline
+exposure $q^0\to0$, and the bound degrades gracefully when exposures
+saturate (a node that activates with high probability under both
+hypotheses carries little evidence per activation, which is unavoidable
+for any rule by part (a)).
 
 *Remark.* With a geometric grid of ratio $(1+\eta)$ between
 $\kappa_{\min}$ and $\kappa_{\max}$, $J=\lceil\log(\kappa_{\max}/\kappa_{\min})/\log(1+\eta)\rceil$

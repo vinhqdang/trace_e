@@ -5,7 +5,7 @@ cd "$(dirname "$0")/.."
 
 NETWORKS=${NETWORKS:-"karate dolphin iceland fraternity workplace highschool2013 powergrid"}
 MODES=${MODES:-"block counter"}
-METHODS=${METHODS:-"random,degree,pagerank,proximity,reach,greedy"}
+METHODS=${METHODS:-"random,degree,pagerank,proximity,reach,greedy,greedy_dom"}
 EXTRA=${EXTRA:-"--budgets 1,2,5,10 --n-instances 20 --n-mc 1000 --greedy-samples 200"}
 PUSH=${PUSH:-1}
 
