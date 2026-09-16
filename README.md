@@ -122,6 +122,34 @@ count, selection time; one summary row per (network, mode, method, budget) in
 
 `scripts/run_blocking_all.sh` runs both modes on the network suite.
 
+## Problem C: sequential detect-and-contain (AVID)
+
+`docs/METHOD.md` specifies the proposed method, AVID (anytime-valid
+intervention on diffusion): a mixture e-process over the transmissibility
+multiplier of an independent cascade decides *when* a cascade is harmful with
+a false-alarm probability bounded by alpha at any data-dependent stopping
+time, and an adaptive frontier container then spends the budget only on
+planned nodes that are exposed to the current frontier, re-planning every
+round with the learned transmissibility. Theorems 1-4 in the method note
+give anytime validity under a composite (dominance) null, a harm-optimality
+bound with a matching lower bound, weak dominance over one-shot blocking,
+and FDR control across concurrent cascades.
+
+```
+python -m trace_e.eval.run_sequential --network cagrqc --prob-model wc --n-seeds 3 --budget 10
+python scripts/verify_theory.py --network cagrqc      # empirical check of Theorems 1-2
+scripts/run_sequential_all.sh                          # full suite (main, calibration shift, dominance null, alpha and budget sweeps)
+```
+
+Detectors: `eprocess` (AVID), `sprt` (known kappa), `cusum`, `size`,
+`growth`, `excess` (moment ratio), `logistic` (learned early classifier),
+`never`, `immediate`. Threshold detectors are calibrated on benign
+simulations to the same alpha. Containers: `adaptive` (AVID), one-shot
+`greedy`, `proximity`, `degree`, `none`. Metrics per (detector, container):
+false-alarm rate, detection rate, delay, harm at alarm, final harm, saved
+fraction, benign loss, kappa estimation error, compute time. Summary in
+`results/summary_sequential.csv`; theory checks in `results/theory/`.
+
 ## Reports
 
 `python scripts/aggregate.py` rebuilds `results/REPORT.md` from the summary
