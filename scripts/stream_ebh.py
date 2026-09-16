@@ -75,7 +75,7 @@ def run(args, rule: str):
     harmful = np.array(harmful)
     treated = np.zeros(args.M, dtype=bool)
     treat_round = np.full(args.M, -1)
-    con = [get_container("adaptive", seed=args.seed, n_samples=args.samples) for _ in range(args.M)]
+    con = [get_container("adaptive", seed=args.seed, n_samples=args.samples, horizon=args.horizon, replan_every=2) for _ in range(args.M)]
     for c in range(args.M):
         con[c].reset(args.budget)
     t0 = time.time()
@@ -146,6 +146,7 @@ def main():
     p.add_argument("--n-seeds", type=int, default=3)
     p.add_argument("--budget", type=int, default=10)
     p.add_argument("--samples", type=int, default=30)
+    p.add_argument("--horizon", type=int, default=4)
     p.add_argument("--max-rounds", type=int, default=60)
     p.add_argument("--reps", type=int, default=3)
     p.add_argument("--seed", type=int, default=1)
