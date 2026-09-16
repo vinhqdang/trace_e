@@ -1,0 +1,160 @@
+{
+  "args": {
+    "network": "cagrqc",
+    "prob_model": "wc",
+    "p": 0.1,
+    "n": 300,
+    "n_seeds": 3,
+    "kappas": "2,3,4",
+    "alpha": 0.05,
+    "rho_min": 0.1,
+    "frac": 0.5,
+    "seed": 1
+  },
+  "rows": [
+    {
+      "kappa": 2.0,
+      "policy": "none",
+      "detected": 0.6433333333333333,
+      "H_at_alarm": 17.316062176165804,
+      "W_at_alarm": 63.85538268971358,
+      "rounds": 2.5077720207253886,
+      "benign_loss": null
+    },
+    {
+      "kappa": 2.0,
+      "policy": "hub",
+      "detected": 0.14,
+      "H_at_alarm": 6.619047619047619,
+      "W_at_alarm": 27.17882621831672,
+      "rounds": 1.7857142857142858,
+      "benign_loss": null
+    },
+    {
+      "kappa": 2.0,
+      "policy": "uniform",
+      "detected": 0.0033333333333333335,
+      "H_at_alarm": 4.0,
+      "W_at_alarm": 20.125877944530693,
+      "rounds": 2.0,
+      "benign_loss": null
+    },
+    {
+      "kappa": 2.0,
+      "policy": "random",
+      "detected": 0.24,
+      "H_at_alarm": 10.055555555555555,
+      "W_at_alarm": 44.255042315167884,
+      "rounds": 2.3194444444444446,
+      "benign_loss": null
+    },
+    {
+      "kappa": 3.0,
+      "policy": "none",
+      "detected": 0.9,
+      "H_at_alarm": 12.244444444444444,
+      "W_at_alarm": 65.0740004581166,
+      "rounds": 1.637037037037037,
+      "benign_loss": null
+    },
+    {
+      "kappa": 3.0,
+      "policy": "hub",
+      "detected": 0.42,
+      "H_at_alarm": 6.333333333333333,
+      "W_at_alarm": 33.742733862925064,
+      "rounds": 1.7301587301587302,
+      "benign_loss": null
+    },
+    {
+      "kappa": 3.0,
+      "policy": "uniform",
+      "detected": 0.02,
+      "H_at_alarm": 4.333333333333333,
+      "W_at_alarm": 41.57895853313681,
+      "rounds": 2.1666666666666665,
+      "benign_loss": null
+    },
+    {
+      "kappa": 3.0,
+      "policy": "random",
+      "detected": 0.65,
+      "H_at_alarm": 8.076923076923077,
+      "W_at_alarm": 49.919693636342906,
+      "rounds": 1.8666666666666667,
+      "benign_loss": null
+    },
+    {
+      "kappa": 4.0,
+      "policy": "none",
+      "detected": 0.95,
+      "H_at_alarm": 10.83157894736842,
+      "W_at_alarm": 77.28132144609123,
+      "rounds": 1.312280701754386,
+      "benign_loss": null
+    },
+    {
+      "kappa": 4.0,
+      "policy": "hub",
+      "detected": 0.6,
+      "H_at_alarm": 6.072222222222222,
+      "W_at_alarm": 40.87450278888669,
+      "rounds": 1.5722222222222222,
+      "benign_loss": null
+    },
+    {
+      "kappa": 4.0,
+      "policy": "uniform",
+      "detected": 0.056666666666666664,
+      "H_at_alarm": 4.235294117647059,
+      "W_at_alarm": 51.22793407604064,
+      "rounds": 2.0,
+      "benign_loss": null
+    },
+    {
+      "kappa": 4.0,
+      "policy": "random",
+      "detected": 0.7333333333333333,
+      "H_at_alarm": 7.7727272727272725,
+      "W_at_alarm": 62.17812137540199,
+      "rounds": 1.6318181818181818,
+      "benign_loss": null
+    },
+    {
+      "kappa": 1.0,
+      "policy": "none",
+      "detected": 0.006666666666666667,
+      "H_at_alarm": null,
+      "W_at_alarm": null,
+      "rounds": null,
+      "benign_loss": 0.0
+    },
+    {
+      "kappa": 1.0,
+      "policy": "hub",
+      "detected": 0.0033333333333333335,
+      "H_at_alarm": null,
+      "W_at_alarm": null,
+      "rounds": null,
+      "benign_loss": 6.84
+    },
+    {
+      "kappa": 1.0,
+      "policy": "uniform",
+      "detected": 0.0,
+      "H_at_alarm": null,
+      "W_at_alarm": null,
+      "rounds": null,
+      "benign_loss": 8.27
+    },
+    {
+      "kappa": 1.0,
+      "policy": "random",
+      "detected": 0.006666666666666667,
+      "H_at_alarm": null,
+      "W_at_alarm": null,
+      "rounds": null,
+      "benign_loss": 6.456666666666667
+    }
+  ]
+}
