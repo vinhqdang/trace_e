@@ -141,6 +141,16 @@ python scripts/verify_theory.py --network cagrqc      # empirical check of Theor
 scripts/run_sequential_all.sh                          # full suite (main, calibration shift, dominance null, alpha and budget sweeps)
 ```
 
+The core mechanism is *active throttling while testing* (Theorem 5): while
+the evidence is merely suspicious, AVID downranks exposures into
+high-influence nodes (`--pairs eprocess:adaptive:hub`), which keeps the
+e-process exact, cannot reduce the number of activations any valid rule must
+tolerate, but lowers their influence; `uniform` and `random` throttling are
+the controls. `scripts/run_throttle_sweep.sh` produces the harm-vs-benign-cost
+Pareto sweep and `scripts/pareto_throttle.py` plots it;
+`scripts/verify_throttle.py` checks the count-invariance / influence-reduction
+prediction directly.
+
 Detectors: `eprocess` (AVID), `sprt` (known kappa), `cusum`, `size`,
 `growth`, `excess` (moment ratio), `logistic` (learned early classifier),
 `never`, `immediate`. Threshold detectors are calibrated on benign
