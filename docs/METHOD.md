@@ -81,10 +81,17 @@ therefore never commits budget to a node before it is *exposed*:
 
 1. **Plan.** Sample $L$ live-edge graphs from the IC model with
    $p=\hat\kappa_t p_0$ (the learned transmissibility, not the benign
-   baseline); candidates are inactive nodes reachable from $N_t$ in at least
-   one sample. Run lazy greedy on the sample-average number of nodes the
-   frontier can still reach, with the remaining budget $b_t$, to obtain a
-   plan $P_t$ and its marginal gains.
+   baseline). On each sample, the nodes saved by blocking $v$ are exactly
+   the nodes $v$ dominates in the flow graph rooted at a super-source
+   attached to the frontier, so one dominator-tree computation per sample
+   gives the exact marginal gain of *every* candidate (Section 2.4). A
+   cost-sensitive greedy then compares two kinds of moves by expected nodes
+   saved per budget unit: blocking one node, and *isolating* a frontier node
+   by blocking all of its exposed neighbours (gain = the frontier node's
+   dominator subtree). The latter captures coordinated cuts whose
+   single-node gains are individually small, which is where one-node greedy
+   is myopic on the non-submodular vertex-blocking objective. This yields a
+   plan $P_t$ for the remaining budget $b_t$.
 2. **Commit.** Intervene now only on $P_t\cap X_{t+1}$, the planned nodes
    that are exposed to the current frontier; carry the rest of the budget
    over.
@@ -97,6 +104,23 @@ The first plan coincides with one-shot greedy on the instance
 lets every later plan use the realised activations. In counter mode the same
 loop places good seeds; an exposed node seeded with the good campaign is
 protected immediately because the good campaign wins ties.
+
+### 2.4 Exact marginal gains in near-linear time
+
+For a live-edge sample, let $D$ be the flow graph obtained by adding a
+super-source $r$ with edges to every frontier node and keeping the live
+edges into nodes that are inactive and unblocked. A node $w$ becomes
+unreachable from $r$ after deleting $v$ iff every $r\to w$ path passes
+through $v$, i.e. iff $v$ dominates $w$. Hence the saving of blocking $v$ is
+the size of $v$'s subtree in the dominator tree of $D$, and the saving of
+isolating a frontier node $u$ (cutting its out-edges) is the size of $u$'s
+subtree minus one. One dominator-tree computation (Cooper, Harvey & Kennedy
+iterative algorithm on the reachable subgraph, near-linear in practice)
+therefore prices all moves at once; after each accepted move the tree is
+recomputed with the chosen nodes removed, giving exact conditional gains.
+Compared with lazy greedy that re-runs a BFS per candidate and sample,
+this removes the candidate-pool restriction and is one to two orders of
+magnitude faster on $10^4$-node graphs (see `results/REPORT.md`).
 
 ### 2.3 Streams: harm-weighted e-BH
 
@@ -294,7 +318,6 @@ adaptive frontier container of AVID.
 * Model-free calibration of the null via conditional simulation (replace the
   parametric $q^0$ by Monte-Carlo conditional p-values; still an exact test
   supermartingale) for robustness to IC misspecification.
-* Exact per-sample marginal gains for all candidates via dominator trees on
-  the live-edge reachability graph (linear time per sample) to scale the
-  containment loop to $10^5$-node graphs.
+* Lengauer-Tarjan dominators and incremental updates after each accepted
+  move, to scale the containment loop to $10^5$-node graphs.
 * Linear-threshold and continuous-time (Hawkes) variants of Lemma 1.
