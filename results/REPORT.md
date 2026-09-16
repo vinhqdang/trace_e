@@ -588,6 +588,35 @@ Paired difference in final spread on common realisations (negative = adaptive be
 | commit − ag | -0.6 ± 1.8 (wins 53%) | +0.4 ± 1.3 (wins 47%) | -2.5 ± 0.9 (wins 61%) |
 | commit − gr | -0.8 ± 1.8 (wins 55%) | +0.2 ± 1.0 (wins 48%) | -3.2 ± 1.3 (wins 61%) |
 
+### powergrid (const p=0.05, 20 random seeds, 10 instances x 5 realisations, theta=100; no intervention: 3.4)
+
+| policy | spread@5 | spread@10 | spread@20 | saved@5 | saved@10 | saved@20 | time/episode (s) |
+|---|---|---|---|---|---|---|---|
+| ag | 2.9 ± 0.3 | 2.5 ± 0.3 | 1.8 ± 0.2 | 0.130 | 0.248 | 0.468 | 0.00 |
+| defer | 3.0 ± 0.3 | 2.5 ± 0.3 | 1.8 ± 0.2 | 0.124 | 0.248 | 0.468 | 0.01 |
+| defer_cut | 3.0 ± 0.3 | 2.5 ± 0.3 | 1.8 ± 0.2 | 0.124 | 0.248 | 0.468 | 0.01 |
+| defer_gr | 3.0 ± 0.3 | 2.5 ± 0.3 | 1.8 ± 0.2 | 0.124 | 0.248 | 0.468 | 0.01 |
+| gr | 2.9 ± 0.3 | 2.5 ± 0.3 | 1.8 ± 0.2 | 0.130 | 0.248 | 0.468 | 0.00 |
+| defer_nopush | 2.9 ± 0.3 | 2.5 ± 0.3 | 1.8 ± 0.2 | 0.130 | 0.248 | 0.468 | 0.01 |
+| isocut | 2.9 ± 0.3 | 2.5 ± 0.3 | 1.8 ± 0.2 | 0.130 | 0.248 | 0.468 | 0.01 |
+| lsbm | 2.9 ± 0.3 | 2.5 ± 0.3 | 1.8 ± 0.2 | 0.130 | 0.248 | 0.468 | 0.00 |
+| proximity | 3.0 ± 0.3 | 2.4 ± 0.2 | 1.9 ± 0.2 | 0.124 | 0.284 | 0.426 | 0.02 |
+| commit | 3.2 ± 0.3 | 2.8 ± 0.3 | 2.2 ± 0.3 | 0.053 | 0.166 | 0.343 | 0.03 |
+| none | 3.4 ± 0.3 | 3.4 ± 0.3 | 3.4 ± 0.3 | 0.000 | 0.000 | 0.000 | 0.00 |
+
+Paired difference in final spread on common realisations (negative = adaptive better), with s.e. and the share of realisations the adaptive policy wins:
+
+| comparison | budget 5 | budget 10 | budget 20 |
+|---|---|---|---|
+| defer − ag | +0.0 ± 0.0 (wins 49%) | +0.0 ± 0.0 (wins 50%) | +0.0 ± 0.0 (wins 50%) |
+| defer − gr | +0.0 ± 0.0 (wins 49%) | +0.0 ± 0.0 (wins 50%) | +0.0 ± 0.0 (wins 50%) |
+| defer_gr − ag | +0.0 ± 0.0 (wins 49%) | +0.0 ± 0.0 (wins 50%) | +0.0 ± 0.0 (wins 50%) |
+| defer_gr − gr | +0.0 ± 0.0 (wins 49%) | +0.0 ± 0.0 (wins 50%) | +0.0 ± 0.0 (wins 50%) |
+| defer_nopush − ag | +0.0 ± 0.0 (wins 50%) | +0.0 ± 0.0 (wins 50%) | +0.0 ± 0.0 (wins 50%) |
+| defer_nopush − gr | +0.0 ± 0.0 (wins 50%) | +0.0 ± 0.0 (wins 50%) | +0.0 ± 0.0 (wins 50%) |
+| commit − ag | +0.3 ± 0.1 (wins 46%) | +0.3 ± 0.2 (wins 49%) | +0.4 ± 0.2 (wins 39%) |
+| commit − gr | +0.3 ± 0.1 (wins 46%) | +0.3 ± 0.2 (wins 49%) | +0.4 ± 0.2 (wins 39%) |
+
 ## Adaptivity gap on the star-of-paths family (DEFER Theorem 2)
 
 Seed with Delta children (edge probability p), each heading a private path of length 30; budget 1; 400 realisations. Ratio = nodes saved by DEFER / nodes saved by the best one-shot blocker; theory = (1-(1-p)^Delta)/p.
