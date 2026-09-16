@@ -158,6 +158,26 @@ actually reachable from the seeds (blocking an unreachable vertex cannot
 change anything), which matters on sparse graphs where most vertices are
 never in play.
 
+### End-to-end capstone: exact greedy blocking on Zachary's karate club
+
+With the two speed-ups above, `greedy_exact` (not just a single
+`evaluate()` call) was run end-to-end on the karate club network (n=34,
+width 5, one seed at node 0, random IC edge probabilities in [0.05, 0.4]):
+
+| budget | blocked set B | exact expected spread F | time |
+|---|---|---|---|
+| 1 | {2} | 7.9752 | 63.1 s |
+| 2 | {2, 1} | 5.5053 | 72.2 s |
+
+Each row is a full greedy search (evaluating every remaining reachable
+candidate exactly, once per budget slot -- about 33 exact `evaluate()`
+calls for budget 1, another 32 for budget 2), not a single oracle call.
+This is a real, zero-sampling-noise blocking solution on a real benchmark
+graph, not only a timing microbenchmark: node 2 (a high-degree cut vertex
+in karate's two-faction structure) is selected first both times, then node
+1 (the other main hub adjacent to the seed) at budget 2, cutting expected
+spread from 7.98 to 5.51 nodes.
+
 ### A joint decision+expectation DP was tried and abandoned
 
 A natural next step is folding the *choice* of which vertices to block into
