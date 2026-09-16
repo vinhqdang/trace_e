@@ -116,6 +116,30 @@ def sequential_report(path: str) -> str:
     return "\n".join(out)
 
 
+def stream_report() -> str:
+    files = sorted(glob.glob(os.path.join(RES, "stream", "*.json")))
+    if not files:
+        return ""
+    out = ["## Concurrent cascades: FDR control and harm-weighted e-BH (Theorem 4)", "",
+           "M cascades run concurrently (fraction rho harmful). At every round the platform selects cascades to act on from the current "
+           "e-values: per-cascade threshold 1/alpha (no multiplicity control), e-BH, and harm-weighted e-BH (weights proportional to the "
+           "frontier's expected next-round spread). FDP = benign among treated; power = harmful treated; saved = harmful spread removed; "
+           "mean ± s.d. over repetitions.", ""]
+    for fp in files:
+        d = json.load(open(fp))
+        a = d["args"]
+        out.append(f"### {a['network']} (M={a['M']}, rho={a['rho']}, alpha={a['alpha']}, seeds={a['n_seeds']}, budget={a['budget']}, kappa in [{a['kappa_min']}, {a['kappa_max']}])")
+        out.append("")
+        out.append("| rule | FDP | power | saved | benign loss | treated |")
+        out.append("|---|---|---|---|---|---|")
+        df = pd.DataFrame(d["rows"])
+        for rule, g in df.groupby("rule", sort=False):
+            f = lambda c: f"{g[c].mean():.3f} ± {g[c].std(ddof=0):.3f}"  # noqa: E731
+            out.append(f"| {rule} | {f('FDP')} | {f('power')} | {f('saved_frac')} | {g['benign_loss'].mean():.1f} | {g['treated'].mean():.1f} |")
+        out.append("")
+    return "\n".join(out)
+
+
 def theory_report() -> str:
     files = sorted(glob.glob(os.path.join(RES, "theory", "*.json")))
     if not files:
@@ -157,6 +181,7 @@ def main():
     q = os.path.join(RES, "summary_sequential.csv")
     if os.path.exists(q):
         parts.append(sequential_report(q))
+    parts.append(stream_report())
     parts.append(theory_report())
     with open(os.path.join(RES, "REPORT.md"), "w") as f:
         f.write("\n".join(parts) + "\n")

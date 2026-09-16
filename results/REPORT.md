@@ -337,8 +337,8 @@ Independent cascade streams, half benign (kappa=1 unless noted) and half harmful
 
 | detector | container | FA | det | delay | harm@alarm | final harm | saved | benign loss | kappa MAE | detect ms | contain ms |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| sprt | none | 0.020 ± 0.008 | 0.947 | 2.59 | 28.4 | 269.3 | 0.000 | 0.00 | 0.70 | 1.09 | 0.0 |
 | eprocess | none | 0.020 ± 0.008 | 0.963 | 2.85 | 31.6 | 269.3 | 0.000 | 0.00 | 0.39 | 2.73 | 0.0 |
+| sprt | none | 0.020 ± 0.008 | 0.947 | 2.59 | 28.4 | 269.3 | 0.000 | 0.00 | 0.70 | 1.09 | 0.0 |
 | cusum | none | 0.070 ± 0.015 | 0.963 | 2.36 | 23.9 | 269.3 | 0.000 | 0.00 | 0.69 | 1.25 | 0.0 |
 | size | none | 0.157 ± 0.021 | 0.967 | 3.94 | 70.5 | 269.3 | 0.000 | 0.00 | 1.54 | 0.95 | 0.0 |
 | growth | none | 0.123 ± 0.019 | 0.967 | 2.25 | 22.5 | 269.3 | 0.000 | 0.00 | 1.54 | 0.71 | 0.0 |
@@ -374,6 +374,45 @@ Independent cascade streams, half benign (kappa=1 unless noted) and half harmful
 | logistic | none | 0.040 ± 0.011 | 0.873 | 1.73 | 12.3 | 1964.7 | 0.042 | 0.00 | 1.63 | 1.10 | 0.0 |
 | never | none | 0.000 ± 0.000 | 0.000 |  |  | 1964.7 | 0.042 | 0.00 |  | 4.24 | 0.0 |
 | immediate | none | 1.000 ± 0.000 | 1.000 | 1.00 | 8.7 | 1964.7 | 0.042 | 0.00 | 1.52 | 0.17 | 0.1 |
+
+### cagrqc / ablation  (alpha=0.05, budget=10, seeds=3, calib seeds=3, benign kappa >= 1.0, harmful kappa in [1.5, 4.0], prob=wc, 300 benign / 300 harmful)
+
+| detector | container | FA | det | delay | harm@alarm | final harm | saved | benign loss | kappa MAE | detect ms | contain ms |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| eprocess | greedy_p0 | 0.007 ± 0.005 | 0.790 | 2.14 | 17.7 | 1276.8 | 0.298 | 0.02 | 0.45 | 2.03 | 31.1 |
+| eprocess | adaptive_p0 | 0.007 ± 0.005 | 0.790 | 2.14 | 17.7 | 1276.8 | 0.298 | 0.02 | 0.45 | 1.61 | 37.9 |
+
+### powergrid / calib_shift  (alpha=0.05, budget=10, seeds=3, calib seeds=1, benign kappa >= 1.0, harmful kappa in [1.5, 4.0], prob=wc, 300 benign / 300 harmful)
+
+| detector | container | FA | det | delay | harm@alarm | final harm | saved | benign loss | kappa MAE | detect ms | contain ms |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| eprocess | none | 0.003 ± 0.003 | 0.877 | 2.16 | 15.6 | 1942.3 | 0.032 | 0.00 | 0.45 | 1.84 | 0.1 |
+| sprt | none | 0.023 ± 0.009 | 0.840 | 1.77 | 14.0 | 1942.3 | 0.032 | 0.00 | 0.75 | 0.73 | 0.1 |
+| cusum | none | 0.127 ± 0.019 | 0.930 | 1.59 | 11.8 | 1942.3 | 0.032 | 0.00 | 0.70 | 0.49 | 0.0 |
+| size | none | 0.303 ± 0.026 | 0.940 | 2.23 | 17.7 | 1942.3 | 0.032 | 0.00 | 1.56 | 0.53 | 0.1 |
+| growth | none | 0.270 ± 0.026 | 0.900 | 1.52 | 11.9 | 1942.3 | 0.032 | 0.00 | 1.60 | 0.35 | 0.1 |
+| excess | none | 0.063 ± 0.014 | 0.913 | 1.64 | 11.9 | 1942.3 | 0.032 | 0.00 | 1.59 | 0.40 | 0.1 |
+| logistic | none | 0.010 ± 0.006 | 0.830 | 2.49 | 17.9 | 1942.3 | 0.032 | 0.00 | 1.68 | 2.32 | 0.1 |
+
+## Concurrent cascades: FDR control and harm-weighted e-BH (Theorem 4)
+
+M cascades run concurrently (fraction rho harmful). At every round the platform selects cascades to act on from the current e-values: per-cascade threshold 1/alpha (no multiplicity control), e-BH, and harm-weighted e-BH (weights proportional to the frontier's expected next-round spread). FDP = benign among treated; power = harmful treated; saved = harmful spread removed; mean ± s.d. over repetitions.
+
+### cagrqc (M=400, rho=0.2, alpha=0.1, seeds=3, budget=10, kappa in [1.5, 4.0])
+
+| rule | FDP | power | saved | benign loss | treated |
+|---|---|---|---|---|---|
+| per_cascade | 0.074 ± 0.036 | 0.818 ± 0.032 | 0.498 ± 0.055 | 24.7 | 67.3 |
+| ebh | 0.000 ± 0.000 | 0.716 ± 0.063 | 0.346 ± 0.025 | 0.0 | 54.7 |
+| weighted_ebh | 0.018 ± 0.014 | 0.742 ± 0.037 | 0.408 ± 0.011 | 9.0 | 57.7 |
+
+### dolphin (M=60, rho=0.2, alpha=0.1, seeds=3, budget=10, kappa in [1.5, 4.0])
+
+| rule | FDP | power | saved | benign loss | treated |
+|---|---|---|---|---|---|
+| per_cascade | 0.222 ± 0.000 | 0.778 ± 0.000 | 0.522 ± 0.000 | 9.0 | 9.0 |
+| ebh | 0.000 ± 0.000 | 0.667 ± 0.000 | 0.364 ± 0.000 | 0.0 | 6.0 |
+| weighted_ebh | 0.000 ± 0.000 | 0.667 ± 0.000 | 0.451 ± 0.000 | 0.0 | 6.0 |
 
 ## Theory checks (Theorems 1 and 2)
 
