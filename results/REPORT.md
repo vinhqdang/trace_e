@@ -283,7 +283,6 @@ Independent cascade streams, half benign (kappa=1 unless noted) and half harmful
 | detector | container | throttle (rho, frac) | FA | det | delay | harm@alarm | W@alarm | final harm | saved | benign loss | kappa MAE | detect ms | contain ms |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | eprocess | adaptive | hub (0.10, 0.70) | 0.007 ± 0.005 | 0.490 | 2.01 | 19.0 | 98.8 | 466.8 | 0.574 | 5.79 | 0.52 | 3.19 | 524.9 |
-| eprocess | adaptive | uniform (0.50, 0.50) | 0.000 ± 0.000 | 0.603 | 1.94 | 15.2 | 48.6 | 789.5 | 0.567 | 0.84 | 0.54 | 2.75 | 172.9 |
 | eprocess | adaptive | hub (0.10, 0.50) | 0.000 ± 0.000 | 0.520 | 2.07 | 20.5 | 103.5 | 498.7 | 0.545 | 5.45 | 0.52 | 3.67 | 593.3 |
 | eprocess | adaptive | uniform (0.30, 0.50) | 0.000 ± 0.000 | 0.507 | 2.15 | 18.8 | 104.2 | 531.7 | 0.515 | 5.33 | 0.54 | 4.59 | 733.5 |
 | eprocess | adaptive | uniform (0.70, 0.50) | 0.000 ± 0.000 | 0.663 | 2.06 | 16.5 | 53.1 | 927.7 | 0.491 | 0.59 | 0.52 | 2.76 | 201.8 |
@@ -295,6 +294,7 @@ Independent cascade streams, half benign (kappa=1 unless noted) and half harmful
 | eprocess | adaptive | random (0.30, 0.70) | 0.000 ± 0.000 | 0.587 | 2.33 | 20.3 | 108.2 | 633.3 | 0.423 | 3.68 | 0.50 | 4.70 | 1027.3 |
 | eprocess | adaptive | random (0.10, 0.50) | 0.000 ± 0.000 | 0.553 | 2.25 | 21.3 | 116.4 | 633.9 | 0.422 | 3.14 | 0.50 | 3.29 | 696.5 |
 | eprocess | adaptive | hub (0.30, 0.30) | 0.003 ± 0.003 | 0.620 | 2.43 | 23.7 | 116.4 | 641.5 | 0.415 | 2.56 | 0.48 | 3.84 | 755.1 |
+| eprocess | adaptive | uniform (0.50, 0.50) | 0.003 ± 0.003 | 0.593 | 2.44 | 21.3 | 115.6 | 646.8 | 0.410 | 2.72 | 0.50 | 4.54 | 783.0 |
 | eprocess | adaptive | random (0.30, 0.50) | 0.000 ± 0.000 | 0.603 | 2.39 | 22.4 | 120.8 | 684.2 | 0.376 | 2.65 | 0.49 | 3.93 | 859.8 |
 | eprocess | adaptive | random (0.10, 0.30) | 0.003 ± 0.003 | 0.603 | 2.40 | 23.1 | 122.6 | 717.6 | 0.346 | 2.58 | 0.49 | 2.86 | 657.6 |
 | eprocess | adaptive | random (0.30, 0.30) | 0.000 ± 0.000 | 0.627 | 2.46 | 23.3 | 121.5 | 724.3 | 0.340 | 1.56 | 0.48 | 3.72 | 916.5 |
