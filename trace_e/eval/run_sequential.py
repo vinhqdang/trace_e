@@ -70,6 +70,8 @@ def parse_args(argv=None):
     p.add_argument("--p0-scale", type=float, default=1.0, help="misspecification: detectors use p0 * p0-scale while cascades follow p0 (values < 1 = baseline underestimated)")
     p.add_argument("--samples", type=int, default=100)
     p.add_argument("--pool", type=int, default=300)
+    p.add_argument("--horizon", type=int, default=0, help="planning horizon in live hops for the dominator planner (0 = unlimited)")
+    p.add_argument("--replan-every", type=int, default=1, help="adaptive container re-plans every k rounds")
     p.add_argument("--seed", type=int, default=1)
     p.add_argument("--n-jobs", type=int, default=max(1, os.cpu_count() or 1))
     p.add_argument("--tag", default="")
@@ -205,7 +207,7 @@ def main(argv=None):
     # ---- run all pairs ----
     for d, c in pairs:
         det = detectors[d]
-        con = get_container(c, seed=args.seed, n_samples=args.samples, pool=args.pool)
+        con = get_container(c, seed=args.seed, n_samples=args.samples, pool=args.pool, horizon=args.horizon, replan_every=args.replan_every)
         _G["det"], _G["con"] = det, con
         log.info("=== %s + %s ===", d, c)
         t0 = time.time()

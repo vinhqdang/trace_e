@@ -17,8 +17,13 @@ import numpy as np
 from ..graphs import CSRGraph
 
 
-def reachable_dag(g: CSRGraph, live: np.ndarray, sources, forbidden: np.ndarray):
+def reachable_dag(g: CSRGraph, live: np.ndarray, sources, forbidden: np.ndarray, horizon: int = 0):
     """Reverse-postorder DFS from a super-source over live edges avoiding ``forbidden``.
+
+    ``horizon > 0`` truncates the flow graph to nodes within that many hops of
+    the sources (BFS distance on live edges), which bounds the cost of the
+    dominator computation on large cascades at the price of ignoring savings
+    beyond the horizon.
 
     Returns (order, preds, index) where ``order`` lists reachable nodes in
     reverse postorder (super-source excluded, sources first), ``preds[i]`` is the
@@ -27,7 +32,28 @@ def reachable_dag(g: CSRGraph, live: np.ndarray, sources, forbidden: np.ndarray)
     """
     n = g.n
     index = np.full(n, -1, dtype=np.int64)
-    src = [int(s) for s in sources if not forbidden[s] or True]
+    src = [int(s) for s in sources]
+    if horizon > 0:
+        # restrict to nodes within `horizon` live hops of the sources
+        dist = np.full(n, -1, dtype=np.int64)
+        frontier = []
+        for s0 in src:
+            dist[s0] = 0
+            frontier.append(s0)
+        for d in range(1, horizon + 1):
+            nxt = []
+            for u in frontier:
+                lo, hi = g.indptr[u], g.indptr[u + 1]
+                for v, ok in zip(g.indices[lo:hi], live[lo:hi]):
+                    if ok and not forbidden[v] and dist[v] < 0:
+                        dist[v] = d
+                        nxt.append(int(v))
+            frontier = nxt
+            if not frontier:
+                break
+        forbidden = forbidden | (dist < 0)
+        for s0 in src:
+            forbidden[s0] = False
     # iterative DFS to get postorder
     visited = np.zeros(n, dtype=bool)
     post = []
@@ -114,14 +140,14 @@ def dominator_subtree_sizes(order, preds) -> np.ndarray:
     return sizes
 
 
-def marginal_gains(g: CSRGraph, live: np.ndarray, sources, forbidden: np.ndarray, with_sources: bool = False):
+def marginal_gains(g: CSRGraph, live: np.ndarray, sources, forbidden: np.ndarray, with_sources: bool = False, horizon: int = 0):
     """(nodes, gains): for every reachable non-source node, the number of nodes saved by blocking it.
 
     With ``with_sources=True`` also returns ``(src_nodes, src_gains)``: for each
     source, the number of nodes saved by cutting all of its out-edges
     (isolating it), which equals its dominator-subtree size minus one.
     """
-    order, preds, index = reachable_dag(g, live, sources, forbidden)
+    order, preds, index = reachable_dag(g, live, sources, forbidden, horizon)
     sizes = dominator_subtree_sizes(order, preds)
     src = set(int(s) for s in sources)
     nodes = np.array([u for u in order if u not in src], dtype=np.int64)
@@ -134,7 +160,7 @@ def marginal_gains(g: CSRGraph, live: np.ndarray, sources, forbidden: np.ndarray
 
 
 def dominator_greedy_plan(g: CSRGraph, lives: list[np.ndarray], sources, forbidden: np.ndarray, budget: int,
-                          cut_moves: bool = True):
+                          cut_moves: bool = True, horizon: int = 0):
     """Cost-sensitive greedy blocking with exact per-sample marginal gains from dominator trees.
 
     Two kinds of moves are compared by expected nodes saved per budget unit:
@@ -157,11 +183,11 @@ def dominator_greedy_plan(g: CSRGraph, lives: list[np.ndarray], sources, forbidd
         acc_src = np.zeros(g.n)
         for lv in lives:
             if cut_moves:
-                nodes, gv, sn, sg = marginal_gains(g, lv, src_list, forb, with_sources=True)
+                nodes, gv, sn, sg = marginal_gains(g, lv, src_list, forb, with_sources=True, horizon=horizon)
                 if len(sn):
                     acc_src[sn] += sg
             else:
-                nodes, gv = marginal_gains(g, lv, src_list, forb)
+                nodes, gv = marginal_gains(g, lv, src_list, forb, horizon=horizon)
             if len(nodes):
                 acc[nodes] += gv
         acc[forb] = 0

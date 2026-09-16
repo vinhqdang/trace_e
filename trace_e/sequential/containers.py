@@ -103,16 +103,18 @@ def reachable_candidates(g: CSRGraph, lives, sources, forbidden: np.ndarray, poo
 class Container:
     name = "base"
 
-    def __init__(self, seed: int = 0, n_samples: int = 100, pool: int = 300, use_kappa: bool = True, planner: str = "dominator", **kw):
+    def __init__(self, seed: int = 0, n_samples: int = 100, pool: int = 300, use_kappa: bool = True, planner: str = "dominator",
+                 horizon: int = 0, **kw):
         self.seed = seed
         self.n_samples = n_samples
         self.pool = pool
         self.use_kappa = use_kappa
         self.planner = planner  # "dominator" (exact gains, all candidates) or "celf" (sampled reach, candidate pool)
+        self.horizon = horizon  # 0 = whole reachable region; h > 0 = plan within h live hops of the frontier
 
     def plan(self, g, lives, sources, forbidden, budget):
         if self.planner == "dominator":
-            return dominator_greedy_plan(g, lives, sources, forbidden, budget)
+            return dominator_greedy_plan(g, lives, sources, forbidden, budget, horizon=self.horizon)
         cands = reachable_candidates(g, lives, sources, forbidden, self.pool)
         if len(cands) == 0:
             return [], []
@@ -211,26 +213,38 @@ class AdaptiveFrontier(Container):
 
     name = "adaptive"
 
-    def __init__(self, commit_all: bool = False, max_rounds: int = 50, **kw):
+    def __init__(self, commit_all: bool = False, max_rounds: int = 50, replan_every: int = 1, **kw):
         super().__init__(**kw)
         self.commit_all = commit_all
         self.max_rounds = max_rounds
+        self.replan_every = replan_every  # re-plan every k rounds; in between, commit exposed nodes of the standing plan
+
+    def reset(self, budget):
+        super().reset(budget)
+        self.standing = []
 
     def act(self, ep, kappa_hat):
         self.calls += 1
         left = self.budget - self.spent
         if left <= 0 or len(ep.frontier) == 0 or self.calls > self.max_rounds:
             return []
-        g, lives = self._samples(ep, kappa_hat)
-        plan, gains = self.plan(g, lives, ep.frontier, self._forbidden(ep), left)
-        if not plan:
+        g = ep.g
+        forb = self._forbidden(ep)
+        self.standing = [v for v in self.standing if not forb[v]]
+        need_plan = (self.calls - 1) % self.replan_every == 0 or not self.standing
+        if need_plan:
+            gs, lives = self._samples(ep, kappa_hat)
+            plan, gains = self.plan(gs, lives, ep.frontier, forb, left)
+            self.standing = list(plan)
+        if not self.standing:
             return []
         if self.commit_all:
-            chosen = plan
+            chosen = self.standing[:left]
         else:
             exposed = np.zeros(g.n, dtype=bool)
             for u in ep.frontier:
                 exposed[g.indices[g.indptr[u]: g.indptr[u + 1]]] = True
-            chosen = [v for v in plan if exposed[v]]
+            chosen = [v for v in self.standing if exposed[v]][:left]
+        self.standing = [v for v in self.standing if v not in set(chosen)]
         self.spent += len(chosen)
         return chosen
