@@ -32,7 +32,7 @@ from ..sequential import DETECTORS, CONTAINERS, get_detector, get_container
 from ..sequential.policy import run_episode, max_statistic
 from ..sequential.simulator import Episode, exposure
 
-COLUMNS = ["timestamp", "run_id", "network", "n_nodes", "n_edges", "prob_model", "p", "mode", "alpha", "kappa_min", "kappa_max",
+COLUMNS = ["timestamp", "run_id", "network", "n_nodes", "n_edges", "prob_model", "p", "mode", "alpha", "kappa_min", "kappa_max", "kappa_null", "p0_scale",
            "benign_kappa_min", "benign_kappa_max", "n_seeds", "calib_n_seeds", "budget", "detector", "container",
            "n_benign", "n_harmful", "fa_rate", "fa_se", "det_rate", "delay_mean", "harm_at_alarm", "harm_final_harmful",
            "harm_cf_harmful", "saved_frac", "benign_loss", "benign_loss_frac", "kappa_mae", "n_intervened_mean",
@@ -66,6 +66,7 @@ def parse_args(argv=None):
     p.add_argument("--sprt-kappa", type=float, default=2.0)
     p.add_argument("--grid-eta", type=float, default=0.25)
     p.add_argument("--kappa-null", type=float, default=1.0, help="inflated null multiplier for a robustness margin")
+    p.add_argument("--p0-scale", type=float, default=1.0, help="misspecification: detectors use p0 * p0-scale while cascades follow p0 (values < 1 = baseline underestimated)")
     p.add_argument("--samples", type=int, default=100)
     p.add_argument("--pool", type=int, default=300)
     p.add_argument("--seed", type=int, default=1)
@@ -99,7 +100,7 @@ def _run_one(task):
     det = copy.deepcopy(_G["det"])
     con = copy.deepcopy(_G["con"])
     ep = Episode(_G["g"], kappa, seeds, np.random.default_rng(ep_seed), mode=_G["mode"])
-    r = run_episode(ep, det, con, _G["budget"], _G["max_rounds"])
+    r = run_episode(ep, det, con, _G["budget"], _G["max_rounds"], g_det=_G["g_det"])
     r.update({"i": i, "harmful": harmful, "kappa": kappa, "seeds": [int(s) for s in seeds]})
     return r
 
@@ -108,7 +109,7 @@ def _calib_one(task):
     i, seeds, kappa, ep_seed = task
     det = copy.deepcopy(_G["det"])
     ep = Episode(_G["g"], kappa, seeds, np.random.default_rng(ep_seed), mode="block")
-    return max_statistic(ep, det, _G["max_rounds"])
+    return max_statistic(ep, det, _G["max_rounds"], g_det=_G["g_det"])
 
 
 def _features_one(task):
@@ -126,7 +127,7 @@ def _features_one(task):
         new = ep.step()
         rounds += 1
         det.t += 1
-        exposed, log1mq = exposure(ep.g, frontier, inactive, det.kappas)
+        exposed, log1mq = exposure(_G["g_det"], frontier, inactive, det.kappas)
         outcomes = np.zeros(len(exposed), dtype=np.int8)
         if len(new):
             outcomes[np.isin(exposed, new)] = 1
@@ -151,7 +152,9 @@ def main(argv=None):
     st = graph_stats(G)
     g = set_edge_probabilities(to_csr(G), args.prob_model, args.p, seed=args.seed)
     log.info("network %s: %s", args.network, st)
-    _G.update(g=g, mode=args.mode, budget=args.budget, max_rounds=args.max_rounds, elig=np.flatnonzero(g.degree() > 0))
+    from ..sequential.containers import scaled
+    g_det = scaled(g, args.p0_scale) if args.p0_scale != 1.0 else g
+    _G.update(g=g, g_det=g_det, mode=args.mode, budget=args.budget, max_rounds=args.max_rounds, elig=np.flatnonzero(g.degree() > 0))
 
     rng = np.random.default_rng(args.seed)
     calib_seeds = args.calib_n_seeds or args.n_seeds
@@ -219,7 +222,7 @@ def main(argv=None):
         bcf = np.array([r["harm_counterfactual"] for r in ben], dtype=float)
         kmae = [abs(r["kappa_hat"] - r["kappa"]) for r in har if r["kappa_hat"] is not None]
         row = dict(network=args.network, n_nodes=st["n_nodes"], n_edges=st["n_edges"], prob_model=args.prob_model, p=args.p, mode=args.mode,
-                   alpha=args.alpha, kappa_min=args.kappa_min, kappa_max=args.kappa_max, benign_kappa_min=args.benign_kappa_min,
+                   alpha=args.alpha, kappa_min=args.kappa_min, kappa_max=args.kappa_max, kappa_null=args.kappa_null, p0_scale=args.p0_scale, benign_kappa_min=args.benign_kappa_min,
                    benign_kappa_max=args.benign_kappa_max, n_seeds=args.n_seeds, calib_n_seeds=calib_seeds, budget=args.budget,
                    detector=d, container=c, n_benign=len(ben), n_harmful=len(har),
                    fa_rate=round(float(fa), 4), fa_se=round(float(np.sqrt(fa * (1 - fa) / max(len(ben), 1))), 4) if ben else "",

@@ -8,12 +8,14 @@ import numpy as np
 from .simulator import Episode, exposure
 
 
-def run_episode(ep: Episode, detector, container, budget: int, max_rounds: int = 60) -> dict:
+def run_episode(ep: Episode, detector, container, budget: int, max_rounds: int = 60, g_det=None) -> dict:
     """Advance ``ep`` round by round, feeding the detector; after it fires, let the container act.
 
-    Returns per-episode metrics. ``ep`` must be freshly constructed or reset.
+    ``g_det`` is the graph (with baseline probabilities) the detector believes
+    in; it defaults to the true one and differs only in misspecification
+    experiments. Returns per-episode metrics.
     """
-    g = ep.g
+    g = ep.g if g_det is None else g_det
     detector.reset()
     container.reset(budget)
     t_det = 0.0
@@ -61,9 +63,9 @@ def run_episode(ep: Episode, detector, container, budget: int, max_rounds: int =
     }
 
 
-def max_statistic(ep: Episode, detector, max_rounds: int = 60) -> float:
+def max_statistic(ep: Episode, detector, max_rounds: int = 60, g_det=None) -> float:
     """Largest statistic value over the life of an unintervened cascade (for calibration)."""
-    g = ep.g
+    g = ep.g if g_det is None else g_det
     detector.reset()
     m = -np.inf
     rounds = 0
