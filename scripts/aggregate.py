@@ -7,6 +7,7 @@ import json
 import os
 import sys
 
+import numpy as np
 import pandas as pd
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -168,7 +169,23 @@ def throttle_theory_report() -> str:
     return "\n".join(out)
 
 
+def _paired(run_id: str, ref: str, pol: str, budget: int):
+    """Paired difference pol - ref over common (instance, realisation) episodes: (mean diff, s.e., win rate)."""
+    path = os.path.join(RES, "runs", run_id, "instances_episodes.jsonl.gz")
+    if not os.path.exists(path):
+        return None
+    rows = [json.loads(l) for l in gzip.open(path, "rt")]
+    a = {(r["inst"], r["draw"]): r["spread"] for r in rows if r["policy"] == pol and r["budget"] == budget}
+    b = {(r["inst"], r["draw"]): r["spread"] for r in rows if r["policy"] == ref and r["budget"] == budget}
+    keys = sorted(set(a) & set(b))
+    if not keys:
+        return None
+    d = np.array([a[k] - b[k] for k in keys], dtype=float)
+    return d.mean(), d.std(ddof=1) / np.sqrt(len(d)) if len(d) > 1 else 0.0, float(np.mean(d < 0) + 0.5 * np.mean(d == 0))
+
+
 def adaptive_report(path: str) -> str:
+    import numpy as np  # noqa: F811
     df = pd.read_csv(path)
     out = ["## Adaptive influence minimisation: DEFER vs one-shot blocking", "",
            "Same live-edge realisations and the same total budget for every policy. spread = bad nodes beyond the seeds "
@@ -190,6 +207,23 @@ def adaptive_report(path: str) -> str:
             sv = [f"{piv['saved_frac'][b][pol]:.3f}" for b in budgets]
             out.append(f"| {pol} | " + " | ".join(cells) + " | " + " | ".join(sv) + f" | {piv['time_s_per_episode'][budgets[-1]][pol]:.2f} |")
         out.append("")
+        # paired comparison of the adaptive policies against the best one-shot baselines on common realisations
+        run_id = d.iloc[0].run_id
+        lines = []
+        for pol in [p for p in ("defer", "defer_gr", "defer_nopush", "commit") if p in set(d.policy)]:
+            for ref in [p for p in ("ag", "gr") if p in set(d.policy)]:
+                cells = []
+                for b in budgets:
+                    pr = _paired(run_id, ref, pol, b)
+                    cells.append("" if pr is None else f"{pr[0]:+.1f} ± {pr[1]:.1f} (wins {100 * pr[2]:.0f}%)")
+                lines.append(f"| {pol} − {ref} | " + " | ".join(cells) + " |")
+        if lines:
+            out.append("Paired difference in final spread on common realisations (negative = adaptive better), with s.e. and the share of realisations the adaptive policy wins:")
+            out.append("")
+            out.append("| comparison | " + " | ".join(f"budget {b}" for b in budgets) + " |")
+            out.append("|---|" + "---|" * len(budgets))
+            out.extend(lines)
+            out.append("")
     return "\n".join(out)
 
 
