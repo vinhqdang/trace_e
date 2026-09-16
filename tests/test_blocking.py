@@ -1,0 +1,46 @@
+import numpy as np
+import networkx as nx
+
+from trace_e.graphs import load_network, to_csr
+from trace_e.blocking import BlockingContext, get_blocker, REGISTRY
+from trace_e.blocking.cascade import ic_spread, competitive_ic_spread, estimate_bad_spread, set_edge_probabilities
+
+
+def test_ic_spread_blocking_and_probabilities():
+    g = set_edge_probabilities(to_csr(nx.path_graph(5)), "const", 1.0)
+    rng = np.random.default_rng(0)
+    assert ic_spread(g, [0], None, rng).sum() == 5
+    blocked = np.zeros(5, dtype=bool)
+    blocked[2] = True
+    assert ic_spread(g, [0], blocked, rng).sum() == 2
+    g0 = set_edge_probabilities(to_csr(nx.path_graph(5)), "const", 0.0)
+    assert ic_spread(g0, [0], None, rng).sum() == 1
+
+
+def test_competitive_ic_first_arrival():
+    g = set_edge_probabilities(to_csr(nx.path_graph(7)), "const", 1.0)
+    rng = np.random.default_rng(0)
+    bad = competitive_ic_spread(g, [0], [6], rng)
+    # bad reaches 0,1,2 and good reaches 6,5,4; node 3 is a tie -> good wins
+    assert bad.sum() == 3 and bad[:3].all()
+    bad = competitive_ic_spread(g, [0], [6], rng, good_delay=2)
+    assert bad.sum() == 4
+
+
+def test_all_blockers_reduce_spread():
+    G = load_network("dolphin")
+    ctx = BlockingContext.from_graph(G, prob_model="const", p=0.3, mode="block", seed=0)
+    seeds = np.array([0])
+    base = estimate_bad_spread(ctx.g, seeds, [], "block", 200, seed=5)
+    for name in REGISTRY:
+        kw = {"n_samples": 30} if name in ("greedy", "proposed") else {}
+        b = get_blocker(name, ctx, **kw)
+        b.prepare()
+        chosen = b.select(seeds, 3)
+        assert len(chosen) == 3 and 0 not in chosen and len(set(chosen)) == 3
+        after = estimate_bad_spread(ctx.g, seeds, chosen, "block", 200, seed=5)
+        assert after <= base
+    greedy = get_blocker("greedy", ctx, n_samples=100)
+    after_g = estimate_bad_spread(ctx.g, seeds, greedy.select(seeds, 3), "block", 400, seed=5)
+    after_r = estimate_bad_spread(ctx.g, seeds, get_blocker("random", ctx).select(seeds, 3), "block", 400, seed=5)
+    assert after_g <= after_r
