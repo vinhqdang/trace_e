@@ -278,14 +278,14 @@ Independent cascade with weighted-cascade probabilities unless noted. saved = 1 
 
 Independent cascade streams, half benign (kappa=1 unless noted) and half harmful (kappa log-uniform in [kappa_min, kappa_max]). FA = fraction of benign cascades acted on (target <= alpha); det = fraction of harmful cascades acted on; delay in rounds; harm@alarm = bad nodes when the detector fires; saved = 1 - final harmful spread / no-intervention spread; benign loss = activations suppressed on benign cascades. Latest run per configuration.
 
-### cagrqc / throttle_sweep  (alpha=0.05, budget=10, seeds=3, calib seeds=3, benign kappa >= 1.0, harmful kappa in [1.5, 4.0], prob=wc, 300 benign / 300 harmful)
+### cagrqc / throttle_sweep  (alpha=0.05, budget=10, seeds=3, calib seeds=3, benign kappa >= 1.0, harmful kappa in [1.5, 4.0], prob=const, 300 benign / 300 harmful)
 
 | detector | container | throttle (rho, frac) | FA | det | delay | harm@alarm | W@alarm | final harm | saved | benign loss | kappa MAE | detect ms | contain ms |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| eprocess | adaptive | uniform (0.30, 0.50) | 0.000 ± 0.000 | 0.487 | 1.64 | 13.7 | 43.9 | 634.0 | 0.652 | 0.97 | 0.56 | 2.24 | 147.1 |
 | eprocess | adaptive | hub (0.10, 0.70) | 0.007 ± 0.005 | 0.490 | 2.01 | 19.0 | 98.8 | 466.8 | 0.574 | 5.79 | 0.52 | 3.19 | 524.9 |
 | eprocess | adaptive | uniform (0.50, 0.50) | 0.000 ± 0.000 | 0.603 | 1.94 | 15.2 | 48.6 | 789.5 | 0.567 | 0.84 | 0.54 | 2.75 | 172.9 |
 | eprocess | adaptive | hub (0.10, 0.50) | 0.000 ± 0.000 | 0.520 | 2.07 | 20.5 | 103.5 | 498.7 | 0.545 | 5.45 | 0.52 | 3.67 | 593.3 |
+| eprocess | adaptive | uniform (0.30, 0.50) | 0.000 ± 0.000 | 0.507 | 2.15 | 18.8 | 104.2 | 531.7 | 0.515 | 5.33 | 0.54 | 4.59 | 733.5 |
 | eprocess | adaptive | uniform (0.70, 0.50) | 0.000 ± 0.000 | 0.663 | 2.06 | 16.5 | 53.1 | 927.7 | 0.491 | 0.59 | 0.52 | 2.76 | 201.8 |
 | eprocess | adaptive | random (0.10, 0.70) | 0.003 ± 0.003 | 0.530 | 2.23 | 19.5 | 107.3 | 568.1 | 0.482 | 5.20 | 0.51 | 3.43 | 654.3 |
 | eprocess | adaptive | uniform (0.85, 0.50) | 0.000 ± 0.000 | 0.710 | 2.20 | 17.4 | 55.7 | 946.9 | 0.480 | 0.21 | 0.49 | 2.84 | 213.4 |
