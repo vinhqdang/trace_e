@@ -24,9 +24,10 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument("--network", default="cagrqc")
     p.add_argument("--setting", default="throttle_sweep")
+    p.add_argument("--prob-model", default="wc")
     args = p.parse_args()
     df = pd.read_csv(os.path.join(RESULTS_DIR, "summary_sequential.csv"))
-    df = df[(df.network == args.network) & (df.notes.fillna("") == args.setting)]
+    df = df[(df.network == args.network) & (df.notes.fillna("") == args.setting) & (df.prob_model == args.prob_model)]
     df["throttler"] = df["throttler"].fillna("none")
     df = df.sort_values("timestamp").groupby(["throttler", "rho_min", "throttle_frac", "container"], as_index=False).tail(1)
     if df.empty:
@@ -46,11 +47,11 @@ def main():
                 ax.annotate(f"{r.rho_min:g}/{r.throttle_frac:g}" if thr != "uniform" else f"{r.rho_min:g}", (r.benign_loss, r.harm_final_harmful), fontsize=7, xytext=(3, 3), textcoords="offset points")
     ax.set_xlabel("benign cost: activations suppressed per benign cascade")
     ax.set_ylabel("final harmful spread (mean nodes)")
-    ax.set_title(f"{args.network}: active throttling, e-process + adaptive containment")
+    ax.set_title(f"{args.network} ({args.prob_model}): active throttling, e-process + adaptive containment")
     ax.legend()
     ax.grid(alpha=0.3)
     fig.tight_layout()
-    out = os.path.join(RESULTS_DIR, "figures", f"throttle_pareto_{args.network}.png")
+    out = os.path.join(RESULTS_DIR, "figures", f"throttle_pareto_{args.network}_{args.prob_model}.png")
     fig.savefig(out, dpi=150)
     print("wrote", out)
 
