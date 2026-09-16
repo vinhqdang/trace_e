@@ -200,6 +200,26 @@ restricted to samples whose cached reach set contains the picked node, which
 is exactly the set of samples whose dominator tree can change. Summation over
 picks and rounds gives the bound. $\square$
 
+## 3.1 Isolation moves: a worst-case separation that does not survive contact with SNAP graphs
+
+`isocut` adds to AdvancedGreedy one further kind of move, the isolation of
+a seed $s$ (blocking all of its inactive out-neighbours, cost $c_s$, saving
+= $s$'s dominator subtree minus one), and picks moves by saving per budget
+unit. **Theorem 4 (separation).** There is a family of instances on which
+AdvancedGreedy, GreedyReplace and the SandIMIN lower-bound greedy all save
+$O(b)$ nodes with budget $b$ while `isocut` saves $\Omega(N)$ for arbitrary
+$N$. *Construction.* A decoy seed with $b+1$ out-neighbours, each with one
+private leaf (single-node saving 2); a real seed with $c\le b$
+out-neighbours, all of which point to every node of a region $R$ of $N$
+nodes whose nodes have no private successors. Every single node in $R$ or
+among the real seed's out-neighbours saves at most 1, so all three published
+rules spend the budget on decoy neighbours (saving $2b$; GreedyReplace's
+replacement pass replaces a decoy blocker by itself and stops), whereas
+isolating the real seed saves $N+c$ at cost $c$. $\square$
+Empirically the move is almost never selected on the SNAP graphs (its ratio
+loses to the best single node) and it hurt on Epinions, so it is reported
+as an ablation (`isocut`, `defer_cut`) rather than as part of DEFER.
+
 ## 4. What is new
 
 * The adaptive variant of IMIN with node blocking and the observation that
