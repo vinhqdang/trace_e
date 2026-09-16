@@ -35,7 +35,7 @@ from ..sequential.simulator import Episode, exposure
 
 COLUMNS = ["timestamp", "run_id", "network", "n_nodes", "n_edges", "prob_model", "p", "mode", "alpha", "kappa_min", "kappa_max", "kappa_null", "p0_scale",
            "benign_kappa_min", "benign_kappa_max", "n_seeds", "calib_n_seeds", "calib_kappa", "budget", "detector", "container",
-           "throttler", "rho_min", "throttle_frac", "alpha_soft", "n_benign", "n_harmful", "fa_rate", "fa_se", "det_rate", "delay_mean", "harm_at_alarm", "harm_final_harmful",
+           "throttler", "rho_min", "throttle_frac", "alpha_soft", "n_benign", "n_harmful", "fa_rate", "fa_se", "det_rate", "delay_mean", "harm_at_alarm", "harmw_at_alarm", "harm_final_harmful",
            "harm_cf_harmful", "saved_frac", "benign_loss", "benign_loss_frac", "kappa_mae", "n_intervened_mean",
            "t_detect_ms", "t_contain_ms", "throttled_rounds_harmful", "throttled_rounds_benign", "throttled_nodes_benign", "threshold", "seed", "git_commit", "notes"]
 
@@ -227,6 +227,7 @@ def main(argv=None):
         det_rate = np.mean([r["alarm_round"] is not None for r in har]) if har else float("nan")
         delays = [r["alarm_round"] for r in har if r["alarm_round"] is not None]
         haa = [r["harm_at_alarm"] for r in har if r["alarm_round"] is not None]
+        hwa = [r["harmw_at_alarm"] for r in har if r["alarm_round"] is not None and r.get("harmw_at_alarm") is not None]
         hf = np.array([r["harm_final"] for r in har], dtype=float)
         hcf = np.array([r["harm_counterfactual"] for r in har], dtype=float)
         bl = np.array([r["harm_counterfactual"] - r["harm_final"] for r in ben], dtype=float)
@@ -242,7 +243,7 @@ def main(argv=None):
                    throttled_nodes_benign=round(float(np.mean([r["throttled_nodes"] for r in ben])), 3) if ben else "",
                    fa_rate=round(float(fa), 4), fa_se=round(float(np.sqrt(fa * (1 - fa) / max(len(ben), 1))), 4) if ben else "",
                    det_rate=round(float(det_rate), 4), delay_mean=round(float(np.mean(delays)), 3) if delays else "",
-                   harm_at_alarm=round(float(np.mean(haa)), 3) if haa else "", harm_final_harmful=round(float(hf.mean()), 3) if har else "",
+                   harm_at_alarm=round(float(np.mean(haa)), 3) if haa else "", harmw_at_alarm=round(float(np.mean(hwa)), 3) if hwa else "", harm_final_harmful=round(float(hf.mean()), 3) if har else "",
                    harm_cf_harmful=round(float(hcf.mean()), 3) if har else "", saved_frac=round(float(1 - hf.sum() / hcf.sum()), 4) if har and hcf.sum() > 0 else "",
                    benign_loss=round(float(bl.mean()), 3) if ben else "", benign_loss_frac=round(float(bl.sum() / bcf.sum()), 4) if ben and bcf.sum() > 0 else "",
                    kappa_mae=round(float(np.mean(kmae)), 3) if kmae else "", n_intervened_mean=round(float(np.mean([r["n_intervened"] for r in har])), 2) if har else "",

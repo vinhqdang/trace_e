@@ -99,18 +99,23 @@ def sequential_report(path: str) -> str:
            "FA = fraction of benign cascades acted on (target <= alpha); det = fraction of harmful cascades acted on; delay in rounds; "
            "harm@alarm = bad nodes when the detector fires; saved = 1 - final harmful spread / no-intervention spread; "
            "benign loss = activations suppressed on benign cascades. Latest run per configuration.", ""]
-    keys = ["network", "setting", "alpha", "budget", "n_seeds", "calib_n_seeds", "benign_kappa_min", "detector", "container"]
+    for c in ("throttler", "rho_min", "throttle_frac", "harmw_at_alarm", "throttled_rounds_benign"):
+        if c not in df:
+            df[c] = ""
+    df["throttler"] = df["throttler"].fillna("none").replace("", "none")
+    keys = ["network", "setting", "alpha", "budget", "n_seeds", "calib_n_seeds", "benign_kappa_min", "detector", "container", "throttler", "rho_min", "throttle_frac"]
     for (net, setting, alpha, budget, ns, cns, bkm), d in latest(df, keys).groupby(["network", "setting", "alpha", "budget", "n_seeds", "calib_n_seeds", "benign_kappa_min"], sort=False):
         r0 = d.iloc[0]
         out.append(f"### {net} / {setting}  (alpha={alpha}, budget={budget}, seeds={ns}, calib seeds={cns}, benign kappa >= {bkm}, "
                    f"harmful kappa in [{r0.kappa_min}, {r0.kappa_max}], prob={r0.prob_model}, {int(r0.n_benign)} benign / {int(r0.n_harmful)} harmful)")
         out.append("")
-        out.append("| detector | container | FA | det | delay | harm@alarm | final harm | saved | benign loss | kappa MAE | detect ms | contain ms |")
-        out.append("|---|---|---|---|---|---|---|---|---|---|---|---|")
+        out.append("| detector | container | throttle (rho, frac) | FA | det | delay | harm@alarm | W@alarm | final harm | saved | benign loss | kappa MAE | detect ms | contain ms |")
+        out.append("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|")
         d = d.sort_values(["saved_frac"], ascending=False)
         for _, r in d.iterrows():
             f = lambda x, k=3: "" if pd.isna(x) or x == "" else f"{float(x):.{k}f}"  # noqa: E731
-            out.append(f"| {r.detector} | {r.container} | {f(r.fa_rate)} ± {f(r.fa_se)} | {f(r.det_rate)} | {f(r.delay_mean, 2)} | {f(r.harm_at_alarm, 1)} | "
+            thr = r.throttler if r.throttler == "none" else f"{r.throttler} ({f(r.rho_min, 2)}, {f(r.throttle_frac, 2)})"
+            out.append(f"| {r.detector} | {r.container} | {thr} | {f(r.fa_rate)} ± {f(r.fa_se)} | {f(r.det_rate)} | {f(r.delay_mean, 2)} | {f(r.harm_at_alarm, 1)} | {f(r.harmw_at_alarm, 1)} | "
                        f"{f(r.harm_final_harmful, 1)} | {f(r.saved_frac)} | {f(r.benign_loss, 2)} | {f(r.kappa_mae, 2)} | {f(r.t_detect_ms, 2)} | {f(r.t_contain_ms, 1)} |")
         out.append("")
     return "\n".join(out)

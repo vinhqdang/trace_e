@@ -24,6 +24,8 @@ def run_episode(ep: Episode, detector, container, budget: int, max_rounds: int =
     t_con = 0.0
     alarm_round = None
     harm_at_alarm = None
+    harmw_at_alarm = None
+    out_mass = np.array([ep.g.weights[ep.g.indptr[v]: ep.g.indptr[v + 1]].sum() for v in range(ep.g.n)])
     kappa_hat = 1.0
     n_intervened = 0
     rounds = 0
@@ -59,10 +61,13 @@ def run_episode(ep: Episode, detector, container, budget: int, max_rounds: int =
             if fired:
                 alarm_round = rounds
                 harm_at_alarm = ep.harm
+                # influence-weighted harm W_tau with h(v) = 1 + kappa * expected children (true kappa, for evaluation)
+                harmw_at_alarm = float((1.0 + ep.kappa * out_mass[ep.active]).sum())
                 kappa_hat = detector.kappa_hat()
     return {
         "alarm_round": alarm_round,
         "harm_at_alarm": harm_at_alarm,
+        "harmw_at_alarm": harmw_at_alarm,
         "harm_final": ep.harm,
         "harm_counterfactual": ep.counterfactual_harm(max_rounds),
         "n_intervened": n_intervened,
