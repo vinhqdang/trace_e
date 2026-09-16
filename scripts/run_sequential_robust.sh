@@ -14,6 +14,8 @@ run() {
   if [ "$PUSH" = "1" ]; then git push -q origin main || true; fi
 }
 for NET in $NETWORKS; do
+  # benign traffic below baseline at deployment while thresholds were calibrated at the baseline
+  run --network "$NET" $COMMON --benign-kappa-min 0.5 --calib-kappa 1.0 --pairs "$DET_PAIRS" --notes dominance_shift
   for S in 0.8 0.67; do
     run --network "$NET" $COMMON --p0-scale $S --pairs "$DET_PAIRS" --notes "misspec_p0x$S"
     run --network "$NET" $COMMON --p0-scale $S --kappa-null 1.25 --pairs "eprocess:none,sprt:none,cusum:none" --notes "misspec_p0x${S}_margin1.25"

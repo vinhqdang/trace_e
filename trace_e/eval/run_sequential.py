@@ -33,7 +33,7 @@ from ..sequential.policy import run_episode, max_statistic
 from ..sequential.simulator import Episode, exposure
 
 COLUMNS = ["timestamp", "run_id", "network", "n_nodes", "n_edges", "prob_model", "p", "mode", "alpha", "kappa_min", "kappa_max", "kappa_null", "p0_scale",
-           "benign_kappa_min", "benign_kappa_max", "n_seeds", "calib_n_seeds", "budget", "detector", "container",
+           "benign_kappa_min", "benign_kappa_max", "n_seeds", "calib_n_seeds", "calib_kappa", "budget", "detector", "container",
            "n_benign", "n_harmful", "fa_rate", "fa_se", "det_rate", "delay_mean", "harm_at_alarm", "harm_final_harmful",
            "harm_cf_harmful", "saved_frac", "benign_loss", "benign_loss_frac", "kappa_mae", "n_intervened_mean",
            "t_detect_ms", "t_contain_ms", "threshold", "seed", "git_commit", "notes"]
@@ -54,6 +54,7 @@ def parse_args(argv=None):
     p.add_argument("--benign-kappa-max", type=float, default=1.0)
     p.add_argument("--n-seeds", type=int, default=1)
     p.add_argument("--calib-n-seeds", type=int, default=0, help="seed-set size used to calibrate threshold baselines (0 = same as --n-seeds)")
+    p.add_argument("--calib-kappa", type=float, default=None, help="fix the benign multiplier used for calibration (default: the deployment benign distribution)")
     p.add_argument("--n-benign", type=int, default=300)
     p.add_argument("--n-harmful", type=int, default=300)
     p.add_argument("--n-calib", type=int, default=300)
@@ -85,13 +86,15 @@ def make_detector(name, args):
     return get_detector(name, alpha=args.alpha)
 
 
-def episode_params(i, args, rng, harmful: bool, n_seeds: int):
+def episode_params(i, args, rng, harmful: bool, n_seeds: int, calib: bool = False):
     elig = _G["elig"]
     seeds = rng.choice(elig, size=n_seeds, replace=False)
     if harmful:
         kappa = float(np.exp(rng.uniform(np.log(args.kappa_min), np.log(args.kappa_max))))
     else:
         kappa = float(rng.uniform(args.benign_kappa_min, args.benign_kappa_max))
+        if calib and args.calib_kappa is not None:
+            kappa = float(args.calib_kappa)
     return seeds, kappa, int(rng.integers(2**31))
 
 
@@ -158,7 +161,7 @@ def main(argv=None):
 
     rng = np.random.default_rng(args.seed)
     calib_seeds = args.calib_n_seeds or args.n_seeds
-    calib = [(i,) + episode_params(i, args, rng, False, calib_seeds) for i in range(args.n_calib)]
+    calib = [(i,) + episode_params(i, args, rng, False, calib_seeds, calib=True) for i in range(args.n_calib)]
     calib_h = [(i,) + episode_params(i, args, rng, True, calib_seeds) for i in range(args.n_calib)]
     episodes = [(i,) + episode_params(i, args, rng, False, args.n_seeds) + (False,) for i in range(args.n_benign)]
     episodes += [(args.n_benign + i,) + episode_params(i, args, rng, True, args.n_seeds) + (True,) for i in range(args.n_harmful)]
@@ -223,7 +226,7 @@ def main(argv=None):
         kmae = [abs(r["kappa_hat"] - r["kappa"]) for r in har if r["kappa_hat"] is not None]
         row = dict(network=args.network, n_nodes=st["n_nodes"], n_edges=st["n_edges"], prob_model=args.prob_model, p=args.p, mode=args.mode,
                    alpha=args.alpha, kappa_min=args.kappa_min, kappa_max=args.kappa_max, kappa_null=args.kappa_null, p0_scale=args.p0_scale, benign_kappa_min=args.benign_kappa_min,
-                   benign_kappa_max=args.benign_kappa_max, n_seeds=args.n_seeds, calib_n_seeds=calib_seeds, budget=args.budget,
+                   benign_kappa_max=args.benign_kappa_max, n_seeds=args.n_seeds, calib_n_seeds=calib_seeds, calib_kappa=("" if args.calib_kappa is None else args.calib_kappa), budget=args.budget,
                    detector=d, container=c, n_benign=len(ben), n_harmful=len(har),
                    fa_rate=round(float(fa), 4), fa_se=round(float(np.sqrt(fa * (1 - fa) / max(len(ben), 1))), 4) if ben else "",
                    det_rate=round(float(det_rate), 4), delay_mean=round(float(np.mean(delays)), 3) if delays else "",
