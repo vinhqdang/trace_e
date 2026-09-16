@@ -321,6 +321,12 @@ Independent cascade streams, half benign (kappa=1 unless noted) and half harmful
 | eprocess | adaptive | random (0.30, 0.30) | 0.000 ± 0.000 | 0.790 | 2.08 | 14.2 | 43.3 | 512.9 | 0.715 | 0.18 | 0.41 | 2.58 | 96.0 |
 | eprocess | adaptive | none | 0.000 ± 0.000 | 0.883 | 2.30 | 15.5 | 46.6 | 539.6 | 0.700 | 0.00 | 0.41 | 2.83 | 101.6 |
 
+### cahepth / throttle_sweep  (alpha=0.05, budget=10, seeds=3, calib seeds=3, benign kappa >= 1.0, harmful kappa in [1.5, 4.0], prob=wc, 300 benign / 300 harmful)
+
+| detector | container | throttle (rho, frac) | FA | det | delay | harm@alarm | W@alarm | final harm | saved | benign loss | kappa MAE | detect ms | contain ms |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| eprocess | adaptive | none | 0.000 ± 0.000 | 0.763 | 2.02 | 18.3 | 56.4 | 3273.8 | 0.285 | 0.00 | 0.44 | 2.80 | 415.9 |
+
 ## Concurrent cascades: FDR control and harm-weighted e-BH (Theorem 4)
 
 M cascades run concurrently (fraction rho harmful). At every round the platform selects cascades to act on from the current e-values: per-cascade threshold 1/alpha (no multiplicity control), e-BH, and harm-weighted e-BH (weights proportional to the frontier's expected next-round spread). FDP = benign among treated; power = harmful treated; saved = harmful spread removed; mean ± s.d. over repetitions.
