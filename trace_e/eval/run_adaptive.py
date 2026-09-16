@@ -10,11 +10,11 @@ every policy runs on the same realisation with the same total budget:
 * one-shot plans computed at time 0 with the seeds known (``ag``, ``gr``,
   ``lsbm``, ``isocut``, ``proximity``, ``degree``, ``random``);
 * adaptive policies that observe activations round by round:
-  ``defer`` (DEFER: plan with the dominator greedy on the current frontier,
-  commit only planned nodes exposed to the frontier, re-plan each round),
-  ``defer_gr`` (same with GreedyReplace as the planner), ``commit`` (re-plan
-  and commit the whole plan each round; ablation), ``defer_h4`` (bounded
-  planning horizon).
+  ``defer`` (DEFER: plan with AdvancedGreedy on the current frontier, commit
+  only planned nodes exposed to the frontier that pass the push-down rule,
+  re-plan each round), ``defer_nopush`` (no push-down), ``defer_gr`` (GreedyReplace
+  as the planner), ``defer_cut`` (dominator planner with isolation moves),
+  ``commit`` (re-plan and commit the whole plan each round; ablation).
 
 Metrics: final spread (bad nodes beyond the seeds), saved fraction vs no
 intervention, budget actually used, wall-clock per episode. Results go to
@@ -82,18 +82,18 @@ def _episode(task):
         used = len(ep.block(B))
     else:
         kw = dict(n_samples=_G["theta"], horizon=0, replan_every=1, seed=ep_seed)
-        if policy == "defer":
-            con = get_container("adaptive", **kw)
+        if policy in ("defer", "defer_ag"):
+            con = get_container("adaptive", planner="imin:ag", **kw)
         elif policy == "defer_nopush":
-            con = get_container("adaptive", pushdown=False, **kw)
+            con = get_container("adaptive", planner="imin:ag", pushdown=False, **kw)
+        elif policy == "defer_cut":
+            con = get_container("adaptive", planner="dominator", **kw)
         elif policy == "defer_gr":
             con = get_container("adaptive", planner="imin:gr", **kw)
         elif policy == "defer_gr_nopush":
             con = get_container("adaptive", planner="imin:gr", pushdown=False, **kw)
-        elif policy == "defer_ag":
-            con = get_container("adaptive", planner="imin:ag", **kw)
         elif policy == "commit":
-            con = get_container("adaptive_commit", **kw)
+            con = get_container("adaptive_commit", planner="imin:ag", **kw)
         elif policy == "defer_h4":
             kw["horizon"] = 4
             con = get_container("adaptive", **kw)

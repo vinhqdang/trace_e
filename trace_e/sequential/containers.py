@@ -112,11 +112,28 @@ class Container:
         self.planner = planner  # "dominator" (exact gains, all candidates) or "celf" (sampled reach, candidate pool)
         self.horizon = horizon  # 0 = whole reachable region; h > 0 = plan within h live hops of the frontier
 
-    def plan(self, g, lives, sources, forbidden, budget):
+    def plan(self, g, lives, sources, forbidden, budget, leftover=None):
         if self.planner.startswith("imin:"):
-            from ..blocking.imin import run_algorithm
-            B, _ = run_algorithm(self.planner.split(":", 1)[1], g, sources, budget, theta=len(lives), seed=self.seed + 7919 * len(lives), forbidden=forbidden)
-            return B, [1.0] * len(B)
+            from ..blocking.imin import ALGORITHMS, SampleSet, advanced_greedy
+            name = self.planner.split(":", 1)[1]
+            S = SampleSet(g, sources, len(lives), np.random.default_rng(0), forbidden=forbidden, lives=lives)
+            S.refresh()
+            gvals = S.single_gains()
+            B0 = set(S.blocked)
+            B = [v for v in ALGORITHMS[name](S, budget) if v not in B0]
+            if len(B) < budget:
+                advanced_greedy(S, budget - len(B))
+                B = [v for v in S.blocked if v not in B0]
+            # plan protection (Theorem 1): keep the previous plan's leftover unless the new plan is better on these samples
+            if leftover:
+                old = [v for v in leftover if not forbidden[v]][:budget]
+                if old:
+                    S.forbidden[:] = forbidden
+                    S.blocked = []
+                    if S.evaluate(old) <= S.evaluate(B):
+                        B = old
+            gains = sorted((float(gvals[v]) for v in B), reverse=True)
+            return B, gains
         if self.planner == "dominator":
             return dominator_greedy_plan(g, lives, sources, forbidden, budget, horizon=self.horizon)
         cands = reachable_candidates(g, lives, sources, forbidden, self.pool)
@@ -218,6 +235,7 @@ class AdaptiveFrontier(Container):
     name = "adaptive"
 
     def __init__(self, commit_all: bool = False, max_rounds: int = 50, replan_every: int = 1, pushdown: bool = True, **kw):
+        kw.setdefault("planner", "imin:ag")
         super().__init__(**kw)
         self.commit_all = commit_all
         self.max_rounds = max_rounds
@@ -242,7 +260,7 @@ class AdaptiveFrontier(Container):
         need_plan = (self.calls - 1) % self.replan_every == 0 or not self.standing
         if need_plan:
             gs, lives = self._samples(ep, kappa_hat)
-            plan, gains = self.plan(gs, lives, ep.frontier, forb, left)
+            plan, gains = self.plan(gs, lives, ep.frontier, forb, left, leftover=self.standing)
             self.standing = list(plan)
             self.shadow = float(min(gains)) if gains and len(plan) >= left else 0.0
         if not self.standing:

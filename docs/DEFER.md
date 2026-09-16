@@ -36,15 +36,15 @@ For each round $t=0,1,2,\dots$ while the cascade is alive and budget remains:
 2. **Sample.** Draw $\theta$ live-edge graphs, keeping only edges out of
    nodes reachable from $F_t$ avoiding $A_t\cup B_t$ (forward BFS per
    sample).
-3. **Plan.** Run $\mathcal P$ on the instance "seeds $=F_t$, forbidden
-   $=A_t\cup B_t$, budget $b_t$" using the samples: with the dominator
-   planner, build one dominator tree per sample rooted at a super-source
-   attached to $F_t$; the saving of blocking $v$ is its average subtree
-   size, the saving of isolating a frontier node $u$ (blocking all of its
-   exposed out-neighbours) is its average subtree size minus one; pick moves
-   greedily by saving per budget unit, recomputing the trees only on
-   samples in which a chosen node was reachable. Output a plan
-   $P_t$, $|P_t|\le b_t$.
+3. **Plan, with protection.** Run $\mathcal P$ on the instance "seeds
+   $=F_t$, forbidden $=A_t\cup B_t$, budget $b_t$" using the samples. The
+   default planner is AdvancedGreedy (single-node dominator gains,
+   recomputed after every pick on the samples in which the pick was
+   reachable); the variant with frontier-isolation moves priced by saving
+   per budget unit is `defer_cut`. Let $P'$ be the new plan and $L_{t-1}$
+   the uncommitted leftover of the previous plan; evaluate both on the
+   current samples and keep the better one as $P_t$ (*plan protection*,
+   the hypothesis of Theorem 1). Output $P_t$, $|P_t|\le b_t$.
 4. **Commit only what is exposed, and only if waiting is dearer.** Let
    $X_t$ be the inactive unblocked out-neighbours of $F_t$, $q_v$ the
    probability that $v\in X_t$ is activated in the coming round

@@ -40,13 +40,13 @@ from ..sequential.dominators import dominator_subtree_sizes, reachable_dag
 class SampleSet:
     """theta live-edge samples restricted to what the seeds can reach, with cached dominator data."""
 
-    def __init__(self, g: CSRGraph, seeds, theta: int, rng: np.random.Generator, forbidden: np.ndarray | None = None):
+    def __init__(self, g: CSRGraph, seeds, theta: int, rng: np.random.Generator, forbidden: np.ndarray | None = None, lives=None):
         self.g = g
         self.seeds = [int(s) for s in seeds]
         self.seed_mask = np.zeros(g.n, dtype=bool)
         self.seed_mask[self.seeds] = True
-        self.theta = theta
-        self.lives = [rng.random(len(g.indices)) < g.weights for _ in range(theta)]
+        self.lives = list(lives) if lives is not None else [rng.random(len(g.indices)) < g.weights for _ in range(theta)]
+        self.theta = len(self.lives)
         self.forbidden = np.zeros(g.n, dtype=bool) if forbidden is None else forbidden.copy()
         self.forbidden[self.seeds] = False
         self.blocked: list[int] = []
@@ -101,6 +101,13 @@ class SampleSet:
         for order, index, sizes, reach in self.cache:
             tot += len(order) - int(reach[self.seeds].sum())
         return tot / self.theta
+
+    def evaluate(self, nodes) -> float:
+        """Average non-seed nodes reachable on the samples when ``nodes`` are blocked in addition to the current set."""
+        from ..sequential.containers import reach_count
+        forb = self.forbidden.copy()
+        forb[[int(v) for v in nodes]] = True
+        return float(np.mean([reach_count(self.g, lv, self.seeds, forb) for lv in self.lives]))
 
     # ----- updates ---------------------------------------------------------
     def block(self, nodes):
@@ -326,11 +333,15 @@ ALGORITHMS = {"ag": advanced_greedy, "gr": greedy_replace, "lsbm": lsbm, "isocut
               "isocut_r": lambda S, b: isocut(S, b, replace=True), "isocut+": isocut_plus}
 
 
-def run_algorithm(name: str, g: CSRGraph, seeds, budget: int, theta: int = 100, seed: int = 0, forbidden=None):
+def run_algorithm(name: str, g: CSRGraph, seeds, budget: int, theta: int = 100, seed: int = 0, forbidden=None, fill: bool = False):
+    """Run an IMIN algorithm on fresh samples. ``fill=True`` tops up an under-spent plan with single-node greedy picks."""
     S = SampleSet(g, seeds, theta, np.random.default_rng(seed), forbidden=forbidden)
     t0 = time.perf_counter()
     B0 = set(S.blocked)
     B = [v for v in ALGORITHMS[name](S, budget) if v not in B0]
+    if fill and len(B) < budget:
+        advanced_greedy(S, budget - len(B))
+        B = [v for v in S.blocked if v not in B0]
     return B, {"time_s": time.perf_counter() - t0, "dominator_calls": S.n_dom, "t_dominators": S.t_dom}
 
 
