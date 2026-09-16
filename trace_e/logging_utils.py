@@ -95,6 +95,17 @@ def append_csv(path: str, row: dict, columns: list[str]):
     """Append one row to a CSV with a fixed column set (header written on first use)."""
     row = {k: row.get(k, "") for k in columns}
     new = not os.path.exists(path)
+    if not new:
+        with open(path, newline="") as f:
+            header = next(csv.reader(f), [])
+        if header != list(columns):  # schema changed: migrate existing rows to the new column set
+            with open(path, newline="") as f:
+                old = list(csv.DictReader(f))
+            with open(path, "w", newline="") as f:
+                w = csv.DictWriter(f, fieldnames=columns)
+                w.writeheader()
+                for r in old:
+                    w.writerow({k: r.get(k, "") for k in columns})
     with open(path, "a", newline="") as f:
         w = csv.DictWriter(f, fieldnames=columns)
         if new:
