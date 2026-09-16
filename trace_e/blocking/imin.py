@@ -529,3 +529,135 @@ def cutgreedy(S: SampleSet, budget: int, n_targets: int = 20, replace: bool = Fa
 
 
 ALGORITHMS.update({"cutgreedy": cutgreedy, "cutgreedy_r": lambda S, b: cutgreedy(S, b, replace=True)})
+
+
+# ---------------------------------------------------------------------------
+# SWAP: best-improvement 1-swap local search with exact dominator pricing
+# ---------------------------------------------------------------------------
+
+def swap_local_search(S: SampleSet, budget: int, init: str = "ag", max_passes: int = 20, min_rel_improve: float = 0.002,
+                      first_improvement: bool = False) -> list[int]:
+    """SWAP: start from a one-shot solution, then repeatedly apply the best (remove u, add v) exchange.
+
+    For each blocker u the samples are re-priced with u released (one dominator
+    computation per sample), which gives the exact loss of releasing u and the
+    exact gain of every candidate v given B \\ {u}; the exchange with the largest
+    net improvement on the sample-average reach is applied. Stops at a 1-swap
+    local optimum on the samples (or after ``max_passes`` passes / when the
+    best improvement is below ``min_rel_improve`` of the current reach).
+    """
+    ALGORITHMS[init](S, budget)
+    S.refresh()
+    cur = S.expected_reach()
+    for _ in range(max_passes):
+        best = (0.0, None, None)
+        B = list(S.blocked)
+        for u in B:
+            S.unblock(u)
+            S.refresh()
+            reach_wo = S.expected_reach()
+            loss = reach_wo - cur  # >= 0: nodes lost by releasing u
+            gains = S.single_gains()
+            gains[u] = 0.0
+            v = int(np.argmax(gains))
+            improve = gains[v] - loss
+            S.block([u])
+            if improve > best[0]:
+                best = (improve, u, v)
+                if first_improvement:
+                    break
+        improve, u, v = best
+        if u is None or improve <= min_rel_improve * max(cur, 1.0):
+            break
+        S.unblock(u)
+        S.block([v])
+        S.refresh()
+        cur = S.expected_reach()
+    return list(S.blocked)
+
+
+ALGORITHMS.update({
+    "swap": lambda S, b: swap_local_search(S, b, init="ag"),
+    "swap_gr": lambda S, b: swap_local_search(S, b, init="gr"),
+    "swap_first": lambda S, b: swap_local_search(S, b, init="ag", first_improvement=True),
+})
+
+
+# ---------------------------------------------------------------------------
+# Sample-noise-aware greedy: penalise gains that are large only on few samples
+# ---------------------------------------------------------------------------
+
+def _gain_stats(S: SampleSet):
+    """Per-node mean and standard error of the single-node saving across samples."""
+    n = S.g.n
+    acc = np.zeros(n)
+    acc2 = np.zeros(n)
+    for order, index, sizes, reach in S.cache:
+        if len(order):
+            gv = sizes[index[order]].astype(float)
+            acc[order] += gv
+            acc2[order] += gv * gv
+    acc[S.seed_mask] = 0
+    acc[S.forbidden] = 0
+    mean = acc / S.theta
+    var = np.maximum(acc2 / S.theta - mean * mean, 0.0)
+    se = np.sqrt(var / S.theta)
+    return mean, se
+
+
+def lcb_greedy(S: SampleSet, budget: int, z: float = 1.0) -> list[int]:
+    """AdvancedGreedy that picks argmax of (mean saving - z * standard error): a lower-confidence-bound
+    rule that discounts nodes whose large average saving rests on a few samples (selection bias)."""
+    for _ in range(budget):
+        S.refresh()
+        mean, se = _gain_stats(S)
+        score = mean - z * se
+        score[S.seed_mask] = -np.inf
+        score[S.forbidden] = -np.inf
+        v = int(np.argmax(score))
+        if mean[v] <= 0:
+            break
+        S.block([v])
+    return list(S.blocked)
+
+
+def cv_greedy(S: SampleSet, budget: int, top_k: int = 10) -> list[int]:
+    """Cross-validated greedy: shortlist the top-k nodes on the odd samples, pick the best of them on the
+    even samples (honest estimate), so the selection is not made on the samples that inflate it."""
+    half = S.theta // 2
+    for _ in range(budget):
+        S.refresh()
+        n = S.g.n
+        a = np.zeros(n)
+        b = np.zeros(n)
+        for i, (order, index, sizes, reach) in enumerate(S.cache):
+            if len(order):
+                (a if i < half else b)[order] += sizes[index[order]]
+        for arr in (a, b):
+            arr[S.seed_mask] = -np.inf
+            arr[S.forbidden] = -np.inf
+        short = np.argsort(-a)[:top_k]
+        v = int(short[np.argmax(b[short])])
+        if a[v] <= 0 and b[v] <= 0:
+            break
+        S.block([v])
+    return list(S.blocked)
+
+
+ALGORITHMS.update({"ag_lcb": lcb_greedy, "ag_lcb2": lambda S, b: lcb_greedy(S, b, z=2.0), "ag_cv": cv_greedy})
+
+
+def phcut_algorithm(S: SampleSet, budget: int, **kw) -> list[int]:
+    """PH-CUT on the sample set: scenario min-cuts with progressive hedging, AG solution as fallback/fill."""
+    from .phcut import phcut
+    snap = S.snapshot()
+    fb = advanced_greedy(S, budget)
+    S.restore(snap)
+    B, info = phcut(S.g, S.lives, S.seeds, S.forbidden, budget, fallback=fb, **kw)
+    S.last_info = info
+    S.forbidden[B] = True
+    S.blocked = list(B)
+    return list(B)
+
+
+ALGORITHMS.update({"phcut": phcut_algorithm})

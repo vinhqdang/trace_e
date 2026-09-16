@@ -45,7 +45,7 @@ _G = {}
 def parse_args(argv=None):
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--network", required=True)
-    p.add_argument("--prob-model", choices=["wc", "const", "tri"], default="wc")
+    p.add_argument("--prob-model", choices=["wc", "const", "tri", "bimodal"], default="wc")
     p.add_argument("--p", type=float, default=0.1)
     p.add_argument("--mode", choices=["block", "counter"], default="block")
     p.add_argument("--alpha", type=float, default=0.05)

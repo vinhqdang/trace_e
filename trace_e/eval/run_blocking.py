@@ -37,7 +37,7 @@ def parse_args(argv=None):
     p.add_argument("--network", required=True)
     p.add_argument("--methods", default=DEFAULT_METHODS)
     p.add_argument("--mode", choices=["block", "counter"], default="block")
-    p.add_argument("--prob-model", choices=["wc", "const", "tri"], default="wc")
+    p.add_argument("--prob-model", choices=["wc", "const", "tri", "bimodal"], default="wc")
     p.add_argument("--p", type=float, default=0.1, help="activation probability for --prob-model const")
     p.add_argument("--budgets", default="1,2,5,10")
     p.add_argument("--n-seeds", type=int, default=1, help="size of the bad seed set")
@@ -58,7 +58,7 @@ def main(argv=None):
     args = parse_args(argv)
     methods = [m.strip() for m in args.methods.split(",") if m.strip()]
     if args.mode == "counter":
-        methods = [m for m in methods if m not in ("greedy_dom", "ag", "gr", "lsbm", "isocut", "isocut_r", "isocut_plus", "cutgreedy", "cutgreedy_r")]
+        methods = [m for m in methods if m not in ("greedy_dom", "ag", "gr", "lsbm", "isocut", "isocut_r", "isocut_plus", "cutgreedy", "cutgreedy_r", "swap", "swap_gr")]
     unknown = [m for m in methods if m not in REGISTRY]
     if unknown:
         raise SystemExit(f"unknown methods {unknown}; available: {sorted(REGISTRY)}")
@@ -84,7 +84,7 @@ def main(argv=None):
 
     blockers = {}
     for name in methods:
-        kw = {"n_samples": args.greedy_samples, "candidate_pool": args.greedy_pool} if name in ("greedy", "proposed") else ({"n_samples": args.greedy_samples} if name in ("greedy_dom", "ag", "gr", "lsbm", "isocut", "isocut_r", "isocut_plus", "cutgreedy", "cutgreedy_r") else {})
+        kw = {"n_samples": args.greedy_samples, "candidate_pool": args.greedy_pool} if name in ("greedy", "proposed") else ({"n_samples": args.greedy_samples} if name in ("greedy_dom", "ag", "gr", "lsbm", "isocut", "isocut_r", "isocut_plus", "cutgreedy", "cutgreedy_r", "swap", "swap_gr") else {})
         b = get_blocker(name, ctx, **kw)
         tp = time.time()
         b.prepare()

@@ -36,6 +36,10 @@ def set_edge_probabilities(g: CSRGraph, model: str = "wc", p: float = 0.1, seed:
     elif model == "tri":
         rng = np.random.default_rng(seed)
         w[:] = rng.choice([0.1, 0.01, 0.001], size=len(w))
+    elif model == "bimodal":  # strong ties (reliable relay) and weak ties (uncertain exposure); p = fraction of strong ties
+        rng = np.random.default_rng(seed)
+        strong = rng.random(len(w)) < p
+        w[:] = np.where(strong, 0.9, 0.05)
     else:
         raise ValueError(model)
     return CSRGraph(n=g.n, indptr=g.indptr, indices=g.indices, weights=w)

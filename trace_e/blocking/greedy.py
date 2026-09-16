@@ -192,5 +192,5 @@ def _make_imin_blocker(algo_name, reg_name):
     return register(_IminBlocker)
 
 
-for _a, _r in [("ag", "ag"), ("gr", "gr"), ("lsbm", "lsbm"), ("isocut", "isocut"), ("isocut_r", "isocut_r"), ("isocut+", "isocut_plus"), ("cutgreedy", "cutgreedy"), ("cutgreedy_r", "cutgreedy_r")]:
+for _a, _r in [("ag", "ag"), ("gr", "gr"), ("lsbm", "lsbm"), ("isocut", "isocut"), ("isocut_r", "isocut_r"), ("isocut+", "isocut_plus"), ("cutgreedy", "cutgreedy"), ("cutgreedy_r", "cutgreedy_r"), ("swap", "swap"), ("swap_gr", "swap_gr")]:
     _make_imin_blocker(_a, _r)

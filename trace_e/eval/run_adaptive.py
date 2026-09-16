@@ -40,7 +40,7 @@ from ..sequential.simulator import Episode
 COLUMNS = ["timestamp", "run_id", "network", "n_nodes", "n_edges", "prob_model", "p", "n_seeds", "seed_rule", "budget", "policy",
            "n_instances", "draws", "spread_none", "spread", "spread_se", "saved_frac", "budget_used", "time_s_per_episode", "theta", "seed", "git_commit", "notes"]
 
-ONE_SHOT = {"ag", "gr", "lsbm", "isocut", "isocut_plus", "cutgreedy"}
+ONE_SHOT = {"ag", "gr", "lsbm", "isocut", "isocut_plus", "cutgreedy", "swap", "swap_gr", "swap_first"}
 HEURISTIC = {"proximity", "degree", "random", "pagerank"}
 _G = {}
 
@@ -48,7 +48,7 @@ _G = {}
 def parse_args(argv=None):
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--network", required=True)
-    p.add_argument("--prob-model", choices=["wc", "const", "tri"], default="const")
+    p.add_argument("--prob-model", choices=["wc", "const", "tri", "bimodal"], default="const")
     p.add_argument("--p", type=float, default=0.1)
     p.add_argument("--n-seeds", type=int, default=20)
     p.add_argument("--seed-rule", choices=["random", "degree"], default="random", help="random seeds or the highest-degree nodes")
@@ -95,6 +95,8 @@ def _episode(task):
             con = get_container("adaptive", planner="dominator", initial_plan=plans.get((inst, "isocut", budget)), **kw)
         elif policy == "defer_gr":
             con = get_container("adaptive", planner="imin:gr", initial_plan=gr_plan, **kw)
+        elif policy == "defer_swap":  # DEFER wrapping SWAP's solution
+            con = get_container("adaptive", planner="imin:ag", initial_plan=plans.get((inst, "swap", budget)), **kw)
         elif policy == "defer_gr_nopush":
             con = get_container("adaptive", planner="imin:gr", initial_plan=gr_plan, pushdown=False, **kw)
         elif policy == "commit":  # ablation: fresh plan every round, committed in full (no deferral, no protection)
@@ -146,6 +148,8 @@ def main(argv=None):
         need.add("gr")
     if "defer_cut" in policies:
         need.add("isocut")
+    if "defer_swap" in policies:
+        need.add("swap")
     plan_only = sorted(need - set(policies))
     # one-shot plans (computed once per instance and budget)
     plans = {}

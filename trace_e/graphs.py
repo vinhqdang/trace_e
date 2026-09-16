@@ -87,6 +87,20 @@ def load_synthetic(kind: str, n: int, seed: int = 0, **kw) -> nx.Graph:
         G = nx.watts_strogatz_graph(n, kw.get("k", 4), kw.get("p", 0.1), seed=int(rng.integers(2**31)))
     elif kind == "tree":
         G = nx.random_labeled_tree(n, seed=int(rng.integers(2**31))) if hasattr(nx, "random_labeled_tree") else nx.random_tree(n, seed=int(rng.integers(2**31)))
+    elif kind == "grid":  # 2-d lattice with a fraction of random shortcut edges (infrastructure-like)
+        side = int(round(n ** 0.5))
+        G = nx.grid_2d_graph(side, side)
+        G = nx.convert_node_labels_to_integers(G)
+        extra = int(kw.get("shortcuts", 0.02) * G.number_of_edges())
+        nodes = np.arange(G.number_of_nodes())
+        for _ in range(extra):
+            u, v = rng.choice(nodes, 2, replace=False)
+            G.add_edge(int(u), int(v))
+    elif kind == "rgg":  # random geometric graph (road / sensor-network-like)
+        radius = kw.get("r", 0.0)
+        if radius <= 0:
+            radius = float(np.sqrt(kw.get("deg", 4.0) / (np.pi * n)))
+        G = nx.random_geometric_graph(n, radius, seed=int(rng.integers(2**31)))
     else:
         raise ValueError(f"unknown synthetic graph kind '{kind}'")
     return nx.convert_node_labels_to_integers(G)
@@ -101,7 +115,7 @@ def load_network(spec: str, seed: int = 0) -> nx.Graph:
     """
     parts = spec.split(":")
     name = parts[0]
-    if name in ("er", "ba", "ws", "tree"):
+    if name in ("er", "ba", "ws", "tree", "grid", "rgg"):
         n = int(parts[1])
         kw = {}
         for p in parts[2:]:
