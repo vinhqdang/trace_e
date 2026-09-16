@@ -1,0 +1,75 @@
+{
+  "network": "cagrqc",
+  "prob_model": "wc",
+  "n": 800,
+  "n_seeds": 3,
+  "grid_size": 10,
+  "fa[kappa=1]": {
+    "0.2": 0.02625,
+    "0.1": 0.01625,
+    "0.05": 0.01,
+    "0.02": 0.0025,
+    "0.01": 0.00125,
+    "0.005": 0.00125
+  },
+  "fa[kappa~U[0.5,1]]": {
+    "0.2": 0.0075,
+    "0.1": 0.0025,
+    "0.05": 0.00125,
+    "0.02": 0.0,
+    "0.01": 0.0,
+    "0.005": 0.0
+  },
+  "harm_at_alarm": {
+    "1.5": {
+      "detected_frac": 0.31,
+      "mean_harm_at_alarm": 38.0,
+      "median_harm_at_alarm": 37.0,
+      "mean_delay_rounds": 5.112903225806452,
+      "mean_final_no_intervention": 55.415,
+      "lower_bound": 5.678873587267573,
+      "upper_bound_no_overshoot": 228.93277244339632,
+      "kappa_grid_point": 1.25
+    },
+    "2.0": {
+      "detected_frac": 0.615,
+      "mean_harm_at_alarm": 18.59349593495935,
+      "median_harm_at_alarm": 17.0,
+      "mean_delay_rounds": 2.83739837398374,
+      "mean_final_no_intervention": 799.44,
+      "lower_bound": 3.321928094887362,
+      "upper_bound_no_overshoot": 32.063768797596396,
+      "kappa_grid_point": 1.8882570651432027
+    },
+    "3.0": {
+      "detected_frac": 0.925,
+      "mean_harm_at_alarm": 11.794594594594594,
+      "median_harm_at_alarm": 11.0,
+      "mean_delay_rounds": 1.5621621621621622,
+      "mean_final_no_intervention": 2934.45,
+      "lower_bound": 2.0959032742893844,
+      "upper_bound_no_overshoot": 13.287469674360787,
+      "kappa_grid_point": 2.8524117952505774
+    },
+    "4.0": {
+      "detected_frac": 0.95,
+      "mean_harm_at_alarm": 11.052631578947368,
+      "median_harm_at_alarm": 9.0,
+      "mean_delay_rounds": 1.2473684210526317,
+      "mean_final_no_intervention": 3607.875,
+      "lower_bound": 1.660964047443681,
+      "upper_bound_no_overshoot": 9.817855128389386,
+      "kappa_grid_point": 3.505805163423651
+    },
+    "6.0": {
+      "detected_frac": 1.0,
+      "mean_harm_at_alarm": 10.97,
+      "median_harm_at_alarm": 9.0,
+      "mean_delay_rounds": 1.1,
+      "mean_final_no_intervention": 3997.015,
+      "lower_bound": 1.2850972089384687,
+      "upper_bound_no_overshoot": 6.191383703804165,
+      "kappa_grid_point": 5.295889095080184
+    }
+  }
+}
