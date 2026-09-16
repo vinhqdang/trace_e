@@ -303,6 +303,8 @@ Independent cascade streams, half benign (kappa=1 unless noted) and half harmful
 
 | detector | container | throttle (rho, frac) | FA | det | delay | harm@alarm | W@alarm | final harm | saved | benign loss | kappa MAE | detect ms | contain ms |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| eprocess | adaptive | hub (0.10, 0.30) | 0.003 ± 0.003 | 0.697 | 1.78 | 12.7 | 37.3 | 426.6 | 0.763 | 0.24 | 0.45 | 2.59 | 74.0 |
+| eprocess | adaptive | random (0.10, 0.30) | 0.000 ± 0.000 | 0.760 | 2.01 | 13.7 | 41.9 | 483.2 | 0.732 | 0.23 | 0.42 | 2.78 | 87.3 |
 | eprocess | adaptive | none | 0.000 ± 0.000 | 0.883 | 2.30 | 15.5 | 46.6 | 539.6 | 0.700 | 0.00 | 0.41 | 2.83 | 101.6 |
 
 ## Concurrent cascades: FDR control and harm-weighted e-BH (Theorem 4)
