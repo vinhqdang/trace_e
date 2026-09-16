@@ -62,7 +62,9 @@ def run_episode(ep: Episode, detector, container, budget: int, max_rounds: int =
                 alarm_round = rounds
                 harm_at_alarm = ep.harm
                 # influence-weighted harm W_tau with h(v) = 1 + kappa * expected children (true kappa, for evaluation)
-                harmw_at_alarm = float((1.0 + ep.kappa * out_mass[ep.active]).sum())
+                nonseed = ep.active.copy()
+                nonseed[ep.seeds] = False
+                harmw_at_alarm = float((1.0 + ep.kappa * out_mass[nonseed]).sum())
                 kappa_hat = detector.kappa_hat()
     return {
         "alarm_round": alarm_round,
