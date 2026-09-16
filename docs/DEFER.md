@@ -88,6 +88,22 @@ up most plans) and DEFER coincides with AdvancedGreedy; under constant low
 activation probabilities it defers and improves on it (see
 `docs/RESULTS_NOTES.md`).
 
+### 2.2 When does deferral pay?
+
+The push-down rule commits an exposed planned node $v$ unless
+$q_v(c_v+1/\lambda_t)<1$, i.e. unless $c_v<1/q_v-1/\lambda_t$. Because
+$g_v\ge\lambda_t$ for every planned node, giving up $v$'s protection is
+never worth a budget unit; what can be worth it is re-protecting $v$'s
+children later at cost $c_v$ only in the $q_v$ fraction of realisations in
+which $v$ actually activates. Hence adaptivity helps exactly when the
+valuable blockers are *low fan-out gatekeepers* (paths, trees, bottlenecks
+in sparse infrastructure graphs, the star-of-paths family), and it cannot
+help when they are hubs: on co-authorship graphs the AdvancedGreedy plan
+consists of nodes with 40-60 children each, the rule commits them, and DEFER
+coincides with AdvancedGreedy. This is a property of the problem, not of
+the algorithm: any adaptive policy that protects a hub's region after the
+hub activates must pay for its children.
+
 ## 3. Analysis
 
 **Lemma 1 (deferral is free).** Fix a live-edge realisation, the seeds and

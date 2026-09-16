@@ -277,7 +277,10 @@ class AdaptiveFrontier(Container):
             S = SampleSet(gs, ep.frontier, len(lives), np.random.default_rng(0), forbidden=forb, lives=lives)
             S.refresh()
             gv = S.single_gains()
-            self.shadow = float(min(gv[v] for v in self.standing)) if len(self.standing) >= left and self.standing else 0.0
+            pos = [float(gv[v]) for v in self.standing if gv[v] > 0]
+            # shadow price of a budget unit: the smallest positive single-node saving in the plan (nodes with zero
+            # saving on these samples carry no information about the marginal value of budget)
+            self.shadow = min(pos) if pos and len(self.standing) >= left else 0.0
             need_plan = False
         else:
             need_plan = (self.calls - 1) % self.replan_every == 0 or not self.standing
@@ -285,7 +288,8 @@ class AdaptiveFrontier(Container):
             gs, lives = self._samples(ep, kappa_hat)
             plan, gains = self.plan(gs, lives, ep.frontier, forb, left, leftover=self.standing)
             self.standing = list(plan)
-            self.shadow = float(min(gains)) if gains and len(plan) >= left else 0.0
+            pos = [float(x) for x in gains if x > 0]
+            self.shadow = min(pos) if pos and len(plan) >= left else 0.0
         if not self.standing:
             return []
         if self.commit_all:
