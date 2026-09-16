@@ -130,6 +130,7 @@ The last three columns exclude outbreaks where only the source was infected at T
 
 | method | top1 | top3 | top5 | ed | rr | css | fit (s) | infer (s/inst) | top1 (n_inf>=2) | top5 (n_inf>=2) | ed (n_inf>=2) |
 |---|---|---|---|---|---|---|---|---|---|---|---|
+| degree | 0.509 ± 0.002 | 0.788 | 0.888 | 0.664 | 0.644 |  | 0.0 | 0.00707 | 0.294 | 0.838 | 0.954 |
 | random | 0.470 ± 0.002 | 0.735 | 0.843 | 0.974 | 0.556 | 5.33 | 0.0 | 0.00715 | 0.239 | 0.775 | 1.400 |
 
 The last three columns exclude outbreaks where only the source was infected at T (34373 of 49410 test outbreaks remain).
@@ -848,6 +849,35 @@ Paired difference in final spread on common realisations (negative = adaptive be
 | defer_nopush − gr | -0.2 ± 0.2 (wins 53%) | -0.3 ± 0.2 (wins 56%) | -0.7 ± 0.3 (wins 61%) |
 | commit − ag | -0.4 ± 0.5 (wins 57%) | +0.8 ± 0.6 (wins 44%) | -0.9 ± 0.7 (wins 61%) |
 | commit − gr | -0.4 ± 0.5 (wins 57%) | +0.6 ± 0.6 (wins 47%) | -1.3 ± 0.7 (wins 65%) |
+
+### ba:2000:m=2 (const p=0.05, 50 random seeds, 10 instances x 5 realisations, theta=100; no intervention: 18.7)
+
+| policy | spread@20 | spread@50 | spread@100 | saved@20 | saved@50 | saved@100 | time/episode (s) |
+|---|---|---|---|---|---|---|---|
+| proximity | 9.6 ± 0.6 | 6.3 ± 0.4 | 3.3 ± 0.4 | 0.490 | 0.665 | 0.822 | 0.03 |
+| ag | 9.8 ± 0.6 | 7.3 ± 0.5 | 3.8 ± 0.3 | 0.477 | 0.611 | 0.795 | 0.02 |
+| defer_cut | 9.8 ± 0.6 | 7.3 ± 0.5 | 3.8 ± 0.3 | 0.476 | 0.611 | 0.795 | 0.02 |
+| defer | 9.8 ± 0.6 | 7.3 ± 0.5 | 3.8 ± 0.3 | 0.476 | 0.611 | 0.795 | 0.02 |
+| gr | 9.8 ± 0.6 | 7.3 ± 0.5 | 3.8 ± 0.3 | 0.477 | 0.611 | 0.795 | 0.03 |
+| defer_nopush | 9.8 ± 0.6 | 7.3 ± 0.5 | 3.8 ± 0.3 | 0.477 | 0.611 | 0.795 | 0.02 |
+| isocut | 9.8 ± 0.6 | 7.3 ± 0.5 | 3.8 ± 0.3 | 0.477 | 0.611 | 0.795 | 0.06 |
+| defer_gr | 9.8 ± 0.6 | 7.3 ± 0.5 | 3.8 ± 0.3 | 0.476 | 0.611 | 0.795 | 0.02 |
+| lsbm | 9.9 ± 0.6 | 7.4 ± 0.5 | 3.9 ± 0.3 | 0.471 | 0.604 | 0.794 | 0.02 |
+| commit | 9.7 ± 0.6 | 7.5 ± 0.6 | 4.4 ± 0.4 | 0.481 | 0.600 | 0.767 | 0.15 |
+| none | 18.7 ± 1.5 | 18.7 ± 1.5 | 18.7 ± 1.5 | 0.000 | 0.000 | 0.000 | 0.00 |
+
+Paired difference in final spread on common realisations (negative = adaptive better), with s.e. and the share of realisations the adaptive policy wins:
+
+| comparison | budget 20 | budget 50 | budget 100 |
+|---|---|---|---|
+| defer − ag | +0.0 ± 0.0 (wins 49%) | +0.0 ± 0.0 (wins 50%) | +0.0 ± 0.0 (wins 50%) |
+| defer − gr | +0.0 ± 0.0 (wins 49%) | +0.0 ± 0.0 (wins 50%) | +0.0 ± 0.0 (wins 50%) |
+| defer_gr − ag | +0.0 ± 0.0 (wins 49%) | +0.0 ± 0.0 (wins 50%) | +0.0 ± 0.0 (wins 50%) |
+| defer_gr − gr | +0.0 ± 0.0 (wins 49%) | +0.0 ± 0.0 (wins 50%) | +0.0 ± 0.0 (wins 50%) |
+| defer_nopush − ag | +0.0 ± 0.0 (wins 50%) | +0.0 ± 0.0 (wins 50%) | +0.0 ± 0.0 (wins 50%) |
+| defer_nopush − gr | +0.0 ± 0.0 (wins 50%) | +0.0 ± 0.0 (wins 50%) | +0.0 ± 0.0 (wins 50%) |
+| commit − ag | -0.1 ± 0.3 (wins 51%) | +0.2 ± 0.4 (wins 49%) | +0.5 ± 0.3 (wins 46%) |
+| commit − gr | -0.1 ± 0.3 (wins 51%) | +0.2 ± 0.4 (wins 49%) | +0.5 ± 0.3 (wins 46%) |
 
 ## Adaptivity gap on the star-of-paths family (DEFER Theorem 2)
 
