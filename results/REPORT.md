@@ -296,6 +296,7 @@ Independent cascade streams, half benign (kappa=1 unless noted) and half harmful
 | eprocess | adaptive | random (0.30, 0.50) | 0.000 ± 0.000 | 0.637 | 1.99 | 15.6 | 62.0 | 854.2 | 0.531 | 0.75 | 0.51 | 2.56 | 188.8 |
 | eprocess | adaptive | random (0.30, 0.30) | 0.000 ± 0.000 | 0.677 | 2.14 | 16.5 | 63.9 | 874.7 | 0.520 | 0.57 | 0.48 | 2.53 | 195.4 |
 | eprocess | adaptive | uniform (0.70, 0.50) | 0.000 ± 0.000 | 0.663 | 2.06 | 16.5 | 53.1 | 927.7 | 0.491 | 0.59 | 0.52 | 2.76 | 201.8 |
+| eprocess | adaptive | uniform (0.85, 0.50) | 0.000 ± 0.000 | 0.710 | 2.20 | 17.4 | 55.7 | 946.9 | 0.480 | 0.21 | 0.49 | 2.84 | 213.4 |
 | eprocess | adaptive | none | 0.000 ± 0.000 | 0.660 | 2.48 | 25.2 | 128.8 | 797.1 | 0.273 | 0.00 | 0.46 | 3.74 | 790.1 |
 
 ## Concurrent cascades: FDR control and harm-weighted e-BH (Theorem 4)
