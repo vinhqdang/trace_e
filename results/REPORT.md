@@ -110,6 +110,7 @@ The last three columns exclude outbreaks where only the source was infected at T
 
 | method | top1 | top3 | top5 | ed | rr | css | fit (s) | infer (s/inst) | top1 (n_inf>=2) | top5 (n_inf>=2) | ed (n_inf>=2) |
 |---|---|---|---|---|---|---|---|---|---|---|---|
+| jordan | 0.034 ± 0.003 | 0.038 | 0.045 | 2.045 | 0.037 |  | 0.0 | 0.42977 | 0.005 | 0.017 | 2.106 |
 | random | 0.033 ± 0.003 | 0.039 | 0.045 | 2.070 | 0.036 | 285.62 | 0.0 | 0.00203 | 0.004 | 0.016 | 2.132 |
 | degree | 0.033 ± 0.003 | 0.039 | 0.046 | 1.759 | 0.049 |  | 0.0 | 0.00215 | 0.004 | 0.017 | 1.811 |
 
@@ -325,6 +326,8 @@ Independent cascade streams, half benign (kappa=1 unless noted) and half harmful
 
 | detector | container | throttle (rho, frac) | FA | det | delay | harm@alarm | W@alarm | final harm | saved | benign loss | kappa MAE | detect ms | contain ms |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| eprocess | adaptive | hub (0.10, 0.30) | 0.003 ± 0.003 | 0.670 | 1.77 | 15.4 | 44.6 | 2494.1 | 0.455 | 0.95 | 0.47 | 2.82 | 309.0 |
+| eprocess | adaptive | random (0.10, 0.30) | 0.003 ± 0.003 | 0.677 | 1.90 | 16.7 | 52.1 | 2900.4 | 0.366 | 0.37 | 0.46 | 3.66 | 434.3 |
 | eprocess | adaptive | none | 0.000 ± 0.000 | 0.763 | 2.02 | 18.3 | 56.4 | 3273.8 | 0.285 | 0.00 | 0.44 | 2.80 | 415.9 |
 
 ## Concurrent cascades: FDR control and harm-weighted e-BH (Theorem 4)
