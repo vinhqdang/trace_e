@@ -248,3 +248,36 @@ class AdaptiveFrontier(Container):
         self.standing = [v for v in self.standing if v not in set(chosen)]
         self.spent += len(chosen)
         return chosen
+
+
+@register
+class OneShotGreedyBaselineProbs(OneShotGreedy):
+    """One-shot greedy that plans with the benign baseline p0 instead of the learned kappa_hat * p0."""
+
+    name = "greedy_p0"
+
+    def __init__(self, **kw):
+        kw["use_kappa"] = False
+        super().__init__(**kw)
+
+
+@register
+class AdaptiveFrontierBaselineProbs(AdaptiveFrontier):
+    """Adaptive frontier container planning with the baseline p0 (ablation of the learned kappa)."""
+
+    name = "adaptive_p0"
+
+    def __init__(self, **kw):
+        kw["use_kappa"] = False
+        super().__init__(**kw)
+
+
+@register
+class AdaptiveCommitAll(AdaptiveFrontier):
+    """Ablation: re-plans every round but commits the whole plan immediately (no deferral)."""
+
+    name = "adaptive_commit"
+
+    def __init__(self, **kw):
+        kw["commit_all"] = True
+        super().__init__(**kw)
