@@ -45,10 +45,27 @@ For each round $t=0,1,2,\dots$ while the cascade is alive and budget remains:
    greedily by saving per budget unit, recomputing the trees only on
    samples in which a chosen node was reachable. Output a plan
    $P_t$, $|P_t|\le b_t$.
-4. **Commit only what is exposed.** Let $X_t$ be the inactive unblocked
-   out-neighbours of $F_t$. Block $C_t=P_t\cap X_t$ now; carry the rest of
-   the budget over.
+4. **Commit only what is exposed, and only if waiting is dearer.** Let
+   $X_t$ be the inactive unblocked out-neighbours of $F_t$, $q_v$ the
+   probability that $v\in X_t$ is activated in the coming round
+   ($q_v=1-\prod_{u\in F_t}(1-p(u,v))$), $c_v$ the number of inactive
+   unblocked out-neighbours of $v$, and $\lambda_t$ the shadow price of a
+   budget unit (the smallest marginal saving among the picks of $P_t$; $0$
+   if the plan did not exhaust the budget). Block
+   $$C_t=\{v\in P_t\cap X_t:\ q_v\,(c_v+1/\lambda_t)\ \ge\ 1\}$$
+   now (*push-down rule*); every other planned node is left uncommitted and
+   the budget is carried over.
 5. **Observe** $N_{t+1}$ and go to 1.
+
+The push-down rule compares two ways of protecting what $v$ protects:
+spending one unit on $v$ now, or waiting one round and, if $v$ does
+activate (probability $q_v$), protecting its children instead at cost
+$c_v$ while losing $v$ itself (one node). Waiting costs $q_v c_v$ budget
+units and $q_v$ nodes in expectation; a budget unit is worth $\lambda_t$
+nodes; so waiting is preferable iff $q_v c_v+q_v/\lambda_t<1$. Without the
+rule ($C_t=P_t\cap X_t$) DEFER is exactly lazy commitment of the planner's
+solution (Lemma 1); with it DEFER can exploit the randomness of the next
+round, which is what the adaptivity gap of Theorem 2 is made of.
 
 When the planner is deterministic given the samples and no new information
 arrives, DEFER reduces to the one-shot planner's solution executed lazily
@@ -87,6 +104,19 @@ Induction over rounds gives the claim on the samples; concentration of the
 sample average (Xie et al. 2024, Theorem 2, applied per candidate plan) gives
 the expectation statement. $\square$
 
+**Lemma 2 (push-down is the myopic optimum).** Consider an exposed planned
+node $v$ whose children (its inactive out-neighbours) jointly protect the
+same set as $v$ minus $v$ itself, assume the children are exposed only
+through $v$, and value a budget unit at $\lambda$ nodes. Among the two
+policies "block $v$ now" and "block $v$'s children if and only if $v$
+activates", the second has smaller expected loss (nodes lost plus
+$\lambda$ times budget spent) iff $q_v(c_v+1/\lambda)<1$.
+
+*Proof.* Blocking now costs $\lambda$ and loses nothing of $v$'s set.
+Waiting loses $v$ (one node) and spends $c_v$ units with probability $q_v$,
+and nothing otherwise, while the protected set is the same in both branches
+by assumption: expected loss $q_v+\lambda q_vc_v$. Compare. $\square$
+
 **Theorem 2 (adaptivity gap is unbounded).** For every $\Delta\ge2$ and
 $p\in(0,1)$ there is an instance with maximum out-degree $\Delta$ on which
 the best one-shot solution with budget $1$ has expected spread at least
@@ -102,7 +132,9 @@ $a_i$ is activated, which happens with probability $p$: expected spread
 $\ge(\Delta p-p)L$. DEFER observes $N_1=\{a_i:\ (s,a_i)\text{ live}\}$ and
 blocks the first path node of one activated branch; if $k$ branches are
 active the spread is $(k-1)L+k$. Its expected spread is
-$\mathbb E[(k-1)^+]L+\Delta p\le(\Delta p-1+(1-p)^\Delta)L+\Delta p$. The
+$\mathbb E[(k-1)^+]L+\Delta p\le(\Delta p-1+(1-p)^\Delta)L+\Delta p$
+(DEFER's plan at round $0$ is a branch head $a_i$ with $q=p$, $c=1$ and
+$\lambda\approx pL$, so the push-down rule $p(1+1/(pL))<1$ defers it). The
 ratio of one-shot to DEFER is at least
 $\frac{(\Delta-1)p}{\Delta p-1+(1-p)^\Delta}$, which for $p\to0$ with
 $\Delta p=c$ fixed tends to $c/(c-1+e^{-c})$ and, for fixed $\Delta$ as
