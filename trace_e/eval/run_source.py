@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import multiprocessing as mp
 import os
 import time
 
@@ -28,6 +29,31 @@ from ..simulate import simulate_dataset
 from ..source import Context, get_detector, REGISTRY
 
 DEFAULT_METHODS = "random,degree,jordan,distance,rumor,netsleuth,dmp,sme,mcs,mlp,gcn"
+BATCH_METHODS = ("gcn", "gcn_skip", "mlp", "igcn")
+
+_WORKER_DET = None
+_WORKER_STATES = None
+
+
+def _worker_score(idx_chunk):
+    return np.stack([_WORKER_DET.score(_WORKER_STATES[i]) for i in idx_chunk])
+
+
+def score_all(det, states, n_jobs: int, min_parallel: int = 256):
+    """Score every test snapshot, in parallel for per-instance detectors (fork start method)."""
+    global _WORKER_DET, _WORKER_STATES
+    if det.name in BATCH_METHODS:
+        return det.score_batch(states)
+    n = len(states)
+    if n_jobs <= 1 or n < min_parallel or mp.get_start_method(allow_none=True) not in (None, "fork"):
+        return np.stack([det.score(states[i]) for i in range(n)])
+    _WORKER_DET, _WORKER_STATES = det, states
+    chunks = np.array_split(np.arange(n), n_jobs * 8)
+    ctx = mp.get_context("fork")
+    with ctx.Pool(n_jobs) as pool:
+        parts = pool.map(_worker_score, chunks)
+    _WORKER_DET = _WORKER_STATES = None
+    return np.concatenate(parts)
 
 
 def parse_args(argv=None):
@@ -118,16 +144,10 @@ def main(argv=None):
         rng = np.random.default_rng(args.seed)
         rows = []
         ti = time.time()
+        scores_all = score_all(det, test.states, args.n_jobs)
         with rl.instance_writer(name) as fh:
-            # batch scoring for methods that support it efficiently
-            if name in ("gcn", "gcn_skip", "mlp", "igcn"):
-                scores_all = det.score_batch(test.states)
-                get = lambda i: scores_all[i]  # noqa: E731
-            else:
-                get = lambda i: det.score(test.states[i])  # noqa: E731
             for i in range(len(test)):
-                sc = get(i)
-                r = evaluate_instance(ctx.g, sc, int(test.sources[i]), rng, det.probabilistic, resistance)
+                r = evaluate_instance(ctx.g, scores_all[i], int(test.sources[i]), rng, det.probabilistic, resistance)
                 r.update({"i": i, "source": int(test.sources[i]), "n_inf": int((test.states[i] != 0).sum())})
                 rows.append(r)
                 fh.write(json.dumps(r) + "\n")
