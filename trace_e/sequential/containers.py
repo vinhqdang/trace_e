@@ -15,6 +15,7 @@ import numpy as np
 
 from ..graphs import CSRGraph
 from ..metrics import bfs_distances
+from .dominators import dominator_greedy_plan
 
 CONTAINERS: dict[str, type] = {}
 
@@ -102,11 +103,20 @@ def reachable_candidates(g: CSRGraph, lives, sources, forbidden: np.ndarray, poo
 class Container:
     name = "base"
 
-    def __init__(self, seed: int = 0, n_samples: int = 100, pool: int = 300, use_kappa: bool = True, **kw):
+    def __init__(self, seed: int = 0, n_samples: int = 100, pool: int = 300, use_kappa: bool = True, planner: str = "dominator", **kw):
         self.seed = seed
         self.n_samples = n_samples
         self.pool = pool
         self.use_kappa = use_kappa
+        self.planner = planner  # "dominator" (exact gains, all candidates) or "celf" (sampled reach, candidate pool)
+
+    def plan(self, g, lives, sources, forbidden, budget):
+        if self.planner == "dominator":
+            return dominator_greedy_plan(g, lives, sources, forbidden, budget)
+        cands = reachable_candidates(g, lives, sources, forbidden, self.pool)
+        if len(cands) == 0:
+            return [], []
+        return lazy_greedy_plan(g, lives, sources, forbidden, budget, cands)
 
     def reset(self, budget: int):
         self.budget = budget
@@ -145,9 +155,7 @@ class OneShotGreedy(Container):
         if self.spent >= self.budget or self.calls > 1:
             return []
         g, lives = self._samples(ep, kappa_hat)
-        forb = self._forbidden(ep)
-        cands = reachable_candidates(g, lives, ep.frontier, forb, self.pool)
-        plan, _ = lazy_greedy_plan(g, lives, ep.frontier, forb, self.budget - self.spent, cands)
+        plan, _ = self.plan(g, lives, ep.frontier, self._forbidden(ep), self.budget - self.spent)
         self.spent += len(plan)
         return plan
 
@@ -214,11 +222,9 @@ class AdaptiveFrontier(Container):
         if left <= 0 or len(ep.frontier) == 0 or self.calls > self.max_rounds:
             return []
         g, lives = self._samples(ep, kappa_hat)
-        forb = self._forbidden(ep)
-        cands = reachable_candidates(g, lives, ep.frontier, forb, self.pool)
-        if len(cands) == 0:
+        plan, gains = self.plan(g, lives, ep.frontier, self._forbidden(ep), left)
+        if not plan:
             return []
-        plan, gains = lazy_greedy_plan(g, lives, ep.frontier, forb, left, cands)
         if self.commit_all:
             chosen = plan
         else:

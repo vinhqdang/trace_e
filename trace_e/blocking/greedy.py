@@ -145,3 +145,26 @@ class GreedyBlocker(Blocker):
             new_gain = -(cur - self._objective(lives, bad_seeds, chosen + [v]))
             heapq.heappush(heap, (new_gain, v, len(chosen)))
         return chosen
+
+
+@register
+class DominatorGreedyBlocker(Blocker):
+    """Greedy vertex blocking with exact per-sample marginal gains via dominator trees
+    (AdvancedGreedy-style, Xie et al. 2023). Block mode only; all reachable nodes are candidates."""
+
+    name = "greedy_dom"
+
+    def __init__(self, ctx, n_samples: int = 200, **params):
+        super().__init__(ctx, **params)
+        self.n_samples = n_samples
+
+    def select(self, bad_seeds, budget):
+        from ..sequential.dominators import dominator_greedy_plan
+        if self.ctx.mode != "block":
+            raise ValueError("greedy_dom supports block mode only")
+        g = self.ctx.g
+        rng = np.random.default_rng(self.ctx.seed + 17)
+        lives = [rng.random(len(g.indices)) < g.weights for _ in range(self.n_samples)]
+        forb = np.zeros(g.n, dtype=bool)
+        plan, _ = dominator_greedy_plan(g, lives, [int(s) for s in bad_seeds], forb, budget)
+        return plan

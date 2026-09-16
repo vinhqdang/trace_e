@@ -3,7 +3,7 @@
 set -uo pipefail
 cd "$(dirname "$0")/.."
 NETWORKS=${NETWORKS:-"cagrqc highschool2013 powergrid cahepth ba:2000:m=2"}
-COMMON=${COMMON:-"--prob-model wc --n-seeds 3 --budget 10 --n-benign 300 --n-harmful 300 --n-calib 300 --samples 50 --pool 200"}
+COMMON=${COMMON:-"--prob-model wc --n-seeds 3 --budget 10 --kappa-min 1.5 --kappa-max 4 --n-benign 300 --n-harmful 300 --n-calib 300 --samples 50"}
 PUSH=${PUSH:-1}
 run() {
   python3 -m trace_e.eval.run_sequential "$@"

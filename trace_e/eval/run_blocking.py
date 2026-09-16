@@ -29,7 +29,7 @@ from ..logging_utils import RunLogger, RESULTS_DIR
 from ..blocking import BlockingContext, get_blocker, REGISTRY
 from ..blocking.cascade import estimate_bad_spread
 
-DEFAULT_METHODS = "random,degree,pagerank,proximity,reach,greedy"
+DEFAULT_METHODS = "random,degree,pagerank,proximity,reach,greedy,greedy_dom"
 
 
 def parse_args(argv=None):
@@ -57,6 +57,8 @@ def parse_args(argv=None):
 def main(argv=None):
     args = parse_args(argv)
     methods = [m.strip() for m in args.methods.split(",") if m.strip()]
+    if args.mode == "counter":
+        methods = [m for m in methods if m != "greedy_dom"]
     unknown = [m for m in methods if m not in REGISTRY]
     if unknown:
         raise SystemExit(f"unknown methods {unknown}; available: {sorted(REGISTRY)}")
@@ -82,7 +84,7 @@ def main(argv=None):
 
     blockers = {}
     for name in methods:
-        kw = {"n_samples": args.greedy_samples, "candidate_pool": args.greedy_pool} if name in ("greedy", "proposed") else {}
+        kw = {"n_samples": args.greedy_samples, "candidate_pool": args.greedy_pool} if name in ("greedy", "proposed") else ({"n_samples": args.greedy_samples} if name == "greedy_dom" else {})
         b = get_blocker(name, ctx, **kw)
         tp = time.time()
         b.prepare()

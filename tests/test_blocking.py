@@ -44,3 +44,15 @@ def test_all_blockers_reduce_spread():
     after_g = estimate_bad_spread(ctx.g, seeds, greedy.select(seeds, 3), "block", 400, seed=5)
     after_r = estimate_bad_spread(ctx.g, seeds, get_blocker("random", ctx).select(seeds, 3), "block", 400, seed=5)
     assert after_g <= after_r
+
+
+def test_dominator_greedy_matches_or_beats_celf_on_samples():
+    G = load_network("dolphin")
+    ctx = BlockingContext.from_graph(G, prob_model="const", p=0.3, mode="block", seed=0)
+    seeds = np.array([0, 5])
+    a = get_blocker("greedy_dom", ctx, n_samples=100).select(seeds, 4)
+    b = get_blocker("greedy", ctx, n_samples=100).select(seeds, 4)
+    assert len(a) == 4 and len(set(a)) == 4 and not set(a) & set(seeds.tolist())
+    sa = estimate_bad_spread(ctx.g, seeds, a, "block", 500, seed=3)
+    sb = estimate_bad_spread(ctx.g, seeds, b, "block", 500, seed=3)
+    assert sa <= sb * 1.1 + 1
