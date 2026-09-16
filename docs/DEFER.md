@@ -72,6 +72,22 @@ arrives, DEFER reduces to the one-shot planner's solution executed lazily
 (Lemma 1). The two ablations used in the experiments are COMMIT (same loop
 but block all of $P_t$ in step 4) and the one-shot planners themselves.
 
+### 2.1 DEFER as a wrapper
+
+In the benchmark DEFER is run as a wrapper around the published one-shot
+algorithm it is compared with: the round-0 plan *is* AdvancedGreedy's
+solution (or GreedyReplace's), so Lemma 1 makes the two identical whenever
+no planned node is deferred and no re-plan is adopted, and every difference
+in the tables is attributable to adaptivity alone. Re-planning replaces the
+uncommitted leftover only when the new plan beats it on a held-out sample
+set by more than one standard error, which removes the winner's-curse churn
+that a comparison on the planning samples produces. Under the weighted
+cascade model on the SNAP graphs the push-down rule rarely fires
+($q_v$ is $1/\mathrm{indeg}(v)$, large for the low-degree targets that make
+up most plans) and DEFER coincides with AdvancedGreedy; under constant low
+activation probabilities it defers and improves on it (see
+`docs/RESULTS_NOTES.md`).
+
 ## 3. Analysis
 
 **Lemma 1 (deferral is free).** Fix a live-edge realisation, the seeds and

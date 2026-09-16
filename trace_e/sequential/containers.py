@@ -124,13 +124,20 @@ class Container:
             if len(B) < budget:
                 advanced_greedy(S, budget - len(B))
                 B = [v for v in S.blocked if v not in B0]
-            # plan protection (Theorem 1): keep the previous plan's leftover unless the new plan is better on these samples
+            # plan protection (Theorem 1): keep the previous plan's leftover unless the new plan is better on a
+            # held-out sample set (evaluating on the planning samples would favour the plan optimised on them)
             if leftover:
                 old = [v for v in leftover if not forbidden[v]][:budget]
                 if old:
-                    S.forbidden[:] = forbidden
-                    S.blocked = []
-                    if S.evaluate(old) <= S.evaluate(B):
+                    rng = np.random.default_rng(self.seed + 424242 + 977 * self.calls)
+                    E = SampleSet(g, sources, len(lives), rng, forbidden=forbidden)
+                    from ..sequential.containers import reach_count as _rc
+                    fo, fn = forbidden.copy(), forbidden.copy()
+                    fo[old] = True
+                    fn[B] = True
+                    d = np.array([_rc(g, lv, sources, fn) - _rc(g, lv, sources, fo) for lv in E.lives], dtype=float)
+                    se = d.std(ddof=1) / np.sqrt(len(d)) if len(d) > 1 else 0.0
+                    if d.mean() > -se:  # new plan not significantly better: keep the old one
                         B = old
             gains = sorted((float(gvals[v]) for v in B), reverse=True)
             return B, gains
@@ -234,9 +241,14 @@ class AdaptiveFrontier(Container):
 
     name = "adaptive"
 
-    def __init__(self, commit_all: bool = False, max_rounds: int = 50, replan_every: int = 1, pushdown: bool = True, **kw):
+    def __init__(self, commit_all: bool = False, max_rounds: int = 50, replan_every: int = 1, pushdown: bool = True,
+                 initial_plan=None, **kw):
         kw.setdefault("planner", "imin:ag")
         super().__init__(**kw)
+        # DEFER can wrap a published one-shot algorithm: its solution is the round-0 plan (Theorem 1 then compares
+        # like with like), and re-planning only ever replaces the uncommitted leftover when a held-out evaluation
+        # shows a significant improvement
+        self.initial_plan = list(initial_plan) if initial_plan is not None else None
         self.commit_all = commit_all
         self.max_rounds = max_rounds
         self.replan_every = replan_every  # re-plan every k rounds; in between, commit exposed nodes of the standing plan
@@ -248,6 +260,7 @@ class AdaptiveFrontier(Container):
     def reset(self, budget):
         super().reset(budget)
         self.standing = []
+        self.shadow = 0.0
 
     def act(self, ep, kappa_hat):
         self.calls += 1
@@ -257,7 +270,17 @@ class AdaptiveFrontier(Container):
         g = ep.g
         forb = self._forbidden(ep)
         self.standing = [v for v in self.standing if not forb[v]]
-        need_plan = (self.calls - 1) % self.replan_every == 0 or not self.standing
+        if self.calls == 1 and self.initial_plan is not None and not self.commit_all:
+            self.standing = [v for v in self.initial_plan if not forb[v]][:left]
+            gs, lives = self._samples(ep, kappa_hat)
+            from ..blocking.imin import SampleSet
+            S = SampleSet(gs, ep.frontier, len(lives), np.random.default_rng(0), forbidden=forb, lives=lives)
+            S.refresh()
+            gv = S.single_gains()
+            self.shadow = float(min(gv[v] for v in self.standing)) if len(self.standing) >= left and self.standing else 0.0
+            need_plan = False
+        else:
+            need_plan = (self.calls - 1) % self.replan_every == 0 or not self.standing
         if need_plan:
             gs, lives = self._samples(ep, kappa_hat)
             plan, gains = self.plan(gs, lives, ep.frontier, forb, left, leftover=self.standing)

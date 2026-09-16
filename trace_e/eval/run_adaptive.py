@@ -82,17 +82,22 @@ def _episode(task):
         used = len(ep.block(B))
     else:
         kw = dict(n_samples=_G["theta"], horizon=0, replan_every=1, seed=ep_seed)
-        if policy in ("defer", "defer_ag"):
-            con = get_container("adaptive", planner="imin:ag", **kw)
+        plans = _G["plans"]
+        ag_plan = plans.get((inst, "ag", budget))
+        gr_plan = plans.get((inst, "gr", budget))
+        if policy in ("defer", "defer_ag"):  # DEFER wrapping AdvancedGreedy's own solution
+            con = get_container("adaptive", planner="imin:ag", initial_plan=ag_plan, **kw)
         elif policy == "defer_nopush":
-            con = get_container("adaptive", planner="imin:ag", pushdown=False, **kw)
+            con = get_container("adaptive", planner="imin:ag", initial_plan=ag_plan, pushdown=False, **kw)
+        elif policy == "defer_fresh":  # own round-0 plan from the container's samples
+            con = get_container("adaptive", planner="imin:ag", **kw)
         elif policy == "defer_cut":
-            con = get_container("adaptive", planner="dominator", **kw)
+            con = get_container("adaptive", planner="dominator", initial_plan=plans.get((inst, "isocut", budget)), **kw)
         elif policy == "defer_gr":
-            con = get_container("adaptive", planner="imin:gr", **kw)
+            con = get_container("adaptive", planner="imin:gr", initial_plan=gr_plan, **kw)
         elif policy == "defer_gr_nopush":
-            con = get_container("adaptive", planner="imin:gr", pushdown=False, **kw)
-        elif policy == "commit":
+            con = get_container("adaptive", planner="imin:gr", initial_plan=gr_plan, pushdown=False, **kw)
+        elif policy == "commit":  # ablation: fresh plan every round, committed in full (no deferral, no protection)
             con = get_container("adaptive_commit", planner="imin:ag", **kw)
         elif policy == "defer_h4":
             kw["horizon"] = 4
@@ -133,11 +138,20 @@ def main(argv=None):
             instances.append(np.sort(rng.choice(elig, size=args.n_seeds, replace=False)))
     budgets = [int(b) for b in args.budgets.split(",")]
     policies = [p for p in args.policies.split(",") if p]
+    # adaptive wrappers need the one-shot plans they start from
+    need = set()
+    if any(p in ("defer", "defer_ag", "defer_nopush", "commit") for p in policies):
+        need.add("ag")
+    if any(p.startswith("defer_gr") for p in policies):
+        need.add("gr")
+    if "defer_cut" in policies:
+        need.add("isocut")
+    plan_only = sorted(need - set(policies))
     # one-shot plans (computed once per instance and budget)
     plans = {}
     plan_time = {}
     for i, seeds in enumerate(instances):
-        for pol in policies:
+        for pol in policies + plan_only:
             if pol in ONE_SHOT:
                 for b in budgets:
                     B, info = run_algorithm(pol, g, seeds, b, theta=args.theta, seed=args.seed + i)
