@@ -122,6 +122,25 @@ count, selection time; one summary row per (network, mode, method, budget) in
 
 `scripts/run_blocking_all.sh` runs both modes on the network suite.
 
+## Adaptive influence minimisation: DEFER
+
+`docs/DEFER.md` specifies DEFER, an adaptive vertex-blocking algorithm for
+the classic influence minimisation problem: plan on the current frontier
+with dominator-tree pricing, commit budget only to planned nodes that are
+exposed now (and, by the push-down rule, only when protecting them later
+would be dearer than one budget unit), observe the next round, re-plan.
+It comes with a deferral lemma (lazy commitment never changes the outcome),
+an unbounded adaptivity-gap theorem, weak dominance over the one-shot planner
+it wraps, and a complexity bound. `trace_e/blocking/imin.py` re-implements
+AdvancedGreedy, GreedyReplace and the SandIMIN lower-bound greedy on a shared
+sample set; `trace_e/eval/run_adaptive.py` runs all policies on the same
+realisations:
+
+```
+python -m trace_e.eval.run_adaptive --network cahepth --prob-model const --p 0.1 --n-seeds 20 --budgets 20,50,100
+scripts/run_adaptive_all.sh
+```
+
 ## Problem C: sequential detect-and-contain (AVID)
 
 `docs/METHOD.md` specifies the proposed method, AVID (anytime-valid
