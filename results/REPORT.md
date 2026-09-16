@@ -90,6 +90,7 @@ The last three columns exclude outbreaks where only the source was infected at T
 
 | method | top1 | top3 | top5 | ed | rr | css | fit (s) | infer (s/inst) | top1 (n_inf>=2) | top5 (n_inf>=2) | ed (n_inf>=2) |
 |---|---|---|---|---|---|---|---|---|---|---|---|
+| netsleuth | 0.076 ± 0.003 | 0.099 | 0.121 | 1.913 | 0.120 |  | 0.0 | 0.08140 | 0.016 | 0.063 | 2.038 |
 | random | 0.074 ± 0.003 | 0.092 | 0.118 | 1.810 | 0.083 | 76.88 | 0.0 | 0.00050 | 0.014 | 0.060 | 1.928 |
 | jordan | 0.074 ± 0.003 | 0.096 | 0.116 | 1.519 | 0.097 |  | 0.0 | 0.00620 | 0.013 | 0.058 | 1.618 |
 | degree | 0.073 ± 0.003 | 0.096 | 0.117 | 1.401 | 0.117 |  | 0.0 | 0.00046 | 0.013 | 0.060 | 1.492 |
@@ -255,6 +256,24 @@ Independent cascade with weighted-cascade probabilities unless noted. saved = 1 
 | degree | 0.026 ± 0.027 | 0.030 ± 0.024 | 0.025 ± 0.024 | 0.071 ± 0.033 | 0.000 |
 | pagerank | 0.002 ± 0.011 | 0.009 ± 0.008 | 0.030 ± 0.022 | 0.056 ± 0.033 | 0.000 |
 | random | 0.013 ± 0.009 | -0.003 ± 0.011 | 0.003 ± 0.012 | 0.008 ± 0.011 | 0.000 |
+
+## Problem C: sequential detect-and-contain (AVID vs baselines)
+
+Independent cascade streams, half benign (kappa=1 unless noted) and half harmful (kappa log-uniform in [kappa_min, kappa_max]). FA = fraction of benign cascades acted on (target <= alpha); det = fraction of harmful cascades acted on; delay in rounds; harm@alarm = bad nodes when the detector fires; saved = 1 - final harmful spread / no-intervention spread; benign loss = activations suppressed on benign cascades. Latest run per configuration.
+
+### cagrqc / main  (alpha=0.05, budget=10, seeds=3, calib seeds=3, benign kappa >= 1.0, harmful kappa in [1.5, 4.0], prob=wc, 300 benign / 300 harmful)
+
+| detector | container | FA | det | delay | harm@alarm | final harm | saved | benign loss | kappa MAE | detect ms | contain ms |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| eprocess | none | 0.007 ± 0.005 | 0.790 | 2.14 | 17.7 | 1818.8 | 0.000 | 0.00 | 0.45 | 1.70 | 0.0 |
+| sprt | none | 0.013 ± 0.007 | 0.773 | 1.91 | 15.7 | 1818.8 | 0.000 | 0.00 | 0.78 | 0.76 | 0.0 |
+| cusum | none | 0.050 ± 0.013 | 0.827 | 1.65 | 13.2 | 1818.8 | 0.000 | 0.00 | 0.76 | 0.76 | 0.1 |
+| size | none | 0.040 ± 0.011 | 0.700 | 3.73 | 38.2 | 1818.8 | 0.000 | 0.00 | 1.70 | 0.64 | 0.0 |
+| growth | none | 0.027 ± 0.009 | 0.667 | 3.11 | 28.1 | 1818.8 | 0.000 | 0.00 | 1.72 | 0.51 | 0.1 |
+| excess | none | 0.040 ± 0.011 | 0.803 | 1.79 | 13.9 | 1818.8 | 0.000 | 0.00 | 1.66 | 0.49 | 0.0 |
+| logistic | none | 0.037 ± 0.011 | 0.800 | 1.77 | 14.5 | 1818.8 | 0.000 | 0.00 | 1.67 | 1.87 | 0.0 |
+| never | none | 0.000 ± 0.000 | 0.000 |  |  | 1818.8 | 0.000 | 0.00 |  | 4.73 | 0.0 |
+| immediate | none | 1.000 ± 0.000 | 1.000 | 1.00 | 8.9 | 1818.8 | 0.000 | 0.00 | 1.52 | 0.24 | 0.1 |
 
 ## Theory checks (Theorems 1 and 2)
 
