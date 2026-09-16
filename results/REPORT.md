@@ -453,3 +453,20 @@ Harm at alarm (bad nodes beyond the seeds when the e-process crosses 1/alpha, al
 | 4.0 | 0.950 | 11.1 | 9 | 1.7 | 9.8 | 3607.9 |
 | 6.0 | 1.000 | 11.0 | 9 | 1.3 | 6.2 | 3997.0 |
 
+### powergrid (wc, 3 seeds, 600 benign cascades per null, grid size 10)
+
+False-alarm rate of the e-process (must be <= alpha):
+
+| null | alpha=0.2 | alpha=0.1 | alpha=0.05 | alpha=0.02 | alpha=0.01 | alpha=0.005 |
+|---|---|---|---|---|---|---|
+| kappa=1 | 0.0233 | 0.0067 | 0.0067 | 0.0050 | 0.0000 | 0.0000 |
+| kappa~U[0.5,1] | 0.0050 | 0.0033 | 0.0033 | 0.0000 | 0.0000 | 0.0000 |
+
+Harm at alarm (bad nodes beyond the seeds when the e-process crosses 1/alpha, alpha=0.05) against the Theorem 2 bounds:
+
+| kappa | detected | mean harm@alarm | median | lower bound (any valid rule) | upper bound (no overshoot) | final spread w/o intervention |
+|---|---|---|---|---|---|---|
+| 2.0 | 0.860 | 14.0 | 13 | 3.3 | 32.1 | 212.2 |
+| 3.0 | 1.000 | 8.9 | 8 | 2.1 | 13.3 | 4104.4 |
+| 4.0 | 1.000 | 8.5 | 8 | 1.7 | 9.8 | 4804.3 |
+
