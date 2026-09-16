@@ -281,7 +281,9 @@ Independent cascade streams, half benign (kappa=1 unless noted) and half harmful
 
 | detector | container | throttle (rho, frac) | FA | det | delay | harm@alarm | W@alarm | final harm | saved | benign loss | kappa MAE | detect ms | contain ms |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| eprocess | adaptive | hub (0.10, 0.50) | 0.000 ± 0.000 | 0.573 | 1.78 | 14.4 | 54.2 | 601.0 | 0.670 | 0.93 | 0.56 | 2.02 | 107.3 |
 | eprocess | adaptive | hub (0.10, 0.30) | 0.000 ± 0.000 | 0.627 | 1.95 | 15.5 | 56.8 | 670.0 | 0.632 | 0.67 | 0.54 | 2.60 | 116.8 |
+| eprocess | adaptive | random (0.10, 0.50) | 0.007 ± 0.005 | 0.623 | 2.00 | 14.8 | 59.0 | 774.0 | 0.575 | 0.81 | 0.52 | 2.29 | 129.8 |
 | eprocess | adaptive | random (0.10, 0.30) | 0.000 ± 0.000 | 0.663 | 2.08 | 16.0 | 62.4 | 828.3 | 0.546 | 0.69 | 0.50 | 2.75 | 148.9 |
 | eprocess | adaptive | none | 0.000 ± 0.000 | 0.730 | 2.17 | 17.7 |  | 962.7 | 0.472 | 0.00 | 0.48 | 2.20 | 169.8 |
 
