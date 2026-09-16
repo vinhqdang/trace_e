@@ -43,6 +43,7 @@ class Blocker:
         return None
 
     def select(self, bad_seeds: np.ndarray, budget: int) -> list[int]:
+        """Return an ordered list of ``budget`` nodes; prefixes must be valid solutions for smaller budgets."""
         raise NotImplementedError
 
 

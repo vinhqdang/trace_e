@@ -85,10 +85,11 @@ def _bad_count_counter(g: CSRGraph, live: np.ndarray, bad_seeds, good_seeds, goo
 class GreedyBlocker(Blocker):
     name = "greedy"
 
-    def __init__(self, ctx, n_samples: int = 200, candidate_pool: int = 0, **params):
+    def __init__(self, ctx, n_samples: int = 200, candidate_pool: int = 0, pool_weight: str = "reach", **params):
         super().__init__(ctx, **params)
         self.n_samples = n_samples
         self.candidate_pool = candidate_pool  # 0 = all reachable nodes
+        self.pool_weight = pool_weight  # "reach" or "reach_deg"
 
     def _samples(self, bad_seeds):
         rng = np.random.default_rng(self.ctx.seed + 17)
@@ -108,8 +109,9 @@ class GreedyBlocker(Blocker):
         g = self.ctx.g
         lives = self._samples(bad_seeds)
         base = self._objective(lives, bad_seeds, [])
-        # candidate set: nodes reachable from the seeds in at least one sample (others have zero gain)
-        reach = np.zeros(g.n, dtype=bool)
+        # candidate set: nodes reachable from the seeds in at least one sample (others have zero gain);
+        # if a pool size is given, keep the nodes most often reached, weighted by degree
+        reach = np.zeros(g.n, dtype=np.int64)
         blocked0 = np.zeros(g.n, dtype=bool)
         for lv in lives:
             seen = blocked0.copy()
@@ -123,12 +125,12 @@ class GreedyBlocker(Blocker):
                     if ok and not seen[v]:
                         seen[v] = True
                         q.append(int(v))
-            reach |= seen
-        reach[list(bad_seeds)] = False
-        cands = np.flatnonzero(reach)
+            reach += seen
+        reach[list(bad_seeds)] = 0
+        cands = np.flatnonzero(reach > 0)
         if self.candidate_pool and len(cands) > self.candidate_pool:
-            deg = g.degree()
-            cands = cands[np.argsort(-deg[cands])[: self.candidate_pool]]
+            score = reach[cands] * (1 + g.degree()[cands]) if self.pool_weight == "reach_deg" else reach[cands].astype(float)
+            cands = cands[np.argsort(-score, kind="stable")[: self.candidate_pool]]
         chosen: list[int] = []
         cur = base
         # CELF lazy greedy

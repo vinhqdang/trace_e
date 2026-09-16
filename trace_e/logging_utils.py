@@ -89,3 +89,14 @@ class RunLogger:
 
     def finish(self):
         self.log.info("run %s finished in %.1fs", self.run_id, time.time() - self.t0)
+
+
+def append_csv(path: str, row: dict, columns: list[str]):
+    """Append one row to a CSV with a fixed column set (header written on first use)."""
+    row = {k: row.get(k, "") for k in columns}
+    new = not os.path.exists(path)
+    with open(path, "a", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=columns)
+        if new:
+            w.writeheader()
+        w.writerow(row)

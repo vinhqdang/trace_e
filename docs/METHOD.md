@@ -75,25 +75,28 @@ give a transmissibility estimate $\hat\kappa_t=\sum_j\pi_{t,j}\kappa_j$.
 ### 2.2 Containment at and after $\tau_\alpha$: adaptive frontier blocking
 
 At $\tau=\tau_\alpha$ the active set $A_\tau$ and the frontier $N_\tau$ are
-known. Rather than spending the budget in one shot on a static instance,
-AVID spends it adaptively: at every round $t\ge\tau$ with remaining budget
-$b_t$, it re-optimises on the *current* state using the *learned*
-transmissibility:
+known. Only the frontier spreads further under IC, and a node at graph
+distance $\ge 2$ from the frontier cannot activate in the next round. AVID
+therefore never commits budget to a node before it is *exposed*:
 
-1. Sample $L$ live-edge graphs from the IC model with $p=\hat\kappa_t p_0$ in
-   which only edges out of nodes reachable from $N_t$ matter.
-2. Compute, for every candidate (an inactive node reachable from $N_t$ in
-   at least one sample), the exact per-sample marginal saving of blocking
-   it; choose a set of size $k_t\le b_t$ by lazy greedy on the sample
-   average, where $k_t$ is the smallest prefix capturing a $(1-\epsilon)$
-   fraction of the best achievable saving with $b_t$ nodes (the remainder
-   is deferred to later rounds, when more of the cascade has been observed).
-3. Apply the block, observe $N_{t+1}$, repeat until the cascade dies or the
+1. **Plan.** Sample $L$ live-edge graphs from the IC model with
+   $p=\hat\kappa_t p_0$ (the learned transmissibility, not the benign
+   baseline); candidates are inactive nodes reachable from $N_t$ in at least
+   one sample. Run lazy greedy on the sample-average number of nodes the
+   frontier can still reach, with the remaining budget $b_t$, to obtain a
+   plan $P_t$ and its marginal gains.
+2. **Commit.** Intervene now only on $P_t\cap X_{t+1}$, the planned nodes
+   that are exposed to the current frontier; carry the rest of the budget
+   over.
+3. **Observe** $N_{t+1}$ and repeat from step 1 until the cascade dies or the
    budget is exhausted.
 
-In counter mode the same loop seeds the competing campaign. When $\epsilon=0$
-and $L\to\infty$ the first iteration coincides with one-shot greedy, so
-one-shot is a special case.
+The first plan coincides with one-shot greedy on the instance
+"seeds $=N_\tau$"; deferring the non-exposed part of the plan loses nothing
+(those nodes can still be blocked before their first activation trial) and
+lets every later plan use the realised activations. In counter mode the same
+loop places good seeds; an exposed node seeded with the good campaign is
+protected immediately because the good campaign wins ties.
 
 ### 2.3 Streams: harm-weighted e-BH
 
@@ -207,33 +210,35 @@ $\kappa_{\min}$ and $\kappa_{\max}$, $J=\lceil\log(\kappa_{\max}/\kappa_{\min})/
 and uniform $w_j=1/J$, the price of not knowing $\kappa$ is the additive
 $\log J$ term.
 
-**Theorem 3 (adaptive containment weakly dominates one-shot).** Fix the
-total budget $b$ and let $\mathrm{OPT}_1(s)$ be the minimum expected final
-harm achievable by any one-shot intervention of size $b$ chosen at state $s$,
-and $\mathrm{OPT}_{\mathrm{ad}}(s)$ the minimum over adaptive policies that may
-split the budget across rounds and observe activations in between. Then
-$\mathrm{OPT}_{\mathrm{ad}}(s)\le\mathrm{OPT}_1(s)$, and the adaptive
-re-optimising policy of Section 2.2 with exact per-round optimisation
-achieves $\mathrm{OPT}_{\mathrm{ad}}$ under full-adoption feedback when the
-per-round objective is evaluated on the true posterior over live-edge
-graphs. Moreover, in counter mode, one-shot lazy greedy at $\tau$ attains a
-$(1-1/e-\epsilon)$ fraction of the maximum expected saving (Budak et al.
-2011: the saving is monotone submodular under the campaign-oblivious IC
-model), so the first iteration of AVID inherits that guarantee and every
-further iteration can only lower the expected harm.
+**Theorem 3 (deferred commitment weakly dominates one-shot).** Fix the
+state at $\tau$ and the budget $b$. Let $P$ be any one-shot intervention set
+of size $b$ and let $\pi_P$ be the deferred policy that, in every round
+$t\ge\tau$, intervenes exactly on the not-yet-committed nodes of $P$ that
+are exposed to the current frontier. Then, on every live-edge realisation,
+$\pi_P$ produces the same final bad set as committing $P$ at $\tau$, while
+using at most as much budget. Consequently the plan-commit-observe loop of
+Section 2.2, which re-optimises the uncommitted budget with the realised
+activations, has expected final harm at most that of the one-shot plan it
+starts from, whenever the per-round re-optimisation returns a plan at least
+as good (on the sample average) as the leftover of the previous plan; in
+counter mode the first plan attains a $(1-1/e-\epsilon)$ fraction of the
+optimal expected saving (Budak et al. 2011), which the loop inherits.
 
-*Proof.* The one-shot policy is an element of the adaptive policy class
-(spend everything at the first round), which gives the first inequality. A
-re-optimising policy that, at each round, chooses the action minimising the
-conditional expectation of final harm given the observed state and the
-option value of deferring is Bellman-optimal by definition; the per-round
-problem is finite and its exact solution is the Bellman step. For the
-counter-mode statement, at $\tau$ the objective of the first iteration is
-exactly the Budak et al. objective with seeds $A_\tau$ and the live-edge
-sample average is an unbiased estimate; standard concentration gives the
-$\epsilon$ term. Subsequent rounds start from a state whose value is at most
-the value of doing nothing further, so the expected harm is nonincreasing
-in the number of iterations. $\square$
+*Proof.* Under IC on a fixed live-edge graph, a node $v$ becomes bad in the
+first round in which some bad frontier node has a live edge into it, i.e.
+in the round after it is first exposed to the bad frontier. $\pi_P$ blocks
+(or good-seeds) every $v\in P$ in the round in which $v$ first becomes
+exposed, before that round's activation trials, so $v$ never becomes bad;
+nodes outside $P$ see the same set of blocked nodes at the time of each of
+their trials under both policies, because a node of $P$ that is never
+exposed never influences any trial. Hence the sequences of bad activations
+coincide round by round; nodes of $P$ that are never exposed are never
+committed, so $\pi_P$ spends at most $b$. For the loop, at each round the
+leftover of the current plan is a feasible plan for the uncommitted budget;
+choosing a plan with no worse sample-average objective yields a policy whose
+per-realisation harm is no worse than that of $\pi_P$ in expectation over
+the samples, and the argument iterates. The counter-mode guarantee is the
+Budak et al. result applied to the instance with seeds $N_\tau$. $\square$
 
 **Theorem 4 (FDR control across concurrent cascades).** At any (possibly
 data-dependent) time $T$, the set of cascades on which harm-weighted e-BH

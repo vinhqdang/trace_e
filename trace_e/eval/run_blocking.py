@@ -44,6 +44,7 @@ def parse_args(argv=None):
     p.add_argument("--n-instances", type=int, default=20)
     p.add_argument("--n-mc", type=int, default=1000, help="Monte-Carlo cascades for the final evaluation")
     p.add_argument("--greedy-samples", type=int, default=200)
+    p.add_argument("--greedy-pool", type=int, default=0, help="restrict greedy candidates to the top-k reachable nodes by degree (0 = all)")
     p.add_argument("--good-delay", type=int, default=0)
     p.add_argument("--seed", type=int, default=1)
     p.add_argument("--n-jobs", type=int, default=max(1, os.cpu_count() or 1))
@@ -81,7 +82,7 @@ def main(argv=None):
 
     blockers = {}
     for name in methods:
-        kw = {"n_samples": args.greedy_samples} if name in ("greedy",) else {}
+        kw = {"n_samples": args.greedy_samples, "candidate_pool": args.greedy_pool} if name in ("greedy", "proposed") else {}
         b = get_blocker(name, ctx, **kw)
         tp = time.time()
         b.prepare()
@@ -93,10 +94,12 @@ def main(argv=None):
         rows_by_budget = {k: [] for k in budgets}
         with rl.instance_writer(name) as fh:
             for i, seeds in enumerate(instances):
+                # every blocker returns a ranking whose prefixes are its solutions for smaller budgets
+                ts = time.time()
+                chosen_max = blk.select(seeds, max(budgets))
+                sel_time = time.time() - ts
                 for k in budgets:
-                    ts = time.time()
-                    chosen = blk.select(seeds, k)
-                    sel_time = time.time() - ts
+                    chosen = chosen_max[:k]
                     after = estimate_bad_spread(ctx.g, seeds, chosen, ctx.mode, args.n_mc, seed=args.seed + 1000 + i, good_delay=args.good_delay)
                     r = {"i": i, "budget": k, "seeds": [int(x) for x in seeds], "chosen": [int(x) for x in chosen],
                          "base": float(base[i]), "after": float(after), "saved_frac": float(1 - after / base[i]) if base[i] > 0 else 0.0,
