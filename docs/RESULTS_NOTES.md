@@ -116,3 +116,36 @@ instance (0.61 vs 0.69 at budget 20), which is the non-submodular
 
 Both e-BH variants keep the false discovery proportion under alpha; the
 harm weights add 3-10 points of saved fraction at no cost in FDP.
+
+## One-shot IMIN: what was tried against AdvancedGreedy / GreedyReplace (2026-09-16, evening)
+
+All on ca-HepTh and ca-GrQc, constant p = 0.1, 20 random seeds, budget 20;
+quality = spread on 300 *fresh* live-edge realisations divided by the
+no-intervention spread (lower is better), averaged over 3 instances.
+
+| method | ca-HepTh | ca-GrQc | note |
+|---|---|---|---|
+| AG, theta = 100 | 0.477 | 0.432 | |
+| AG, theta = 300 | 0.358 | 0.427 | |
+| AG, theta = 1000 | 0.328 | 0.422 | |
+| GR, theta = 300 | 0.358 | 0.415 | |
+| SWAP (1-swap local search from AG) | = AG or worse (overfits the samples) | | |
+| LCB greedy (mean − s.e.) | worse than AG | | |
+| cross-validated greedy | worse than AG | | |
+| bagged AG (5 x 60, 10 x 30) | = AG at equal total samples | | |
+| ISOCUT / CUTGREEDY (isolation and min-cut group moves) | = AG (moves never win by ratio); 200x slower for CUTGREEDY | | |
+| PH-CUT (scenario min-cuts + progressive hedging) | = AG fallback; Lagrangian dual bound near 0 | | |
+| RAG (racing greedy, adaptive theta up to 1500) | 0.324 | 0.422 | = AG(1000), 1.5x its time; the top-20 candidates stay statistically tied |
+
+**Diagnosis.** Cascade sizes are heavy-tailed (ca-HepTh: median 665,
+mean 478, 62% of realisations contain a giant component). The sample
+objective of AG is far below its true objective: theta = 60 gives F = 31 on
+its own samples vs 205 on fresh ones; theta = 300 gives 65 vs 98. Greedy
+therefore selects on sampling noise, and the true quality improves
+monotonically with theta. Among the top candidates at each greedy step the
+gains are statistically indistinguishable even at 1500 samples, so racing
+cannot save samples, and the exact per-scenario optimum (min-cut) is 0 with
+budget 20 (each scenario alone is trivially sealed), so the wait-and-see
+bound is vacuous: the difficulty of IMIN is entirely in the coupling of
+scenarios. The one lever that reliably improves quality is more samples;
+AG's cost is linear in theta.
