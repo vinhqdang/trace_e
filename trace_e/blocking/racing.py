@@ -32,8 +32,17 @@ def _bernstein_radius(var: np.ndarray, rng_bound: float, n: int, delta: float) -
 
 
 def racing_greedy(g: CSRGraph, seeds, budget: int, rng: np.random.Generator, theta0: int = 50, theta_max: int = 2000,
-                  batch: int = 50, delta: float = 0.1, forbidden=None, log=None):
-    """Returns (B, info). ``info['theta_used']`` lists the sample size at which each pick was decided."""
+                  batch: int = 50, delta: float = 0.1, forbidden=None, log=None, paired: bool = True, top_k: int = 20, z: float = 2.5):
+    """Returns (B, info). ``info['theta_used']`` lists the sample size at which each pick was decided.
+
+    With ``paired=True`` the stopping test uses the per-sample *differences*
+    between the leader and each of the ``top_k`` runners-up (all candidates are
+    evaluated on the same live-edge graphs, so their gains are strongly
+    correlated and the difference has a much smaller variance than either
+    gain): stop when every paired mean difference exceeds ``z`` standard
+    errors. With ``paired=False`` the empirical-Bernstein test on individual
+    means is used (distribution-free but very conservative).
+    """
     seeds = [int(s) for s in seeds]
     S = SampleSet(g, seeds, theta0, rng, forbidden=forbidden)
     n = g.n
@@ -61,10 +70,23 @@ def racing_greedy(g: CSRGraph, seeds, budget: int, rng: np.random.Generator, the
                 break
             order_idx = np.argsort(-mean)
             lead, second = int(order_idx[0]), int(order_idx[1])
-            # per-candidate union bound over the n candidates
-            rad = _bernstein_radius(var[[lead, second]], rmax, theta, delta_step / n)
-            gap = mean[lead] - mean[second]
-            separated = gap > rad[0] + rad[1]
+            if paired:
+                cands = [int(c) for c in order_idx[1: top_k + 1] if mean[c] > 0]
+                G = np.zeros((theta, 1 + len(cands)))
+                cols = [lead] + cands
+                for i, (order, index, sizes, reach) in enumerate(S.cache):
+                    if len(order):
+                        pos = index[cols]
+                        ok = pos >= 0
+                        G[i, ok] = sizes[pos[ok]]
+                d = G[:, [0]] - G[:, 1:]  # per-sample paired differences leader - candidate
+                md = d.mean(axis=0)
+                sd = d.std(axis=0, ddof=1) if theta > 1 else np.full(d.shape[1], np.inf)
+                separated = bool(np.all(md > z * sd / math.sqrt(theta))) if len(cands) else True
+                rad = np.array([z * sd.max() / math.sqrt(theta) if len(cands) else 0.0, 0.0])
+            else:
+                rad = _bernstein_radius(var[[lead, second]], rmax, theta, delta_step / n)
+                separated = (mean[lead] - mean[second]) > rad[0] + rad[1]
             if separated or theta >= theta_max:
                 break
             # add a batch of samples (all cached structures for the new samples are computed on refresh)
