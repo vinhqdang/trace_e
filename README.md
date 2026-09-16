@@ -122,6 +122,24 @@ count, selection time; one summary row per (network, mode, method, budget) in
 
 `scripts/run_blocking_all.sh` runs both modes on the network suite.
 
+## Exact influence minimisation on bounded-treewidth graphs: TWIG
+
+`docs/TWIG.md` documents an exact (not sampled) dynamic program,
+`trace_e/blocking/treewidth.py`, computing E[#reached | delete B] exactly
+under the independent-cascade model on graphs of bounded treewidth (a
+frontier / partition-refinement DP with a deferred-payout mechanism per
+block; #P-hard in general, polynomial for fixed treewidth, with the
+polynomial's degree growing with treewidth -- an XP, not FPT, result).
+Verified against brute-force enumeration on 2000+ random small graphs.
+`greedy_exact` and `brute_force_optimal_block` use it as a zero-noise
+oracle to measure, for the first time, the *true* optimality gap of
+greedy IMIN (56/60 random small instances exactly optimal, up to 84.6%
+relative excess in the worst case found). Practical scope is small graphs
+(n up to roughly 15-20 for treewidth around 4-5) or tree-like/very sparse
+graphs (hundreds of nodes); it does not scale to the SNAP-sized graphs
+used elsewhere in this project -- see `docs/TWIG.md` for the measured
+limits.
+
 ## Adaptive influence minimisation: DEFER
 
 `docs/DEFER.md` specifies DEFER, an adaptive vertex-blocking algorithm for

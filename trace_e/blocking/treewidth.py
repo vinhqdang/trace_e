@@ -255,3 +255,47 @@ def brute_force_spread(G: nx.Graph, weight_fn, seeds, blocked=frozenset()) -> fl
             reached |= nx.node_connected_component(H, s)
         total += p * (len(reached) - len(seeds & reached))
     return total
+
+
+def greedy_exact(G: nx.Graph, weight_fn, seeds, budget: int, order=None, candidates=None):
+    """Greedy vertex blocking using the EXACT expectation oracle (ExactSpread) instead of a
+    Monte-Carlo estimate: at every step, block the candidate that exactly minimises
+    E[#reached | already-blocked set + candidate], with zero sampling noise. Feasible in
+    time budget * n * (cost of one ExactSpread.evaluate call), i.e. polynomial for graphs
+    of bounded treewidth (fixed elimination order reused across all evaluate() calls).
+    """
+    es = ExactSpread(G, weight_fn, seeds, order=order)
+    seeds_set = set(int(s) for s in seeds)
+    pool = [v for v in G.nodes if v not in seeds_set] if candidates is None else list(candidates)
+    blocked: list[int] = []
+    for _ in range(budget):
+        best_v, best_val = None, None
+        cur = frozenset(blocked)
+        for v in pool:
+            if v in blocked:
+                continue
+            val = es.evaluate(cur | {v})
+            if best_val is None or val < best_val - 1e-12:
+                best_val, best_v = val, v
+        if best_v is None:
+            break
+        blocked.append(best_v)
+    return blocked, es.evaluate(frozenset(blocked))
+
+
+def brute_force_optimal_block(G: nx.Graph, weight_fn, seeds, budget: int, order=None, candidates=None):
+    """Exact optimal blocking set of size <= budget by exhaustive search using the EXACT
+    expectation oracle (feasible only for small n / budget -- provides ground truth to
+    measure the optimality gap of greedy_exact and of AG/GR)."""
+    import itertools
+
+    es = ExactSpread(G, weight_fn, seeds, order=order)
+    seeds_set = set(int(s) for s in seeds)
+    pool = [v for v in G.nodes if v not in seeds_set] if candidates is None else list(candidates)
+    best_B, best_val = frozenset(), es.evaluate(frozenset())
+    for b in range(1, budget + 1):
+        for B in itertools.combinations(pool, b):
+            val = es.evaluate(frozenset(B))
+            if val < best_val - 1e-12:
+                best_val, best_B = val, frozenset(B)
+    return sorted(best_B), best_val
