@@ -296,6 +296,19 @@ Same live-edge realisations and the same total budget for every policy. spread =
 | degree | 85.3 ± 9.4 | 68.5 ± 7.0 | 44.5 ± 4.8 | 0.504 | 0.602 | 0.741 | 0.00 |
 | none | 171.8 ± 16.5 | 171.8 ± 16.5 | 171.8 ± 16.5 | 0.000 | 0.000 | 0.000 | 0.00 |
 
+Paired difference in final spread on common realisations (negative = adaptive better), with s.e. and the share of realisations the adaptive policy wins:
+
+| comparison | budget 20 | budget 50 | budget 100 |
+|---|---|---|---|
+| defer − ag | -10.2 ± 6.0 (wins 70%) | -0.1 ± 1.1 (wins 56%) | -0.0 ± 0.3 (wins 52%) |
+| defer − gr | -6.0 ± 5.1 (wins 64%) | +1.0 ± 1.1 (wins 45%) | +0.4 ± 0.3 (wins 43%) |
+| defer_gr − ag | -14.3 ± 7.2 (wins 56%) | +1.9 ± 1.5 (wins 45%) | +2.7 ± 1.0 (wins 30%) |
+| defer_gr − gr | -10.2 ± 6.6 (wins 55%) | +3.0 ± 1.5 (wins 38%) | +3.1 ± 1.0 (wins 26%) |
+| defer_nopush − ag | -9.9 ± 6.0 (wins 67%) | +0.8 ± 1.1 (wins 49%) | -0.0 ± 0.4 (wins 51%) |
+| defer_nopush − gr | -5.8 ± 5.1 (wins 61%) | +1.9 ± 1.0 (wins 42%) | +0.4 ± 0.3 (wins 42%) |
+| commit − ag | -2.6 ± 8.3 (wins 63%) | +4.9 ± 3.7 (wins 41%) | +0.5 ± 0.4 (wins 43%) |
+| commit − gr | +1.5 ± 7.7 (wins 56%) | +6.0 ± 3.7 (wins 36%) | +1.0 ± 0.3 (wins 36%) |
+
 ## Problem C: sequential detect-and-contain (AVID vs baselines)
 
 Independent cascade streams, half benign (kappa=1 unless noted) and half harmful (kappa log-uniform in [kappa_min, kappa_max]). FA = fraction of benign cascades acted on (target <= alpha); det = fraction of harmful cascades acted on; delay in rounds; harm@alarm = bad nodes when the detector fires; saved = 1 - final harmful spread / no-intervention spread; benign loss = activations suppressed on benign cascades. Latest run per configuration.
