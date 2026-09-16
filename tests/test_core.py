@@ -56,3 +56,18 @@ def test_all_detectors_run():
         assert sc.shape == (ctx.n,)
         assert np.isinf(sc[test.states[0] == 0]).all() or name in ("degree",)
         assert np.isfinite(sc[test.sources[0]])
+
+
+def test_trajectories_match_snapshots():
+    from trace_e.simulate import simulate_trajectories, simulate_sir_times, snapshot_at
+    g = to_csr(load_network("dolphin"))
+    # same RNG consumption as simulate_sir -> identical snapshot at T_max
+    rng1, rng2 = np.random.default_rng(3), np.random.default_rng(3)
+    st = simulate_sir(g, 5, 1.3, 0.85, rng1)
+    a, r = simulate_sir_times(g, 5, 1.3, 0.85, rng2)
+    assert np.array_equal(st, snapshot_at(a, r, 0.85))
+    traj = simulate_trajectories(g, 1.3, 0.5, 2.0, 2, seed=9, n_jobs=2)
+    s1, s2 = traj.snapshots(0.5), traj.snapshots(2.0)
+    # infected sets are monotone in time
+    assert ((s1 != 0) <= (s2 != 0)).all()
+    assert (traj.inf_times[np.arange(len(traj)), traj.sources] == 0).all()
