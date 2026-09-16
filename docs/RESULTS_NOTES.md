@@ -149,3 +149,37 @@ budget 20 (each scenario alone is trivially sealed), so the wait-and-see
 bound is vacuous: the difficulty of IMIN is entirely in the coupling of
 scenarios. The one lever that reliably improves quality is more samples;
 AG's cost is linear in theta.
+
+## Fixing the bottleneck: cheaper samples (2026-09-16, night)
+
+Since quality is governed by the number of samples theta and every
+variance-reduction attempt failed (control variates on the seed-hit
+indicator: MSE −15%, no end-to-end gain; permutation Monte Carlo: variance
+ratio 1.0 because the number of live edges is concentrated and all the
+randomness is in *which* edges are live), the remaining lever is the cost
+per sample per greedy step.
+
+**LAZY-AG** (`trace_e/blocking/lazy.py`). After blocking v, AdvancedGreedy
+recomputes theta dominator trees. LAZY-AG instead subtracts |D(v)| from the
+subtree size of every dominator-tree ancestor of v and marks D(v) as saved,
+in O(theta * depth + theta * k) vectorised work, and recomputes the trees
+exactly only every r picks. *Lemma.* For every remaining node w the lazy
+size equals |D(w) \ D(v)|, which is a lower bound on the exact new dominated
+set (deleting v can only create new dominance relations), and equals it
+whenever no seed-path of a remaining node passed through v.
+
+Fresh-sample quality (spread / no-intervention spread, 3 instances, budget
+20, p = 0.1) and time:
+
+| method | ca-HepTh | time | ca-GrQc | time |
+|---|---|---|---|---|
+| AG theta=300 | 0.358 | 5.0 s | 0.427 | 3.0 s |
+| LAZY-AG theta=300, r=5 | 0.358 | 2.0 s | 0.427 | 1.0 s |
+| LAZY-AG theta=300, no refresh | 0.400 | 1.0 s | 0.442 | 0.4 s |
+| AG theta=1000 | 0.328 | 16 s | 0.422 | 11 s |
+| LAZY-AG theta=1500, r=5 | 0.333 | 10 s | 0.420 | 6 s |
+
+Same quality as AdvancedGreedy at 2.5x less time, i.e. AG(theta=1000)
+quality in the time of AG(theta=500); without periodic exact refresh the
+lower-bound gains drift and quality degrades, so the refresh is part of the
+algorithm.

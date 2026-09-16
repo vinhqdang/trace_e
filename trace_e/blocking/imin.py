@@ -661,3 +661,22 @@ def phcut_algorithm(S: SampleSet, budget: int, **kw) -> list[int]:
 
 
 ALGORITHMS.update({"phcut": phcut_algorithm})
+
+
+def _cv_greedy(S, b):
+    from .variance import cv_greedy
+    return cv_greedy(S, b)
+
+
+ALGORITHMS.update({"ag_cvar": _cv_greedy})
+
+
+def _lazy_ag(S, b, refresh_every=5):
+    from .lazy import lazy_greedy
+    B, _ = lazy_greedy(S.g, S.lives, S.seeds, b, forbidden=S.forbidden, refresh_every=refresh_every)
+    S.forbidden[B] = True
+    S.blocked = list(B)
+    return list(B)
+
+
+ALGORITHMS.update({"lazy_ag": _lazy_ag, "lazy_ag_r0": lambda S, b: _lazy_ag(S, b, 0)})

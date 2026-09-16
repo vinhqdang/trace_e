@@ -40,7 +40,7 @@ from ..sequential.simulator import Episode
 COLUMNS = ["timestamp", "run_id", "network", "n_nodes", "n_edges", "prob_model", "p", "n_seeds", "seed_rule", "budget", "policy",
            "n_instances", "draws", "spread_none", "spread", "spread_se", "saved_frac", "budget_used", "time_s_per_episode", "theta", "seed", "git_commit", "notes"]
 
-ONE_SHOT = {"ag", "gr", "lsbm", "isocut", "isocut_plus", "cutgreedy", "swap", "swap_gr", "swap_first"}
+ONE_SHOT = {"ag", "gr", "lsbm", "isocut", "isocut_plus", "cutgreedy", "swap", "swap_gr", "swap_first", "lazy_ag", "lazy_ag_r0", "ag_cvar", "phcut"}
 HEURISTIC = {"proximity", "degree", "random", "pagerank"}
 _G = {}
 

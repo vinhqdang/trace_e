@@ -140,6 +140,45 @@ def dominator_subtree_sizes(order, preds) -> np.ndarray:
     return sizes
 
 
+def _idoms_from_preds(order, preds):
+    """Immediate dominators (positions; -1 = super-source) by the Cooper-Harvey-Kennedy iteration."""
+    m = len(order)
+    ROOT = -1
+    idom = [None] * m
+
+    def intersect(a, b):
+        while a != b:
+            if a == ROOT or b == ROOT:
+                return ROOT
+            while a > b:
+                a = idom[a]
+                if a == ROOT:
+                    return ROOT
+            while b > a:
+                b = idom[b]
+                if b == ROOT:
+                    return ROOT
+        return a
+
+    changed = True
+    while changed:
+        changed = False
+        for i in range(m):
+            new = None
+            for p in preds[i]:
+                if p == ROOT:
+                    cand = ROOT
+                elif idom[p] is None:
+                    continue
+                else:
+                    cand = p
+                new = cand if new is None else intersect(new, cand)
+            if new is not None and idom[i] != new:
+                idom[i] = new
+                changed = True
+    return idom
+
+
 def marginal_gains(g: CSRGraph, live: np.ndarray, sources, forbidden: np.ndarray, with_sources: bool = False, horizon: int = 0):
     """(nodes, gains): for every reachable non-source node, the number of nodes saved by blocking it.
 
