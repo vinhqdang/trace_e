@@ -53,7 +53,7 @@ def run_episode(ep: Episode, detector, container, budget: int, max_rounds: int =
         "alarm_round": alarm_round,
         "harm_at_alarm": harm_at_alarm,
         "harm_final": ep.harm,
-        "harm_counterfactual": ep.counterfactual_harm(),
+        "harm_counterfactual": ep.counterfactual_harm(max_rounds),
         "n_intervened": n_intervened,
         "kappa_hat": kappa_hat if alarm_round is not None else None,
         "rounds": rounds,

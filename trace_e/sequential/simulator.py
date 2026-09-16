@@ -91,13 +91,16 @@ class Episode:
     def harm(self) -> int:
         return int(self.active.sum())
 
-    def counterfactual_harm(self) -> int:
-        """Final bad set size with no intervention (reachability on the bad live edges)."""
+    def counterfactual_harm(self, max_rounds: int | None = None) -> int:
+        """Bad set size with no intervention after ``max_rounds`` rounds (all rounds if None):
+        reachability on the bad live edges, truncated at that depth."""
         seen = np.zeros(self.n, dtype=bool)
         seen[self.seeds] = True
         frontier = list(self.seeds)
         g = self.g
-        while frontier:
+        depth = 0
+        while frontier and (max_rounds is None or depth < max_rounds):
+            depth += 1
             nxt = []
             for u in frontier:
                 lo, hi = g.indptr[u], g.indptr[u + 1]

@@ -120,7 +120,7 @@ def run(args, rule: str):
                 treat_round[c] = r + 1
                 eps[c].intervene(con[c].act(eps[c], dets[c].kappa_hat()))
     finals = np.array([ep.harm for ep in eps], dtype=float)
-    cfs = np.array([ep.counterfactual_harm() for ep in eps], dtype=float)
+    cfs = np.array([ep.counterfactual_harm(args.max_rounds) for ep in eps], dtype=float)
     n_treated = int(treated.sum())
     fdp = float((treated & ~harmful).sum() / max(n_treated, 1))
     return {
