@@ -106,6 +106,77 @@ in `docs/RESULTS_NOTES.md`.** Reducing the polynomial's degree (e.g. by
 bounding pending counts via an approximate/rounded representation, or a
 compiled implementation) is future work, not attempted here.
 
+## 3.1 Further speed-up: reversed processing order and linear pending aggregation
+
+Two follow-up fixes turned the algorithm from "correct but usable only on
+n <~ 10-15" into "usable on real small/medium networks":
+
+* **`ExactSpreadFast`: collapse the pending-count dimension.** Every
+  operation on a block's pending count (init 0; +1 on a deferred
+  retirement; sum on merging two non-seed blocks; read-and-discard when
+  merging into SEED) is *linear*. So instead of keeping every history that
+  reaches a given partition shape as a separate state (distinguished by its
+  exact integer pending values -- the XP blow-up described above),
+  `ExactSpreadFast` tracks, per partition shape, a single probability mass
+  P and, per surviving non-seed block, the probability-*weighted sum* of
+  pending values across every history sharing that shape. By linearity of
+  expectation this aggregate is updated with exactly the same rules and
+  yields the identical final answer -- verified against `ExactSpread` and
+  brute force on 568+ random graphs -- while collapsing the state space
+  back down to just the Bell(w+1) partition shapes, independent of n. This
+  makes the algorithm properly **FPT in treewidth** (state space depends
+  only on w), not merely XP.
+
+* **Process the DP in the reverse of the elimination heuristic's output.**
+  The min-fill-in / min-degree heuristic eliminates low-fill-in vertices
+  first and high-degree hub vertices last, precisely so that by the time a
+  hub is eliminated, most of its neighbours are already gone. Running the
+  DP *forward* in that same order instead introduces each hub only near
+  the end, forcing it (and everything still waiting on it) to stay active
+  for nearly the whole computation -- on Zachary's karate club this pushed
+  the true frontier to 15+ simultaneously active vertices despite a
+  reported width of 5. Running the DP in the *reversed* order (hub
+  introduced early) matches the small-separator structure the heuristic
+  actually found; the same graph's frontier then peaks at 11.
+
+Combined effect, `ExactSpreadFast.evaluate()` for one seed, single call:
+
+| graph | n | width (min-fill-in) | before both fixes | after both fixes |
+|---|---|---|---|---|
+| Zachary karate club | 34 | 5 | did not finish in 60 s | **2.5 s** |
+| Iceland (sexual contact) | 75 | 4 | not attempted | **51 s** |
+| Dolphin social network | 62 | ~10-11 | not attempted | still infeasible (memory blow-up, killed after using >9 GB) |
+
+Karate and Iceland -- real networks from `data/networks/`, not synthetic
+toy instances -- are now tractable for exact evaluation. Denser small
+graphs with width above roughly 6-7 (dolphin, fraternity, workplace) remain
+out of reach: Bell(w+1) is still exponential in w, just no longer also
+multiplied by a factor growing with n.
+
+`greedy_exact` additionally restricts its candidate pool to vertices
+actually reachable from the seeds (blocking an unreachable vertex cannot
+change anything), which matters on sparse graphs where most vertices are
+never in play.
+
+### A joint decision+expectation DP was tried and abandoned
+
+A natural next step is folding the *choice* of which vertices to block into
+the same DP (adding a "slots used" dimension and a block/keep branch at
+each introduce step), to get the exact optimal budgeted blocking set
+without exhaustive search. This was attempted and **abandoned as unsound**:
+naively tracking one scalar "best accumulated cost so far" per (partition,
+pending, slots) state conflates two different things that must not be
+conflated -- *minimising* over decisions (which are fixed once, not
+resampled) and *averaging* over the edge randomness (which must be
+properly probability-weighted). The draft implementation implicitly let
+the block/keep decision for a not-yet-introduced vertex depend on which
+random branch a given state had arrived from, which corresponds to solving
+an easier, *adaptive* version of the problem, not the intended fixed
+(non-adaptive) blocking set. It was deleted rather than shipped once this
+was noticed. `greedy_exact` (an exact-oracle greedy heuristic) and
+`brute_force_optimal_block` (exhaustive search, small instances only) are
+the safe substitutes used instead.
+
 ## 4. What this makes possible: true ground truth for greedy IMIN
 
 `greedy_exact` runs AdvancedGreedy-style greedy selection using

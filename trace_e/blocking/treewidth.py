@@ -40,11 +40,13 @@ nice-tree-decomposition DP exact for other connectivity problems.
 Blocking. A candidate blocker set is incorporated by never introducing a
 blocked vertex (equivalently, by deleting it and its incident edges before
 running the DP): the same DP therefore evaluates F(B) = E[#reached | delete
-B] exactly, for any B, in one pass. `exact_imin` extends the per-vertex
-state with an extra "budget used" coordinate and a binary "block me or not"
-choice made at introduce time, giving the EXACT OPTIMAL blocking set of
-size <= b by dynamic programming over the same elimination order --
-polynomial in n for fixed treewidth and budget.
+B] exactly, for any B, in one pass. `greedy_exact` uses this as a zero-noise
+marginal-gain oracle for greedy blocking, and `brute_force_optimal_block`
+exhaustively searches all size-<=budget subsets with it to find the true
+optimum on graphs small enough to enumerate (see docs/TWIG.md for why a
+single joint decision+expectation DP over budgeted blocking sets was tried
+and abandoned: it conflates "minimise over decisions" with "average over
+randomness" in a way that is not safe to collapse via simple state merging).
 """
 from __future__ import annotations
 
@@ -423,16 +425,33 @@ def brute_force_spread(G: nx.Graph, weight_fn, seeds, blocked=frozenset()) -> fl
     return total
 
 
-def greedy_exact(G: nx.Graph, weight_fn, seeds, budget: int, order=None, candidates=None):
-    """Greedy vertex blocking using the EXACT expectation oracle (ExactSpread) instead of a
-    Monte-Carlo estimate: at every step, block the candidate that exactly minimises
-    E[#reached | already-blocked set + candidate], with zero sampling noise. Feasible in
-    time budget * n * (cost of one ExactSpread.evaluate call), i.e. polynomial for graphs
-    of bounded treewidth (fixed elimination order reused across all evaluate() calls).
+def greedy_exact(G: nx.Graph, weight_fn, seeds, budget: int, order=None, candidates=None, engine=None):
+    """Greedy vertex blocking using the EXACT expectation oracle (ExactSpreadFast by default)
+    instead of a Monte-Carlo estimate: at every step, block the candidate that exactly
+    minimises E[#reached | already-blocked set + candidate], with zero sampling noise.
+    Candidates not reachable from the seeds are skipped (blocking them cannot change
+    anything). Feasible in time budget * |reachable candidates| * (cost of one evaluate
+    call), i.e. polynomial for graphs of bounded treewidth (fixed elimination order reused
+    across all evaluate() calls).
     """
-    es = ExactSpread(G, weight_fn, seeds, order=order)
+    es = (engine or ExactSpreadFast)(G, weight_fn, seeds, order=order)
     seeds_set = set(int(s) for s in seeds)
-    pool = [v for v in G.nodes if v not in seeds_set] if candidates is None else list(candidates)
+    if candidates is None:
+        reach = set()
+        frontier = list(seeds_set)
+        seen = set(seeds_set)
+        while frontier:
+            nxt = []
+            for u in frontier:
+                for v in G.neighbors(u):
+                    if v not in seen:
+                        seen.add(v)
+                        reach.add(v)
+                        nxt.append(v)
+            frontier = nxt
+        pool = sorted(reach)
+    else:
+        pool = list(candidates)
     blocked: list[int] = []
     for _ in range(budget):
         best_v, best_val = None, None
