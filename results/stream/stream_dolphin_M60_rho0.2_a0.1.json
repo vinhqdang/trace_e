@@ -1,0 +1,68 @@
+{
+  "args": {
+    "network": "dolphin",
+    "prob_model": "const",
+    "p": 0.15,
+    "M": 60,
+    "rho": 0.2,
+    "alpha": 0.1,
+    "kappa_min": 1.5,
+    "kappa_max": 4.0,
+    "n_seeds": 3,
+    "budget": 10,
+    "samples": 10,
+    "max_rounds": 60,
+    "reps": 1,
+    "seed": 1
+  },
+  "rows": [
+    {
+      "rule": "per_cascade",
+      "M": 60,
+      "n_harmful": 9,
+      "treated": 9,
+      "false_discoveries": 2,
+      "FDP": 0.2222222222222222,
+      "power": 0.7777777777777778,
+      "harmful_spread": 155.0,
+      "harmful_spread_no_intervention": 324.0,
+      "saved_frac": 0.5216049382716049,
+      "benign_loss": 9.0,
+      "mean_treat_round": 2.0,
+      "time_s": 0.15217351913452148,
+      "rep": 0
+    },
+    {
+      "rule": "ebh",
+      "M": 60,
+      "n_harmful": 9,
+      "treated": 6,
+      "false_discoveries": 0,
+      "FDP": 0.0,
+      "power": 0.6666666666666666,
+      "harmful_spread": 206.0,
+      "harmful_spread_no_intervention": 324.0,
+      "saved_frac": 0.3641975308641975,
+      "benign_loss": 0.0,
+      "mean_treat_round": 2.8333333333333335,
+      "time_s": 0.11619091033935547,
+      "rep": 0
+    },
+    {
+      "rule": "weighted_ebh",
+      "M": 60,
+      "n_harmful": 9,
+      "treated": 6,
+      "false_discoveries": 0,
+      "FDP": 0.0,
+      "power": 0.6666666666666666,
+      "harmful_spread": 178.0,
+      "harmful_spread_no_intervention": 324.0,
+      "saved_frac": 0.4506172839506173,
+      "benign_loss": 0.0,
+      "mean_treat_round": 2.0,
+      "time_s": 0.17217063903808594,
+      "rep": 0
+    }
+  ]
+}
