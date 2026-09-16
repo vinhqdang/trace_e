@@ -92,6 +92,7 @@ The last three columns exclude outbreaks where only the source was infected at T
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | dmp | 0.091 ± 0.003 | 0.135 | 0.170 | 1.618 | 0.152 | 58.12 | 0.0 | 0.02585 | 0.032 | 0.116 | 1.724 |
 | gcn_skip | 0.087 ± 0.003 | 0.124 | 0.156 | 1.635 | 0.143 | 71.42 | 101.9 | 0.00053 | 0.027 | 0.101 | 1.741 |
+| igcn | 0.084 ± 0.003 | 0.121 | 0.153 | 1.908 | 0.141 | 73.25 | 577.5 | 0.00151 | 0.025 | 0.097 | 2.032 |
 | netsleuth | 0.076 ± 0.003 | 0.099 | 0.121 | 1.913 | 0.120 |  | 0.0 | 0.08140 | 0.016 | 0.063 | 2.038 |
 | gcn | 0.076 ± 0.003 | 0.099 | 0.121 | 2.152 | 0.119 | 76.88 | 47.2 | 0.00159 | 0.016 | 0.064 | 2.292 |
 | mlp | 0.076 ± 0.003 | 0.104 | 0.128 | 1.777 | 0.095 | 74.69 | 278.8 | 0.00136 | 0.015 | 0.071 | 1.892 |
@@ -100,10 +101,19 @@ The last three columns exclude outbreaks where only the source was infected at T
 | jordan | 0.074 ± 0.003 | 0.096 | 0.116 | 1.519 | 0.097 |  | 0.0 | 0.00620 | 0.013 | 0.058 | 1.618 |
 | sme | 0.074 ± 0.003 | 0.095 | 0.117 | 1.808 | 0.111 | 57.19 | 0.0 | 0.00070 | 0.013 | 0.060 | 1.925 |
 | degree | 0.073 ± 0.003 | 0.096 | 0.117 | 1.401 | 0.117 |  | 0.0 | 0.00046 | 0.013 | 0.060 | 1.492 |
-| distance | 0.073 ± 0.003 | 0.097 | 0.117 | 1.401 | 0.116 |  | 0.0 | 0.00617 | 0.013 | 0.060 | 1.493 |
 | rumor | 0.073 ± 0.003 | 0.095 | 0.115 | 1.731 | 0.115 |  | 0.0 | 0.00571 | 0.013 | 0.057 | 1.844 |
+| distance | 0.073 ± 0.003 | 0.097 | 0.117 | 1.401 | 0.116 |  | 0.0 | 0.00617 | 0.013 | 0.060 | 1.493 |
 
 The last three columns exclude outbreaks where only the source was infected at T (8637 of 9200 test outbreaks remain).
+
+### highschool2013  (N=327, E=5818, test outbreaks=3270, avg outbreak size=316.65, test sims/node=10)
+
+| method | top1 | top3 | top5 | ed | rr | css | fit (s) | infer (s/inst) | top1 (n_inf>=2) | top5 (n_inf>=2) | ed (n_inf>=2) |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| random | 0.033 ± 0.003 | 0.039 | 0.045 | 2.070 | 0.036 | 285.62 | 0.0 | 0.00203 | 0.004 | 0.016 | 2.132 |
+| degree | 0.033 ± 0.003 | 0.039 | 0.046 | 1.759 | 0.049 |  | 0.0 | 0.00215 | 0.004 | 0.017 | 1.811 |
+
+The last three columns exclude outbreaks where only the source was infected at T (3175 of 3270 test outbreaks remain).
 
 ## Problem B: misinformation blocking
 
@@ -411,6 +421,12 @@ Independent cascade streams, half benign (kappa=1 unless noted) and half harmful
 | logistic | none | 0.023 ± 0.009 | 0.897 | 1.50 | 11.1 | 1964.7 | 0.042 | 0.00 | 1.61 | 1.07 | 0.0 |
 | never | none | 0.000 ± 0.000 | 0.000 |  |  | 1964.7 | 0.042 | 0.00 |  | 4.39 | 0.0 |
 | immediate | none | 1.000 ± 0.000 | 1.000 | 1.00 | 8.7 | 1964.7 | 0.042 | 0.00 | 1.52 | 0.18 | 0.1 |
+
+### cagrqc / throttle_sweep  (alpha=0.05, budget=10, seeds=3, calib seeds=3, benign kappa >= 1.0, harmful kappa in [1.5, 4.0], prob=wc, 300 benign / 300 harmful)
+
+| detector | container | FA | det | delay | harm@alarm | final harm | saved | benign loss | kappa MAE | detect ms | contain ms |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| eprocess | adaptive | 0.000 ± 0.000 | 0.730 | 2.17 | 17.7 | 962.7 | 0.472 | 0.00 | 0.48 | 2.20 | 169.8 |
 
 ## Concurrent cascades: FDR control and harm-weighted e-BH (Theorem 4)
 
