@@ -168,3 +168,29 @@ class DominatorGreedyBlocker(Blocker):
         forb = np.zeros(g.n, dtype=bool)
         plan, _ = dominator_greedy_plan(g, lives, [int(s) for s in bad_seeds], forb, budget)
         return plan
+
+
+def _make_imin_blocker(algo_name, reg_name):
+    from .base import Blocker as _B
+
+    class _IminBlocker(_B):
+        name = reg_name
+
+        def __init__(self, ctx, n_samples: int = 100, **params):
+            super().__init__(ctx, **params)
+            self.n_samples = n_samples
+
+        def select(self, bad_seeds, budget):
+            from .imin import run_algorithm
+            if self.ctx.mode != "block":
+                raise ValueError(f"{reg_name} supports block mode only")
+            B, info = run_algorithm(algo_name, self.ctx.g, [int(s) for s in bad_seeds], budget, theta=self.n_samples, seed=self.ctx.seed + 17)
+            self.last_info = info
+            return B
+
+    _IminBlocker.__name__ = f"Imin_{reg_name}"
+    return register(_IminBlocker)
+
+
+for _a, _r in [("ag", "ag"), ("gr", "gr"), ("lsbm", "lsbm"), ("isocut", "isocut"), ("isocut_r", "isocut_r"), ("isocut+", "isocut_plus"), ("cutgreedy", "cutgreedy"), ("cutgreedy_r", "cutgreedy_r")]:
+    _make_imin_blocker(_a, _r)

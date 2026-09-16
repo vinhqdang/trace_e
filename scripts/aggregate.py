@@ -168,6 +168,31 @@ def throttle_theory_report() -> str:
     return "\n".join(out)
 
 
+def adaptive_report(path: str) -> str:
+    df = pd.read_csv(path)
+    out = ["## Adaptive influence minimisation: DEFER vs one-shot blocking", "",
+           "Same live-edge realisations and the same total budget for every policy. spread = bad nodes beyond the seeds "
+           "(mean ± s.e. over instances x realisations); one-shot planners are computed at time 0 with the seeds known; "
+           "adaptive policies observe activations round by round. Latest run per configuration.", ""]
+    keys = ["network", "prob_model", "p", "n_seeds", "seed_rule", "budget", "policy"]
+    d0 = latest(df, keys)
+    for (net, pm, pp, ns, sr), d in d0.groupby(["network", "prob_model", "p", "n_seeds", "seed_rule"], sort=False):
+        budgets = sorted(d.budget.unique())
+        r0 = d.iloc[0]
+        out.append(f"### {net} ({pm}{'' if pm != 'const' else f' p={pp}'}, {ns} {sr} seeds, {int(r0.n_instances)} instances x {int(r0.draws)} realisations, theta={int(r0.theta)}; no intervention: {r0.spread_none:.1f})")
+        out.append("")
+        out.append("| policy | " + " | ".join(f"spread@{b}" for b in budgets) + " | " + " | ".join(f"saved@{b}" for b in budgets) + " | time/episode (s) |")
+        out.append("|---|" + "---|" * (2 * len(budgets) + 1))
+        piv = d.pivot_table(index="policy", columns="budget", values=["spread", "spread_se", "saved_frac", "time_s_per_episode"], aggfunc="first")
+        order = piv["spread"][budgets[-1]].sort_values().index
+        for pol in order:
+            cells = [f"{piv['spread'][b][pol]:.1f} ± {piv['spread_se'][b][pol]:.1f}" for b in budgets]
+            sv = [f"{piv['saved_frac'][b][pol]:.3f}" for b in budgets]
+            out.append(f"| {pol} | " + " | ".join(cells) + " | " + " | ".join(sv) + f" | {piv['time_s_per_episode'][budgets[-1]][pol]:.2f} |")
+        out.append("")
+    return "\n".join(out)
+
+
 def theory_report() -> str:
     files = sorted(f for f in glob.glob(os.path.join(RES, "theory", "*.json")) if "throttle_" not in os.path.basename(f))
     if not files:
@@ -206,6 +231,9 @@ def main():
         parts.append(source_report(s))
     if os.path.exists(b):
         parts.append(blocking_report(b))
+    ad = os.path.join(RES, "summary_adaptive.csv")
+    if os.path.exists(ad):
+        parts.append(adaptive_report(ad))
     q = os.path.join(RES, "summary_sequential.csv")
     if os.path.exists(q):
         parts.append(sequential_report(q))

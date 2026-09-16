@@ -58,7 +58,7 @@ def main(argv=None):
     args = parse_args(argv)
     methods = [m.strip() for m in args.methods.split(",") if m.strip()]
     if args.mode == "counter":
-        methods = [m for m in methods if m != "greedy_dom"]
+        methods = [m for m in methods if m not in ("greedy_dom", "ag", "gr", "lsbm", "isocut", "isocut_r", "isocut_plus", "cutgreedy", "cutgreedy_r")]
     unknown = [m for m in methods if m not in REGISTRY]
     if unknown:
         raise SystemExit(f"unknown methods {unknown}; available: {sorted(REGISTRY)}")
@@ -84,7 +84,7 @@ def main(argv=None):
 
     blockers = {}
     for name in methods:
-        kw = {"n_samples": args.greedy_samples, "candidate_pool": args.greedy_pool} if name in ("greedy", "proposed") else ({"n_samples": args.greedy_samples} if name == "greedy_dom" else {})
+        kw = {"n_samples": args.greedy_samples, "candidate_pool": args.greedy_pool} if name in ("greedy", "proposed") else ({"n_samples": args.greedy_samples} if name in ("greedy_dom", "ag", "gr", "lsbm", "isocut", "isocut_r", "isocut_plus", "cutgreedy", "cutgreedy_r") else {})
         b = get_blocker(name, ctx, **kw)
         tp = time.time()
         b.prepare()

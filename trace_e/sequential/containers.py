@@ -113,6 +113,10 @@ class Container:
         self.horizon = horizon  # 0 = whole reachable region; h > 0 = plan within h live hops of the frontier
 
     def plan(self, g, lives, sources, forbidden, budget):
+        if self.planner.startswith("imin:"):
+            from ..blocking.imin import run_algorithm
+            B, _ = run_algorithm(self.planner.split(":", 1)[1], g, sources, budget, theta=len(lives), seed=self.seed + 7919 * len(lives), forbidden=forbidden)
+            return B, [1.0] * len(B)
         if self.planner == "dominator":
             return dominator_greedy_plan(g, lives, sources, forbidden, budget, horizon=self.horizon)
         cands = reachable_candidates(g, lives, sources, forbidden, self.pool)
@@ -213,11 +217,15 @@ class AdaptiveFrontier(Container):
 
     name = "adaptive"
 
-    def __init__(self, commit_all: bool = False, max_rounds: int = 50, replan_every: int = 1, **kw):
+    def __init__(self, commit_all: bool = False, max_rounds: int = 50, replan_every: int = 1, pushdown: bool = True, **kw):
         super().__init__(**kw)
         self.commit_all = commit_all
         self.max_rounds = max_rounds
         self.replan_every = replan_every  # re-plan every k rounds; in between, commit exposed nodes of the standing plan
+        # push-down rule: an exposed planned node v is committed now only if q_v (c_v + 1/lambda) >= 1, where q_v is its
+        # exposure probability, c_v its number of inactive out-neighbours and lambda the shadow price of a budget unit
+        # (the smallest marginal saving in the current plan); otherwise protection is deferred to v's children
+        self.pushdown = pushdown
 
     def reset(self, budget):
         super().reset(budget)
@@ -236,15 +244,32 @@ class AdaptiveFrontier(Container):
             gs, lives = self._samples(ep, kappa_hat)
             plan, gains = self.plan(gs, lives, ep.frontier, forb, left)
             self.standing = list(plan)
+            self.shadow = float(min(gains)) if gains and len(plan) >= left else 0.0
         if not self.standing:
             return []
         if self.commit_all:
             chosen = self.standing[:left]
         else:
+            # exposure probability of each node from the current frontier (under the planning probabilities)
+            gs = scaled(g, kappa_hat if self.use_kappa else 1.0)
+            log1mq = np.zeros(g.n)
             exposed = np.zeros(g.n, dtype=bool)
             for u in ep.frontier:
-                exposed[g.indices[g.indptr[u]: g.indptr[u + 1]]] = True
-            chosen = [v for v in self.standing if exposed[v]][:left]
+                lo, hi = gs.indptr[u], gs.indptr[u + 1]
+                exposed[gs.indices[lo:hi]] = True
+                np.add.at(log1mq, gs.indices[lo:hi], np.log1p(-np.minimum(1 - 1e-12, gs.weights[lo:hi])))
+            chosen = []
+            for v in self.standing:
+                if not exposed[v]:
+                    continue
+                if self.pushdown and self.shadow > 0:
+                    q = -np.expm1(log1mq[v])
+                    nb = g.indices[g.indptr[v]: g.indptr[v + 1]]
+                    c = int((~forb[nb]).sum())
+                    if q * (c + 1.0 / self.shadow) < 1.0:
+                        continue  # cheaper in expectation to protect v's children later than to spend a unit on v now
+                chosen.append(v)
+            chosen = chosen[:left]
         self.standing = [v for v in self.standing if v not in set(chosen)]
         self.spent += len(chosen)
         return chosen
