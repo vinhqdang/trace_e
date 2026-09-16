@@ -309,6 +309,94 @@ Paired difference in final spread on common realisations (negative = adaptive be
 | commit − ag | -2.6 ± 8.3 (wins 63%) | +4.9 ± 3.7 (wins 41%) | +0.5 ± 0.4 (wins 43%) |
 | commit − gr | +1.5 ± 7.7 (wins 56%) | +6.0 ± 3.7 (wins 36%) | +1.0 ± 0.3 (wins 36%) |
 
+### cagrqc (wc, 20 random seeds, 10 instances x 5 realisations, theta=100; no intervention: 55.8)
+
+| policy | spread@20 | spread@50 | spread@100 | saved@20 | saved@50 | saved@100 | time/episode (s) |
+|---|---|---|---|---|---|---|---|
+| lsbm | 33.2 ± 2.1 | 14.8 ± 1.6 | 2.1 ± 0.5 | 0.404 | 0.735 | 0.962 | 0.04 |
+| ag | 33.9 ± 2.2 | 14.5 ± 1.6 | 2.2 ± 0.5 | 0.391 | 0.740 | 0.961 | 0.05 |
+| gr | 33.9 ± 2.2 | 14.5 ± 1.6 | 2.2 ± 0.5 | 0.391 | 0.740 | 0.961 | 0.05 |
+| commit | 37.9 ± 3.2 | 18.5 ± 2.7 | 2.4 ± 0.5 | 0.321 | 0.667 | 0.958 | 2.00 |
+| defer_nopush | 37.9 ± 3.2 | 18.5 ± 2.7 | 2.4 ± 0.5 | 0.321 | 0.667 | 0.958 | 2.02 |
+| defer | 38.7 ± 3.2 | 18.5 ± 2.7 | 2.4 ± 0.5 | 0.305 | 0.667 | 0.958 | 2.04 |
+| defer_gr | 37.8 ± 3.0 | 19.9 ± 1.5 | 6.1 ± 0.9 | 0.321 | 0.642 | 0.890 | 0.66 |
+| proximity | 44.1 ± 3.1 | 32.9 ± 3.0 | 14.2 ± 2.3 | 0.209 | 0.410 | 0.746 | 0.02 |
+| degree | 53.3 ± 3.4 | 53.1 ± 3.4 | 49.5 ± 3.4 | 0.043 | 0.048 | 0.113 | 0.00 |
+| none | 55.8 ± 4.1 | 55.8 ± 4.1 | 55.8 ± 4.1 | 0.000 | 0.000 | 0.000 | 0.00 |
+
+Paired difference in final spread on common realisations (negative = adaptive better), with s.e. and the share of realisations the adaptive policy wins:
+
+| comparison | budget 20 | budget 50 | budget 100 |
+|---|---|---|---|
+| defer − ag | +4.8 ± 2.2 (wins 41%) | +4.1 ± 2.2 (wins 37%) | +0.2 ± 0.4 (wins 50%) |
+| defer − gr | +4.8 ± 2.2 (wins 41%) | +4.1 ± 2.2 (wins 37%) | +0.2 ± 0.4 (wins 50%) |
+| defer_gr − ag | +3.9 ± 2.1 (wins 38%) | +5.5 ± 0.8 (wins 18%) | +3.9 ± 0.7 (wins 24%) |
+| defer_gr − gr | +3.9 ± 2.1 (wins 38%) | +5.5 ± 0.8 (wins 18%) | +3.9 ± 0.7 (wins 24%) |
+| defer_nopush − ag | +3.9 ± 2.3 (wins 44%) | +4.1 ± 2.2 (wins 37%) | +0.2 ± 0.4 (wins 50%) |
+| defer_nopush − gr | +3.9 ± 2.3 (wins 44%) | +4.1 ± 2.2 (wins 37%) | +0.2 ± 0.4 (wins 50%) |
+| commit − ag | +3.9 ± 2.3 (wins 44%) | +4.1 ± 2.2 (wins 37%) | +0.2 ± 0.4 (wins 50%) |
+| commit − gr | +3.9 ± 2.3 (wins 44%) | +4.1 ± 2.2 (wins 37%) | +0.2 ± 0.4 (wins 50%) |
+
+### cagrqc (const p=0.05, 20 random seeds, 10 instances x 5 realisations, theta=100; no intervention: 34.4)
+
+| policy | spread@5 | spread@10 | spread@20 | saved@5 | saved@10 | saved@20 | time/episode (s) |
+|---|---|---|---|---|---|---|---|
+| proximity | 25.5 ± 3.9 | 20.5 ± 3.5 | 13.4 ± 2.3 | 0.260 | 0.405 | 0.612 | 0.02 |
+| lsbm | 25.8 ± 4.2 | 20.9 ± 3.4 | 13.6 ± 2.4 | 0.249 | 0.392 | 0.604 | 0.01 |
+| defer_cut | 24.8 ± 4.0 | 19.1 ± 3.2 | 14.2 ± 2.5 | 0.281 | 0.444 | 0.589 | 0.70 |
+| defer | 24.8 ± 4.0 | 19.2 ± 3.1 | 14.2 ± 2.5 | 0.281 | 0.443 | 0.586 | 0.32 |
+| defer_nopush | 28.0 ± 4.3 | 20.5 ± 3.3 | 14.3 ± 2.5 | 0.186 | 0.405 | 0.584 | 0.28 |
+| defer_gr | 24.8 ± 4.0 | 19.2 ± 3.1 | 14.3 ± 2.5 | 0.281 | 0.443 | 0.584 | 0.34 |
+| commit | 28.0 ± 4.3 | 20.5 ± 3.3 | 14.3 ± 2.5 | 0.186 | 0.405 | 0.584 | 0.30 |
+| ag | 25.8 ± 4.2 | 21.2 ± 3.4 | 14.6 ± 2.5 | 0.250 | 0.384 | 0.576 | 0.02 |
+| isocut | 25.8 ± 4.2 | 21.2 ± 3.4 | 14.6 ± 2.5 | 0.250 | 0.384 | 0.576 | 0.02 |
+| gr | 25.9 ± 4.2 | 21.3 ± 3.5 | 14.7 ± 2.6 | 0.246 | 0.381 | 0.573 | 0.02 |
+| none | 34.4 ± 4.9 | 34.4 ± 4.9 | 34.4 ± 4.9 | 0.000 | 0.000 | 0.000 | 0.00 |
+
+Paired difference in final spread on common realisations (negative = adaptive better), with s.e. and the share of realisations the adaptive policy wins:
+
+| comparison | budget 5 | budget 10 | budget 20 |
+|---|---|---|---|
+| defer − ag | -1.1 ± 0.6 (wins 54%) | -2.0 ± 1.6 (wins 51%) | -0.3 ± 0.7 (wins 48%) |
+| defer − gr | -1.2 ± 0.6 (wins 53%) | -2.1 ± 1.6 (wins 52%) | -0.5 ± 0.8 (wins 48%) |
+| defer_gr − ag | -1.1 ± 0.6 (wins 54%) | -2.0 ± 1.6 (wins 51%) | -0.3 ± 0.7 (wins 48%) |
+| defer_gr − gr | -1.2 ± 0.6 (wins 53%) | -2.1 ± 1.6 (wins 52%) | -0.4 ± 0.8 (wins 48%) |
+| defer_nopush − ag | +2.2 ± 2.4 (wins 53%) | -0.7 ± 2.1 (wins 52%) | -0.3 ± 0.7 (wins 51%) |
+| defer_nopush − gr | +2.1 ± 2.4 (wins 52%) | -0.8 ± 2.1 (wins 54%) | -0.4 ± 0.7 (wins 51%) |
+| commit − ag | +2.2 ± 2.4 (wins 53%) | -0.7 ± 2.1 (wins 52%) | -0.3 ± 0.7 (wins 51%) |
+| commit − gr | +2.1 ± 2.4 (wins 52%) | -0.8 ± 2.1 (wins 54%) | -0.4 ± 0.7 (wins 51%) |
+
+## Adaptivity gap on the star-of-paths family (DEFER Theorem 2)
+
+Seed with Delta children (edge probability p), each heading a private path of length 30; budget 1; 400 realisations. Ratio = nodes saved by DEFER / nodes saved by the best one-shot blocker; theory = (1-(1-p)^Delta)/p.
+
+| Delta | p | saved one-shot | saved DEFER | measured ratio | theory ratio |
+|---|---|---|---|---|---|
+| 4 | 0.02 | 0.70 | 2.18 | 3.1 | 3.9 |
+| 4 | 0.05 | 1.32 | 4.95 | 3.8 | 3.7 |
+| 4 | 0.1 | 2.71 | 10.12 | 3.7 | 3.4 |
+| 4 | 0.2 | 4.65 | 16.12 | 3.5 | 3.0 |
+| 8 | 0.02 | 0.70 | 4.58 | 6.6 | 7.5 |
+| 8 | 0.05 | 1.32 | 9.75 | 7.4 | 6.7 |
+| 8 | 0.1 | 2.71 | 16.20 | 6.0 | 5.7 |
+| 8 | 0.2 | 4.65 | 24.45 | 5.3 | 4.2 |
+| 16 | 0.02 | 0.70 | 8.25 | 11.8 | 13.8 |
+| 16 | 0.05 | 1.32 | 15.90 | 12.1 | 11.2 |
+| 16 | 0.1 | 2.71 | 23.55 | 8.7 | 8.1 |
+| 16 | 0.2 | 4.65 | 28.95 | 6.2 | 4.9 |
+| 32 | 0.02 | 0.70 | 14.10 | 20.2 | 23.8 |
+| 32 | 0.05 | 1.32 | 24.08 | 18.3 | 16.1 |
+| 32 | 0.1 | 2.71 | 28.88 | 10.6 | 9.7 |
+| 32 | 0.2 | 4.65 | 30.00 | 6.5 | 5.0 |
+
+### soc-Epinions1 (75,879 nodes, 811,480 directed edges): timing check, weighted cascade, 20 seeds, budget 50, theta = 50
+
+| instance | no intervention | AG spread / time | GR spread / time | DEFER spread / time per episode |
+|---|---|---|---|---|
+| 0 | 30.0 | 5.7 / 0.21s | 5.7 / 0.11s | 17.7 / 0.83s |
+| 1 | 79.7 | 63.0 / 0.11s | 63.0 / 0.11s | 23.0 / 0.51s |
+| 2 | 113.7 | 0.0 / 0.05s | 0.0 / 0.13s | 0.3 / 0.30s |
+
 ## Problem C: sequential detect-and-contain (AVID vs baselines)
 
 Independent cascade streams, half benign (kappa=1 unless noted) and half harmful (kappa log-uniform in [kappa_min, kappa_max]). FA = fraction of benign cascades acted on (target <= alpha); det = fraction of harmful cascades acted on; delay in rounds; harm@alarm = bad nodes when the detector fires; saved = 1 - final harmful spread / no-intervention spread; benign loss = activations suppressed on benign cascades. Latest run per configuration.

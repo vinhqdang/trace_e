@@ -1,0 +1,146 @@
+[
+  {
+    "Delta": 4,
+    "p": 0.02,
+    "saved_one_shot": 0.6975,
+    "saved_defer": 2.1750000000000003,
+    "measured_ratio": 3.1182795698924735,
+    "theory_ratio": 3.8815920000000057,
+    "spread_none": 2.2475
+  },
+  {
+    "Delta": 4,
+    "p": 0.05,
+    "saved_one_shot": 1.3175,
+    "saved_defer": 4.95,
+    "measured_ratio": 3.7571157495256173,
+    "theory_ratio": 3.7098750000000025,
+    "spread_none": 5.58
+  },
+  {
+    "Delta": 4,
+    "p": 0.1,
+    "saved_one_shot": 2.7125000000000004,
+    "saved_defer": 10.125,
+    "measured_ratio": 3.732718894009216,
+    "theory_ratio": 3.4389999999999996,
+    "spread_none": 11.935
+  },
+  {
+    "Delta": 4,
+    "p": 0.2,
+    "saved_one_shot": 4.650000000000002,
+    "saved_defer": 16.125,
+    "measured_ratio": 3.467741935483869,
+    "theory_ratio": 2.9519999999999995,
+    "spread_none": 21.4675
+  },
+  {
+    "Delta": 8,
+    "p": 0.02,
+    "saved_one_shot": 0.6974999999999998,
+    "saved_defer": 4.575,
+    "measured_ratio": 6.559139784946239,
+    "theory_ratio": 7.461848870910726,
+    "spread_none": 4.96
+  },
+  {
+    "Delta": 8,
+    "p": 0.05,
+    "saved_one_shot": 1.3175000000000008,
+    "saved_defer": 9.75,
+    "measured_ratio": 7.400379506641362,
+    "theory_ratio": 6.7315913742187545,
+    "spread_none": 11.47
+  },
+  {
+    "Delta": 8,
+    "p": 0.1,
+    "saved_one_shot": 2.712500000000002,
+    "saved_defer": 16.200000000000003,
+    "measured_ratio": 5.972350230414743,
+    "theory_ratio": 5.695327899999999,
+    "spread_none": 23.9475
+  },
+  {
+    "Delta": 8,
+    "p": 0.2,
+    "saved_one_shot": 4.649999999999999,
+    "saved_defer": 24.449999999999996,
+    "measured_ratio": 5.258064516129033,
+    "theory_ratio": 4.161139199999999,
+    "spread_none": 46.035
+  },
+  {
+    "Delta": 16,
+    "p": 0.02,
+    "saved_one_shot": 0.6974999999999998,
+    "saved_defer": 8.25,
+    "measured_ratio": 11.827956989247316,
+    "theory_ratio": 13.81011397037522,
+    "spread_none": 10.54
+  },
+  {
+    "Delta": 16,
+    "p": 0.05,
+    "saved_one_shot": 1.3175000000000026,
+    "saved_defer": 15.900000000000002,
+    "measured_ratio": 12.068311195445899,
+    "theory_ratio": 11.197466626964694,
+    "spread_none": 24.4125
+  },
+  {
+    "Delta": 16,
+    "p": 0.1,
+    "saved_one_shot": 2.7124999999999986,
+    "saved_defer": 23.55,
+    "measured_ratio": 8.68202764976959,
+    "theory_ratio": 8.146979811148158,
+    "spread_none": 47.6625
+  },
+  {
+    "Delta": 16,
+    "p": 0.2,
+    "saved_one_shot": 4.6499999999999915,
+    "saved_defer": 28.94999999999999,
+    "measured_ratio": 6.225806451612912,
+    "theory_ratio": 4.859262511644672,
+    "spread_none": 94.1625
+  },
+  {
+    "Delta": 32,
+    "p": 0.02,
+    "saved_one_shot": 0.697499999999998,
+    "saved_defer": 14.099999999999998,
+    "measured_ratio": 20.215053763440913,
+    "theory_ratio": 23.80584298325538,
+    "spread_none": 20.615
+  },
+  {
+    "Delta": 32,
+    "p": 0.05,
+    "saved_one_shot": 1.3175000000000026,
+    "saved_defer": 24.075000000000003,
+    "measured_ratio": 18.27324478178365,
+    "theory_ratio": 16.12577031082998,
+    "spread_none": 52.545
+  },
+  {
+    "Delta": 32,
+    "p": 0.1,
+    "saved_one_shot": 2.7125000000000057,
+    "saved_defer": 28.875,
+    "measured_ratio": 10.645161290322559,
+    "theory_ratio": 9.65663161797075,
+    "spread_none": 100.9825
+  },
+  {
+    "Delta": 32,
+    "p": 0.2,
+    "saved_one_shot": 4.650000000000006,
+    "saved_defer": 30.0,
+    "measured_ratio": 6.451612903225799,
+    "theory_ratio": 4.996038591874286,
+    "spread_none": 196.695
+  }
+]

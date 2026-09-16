@@ -227,8 +227,31 @@ def adaptive_report(path: str) -> str:
     return "\n".join(out)
 
 
+def gap_report() -> str:
+    fp = os.path.join(RES, "theory", "adaptivity_gap.json")
+    if not os.path.exists(fp):
+        return ""
+    rows = json.load(open(fp))
+    out = ["## Adaptivity gap on the star-of-paths family (DEFER Theorem 2)", "",
+           "Seed with Delta children (edge probability p), each heading a private path of length 30; budget 1; 400 realisations. "
+           "Ratio = nodes saved by DEFER / nodes saved by the best one-shot blocker; theory = (1-(1-p)^Delta)/p.", "",
+           "| Delta | p | saved one-shot | saved DEFER | measured ratio | theory ratio |", "|---|---|---|---|---|---|"]
+    for r in rows:
+        out.append(f"| {r['Delta']} | {r['p']} | {r['saved_one_shot']:.2f} | {r['saved_defer']:.2f} | {r['measured_ratio']:.1f} | {r['theory_ratio']:.1f} |")
+    out.append("")
+    fp2 = os.path.join(RES, "theory", "epinions_scale.json")
+    if os.path.exists(fp2):
+        rows = json.load(open(fp2))
+        out += ["### soc-Epinions1 (75,879 nodes, 811,480 directed edges): timing check, weighted cascade, 20 seeds, budget 50, theta = 50", "",
+                "| instance | no intervention | AG spread / time | GR spread / time | DEFER spread / time per episode |", "|---|---|---|---|---|"]
+        for r in rows:
+            out.append(f"| {r['inst']} | {r['none_spread']:.1f} | {r['ag_spread']:.1f} / {r['ag_time']:.2f}s | {r['gr_spread']:.1f} / {r['gr_time']:.2f}s | {r['defer_spread']:.1f} / {r['defer_time']:.2f}s |")
+        out.append("")
+    return "\n".join(out)
+
+
 def theory_report() -> str:
-    files = sorted(f for f in glob.glob(os.path.join(RES, "theory", "*.json")) if "throttle_" not in os.path.basename(f))
+    files = sorted(glob.glob(os.path.join(RES, "theory", "theory_*.json")))
     if not files:
         return ""
     out = ["## Theory checks (Theorems 1 and 2)", ""]
@@ -268,6 +291,7 @@ def main():
     ad = os.path.join(RES, "summary_adaptive.csv")
     if os.path.exists(ad):
         parts.append(adaptive_report(ad))
+        parts.append(gap_report())
     q = os.path.join(RES, "summary_sequential.csv")
     if os.path.exists(q):
         parts.append(sequential_report(q))
