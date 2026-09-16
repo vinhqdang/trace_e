@@ -94,12 +94,41 @@ results after each network.
 ## Problem B: run the blocking baselines
 
 ```
-python -m trace_e.eval.run_blocking --network karate
+python -m trace_e.eval.run_blocking --network dolphin --mode block --budgets 1,2,5,10
+python -m trace_e.eval.run_blocking --network cahepth --mode counter --n-seeds 5 --budgets 5,10,20
 ```
 
-See `trace_e/blocking/` and the runner docstring for the cascade models
-(independent cascade, competitive independent cascade), budgets and metrics
-(final misinformed fraction, saved fraction, runtime).
+Protocol: the graph becomes an independent-cascade (IC) model with edge
+activation probabilities from `--prob-model` (`wc` weighted cascade
+`1/deg(v)`, `const` p, `tri` trivalency). For each of `--n-instances` random
+bad seed sets and each budget, every method picks an intervention set. The
+expected number of bad adopters with and without intervention is estimated
+with `--n-mc` Monte-Carlo cascades using common random numbers across methods.
+
+* `--mode block`: chosen nodes are removed (influence minimisation by vertex
+  blocking; Wang et al. 2013, Xie et al. 2023).
+* `--mode counter`: chosen nodes seed a competing good campaign that starts
+  `--good-delay` rounds after the bad one; first arrival wins, ties go to the
+  good campaign (influence limitation; Budak et al. 2011).
+
+Available blockers (`--methods`): `random`, `degree`, `pagerank`, `proximity`
+(closest to the seeds), `reach` (Monte-Carlo reach probability times degree),
+`greedy` (CELF lazy greedy on a shared pool of live-edge samples; the
+(1-1/e) reference in counter mode), `proposed` (slot).
+
+Metrics: saved fraction `1 - after/before`, bad fraction of the graph, bad
+count, selection time; one summary row per (network, mode, method, budget) in
+`results/summary_blocking.csv`, per-instance JSONL with the chosen sets.
+
+`scripts/run_blocking_all.sh` runs both modes on the network suite.
+
+## Reports
+
+`python scripts/aggregate.py` rebuilds `results/REPORT.md` from the summary
+CSVs (latest run per configuration) and, for Problem A, recomputes the
+metrics restricted to outbreaks with at least two infected nodes from the
+per-instance logs (singleton outbreaks are trivially solved and inflate every
+method equally).
 
 ## Adding a method
 
@@ -110,6 +139,15 @@ See `trace_e/blocking/` and the runner docstring for the cascade models
    already wired).
 3. Run the runner with `--methods <name>`; the row lands in the same summary
    CSV as the baselines.
+
+## Larger graphs
+
+`python scripts/fetch_snap.py ca-GrQc ca-HepTh soc-Epinions1` downloads the
+SNAP graphs commonly used in influence-maximisation papers and writes them to
+`data/networks/` as `cagrqc` (5,241 nodes), `cahepth` (9,875 nodes; the
+NetHEPT family) and `socepinions1` (75,879 nodes; not committed because of
+its size). Synthetic graphs are available through specs such as `ba:2000:m=2`,
+`er:2000`, `ws:1000:k=6:p=0.05`, `tree:500`.
 
 ## Data sources
 
