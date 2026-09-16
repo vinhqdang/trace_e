@@ -1,6 +1,82 @@
 # Results notes (running log)
 
-## DEFER: adaptive influence minimisation (2026-09-16)
+## Problem A vs. published literature (2026-09-16)
+
+Direct source: Sterchi, Brack & Hilfiker, "Graph Neural Networks for Source
+Detection: A Review and Benchmark Study," arXiv:2512.20657 (2026) --
+the closest possible comparison, since our SIR simulator, network set
+(Karate/Iceland/Dolphin/Fraternity/Workplace/Highschool/Powergrid) and several
+baselines (Jordan, MLP, GCN family, MCMF/DMP-style, SME) were built to match
+their setup. Their benchmark calibrates beta and T *per network* so that
+R0 ~ 2 and ~40% of nodes are infected on average at observation time. Our own
+suite instead used one fixed (beta=1.3, T=0.85) pair across every network,
+which happens to reproduce Sterchi's exact Karate calibration (also
+beta=1.300, T=0.85) but diverges sharply everywhere else:
+
+| network | our avg. infected fraction | Sterchi's target |
+|---|---|---|
+| karate | 39.7% | ~40% (matches) |
+| iceland | 16.7% | ~40% (they report ~75% actually reached at their higher beta=5.1) |
+| dolphin | 28.4% | ~40% |
+| fraternity | 96.6% | ~40% |
+| workplace | 92.6% | ~40% |
+| highschool | 96.8% | ~40% |
+| powergrid | 0.11% | ~40% |
+
+**Conclusion: only Karate is a valid apples-to-apples comparison.** Every
+other network's comparison to Sterchi's numbers is confounded by wildly
+different outbreak sizes and must not be read as "our pipeline vs. theirs."
+
+Karate comparison (both: seed beta=1.300, T=0.85, ~40% infected, top-5
+accuracy on 100 simulated outbreaks/node = 3400 test instances):
+
+| method | Sterchi et al. top-5 | ours (top-5) | Sterchi ed | ours ed |
+|---|---|---|---|---|
+| Random | 39.37% | 52.85% | 1.321 | 1.352 |
+| Jordan | 52.68% | 54.35% | 1.080 | 1.114 |
+| Betweenness / degree (closest ours has) | 55.19% | 53.59% | 0.911 | 0.889 |
+| SME | 60.67% | 55.74% | 1.083 | 1.217 |
+| MCMF / DMP (closest ours has) | 65.61% | 67.85% | 0.900 | 0.965 |
+| MLP (snapshot) | 67.90% | 61.15% | 1.037 | 1.226 |
+| GCN (Shah et al. arch, their best) | 72.87% | -- | 0.933 | -- |
+| GCN (Dong et al. arch, ours uses this) | 68.67% | 64.27% | 1.002 | 0.899 |
+| IGCN | 72.83% | 67.12% | 0.975 | 1.174 |
+| GraphSAGE (ours: gcn_skip, different arch) | 71.89% | 69.88% | 0.981 | 0.956 |
+
+Two things stand out and are worth chasing before writing this up:
+
+1. **Our Random baseline scores far above theirs** (52.85% vs 39.37% top-5)
+   even though average outbreak size matches almost exactly. This is the
+   single biggest anomaly in the comparison and suggests a difference in how
+   "random among the infected subgraph" is implemented (tie-breaking,
+   inclusion of recovered vs. only-infectious nodes, or restricting the
+   candidate pool) -- not yet root-caused.
+2. Modulo that baseline shift, our GNN methods land in the same 60s-70% top-5
+   band as theirs and beat our own classical baselines by a similar margin,
+   so the qualitative finding ("GNNs clearly beat classical/probabilistic
+   methods") replicates even though the absolute numbers don't match exactly.
+
+**Action item, not yet done:** recalibrate (beta, T) per network to hit a
+consistent target infected-fraction (as Sterchi did) before claiming any
+further network-level comparison; also audit the `random` baseline's exact
+sampling procedure to explain the discrepancy above.
+
+## Problem B vs. published literature (2026-09-16)
+
+Direct source: Xie, Zhang, Wang, Liu, Lin & Zhang, "Influence Minimization via
+Blocking Strategies," INFORMS J. Computing (2024), arXiv:2312.17488 -- the
+paper AdvancedGreedy/GreedyReplace (our `agreedy`/`greedy_replace` baselines)
+come from. Their Table 4 (IC model, TR edge probabilities, budget 20-100,
+10 random seeds) reports e.g. on Facebook (n=4039): Random 16.0-21.5,
+OutDegree 16.0-21.4, AdvancedGreedy 10.0-14.6, GreedyReplace 10.0-14.6 (all
+converging to ~10, the number of seeds, as budget grows -- i.e. AG/GR nearly
+eliminate all seed-caused spread at budget>=80). Their own `Exact` vs.
+`GreedyReplace` check (Table 3, budget 1-4, IC/TR, 100-node subgraphs)
+finds GreedyReplace within 0.05-0.5% of the true optimum, at up to 6 orders
+of magnitude less compute. This is a useful ground truth to line up our
+`greedy_dom`/AG-style implementation against on the same or similarly-sized
+graphs; not yet done in this repo (our Problem B suite so far runs on
+different graphs at different budgets, see the blocking summary CSV).
 
 Protocol (`trace_e/eval/run_adaptive.py`): every policy runs on the same
 live-edge realisations with the same total budget; one-shot planners see the
