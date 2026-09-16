@@ -282,7 +282,6 @@ Independent cascade streams, half benign (kappa=1 unless noted) and half harmful
 | detector | container | throttle (rho, frac) | FA | det | delay | harm@alarm | W@alarm | final harm | saved | benign loss | kappa MAE | detect ms | contain ms |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | eprocess | adaptive | hub (0.10, 0.70) | 0.000 ± 0.000 | 0.493 | 1.57 | 13.4 | 53.0 | 555.7 | 0.695 | 0.93 | 0.57 | 2.00 | 99.0 |
-| eprocess | adaptive | hub (0.10, 0.50) | 0.000 ± 0.000 | 0.573 | 1.78 | 14.4 | 54.2 | 601.0 | 0.670 | 0.93 | 0.56 | 2.02 | 107.3 |
 | eprocess | adaptive | hub (0.30, 0.70) | 0.000 ± 0.000 | 0.553 | 1.75 | 14.3 | 43.7 | 633.6 | 0.652 | 0.90 | 0.53 | 3.47 | 172.5 |
 | eprocess | adaptive | uniform (0.30, 0.50) | 0.000 ± 0.000 | 0.487 | 1.64 | 13.7 | 43.9 | 634.0 | 0.652 | 0.97 | 0.56 | 2.24 | 147.1 |
 | eprocess | adaptive | random (0.10, 0.70) | 0.003 ± 0.003 | 0.547 | 1.77 | 14.0 | 57.7 | 661.3 | 0.637 | 0.93 | 0.55 | 2.34 | 123.6 |
@@ -291,6 +290,7 @@ Independent cascade streams, half benign (kappa=1 unless noted) and half harmful
 | eprocess | adaptive | random (0.10, 0.50) | 0.007 ± 0.005 | 0.623 | 2.00 | 14.8 | 59.0 | 774.0 | 0.575 | 0.81 | 0.52 | 2.29 | 129.8 |
 | eprocess | adaptive | uniform (0.50, 0.50) | 0.000 ± 0.000 | 0.603 | 1.94 | 15.2 | 48.6 | 789.5 | 0.567 | 0.84 | 0.54 | 2.75 | 172.9 |
 | eprocess | adaptive | random (0.30, 0.70) | 0.000 ± 0.000 | 0.583 | 1.86 | 14.8 | 48.2 | 802.7 | 0.560 | 0.85 | 0.53 | 2.90 | 186.3 |
+| eprocess | adaptive | hub (0.10, 0.50) | 0.000 ± 0.000 | 0.520 | 2.07 | 20.5 | 103.5 | 498.7 | 0.545 | 5.45 | 0.52 | 3.67 | 593.3 |
 | eprocess | adaptive | random (0.30, 0.50) | 0.000 ± 0.000 | 0.637 | 1.99 | 15.6 | 62.0 | 854.2 | 0.531 | 0.75 | 0.51 | 2.56 | 188.8 |
 | eprocess | adaptive | random (0.30, 0.30) | 0.000 ± 0.000 | 0.677 | 2.14 | 16.5 | 63.9 | 874.7 | 0.520 | 0.57 | 0.48 | 2.53 | 195.4 |
 | eprocess | adaptive | uniform (0.70, 0.50) | 0.000 ± 0.000 | 0.663 | 2.06 | 16.5 | 53.1 | 927.7 | 0.491 | 0.59 | 0.52 | 2.76 | 201.8 |
@@ -306,9 +306,11 @@ Independent cascade streams, half benign (kappa=1 unless noted) and half harmful
 | eprocess | adaptive | hub (0.10, 0.70) | 0.000 ± 0.000 | 0.487 | 1.41 | 11.6 | 37.5 | 424.8 | 0.764 | 0.35 | 0.52 | 3.05 | 70.2 |
 | eprocess | adaptive | hub (0.10, 0.50) | 0.003 ± 0.003 | 0.590 | 1.61 | 12.2 | 37.1 | 425.4 | 0.764 | 0.31 | 0.48 | 2.85 | 65.0 |
 | eprocess | adaptive | hub (0.10, 0.30) | 0.003 ± 0.003 | 0.697 | 1.78 | 12.7 | 37.3 | 426.6 | 0.763 | 0.24 | 0.45 | 2.59 | 74.0 |
+| eprocess | adaptive | hub (0.30, 0.30) | 0.003 ± 0.003 | 0.740 | 1.96 | 13.3 | 39.2 | 431.1 | 0.760 | 0.17 | 0.44 | 4.21 | 88.3 |
 | eprocess | adaptive | random (0.10, 0.70) | 0.003 ± 0.003 | 0.577 | 1.62 | 11.9 | 38.4 | 440.5 | 0.755 | 0.34 | 0.48 | 2.81 | 79.9 |
 | eprocess | adaptive | random (0.10, 0.50) | 0.000 ± 0.000 | 0.680 | 1.82 | 12.7 | 39.6 | 450.3 | 0.750 | 0.27 | 0.46 | 3.20 | 78.0 |
 | eprocess | adaptive | random (0.10, 0.30) | 0.000 ± 0.000 | 0.760 | 2.01 | 13.7 | 41.9 | 483.2 | 0.732 | 0.23 | 0.42 | 2.78 | 87.3 |
+| eprocess | adaptive | random (0.30, 0.30) | 0.000 ± 0.000 | 0.790 | 2.08 | 14.2 | 43.3 | 512.9 | 0.715 | 0.18 | 0.41 | 2.58 | 96.0 |
 | eprocess | adaptive | none | 0.000 ± 0.000 | 0.883 | 2.30 | 15.5 | 46.6 | 539.6 | 0.700 | 0.00 | 0.41 | 2.83 | 101.6 |
 
 ## Concurrent cascades: FDR control and harm-weighted e-BH (Theorem 4)
