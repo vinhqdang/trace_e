@@ -111,8 +111,11 @@ The last three columns exclude outbreaks where only the source was infected at T
 | method | top1 | top3 | top5 | ed | rr | css | fit (s) | infer (s/inst) | top1 (n_inf>=2) | top5 (n_inf>=2) | ed (n_inf>=2) |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | jordan | 0.034 ± 0.003 | 0.038 | 0.045 | 2.045 | 0.037 |  | 0.0 | 0.42977 | 0.005 | 0.017 | 2.106 |
-| random | 0.033 ± 0.003 | 0.039 | 0.045 | 2.070 | 0.036 | 285.62 | 0.0 | 0.00203 | 0.004 | 0.016 | 2.132 |
+| distance | 0.033 ± 0.003 | 0.039 | 0.046 | 1.701 | 0.049 |  | 0.0 | 0.43277 | 0.004 | 0.017 | 1.752 |
 | degree | 0.033 ± 0.003 | 0.039 | 0.046 | 1.759 | 0.049 |  | 0.0 | 0.00215 | 0.004 | 0.017 | 1.811 |
+| random | 0.033 ± 0.003 | 0.039 | 0.045 | 2.070 | 0.036 | 285.62 | 0.0 | 0.00203 | 0.004 | 0.016 | 2.132 |
+| rumor | 0.033 ± 0.003 | 0.039 | 0.045 | 1.724 | 0.049 |  | 0.0 | 0.18720 | 0.004 | 0.017 | 1.775 |
+| netsleuth | 0.033 ± 0.003 | 0.039 | 0.046 | 2.602 | 0.049 |  | 0.0 | 0.00454 | 0.004 | 0.017 | 2.680 |
 
 The last three columns exclude outbreaks where only the source was infected at T (3175 of 3270 test outbreaks remain).
 
@@ -273,6 +276,25 @@ Independent cascade with weighted-cascade probabilities unless noted. saved = 1 
 | degree | 0.026 ± 0.027 | 0.030 ± 0.024 | 0.025 ± 0.024 | 0.071 ± 0.033 | 0.000 |
 | pagerank | 0.002 ± 0.011 | 0.009 ± 0.008 | 0.030 ± 0.022 | 0.056 ± 0.033 | 0.000 |
 | random | 0.013 ± 0.009 | -0.003 ± 0.011 | 0.003 ± 0.012 | 0.008 ± 0.011 | 0.000 |
+
+## Adaptive influence minimisation: DEFER vs one-shot blocking
+
+Same live-edge realisations and the same total budget for every policy. spread = bad nodes beyond the seeds (mean ± s.e. over instances x realisations); one-shot planners are computed at time 0 with the seeds known; adaptive policies observe activations round by round. Latest run per configuration.
+
+### cagrqc (const p=0.1, 20 random seeds, 10 instances x 5 realisations, theta=100; no intervention: 171.8)
+
+| policy | spread@20 | spread@50 | spread@100 | saved@20 | saved@50 | saved@100 | time/episode (s) |
+|---|---|---|---|---|---|---|---|
+| gr | 56.9 ± 9.0 | 19.1 ± 3.3 | 3.5 ± 0.9 | 0.669 | 0.889 | 0.979 | 0.16 |
+| defer | 50.8 ± 8.1 | 20.1 ± 3.5 | 4.0 ± 0.9 | 0.704 | 0.883 | 0.977 | 3.06 |
+| defer_nopush | 51.1 ± 8.1 | 21.0 ± 3.6 | 4.0 ± 0.9 | 0.703 | 0.878 | 0.977 | 3.07 |
+| ag | 61.0 ± 9.5 | 20.2 ± 3.6 | 4.0 ± 0.9 | 0.645 | 0.883 | 0.977 | 0.16 |
+| commit | 58.4 ± 9.5 | 25.1 ± 5.0 | 4.5 ± 1.0 | 0.660 | 0.854 | 0.974 | 3.06 |
+| defer_gr | 46.7 ± 7.0 | 22.1 ± 3.9 | 6.7 ± 1.5 | 0.728 | 0.871 | 0.961 | 1.63 |
+| proximity | 63.4 ± 11.1 | 24.2 ± 5.6 | 7.0 ± 2.3 | 0.631 | 0.859 | 0.959 | 0.02 |
+| lsbm | 59.3 ± 9.2 | 22.6 ± 3.8 | 8.4 ± 1.7 | 0.655 | 0.868 | 0.951 | 0.12 |
+| degree | 85.3 ± 9.4 | 68.5 ± 7.0 | 44.5 ± 4.8 | 0.504 | 0.602 | 0.741 | 0.00 |
+| none | 171.8 ± 16.5 | 171.8 ± 16.5 | 171.8 ± 16.5 | 0.000 | 0.000 | 0.000 | 0.00 |
 
 ## Problem C: sequential detect-and-contain (AVID vs baselines)
 
