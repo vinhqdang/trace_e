@@ -145,8 +145,31 @@ def stream_report() -> str:
     return "\n".join(out)
 
 
+def throttle_theory_report() -> str:
+    files = sorted(glob.glob(os.path.join(RES, "theory", "throttle_*.json")))
+    if not files:
+        return ""
+    out = ["## Theory check (Theorem 5): activations vs influence at the alarm under throttling", "",
+           "Throttling always on (no evidence gate), no containment. H = activated non-seed nodes when the e-process crosses 1/alpha, "
+           "W = their influence-weighted sum (1 + kappa * expected children), detected = fraction of cascades that reach the threshold "
+           "before dying; benign loss = activations suppressed per benign cascade by the policy.", ""]
+    for fp in files:
+        r = json.load(open(fp))
+        a = r["args"]
+        out.append(f"### {a['network']} ({a['prob_model']}, rho_min={a['rho_min']}, frac={a['frac']}, {a['n_seeds']} seeds, n={a['n']})")
+        out.append("")
+        out.append("| kappa | policy | detected | H at alarm | W at alarm | W/H | rounds | benign loss |")
+        out.append("|---|---|---|---|---|---|---|---|")
+        for row in r["rows"]:
+            f = lambda x, k=2: "" if x is None else f"{x:.{k}f}"  # noqa: E731
+            ratio = "" if not row["H_at_alarm"] else f"{row['W_at_alarm'] / row['H_at_alarm']:.2f}"
+            out.append(f"| {row['kappa']:g} | {row['policy']} | {row['detected']:.3f} | {f(row['H_at_alarm'], 1)} | {f(row['W_at_alarm'], 1)} | {ratio} | {f(row['rounds'])} | {f(row['benign_loss'])} |")
+        out.append("")
+    return "\n".join(out)
+
+
 def theory_report() -> str:
-    files = sorted(glob.glob(os.path.join(RES, "theory", "*.json")))
+    files = sorted(f for f in glob.glob(os.path.join(RES, "theory", "*.json")) if "throttle_" not in os.path.basename(f))
     if not files:
         return ""
     out = ["## Theory checks (Theorems 1 and 2)", ""]
@@ -188,6 +211,7 @@ def main():
         parts.append(sequential_report(q))
     parts.append(stream_report())
     parts.append(theory_report())
+    parts.append(throttle_theory_report())
     with open(os.path.join(RES, "REPORT.md"), "w") as f:
         f.write("\n".join(parts) + "\n")
     print("wrote", os.path.join(RES, "REPORT.md"))

@@ -285,8 +285,12 @@ Independent cascade streams, half benign (kappa=1 unless noted) and half harmful
 | eprocess | adaptive | hub (0.10, 0.50) | 0.000 ± 0.000 | 0.573 | 1.78 | 14.4 | 54.2 | 601.0 | 0.670 | 0.93 | 0.56 | 2.02 | 107.3 |
 | eprocess | adaptive | random (0.10, 0.70) | 0.003 ± 0.003 | 0.547 | 1.77 | 14.0 | 57.7 | 661.3 | 0.637 | 0.93 | 0.55 | 2.34 | 123.6 |
 | eprocess | adaptive | hub (0.10, 0.30) | 0.000 ± 0.000 | 0.627 | 1.95 | 15.5 | 56.8 | 670.0 | 0.632 | 0.67 | 0.54 | 2.60 | 116.8 |
+| eprocess | adaptive | hub (0.30, 0.50) | 0.000 ± 0.000 | 0.603 | 2.00 | 15.4 | 57.9 | 687.7 | 0.623 | 0.84 | 0.52 | 2.17 | 122.3 |
+| eprocess | adaptive | hub (0.30, 0.30) | 0.000 ± 0.000 | 0.640 | 2.09 | 16.2 | 59.6 | 739.7 | 0.594 | 0.56 | 0.53 | 2.24 | 149.9 |
 | eprocess | adaptive | random (0.10, 0.50) | 0.007 ± 0.005 | 0.623 | 2.00 | 14.8 | 59.0 | 774.0 | 0.575 | 0.81 | 0.52 | 2.29 | 129.8 |
 | eprocess | adaptive | random (0.10, 0.30) | 0.000 ± 0.000 | 0.663 | 2.08 | 16.0 | 62.4 | 828.3 | 0.546 | 0.69 | 0.50 | 2.75 | 148.9 |
+| eprocess | adaptive | random (0.30, 0.50) | 0.000 ± 0.000 | 0.637 | 1.99 | 15.6 | 62.0 | 854.2 | 0.531 | 0.75 | 0.51 | 2.56 | 188.8 |
+| eprocess | adaptive | random (0.30, 0.30) | 0.000 ± 0.000 | 0.677 | 2.14 | 16.5 | 63.9 | 874.7 | 0.520 | 0.57 | 0.48 | 2.53 | 195.4 |
 | eprocess | adaptive | none | 0.000 ± 0.000 | 0.730 | 2.17 | 17.7 |  | 962.7 | 0.472 | 0.00 | 0.48 | 2.20 | 169.8 |
 
 ## Concurrent cascades: FDR control and harm-weighted e-BH (Theorem 4)
@@ -346,4 +350,29 @@ Harm at alarm (bad nodes beyond the seeds when the e-process crosses 1/alpha, al
 | 2.0 | 0.860 | 14.0 | 13 | 3.3 | 32.1 | 212.2 |
 | 3.0 | 1.000 | 8.9 | 8 | 2.1 | 13.3 | 4104.4 |
 | 4.0 | 1.000 | 8.5 | 8 | 1.7 | 9.8 | 4804.3 |
+
+## Theory check (Theorem 5): activations vs influence at the alarm under throttling
+
+Throttling always on (no evidence gate), no containment. H = activated non-seed nodes when the e-process crosses 1/alpha, W = their influence-weighted sum (1 + kappa * expected children), detected = fraction of cascades that reach the threshold before dying; benign loss = activations suppressed per benign cascade by the policy.
+
+### cagrqc (wc, rho_min=0.1, frac=0.5, 3 seeds, n=300)
+
+| kappa | policy | detected | H at alarm | W at alarm | W/H | rounds | benign loss |
+|---|---|---|---|---|---|---|---|
+| 2 | none | 0.643 | 17.3 | 63.9 | 3.69 | 2.51 |  |
+| 2 | hub | 0.140 | 6.6 | 27.2 | 4.11 | 1.79 |  |
+| 2 | uniform | 0.003 | 4.0 | 20.1 | 5.03 | 2.00 |  |
+| 2 | random | 0.240 | 10.1 | 44.3 | 4.40 | 2.32 |  |
+| 3 | none | 0.900 | 12.2 | 65.1 | 5.31 | 1.64 |  |
+| 3 | hub | 0.420 | 6.3 | 33.7 | 5.33 | 1.73 |  |
+| 3 | uniform | 0.020 | 4.3 | 41.6 | 9.60 | 2.17 |  |
+| 3 | random | 0.650 | 8.1 | 49.9 | 6.18 | 1.87 |  |
+| 4 | none | 0.950 | 10.8 | 77.3 | 7.13 | 1.31 |  |
+| 4 | hub | 0.600 | 6.1 | 40.9 | 6.73 | 1.57 |  |
+| 4 | uniform | 0.057 | 4.2 | 51.2 | 12.10 | 2.00 |  |
+| 4 | random | 0.733 | 7.8 | 62.2 | 8.00 | 1.63 |  |
+| 1 | none | 0.007 |  |  |  |  | 0.00 |
+| 1 | hub | 0.003 |  |  |  |  | 6.84 |
+| 1 | uniform | 0.000 |  |  |  |  | 8.27 |
+| 1 | random | 0.007 |  |  |  |  | 6.46 |
 
