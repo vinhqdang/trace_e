@@ -9,6 +9,7 @@ for this #P-hard quantity on graphs small enough to enumerate exhaustively.
 """
 from __future__ import annotations
 
+import os
 import random
 
 import networkx as nx
@@ -118,3 +119,59 @@ def test_greedy_exact_matches_or_beats_random_and_never_beats_optimal():
         assert len(Bg) <= budget
         checked += 1
     assert checked > 5
+
+
+def test_exact_spread_fast_matches_exact_spread_and_brute_force():
+    """ExactSpreadFast collapses ExactSpread's per-history pending counts into a single
+    probability-weighted sum per block (exact by linearity, not an approximation); check
+    it against both ExactSpread and brute force."""
+    from trace_e.blocking.treewidth import ExactSpreadFast
+
+    rng = random.Random(2)
+    checked = 0
+    for _ in range(80):
+        G, weights = _random_instance(rng)
+        if G.number_of_edges() == 0:
+            continue
+
+        def wfn(u, v, weights=weights):
+            return weights[frozenset((u, v))]
+
+        seeds = rng.sample(list(G.nodes), k=rng.randint(1, min(3, G.number_of_nodes())))
+        es = ExactSpread(G, wfn, seeds)
+        ef = ExactSpreadFast(G, wfn, seeds, order=es.order)
+        v_exact = es.evaluate()
+        v_fast = ef.evaluate()
+        v_bf = brute_force_spread(G, wfn, seeds)
+        assert v_fast == pytest.approx(v_exact, abs=1e-6)
+        assert v_fast == pytest.approx(v_bf, abs=1e-6)
+        candidates = [v for v in G.nodes if v not in seeds]
+        if candidates:
+            blocked = set(rng.sample(candidates, k=min(rng.randint(1, 3), len(candidates))))
+            assert ef.evaluate(blocked) == pytest.approx(brute_force_spread(G, wfn, seeds, blocked), abs=1e-6)
+        checked += 1
+    assert checked > 30
+
+
+def test_exact_spread_fast_runs_fast_on_zachary_karate_club():
+    """Regression test for the frontier-ordering fix: running the DP in the reverse of the
+    elimination heuristic's output (hub vertices introduced early, not last) keeps this
+    real 34-node network's frontier small enough to finish in well under a second."""
+    import time
+
+    from trace_e.blocking.treewidth import ExactSpreadFast, elimination_order
+
+    edges = [tuple(map(int, line.split())) for line in open(
+        os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "networks", "karate.csv"))]
+    G = nx.Graph()
+    G.add_nodes_from(range(34))
+    G.add_edges_from(edges)
+    rng = random.Random(0)
+    weights = {frozenset(e): rng.uniform(0.05, 0.4) for e in G.edges}
+    order = elimination_order(G, method="min_fill_in")
+    ef = ExactSpreadFast(G, lambda u, v: weights[frozenset((u, v))], [0], order=order)
+    t0 = time.perf_counter()
+    val = ef.evaluate()
+    dt = time.perf_counter() - t0
+    assert val > 0
+    assert dt < 10.0
