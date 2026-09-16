@@ -29,14 +29,15 @@ from ..blocking.cascade import set_edge_probabilities
 from ..graphs import load_network, graph_stats, to_csr
 from ..logging_utils import RunLogger, RESULTS_DIR, append_csv
 from ..sequential import DETECTORS, CONTAINERS, get_detector, get_container
+from ..sequential.throttlers import THROTTLERS, get_throttler
 from ..sequential.policy import run_episode, max_statistic
 from ..sequential.simulator import Episode, exposure
 
 COLUMNS = ["timestamp", "run_id", "network", "n_nodes", "n_edges", "prob_model", "p", "mode", "alpha", "kappa_min", "kappa_max", "kappa_null", "p0_scale",
            "benign_kappa_min", "benign_kappa_max", "n_seeds", "calib_n_seeds", "calib_kappa", "budget", "detector", "container",
-           "n_benign", "n_harmful", "fa_rate", "fa_se", "det_rate", "delay_mean", "harm_at_alarm", "harm_final_harmful",
+           "throttler", "rho_min", "throttle_frac", "alpha_soft", "n_benign", "n_harmful", "fa_rate", "fa_se", "det_rate", "delay_mean", "harm_at_alarm", "harm_final_harmful",
            "harm_cf_harmful", "saved_frac", "benign_loss", "benign_loss_frac", "kappa_mae", "n_intervened_mean",
-           "t_detect_ms", "t_contain_ms", "threshold", "seed", "git_commit", "notes"]
+           "t_detect_ms", "t_contain_ms", "throttled_rounds_harmful", "throttled_rounds_benign", "throttled_nodes_benign", "threshold", "seed", "git_commit", "notes"]
 
 _G = {}
 
@@ -62,7 +63,10 @@ def parse_args(argv=None):
     p.add_argument("--max-rounds", type=int, default=60)
     p.add_argument("--detectors", default="eprocess,sprt,cusum,size,growth,excess,logistic")
     p.add_argument("--containers", default="adaptive,greedy,proximity,degree")
-    p.add_argument("--pairs", default="", help="explicit detector:container pairs, comma separated (overrides the default grid)")
+    p.add_argument("--pairs", default="", help="explicit detector:container[:throttler] triples, comma separated (overrides the default grid)")
+    p.add_argument("--rho-min", type=float, default=0.2, help="throttle factor applied to selected exposures")
+    p.add_argument("--throttle-frac", type=float, default=0.5, help="fraction of the exposure mass to throttle (hub/random throttlers)")
+    p.add_argument("--alpha-soft", type=float, default=0.5, help="soft evidence gate 1/alpha_soft for throttling (1 = always on)")
     p.add_argument("--default-container", default="greedy")
     p.add_argument("--sprt-kappa", type=float, default=2.0)
     p.add_argument("--grid-eta", type=float, default=0.25)
@@ -104,8 +108,9 @@ def _run_one(task):
     i, seeds, kappa, ep_seed, harmful = task
     det = copy.deepcopy(_G["det"])
     con = copy.deepcopy(_G["con"])
+    thr = copy.deepcopy(_G.get("thr"))
     ep = Episode(_G["g"], kappa, seeds, np.random.default_rng(ep_seed), mode=_G["mode"])
-    r = run_episode(ep, det, con, _G["budget"], _G["max_rounds"], g_det=_G["g_det"])
+    r = run_episode(ep, det, con, _G["budget"], _G["max_rounds"], g_det=_G["g_det"], throttler=thr)
     r.update({"i": i, "harmful": harmful, "kappa": kappa, "seeds": [int(s) for s in seeds]})
     return r
 
@@ -172,10 +177,10 @@ def main(argv=None):
     det_names = [d for d in args.detectors.split(",") if d]
     con_names = [c for c in args.containers.split(",") if c]
     if args.pairs:
-        pairs = [tuple(p.split(":")) for p in args.pairs.split(",")]
+        pairs = [tuple((p.split(":") + ["none"])[:3]) for p in args.pairs.split(",")]
     else:
-        pairs = [(d, args.default_container) for d in det_names] + [("eprocess", c) for c in con_names if c != args.default_container]
-        pairs += [("never", "none"), ("immediate", args.default_container)]
+        pairs = [(d, args.default_container, "none") for d in det_names] + [("eprocess", c, "none") for c in con_names if c != args.default_container]
+        pairs += [("never", "none", "none"), ("immediate", args.default_container, "none")]
     seen = set()
     pairs = [p for p in pairs if not (p in seen or seen.add(p))]
     detectors = {}
@@ -205,14 +210,15 @@ def main(argv=None):
         detectors[d] = det
 
     # ---- run all pairs ----
-    for d, c in pairs:
+    for d, c, th in pairs:
         det = detectors[d]
         con = get_container(c, seed=args.seed, n_samples=args.samples, pool=args.pool, horizon=args.horizon, replan_every=args.replan_every)
-        _G["det"], _G["con"] = det, con
-        log.info("=== %s + %s ===", d, c)
+        thr = get_throttler(th, rho_min=args.rho_min, frac=args.throttle_frac, alpha_soft=args.alpha_soft, seed=args.seed)
+        _G["det"], _G["con"], _G["thr"] = det, con, thr
+        log.info("=== %s + %s + throttle:%s ===", d, c, th)
         t0 = time.time()
         rows = pmap(_run_one, episodes, args.n_jobs)
-        with rl.instance_writer(f"{d}__{c}") as fh:
+        with rl.instance_writer(f"{d}__{c}__{th}") as fh:
             for r in rows:
                 fh.write(json.dumps(r) + "\n")
         ben = [r for r in rows if not r["harmful"]]
@@ -229,7 +235,11 @@ def main(argv=None):
         row = dict(network=args.network, n_nodes=st["n_nodes"], n_edges=st["n_edges"], prob_model=args.prob_model, p=args.p, mode=args.mode,
                    alpha=args.alpha, kappa_min=args.kappa_min, kappa_max=args.kappa_max, kappa_null=args.kappa_null, p0_scale=args.p0_scale, benign_kappa_min=args.benign_kappa_min,
                    benign_kappa_max=args.benign_kappa_max, n_seeds=args.n_seeds, calib_n_seeds=calib_seeds, calib_kappa=("" if args.calib_kappa is None else args.calib_kappa), budget=args.budget,
-                   detector=d, container=c, n_benign=len(ben), n_harmful=len(har),
+                   detector=d, container=c, throttler=th, rho_min=args.rho_min, throttle_frac=args.throttle_frac, alpha_soft=args.alpha_soft,
+                   n_benign=len(ben), n_harmful=len(har),
+                   throttled_rounds_harmful=round(float(np.mean([r["throttled_rounds"] for r in har])), 3) if har else "",
+                   throttled_rounds_benign=round(float(np.mean([r["throttled_rounds"] for r in ben])), 3) if ben else "",
+                   throttled_nodes_benign=round(float(np.mean([r["throttled_nodes"] for r in ben])), 3) if ben else "",
                    fa_rate=round(float(fa), 4), fa_se=round(float(np.sqrt(fa * (1 - fa) / max(len(ben), 1))), 4) if ben else "",
                    det_rate=round(float(det_rate), 4), delay_mean=round(float(np.mean(delays)), 3) if delays else "",
                    harm_at_alarm=round(float(np.mean(haa)), 3) if haa else "", harm_final_harmful=round(float(hf.mean()), 3) if har else "",
@@ -242,8 +252,8 @@ def main(argv=None):
         append_csv(os.path.join(args.results_dir or RESULTS_DIR, "summary_sequential.csv"), row, COLUMNS)
         with open(os.path.join(rl.run_dir, "summary.jsonl"), "a") as f:
             f.write(json.dumps(row) + "\n")
-        log.info("RESULT %s %s+%s: FA=%.3f det=%.3f delay=%s harm@alarm=%s harm_final=%s (cf %s) saved=%s benign_loss=%s kappa_mae=%s (%.0fs)",
-                 args.network, d, c, fa, det_rate, row["delay_mean"], row["harm_at_alarm"], row["harm_final_harmful"], row["harm_cf_harmful"],
+        log.info("RESULT %s %s+%s+%s: FA=%.3f det=%.3f delay=%s harm@alarm=%s harm_final=%s (cf %s) saved=%s benign_loss=%s kappa_mae=%s (%.0fs)",
+                 args.network, d, c, th, fa, det_rate, row["delay_mean"], row["harm_at_alarm"], row["harm_final_harmful"], row["harm_cf_harmful"],
                  row["saved_frac"], row["benign_loss"], row["kappa_mae"], time.time() - t0)
     rl.finish()
     return rl.run_dir

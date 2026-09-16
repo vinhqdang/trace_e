@@ -122,6 +122,40 @@ Compared with lazy greedy that re-runs a BFS per candidate and sample,
 this removes the candidate-pool restriction and is one to two orders of
 magnitude faster on $10^4$-node graphs (see `results/REPORT.md`).
 
+### 2.5 Active throttling while testing (the core of AVID)
+
+The components above still separate *testing* from *acting*: nothing is done
+until $E_t\ge1/\alpha$. AVID lets the two interact. A platform has cheap,
+reversible soft actions (downranking) that scale the probability that a
+piece of content reaches a user. Before the round-$t$ trials, AVID chooses a
+*throttle factor* $\rho_t(v)\in[\rho_{\min},1]$ for every exposed node
+$v\in X_t$; the activation probability becomes
+$q^\kappa_t(v;\rho)=1-\prod_{u}(1-\rho_t(v)\min(1,\kappa p_0(u,v)))$ and the
+likelihood ratios of Section 2.1 are evaluated with the throttled
+probabilities. Since $\rho_t$ is $\mathcal F_{t-1}$-measurable, Theorem 1
+holds verbatim for *any* throttling policy: acting does not invalidate the
+test.
+
+Which nodes to throttle follows from an asymmetry. For an exposed node with
+baseline probability $q_0$, throttled to $\rho$, the expected evidence
+contributed in the round is $\mathrm{kl}(\rho\kappa q_0,\rho q_0)\approx\rho q_0\,(\kappa\log\kappa-\kappa+1)$,
+the same for every node with the same exposure mass, while the expected
+*harm* is $\rho\kappa q_0\,h(v)$ where $h(v)\ge1$ is the node's harm weight
+(one plus the expected number of children it would infect). Throttling
+therefore does not change a node's harm-per-evidence ratio, but changing
+*which* nodes carry the evidence changes the cascade's composition:
+evidence should be collected from low-influence nodes while high-influence
+nodes are held back. AVID-active is the bang-bang rule
+
+$$\rho_t(v)=\rho_{\min}\ \text{if } h(v)\ \text{is among the largest until a fraction }\phi\text{ of the exposure mass is covered},\qquad \rho_t(v)=1\ \text{otherwise},$$
+
+applied only while the running evidence is *suspicious*, $E_t\ge1/\alpha_{\mathrm s}$
+with $\alpha_{\mathrm s}>\alpha$ (e.g. $0.5$); by Ville's inequality a benign
+cascade is ever throttled with probability at most $\alpha_{\mathrm s}$.
+Once $E_t\ge1/\alpha$ the hard containment of Section 2.2 takes over. The
+state at that time consists, by construction, of low-influence nodes, which
+is what makes the containment plan able to seal it.
+
 ### 2.3 Streams: harm-weighted e-BH
 
 With $M$ concurrent cascades and running e-processes $E^{(c)}_t$, at any
@@ -277,6 +311,63 @@ per-realisation harm is no worse than that of $\pi_P$ in expectation over
 the samples, and the argument iterates. The counter-mode guarantee is the
 Budak et al. result applied to the instance with seeds $N_\tau$. $\square$
 
+**Theorem 5 (information-preserving throttling).** Let
+$\rho_t(\cdot)$ be any predictable throttling policy with values in
+$[\rho_{\min},1]$, let $h(v)\ge1$ be predictable harm weights, and define the
+*influence-weighted harm* before the stopping time,
+$W_\tau=\sum_{t\le\tau}\sum_{v\in N_t}h(v)$, and the round-$t$
+activation-weighted mean harm
+$$\bar h_t(\rho)=\frac{\sum_{v\in X_t}\rho_t(v)\,q^0_t(v)\,h(v)}{\sum_{v\in X_t}\rho_t(v)\,q^0_t(v)}.$$
+Under assumption (A) of Theorem 2 and $\kappa q_0\le1$ on exposed nodes:
+
+(a) *Counts are invariant.* Both bounds of Theorem 2 on
+$\mathbb E[H_\tau-H_0]$ hold unchanged for every throttling policy: throttling
+cannot reduce the expected number of activations any valid rule must
+tolerate before intervening.
+
+(b) *Influence is not.* For AVID's stopping time,
+$$\mathbb E_{H_\kappa}[W_{\tau_\alpha}-W_0]\ \le\ \frac{\kappa}{\kappa_j}\cdot\frac{\log(1/\alpha)+\log(1/w_j)+\Delta\log\kappa_j}{c(\kappa_j)}\cdot\sup_t\bar h_t(\rho),$$
+and for *any* $\alpha$-valid rule with power $1-\beta$,
+$$\mathbb E_{H_\kappa}[W_\tau-W_0]\ \ge\ \frac{(1-\beta)\log(1/\alpha)-\log2}{\log\kappa}\cdot\inf_t\bar h_t(\rho).$$
+
+(c) *Optimal policy.* For each round, $\bar h_t(\rho)$ is minimised over the
+box $[\rho_{\min},1]^{X_t}$ by a bang-bang policy that sets $\rho=\rho_{\min}$
+exactly on the nodes with the largest $h(v)$; the minimum equals the
+unique $\theta$ with $\sum_v q^0_t(v)\,(h(v)-\theta)\,\rho^\ast_v=0$, $\rho^\ast_v=\rho_{\min}$
+if $h(v)>\theta$ and $1$ otherwise. In particular, if a fraction $\phi$ of
+the exposure mass sits on nodes with harm weight at least $h_{\mathrm{hi}}$
+and the rest has weight at most $h_{\mathrm{lo}}$, hub throttling reduces
+$\bar h_t$ from at least $\phi h_{\mathrm{hi}}+(1-\phi)h_{\mathrm{lo}}$ to at most
+$\frac{\rho_{\min}\phi h_{\mathrm{hi}}+(1-\phi)h_{\mathrm{lo}}}{\rho_{\min}\phi+(1-\phi)}$,
+which tends to $h_{\mathrm{lo}}$ as $\rho_{\min}\to0$.
+
+(d) *Benign cost.* With the evidence gate $\alpha_{\mathrm s}$,
+$\Pr_{H_0}(\text{any round is throttled})\le\alpha_{\mathrm s}$.
+
+*Proof.* Under (A) and $\kappa q_0\le 1$, the throttled probabilities are
+$\rho q_0$ and $\rho\kappa q_0$: the node behaves exactly like an unthrottled
+node with baseline $\rho q_0$. Hence every per-node inequality in the proof
+of Theorem 2 holds with $q_0$ replaced by $\rho q_0$, which proves (a)
+(neither bound depends on $q_0$). For (b), conditionally on
+$\mathcal F_{t-1}$,
+$\mathbb E[\sum_{v\in X_t}x_vh(v)]=\sum_v\rho_vq^\kappa_vh(v)=\kappa\sum_v\rho_vq^0_vh(v)=\bar h_t(\rho)\,\mathbb E[|N_t|\mid\mathcal F_{t-1}]$,
+an identity. Summing over rounds up to a stopping time (Wald),
+$\mathbb E[W_\tau-W_0]=\mathbb E[\sum_{t\le\tau}\bar h_t\,\mathbb E[|N_t|\mid\mathcal F_{t-1}]]$,
+which lies between $\inf_t\bar h_t\cdot\mathbb E[H_\tau-H_0]$ and
+$\sup_t\bar h_t\cdot\mathbb E[H_\tau-H_0]$; apply Theorem 2. For (c),
+$\bar h_t$ is a ratio of two affine functions of $\rho$ with positive
+denominator, so it is quasi-linear on the box and attains its minimum at a
+vertex; at the optimum, decreasing $\rho_v$ lowers the ratio iff
+$h(v)>\bar h_t$, which gives the threshold structure and the fixed-point
+characterisation; the two-level bound is the ratio evaluated at that
+policy. (d) is Ville's inequality applied to the supermartingale $E_t$ at
+level $1/\alpha_{\mathrm s}$. $\square$
+
+*Remark.* Uniform throttling ($\rho_t\equiv\rho_{\min}$) leaves $\bar h_t$
+unchanged: it slows the cascade in rounds but buys nothing in influence,
+which is the control the experiments use. The result says the right soft
+action is *selective*, and selects by influence, not by suspicion.
+
 **Theorem 4 (FDR control across concurrent cascades).** At any (possibly
 data-dependent) time $T$, the set of cascades on which harm-weighted e-BH
 intervenes has false discovery rate at most $\alpha$, for any dependence
@@ -305,6 +396,13 @@ controls FDR at level $\alpha$ under arbitrary dependence
 * Theorem 2 gives, to our knowledge, the first lower bound on the harm any
   valid intervention rule must tolerate on a network cascade, and shows the
   proposed rule matches it up to a $\kappa$-dependent constant.
+* Theorem 5 is the new mechanism: acting *during* the test with predictable
+  soft interventions keeps the test exact, cannot reduce the number of
+  activations before a valid decision (a no-free-lunch statement), but can
+  reduce their influence by a factor approaching the ratio of hub to
+  non-hub influence, at a benign cost bounded by $\alpha_{\mathrm s}$. Neither
+  the sequential-testing nor the influence-blocking literature has a
+  test-and-act coupling of this kind.
 
 ## 5. Benchmark (implemented in `trace_e/sequential/`)
 

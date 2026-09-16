@@ -5,10 +5,10 @@ import time
 
 import numpy as np
 
-from .simulator import Episode, exposure
+from .simulator import Episode, exposure, exposed_nodes
 
 
-def run_episode(ep: Episode, detector, container, budget: int, max_rounds: int = 60, g_det=None) -> dict:
+def run_episode(ep: Episode, detector, container, budget: int, max_rounds: int = 60, g_det=None, throttler=None) -> dict:
     """Advance ``ep`` round by round, feeding the detector; after it fires, let the container act.
 
     ``g_det`` is the graph (with baseline probabilities) the detector believes
@@ -18,6 +18,8 @@ def run_episode(ep: Episode, detector, container, budget: int, max_rounds: int =
     g = ep.g if g_det is None else g_det
     detector.reset()
     container.reset(budget)
+    if throttler is not None:
+        throttler.reset()
     t_det = 0.0
     t_con = 0.0
     alarm_round = None
@@ -25,6 +27,8 @@ def run_episode(ep: Episode, detector, container, budget: int, max_rounds: int =
     kappa_hat = 1.0
     n_intervened = 0
     rounds = 0
+    throttled_rounds = 0
+    throttled_mass = 0.0
     while ep.alive and rounds < max_rounds:
         if detector.fired:
             t0 = time.perf_counter()
@@ -35,11 +39,18 @@ def run_episode(ep: Episode, detector, container, budget: int, max_rounds: int =
         inactive = ~(ep.active | ep.good | ep.blocked)
         frontier = ep.frontier
         size_before = ep.harm
-        new = ep.step()
+        rho = None
+        if throttler is not None and not detector.fired:
+            exp_nodes = exposed_nodes(ep.g, frontier, inactive)
+            rho = throttler.factors(ep, detector, exp_nodes, detector.kappa_hat())
+            if rho is not None:
+                throttled_rounds += 1
+                throttled_mass += float((1.0 - rho[exp_nodes]).sum())
+        new = ep.step(rho)
         rounds += 1
         if not detector.fired:
             t0 = time.perf_counter()
-            exposed, log1mq = exposure(g, frontier, inactive, detector.kappas)
+            exposed, log1mq = exposure(g, frontier, inactive, detector.kappas, rho)
             outcomes = np.zeros(len(exposed), dtype=np.int8)
             if len(new):
                 outcomes[np.isin(exposed, new)] = 1
@@ -60,6 +71,8 @@ def run_episode(ep: Episode, detector, container, budget: int, max_rounds: int =
         "t_detect": t_det,
         "t_contain": t_con,
         "statistic": float(detector.statistic),
+        "throttled_rounds": throttled_rounds,
+        "throttled_nodes": throttled_mass,
     }
 
 

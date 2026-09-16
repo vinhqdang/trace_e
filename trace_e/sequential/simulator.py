@@ -23,7 +23,9 @@ class Episode:
         self.kappa = kappa
         self.mode = mode
         u = rng.random(len(g.indices))
-        self.live_bad = u < np.minimum(1.0, kappa * g.weights)
+        self.u = u
+        self.p_bad = np.minimum(1.0, kappa * g.weights)
+        self.live_bad = u < self.p_bad
         self.live_good = u < g.weights
         self.seeds = np.asarray(sorted(int(s) for s in seeds))
         self.reset()
@@ -66,9 +68,19 @@ class Episode:
                     new.append(int(v))
         return np.array(new, dtype=np.int64)
 
-    def step(self) -> np.ndarray:
-        """Advance one round; returns the newly activated bad nodes."""
+    def step(self, rho: np.ndarray | None = None) -> np.ndarray:
+        """Advance one round; returns the newly activated bad nodes.
+
+        ``rho`` (per-node factors in (0, 1]) throttles the bad cascade's edges
+        *into* each node for this round only: the edge (u, v) transmits iff
+        u_e < rho[v] * min(1, kappa p0(u, v)), using the episode's fixed
+        uniforms, so throttling is coupled with the unthrottled trajectory.
+        """
         allowed = ~(self.active | self.good | self.blocked)
+        if rho is not None:
+            live_bad = self.u < rho[self.g.indices] * self.p_bad
+        else:
+            live_bad = self.live_bad
         # good campaign moves first so it wins ties (Budak et al. semantics)
         if self.mode == "counter":
             gf = np.concatenate([self.good_frontier, np.array(self.pending_good, dtype=np.int64)])
@@ -76,7 +88,7 @@ class Episode:
             new_good = self._spread(gf, self.live_good, allowed)
             self.good[new_good] = True
             self.good_frontier = new_good
-        new_bad = self._spread(self.frontier, self.live_bad, allowed)
+        new_bad = self._spread(self.frontier, live_bad, allowed)
         self.active[new_bad] = True
         self.frontier = new_bad
         self.t += 1
@@ -112,11 +124,13 @@ class Episode:
         return int(seen.sum())
 
 
-def exposure(g: CSRGraph, frontier: np.ndarray, inactive: np.ndarray, kappas: np.ndarray):
+def exposure(g: CSRGraph, frontier: np.ndarray, inactive: np.ndarray, kappas: np.ndarray, rho: np.ndarray | None = None):
     """Exposed nodes and their log(1 - q^kappa) for every kappa in ``kappas``.
 
     Returns ``(exposed, log1mq)`` with ``log1mq`` of shape ``(len(kappas), len(exposed))``
-    (column 0 must correspond to kappa = 1, the baseline).
+    (column 0 must correspond to kappa = 1, the baseline). ``rho`` are per-node
+    throttle factors applied to the edges into each exposed node (predictable,
+    so the likelihood ratios remain exact).
     """
     if len(frontier) == 0:
         return np.zeros(0, dtype=np.int64), np.zeros((len(kappas), 0))
@@ -131,7 +145,16 @@ def exposure(g: CSRGraph, frontier: np.ndarray, inactive: np.ndarray, kappas: np
     tg, pr = tg[keep], pr[keep]
     exposed, inv = np.unique(tg, return_inverse=True)
     out = np.zeros((len(kappas), len(exposed)))
+    scale = rho[tg] if rho is not None else 1.0
     for i, k in enumerate(kappas):
-        l = np.log1p(-np.minimum(1.0 - 1e-12, k * pr))
+        l = np.log1p(-np.minimum(1.0 - 1e-12, scale * np.minimum(1.0, k * pr)))
         np.add.at(out[i], inv, l)
     return exposed, out
+
+
+def exposed_nodes(g: CSRGraph, frontier: np.ndarray, inactive: np.ndarray) -> np.ndarray:
+    if len(frontier) == 0:
+        return np.zeros(0, dtype=np.int64)
+    tg = np.concatenate([g.indices[g.indptr[u]: g.indptr[u + 1]] for u in frontier])
+    tg = tg[inactive[tg]]
+    return np.unique(tg)

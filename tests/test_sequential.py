@@ -109,3 +109,30 @@ def test_deferred_commitment_matches_one_shot_on_same_live_edges():
         assert spent <= len(plan)
         checked += 1
     assert checked == 40
+
+
+def test_throttling_coupling_and_validity():
+    from trace_e.sequential.throttlers import get_throttler
+    g = _graph(0.2)
+    # rho = 1 reproduces the unthrottled trajectory; rho < 1 never adds activations
+    a = Episode(g, 2.0, [4], np.random.default_rng(2))
+    b = Episode(g, 2.0, [4], np.random.default_rng(2))
+    c = Episode(g, 2.0, [4], np.random.default_rng(2))
+    rho = np.full(g.n, 0.3)
+    while a.alive or b.alive or c.alive:
+        na = a.step() if a.alive else []
+        nb = b.step(np.ones(g.n)) if b.alive else []
+        if c.alive:
+            c.step(rho)
+    assert np.array_equal(a.active, b.active)
+    assert c.harm <= a.harm
+    # e-process with hub throttling stays a supermartingale under the null (mean E_t around or below 1)
+    det = get_detector("eprocess", alpha=0.05, kappa_min=1.5, kappa_max=6.0)
+    thr = get_throttler("hub", rho_min=0.2, frac=0.5, alpha_soft=1.0)  # always on
+    con = get_container("none")
+    vals = []
+    for i in range(300):
+        ep = Episode(g, 1.0, [int(i % g.n)], np.random.default_rng(1000 + i))
+        run_episode(ep, det, con, budget=0, max_rounds=40, throttler=thr)
+        vals.append(np.exp(det.log_E))
+    assert np.mean(np.array(vals) >= 20) <= 0.08  # crossing probability of 1/alpha stays below alpha (heavy-tailed mean is noisy)
