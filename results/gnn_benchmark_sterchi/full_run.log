@@ -6,3 +6,4 @@
 NETWORK workplace DONE
 === NETWORK=highschool2013 BETA=0.065 T=7.5 (orchestrated resume) ===
 ---- training MLP on highschool2013 ----
+  -> dir: MLP_highschool2013_17896277688812
