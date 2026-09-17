@@ -39,3 +39,14 @@ Epoch: 004, Train Acc: 0.3950, Train Loss: 2.2924, Val. Acc: 0.3956, Val. Loss: 
 Epoch: 005, Train Acc: 0.3951, Train Loss: 2.2882, Val. Acc: 0.3980, Val. Loss: 2.2854
 Epoch: 006, Train Acc: 0.3964, Train Loss: 2.2806, Val. Acc: 0.3983, Val. Loss: 2.2776
 Epoch: 007, Train Acc: 0.3942, Train Loss: 2.2923, Val. Acc: 0.3981, Val. Loss: 2.2907
+Epoch: 008, Train Acc: 0.3943, Train Loss: 2.2921, Val. Acc: 0.3996, Val. Loss: 2.2860
+Epoch: 009, Train Acc: 0.3952, Train Loss: 2.2779, Val. Acc: 0.3996, Val. Loss: 2.2742
+Epoch: 010, Train Acc: 0.3963, Train Loss: 2.2748, Val. Acc: 0.3994, Val. Loss: 2.2727
+Epoch: 011, Train Acc: 0.3946, Train Loss: 2.2796, Val. Acc: 0.3968, Val. Loss: 2.2784
+Epoch: 012, Train Acc: 0.3961, Train Loss: 2.2770, Val. Acc: 0.3998, Val. Loss: 2.2738
+Epoch: 013, Train Acc: 0.3964, Train Loss: 2.2816, Val. Acc: 0.4001, Val. Loss: 2.2785
+Epoch: 014, Train Acc: 0.3953, Train Loss: 2.2818, Val. Acc: 0.4010, Val. Loss: 2.2780
+Epoch: 015, Train Acc: 0.3951, Train Loss: 2.2800, Val. Acc: 0.4013, Val. Loss: 2.2776
+============================
+Saving model that yielded validation loss of 2.2727.
+Average batch time: 0.028099 seconds (SEM:  0.000091)

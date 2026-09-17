@@ -1,0 +1,7 @@
+Using training beta=0.165
+Using device: cuda
+============================
+Avg. outbreak size: 36.8178
+Avg. R0: 2.04837
+Avg. sampled infection rate: 0.165
+Number of sim. with only one inf. node: 2807
