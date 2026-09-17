@@ -1,5 +1,61 @@
 # Results notes (running log)
 
+## Exact SIR source posterior via time-unrolled treewidth DP: tried and abandoned (2026-09-17)
+
+Attempted a "TWIG for Problem A": an exact (non-mean-field) computation of
+P(observed snapshot | source = v) under discrete-time SIR, via variable
+elimination over the time-unrolled graphical model, reusing the same
+elimination order as `trace_e/blocking/treewidth.py`. Implemented as
+`trace_e.source.exact_sir` (since removed; see git history at commit
+9710690 for the code), with a small generic factor/variable-elimination
+engine.
+
+**Correctness: verified.** ~270 random-graph trials against an explicit
+brute-force simulation of the full 3^n-state Markov chain (n <= 6), plus an
+independent structural check (summing exp(log-likelihood) over all 3^n
+possible snapshots gives exactly 1), all passed.
+
+**Abandoned for two reasons, both found empirically rather than assumed:**
+
+1. **Complexity depends on max degree, not just treewidth.** Unlike TWIG's
+   IC-model spread computation (where a vertex's contribution is processed
+   one edge at a time via `_schedule`'s `connect_to` list), a vertex's SIR
+   transition genuinely needs its ENTIRE neighbourhood's previous state
+   *jointly* (the "does at least one infected neighbour transmit" event),
+   producing a single factor of size 3^(deg(v)+2). This is not fixable by
+   reusing the same elimination order: even bounded-treewidth graphs with a
+   single high-degree hub (Karate: treewidth 5, max degree 16) blow up. Worse,
+   even a synthetic max-degree-3, n=8 graph over 3 discrete time steps took
+   ~12s (width 13), and n=14 timed out -- i.e. this is not just "no real
+   network is small enough", literally none of this project's small real
+   networks (Karate max-degree 16, Iceland 24, Dolphin 12, Fraternity 52,
+   Workplace 44) are anywhere close to usable, and even tiny synthetic
+   graphs hit a wall fast. A proper fix (representing the neighbourhood OR
+   via an auxiliary variable chain, interleaved with the real per-vertex
+   elimination order so intermediate factors stay small) is a sound
+   direction but was not completed.
+2. **Even where it does run (n <= 7, degree <= 3), it does not clearly beat
+   DMP in the metric that matters.** Simulated 241 real epidemic instances
+   on small random graphs and compared exact vs. DMP (mean-field) at
+   identifying the true source: top-1 accuracy 59.8% (exact) vs. 61.4%
+   (DMP); pairwise, exact assigned a strictly higher log-likelihood to the
+   true source in only 115/241 (47.7%) of cases -- indistinguishable from a
+   coin flip. (Initial expectation, via Gibbs' inequality, was that the
+   true model should have higher *expected* log-likelihood than the
+   mean-field approximation -- but that guarantee only holds averaged over
+   many repeated draws from the *same* fixed (graph, source) instance, not
+   across a population of different random instances with one or few draws
+   each, so it does not translate into "exact beats DMP" empirically here.)
+
+Conclusion: DMP's mean-field independence assumption, despite being
+non-exact, appears to be a fairly good practical proxy for *ranking*
+candidate sources even where we can check it against ground truth. Given
+this, and the severe scalability wall above, this direction was dropped
+(decision made 2026-09-17) in favour of concentrating the paper's novel-
+algorithm contribution on Problem B (TWIG / DEFER / LAZY-AG). Problem A's
+role in the writeup is the benchmark reproduction/extension work in the
+section below, not a new algorithm.
+
 ## Problem A vs. published literature (2026-09-16)
 
 Direct source: Sterchi, Brack & Hilfiker, "Graph Neural Networks for Source
