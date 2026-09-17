@@ -1,0 +1,31 @@
+Avg. outbreak size: 131.167
+Avg. R0: 1.95923
+Avg. sampled infection rate: 0.065
+
+0/4905 elapsed=0s
+200/4905 elapsed=731s
+400/4905 elapsed=1301s
+600/4905 elapsed=1841s
+800/4905 elapsed=2439s
+1000/4905 elapsed=2983s
+1200/4905 elapsed=3516s
+1400/4905 elapsed=4016s
+1600/4905 elapsed=4575s
+1800/4905 elapsed=5116s
+2000/4905 elapsed=5735s
+2200/4905 elapsed=6376s
+2400/4905 elapsed=6882s
+2600/4905 elapsed=7382s
+2800/4905 elapsed=7973s
+3000/4905 elapsed=8558s
+3200/4905 elapsed=9181s
+3400/4905 elapsed=9696s
+3600/4905 elapsed=10246s
+3800/4905 elapsed=10844s
+4000/4905 elapsed=11437s
+4200/4905 elapsed=11988s
+4400/4905 elapsed=12551s
+4600/4905 elapsed=13238s
+4800/4905 elapsed=13849s
+{"top1": 0.3906218144750255, "top3": 0.4617737003058104, "top5": 0.48297655453618754, "ed": 1.182466870540265, "rr": 0.44091615916317306, "n_instances": 4905, "elapsed_s": 14126.939277157999, "note": "reduced to 15 sims/node (not 100) for compute-time reasons"}
+DMP_HIGHSCHOOL_REDUCED_DONE

@@ -143,5 +143,35 @@
       "n_instances": 9200,
       "elapsed_s": 759.2778092459994
     }
+  },
+  "highschool2013": {
+    "rumor": {
+      "top1": 0.37767584097859325,
+      "top3": 0.4452905198776758,
+      "top5": 0.4606422018348624,
+      "ed": 1.0622018348623854,
+      "rr": 0.41361098315471273,
+      "n_instances": 32700,
+      "elapsed_s": 6247.981636083
+    },
+    "netsleuth": {
+      "top1": 0.3809174311926605,
+      "top3": 0.4470948012232416,
+      "top5": 0.4625382262996942,
+      "ed": 1.4806727828746178,
+      "rr": 0.4249328502523921,
+      "n_instances": 32700,
+      "elapsed_s": 119.34434970900111
+    },
+    "dmp": {
+      "top1": 0.3906218144750255,
+      "top3": 0.4617737003058104,
+      "top5": 0.48297655453618754,
+      "ed": 1.182466870540265,
+      "rr": 0.44091615916317306,
+      "n_instances": 4905,
+      "elapsed_s": 14126.939277157999,
+      "note": "reduced to 15 sims/node (not 100) for compute-time reasons; the full-sample run (n_instances=32700, matching rumor/netsleuth) was left running in the background but died silently without completing and was not resurrected, since it was already estimated at >20h and judged impractical"
+    }
   }
 }
