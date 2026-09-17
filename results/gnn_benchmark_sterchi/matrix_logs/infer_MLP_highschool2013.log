@@ -5,3 +5,14 @@ Avg. outbreak size: 134.235
 Avg. R0: 2.03367
 Avg. sampled infection rate: 0.065
 Number of sim. with only one inf. node: 10571
+============================
+MLP RESULTS
+Top-1 Acc.: 0.3747
+Top-3 Acc.: 0.4395
+Top-5 Acc.: 0.4568
+Avg. error dist.: 1.2215
+Avg. reciprocal rank: 0.3966
+Avg. credible set size: 111.5624
+Avg. scoring rule (Brier): 0.6260
+Avg. scoring rule (Resistance): 0.0203
+Average time per inference run: 0.008475 seconds
