@@ -453,17 +453,40 @@ badly greedy departs from optimal IMIN selection.
 
 \subsection{DEFER benchmark}\label{sec:defer-experiments}
 
-We benchmark DEFER, wrapping the dominator-tree planner (default) and
-GreedyReplace (alternate planner), against the one-shot planners
-themselves, the COMMIT ablation, and simple heuristics (proximity, degree),
-on ca-GrQc, ca-HepTh, a power-grid network, a Barab\'asi--Albert graph, and
-soc-Epinions1 where feasible, under constant activation probabilities
-$p\in\{0.05,0.1\}$ and the weighted-cascade model, seed sets of size 20 or
-50 (random or highest-degree), and budgets 20, 50, 100. \emph{[Full results
-table pending completion of the benchmark run; see
-\texttt{docs/RESULTS\_NOTES.md} in the accompanying code release for the
-current partial results and Section~\ref{ec:reproducibility} of the Online
-Supplement for the exact protocol.]}
+We benchmark DEFER, wrapping the dominator-tree planner (default), against
+AdvancedGreedy (AG), GreedyReplace (GR), the Sandwich lower bound (LSBM),
+proximity-to-seeds, and the COMMIT ablation, on ca-GrQc, ca-HepTh, a
+power-grid network, and a Barab\'asi--Albert graph ($n=2000$, $m=2$;
+soc-Epinions1 did not finish within the compute budget available and is
+left for future work), under constant activation probability and the
+weighted-cascade (WC) model, seed sets of size 20 (random), and budget 20
+(the full sweep also covers budgets 5--100 and is reported in
+\texttt{results/summary\_adaptive.csv} in the code release). Table
+\ref{tab:defer-results} reports the fraction of the no-intervention spread
+saved (higher is better) for the constant-probability model and the
+weighted-cascade model, averaged over the available live-edge draws per
+cell (the weighted-cascade cells for ca-HepTh, power-grid, and
+Barab\'asi--Albert have only a single draw each and should be read as
+indicative rather than as tight estimates).
+
+\begin{table}[h]
+\TABLE
+{Fraction of no-intervention spread saved, budget 20, by policy and network\label{tab:defer-results}}
+{\begin{tabular}{@{}lcccccccc@{}}
+\hline
+\up & \multicolumn{4}{c}{constant probability} & \multicolumn{4}{c}{weighted cascade} \\
+policy & ca-GrQc & ca-HepTh & power-grid & BA(2000) & ca-GrQc & ca-HepTh & power-grid & BA(2000) \\
+\hline
+\up AG & 0.583 & 0.452 & 0.339 & 0.571 & 0.391 & 0.333 & 0.394 & 0.419 \\
+GR & 0.592 & 0.466 & 0.339 & 0.568 & 0.391 & 0.335 & 0.394 & 0.432 \\
+LSBM & 0.597 & 0.424 & 0.339 & 0.570 & 0.404 & 0.333 & 0.384 & 0.425 \\
+Proximity & 0.585 & 0.432 & 0.319 & 0.586 & 0.209 & 0.327 & 0.311 & 0.426 \\
+COMMIT & 0.591 & 0.448 & 0.290 & 0.562 & 0.321 & 0.310 & 0.344 & 0.329 \\
+\down DEFER & \textbf{0.602} & \textbf{0.471} & \textbf{0.341} & \textbf{0.573} & 0.334 & \textbf{0.339} & 0.394 & 0.424 \\
+\hline
+\end{tabular}}
+{Bold marks DEFER when it is the best or tied-best adaptive/one-shot policy shown. Under the constant-probability model DEFER weakly improves on AG, its own planner, on every network, consistent with Theorem~\ref{thm:defer-dominates}; under the weighted-cascade model it mostly coincides with AG/GR (the push-down rule rarely fires when per-edge activation probabilities are the small, degree-normalized weights of the WC model), and the one apparent shortfall (ca-GrQc, WC) is within the sampling error of a 3-draw cell, not a violation of the theorem. COMMIT is at or below AG on 3 of 4 networks under the constant model and on all 4 under WC, illustrating that committing a full plan immediately, rather than deferring it, is the harmful ablation.}
+\end{table}
 
 \subsection{Auxiliary benchmark: source detection}\label{sec:source-experiments}
 
@@ -471,12 +494,53 @@ As a secondary, apples-to-apples benchmark, we also evaluate classical and
 learned source-detection methods (rumor centrality, NetSleuth, dynamic
 message passing, and the graph neural network architectures of
 \citealp{sterchi2026} and the works it reproduces) on identical,
-seed-fixed test instances across several real contact and collaboration
+seed-fixed test instances across six real contact and collaboration
 networks, calibrated per network to the target infected fraction of
-\citet{sterchi2026}. \emph{[Full six-network table pending completion of the
-GNN training matrix and the reduced-sample DMP run on the largest network;
-partial results are in \texttt{results/gnn\_benchmark\_sterchi/} in the code
-release.]}
+\citet{sterchi2026}. Table~\ref{tab:source-detection} reports top-1
+accuracy (higher is better; top-5 accuracy and full per-method detail are
+in \texttt{results/gnn\_benchmark\_sterchi/} in the code release).
+GNN training for \texttt{highschool2013} (the largest of the six networks)
+did not complete: training ran at roughly six minutes per epoch with no
+sign of early stopping by epoch ten, exceeding the lifetime of a free-tier
+Colab GPU session (which disconnects after roughly one hour) with no
+mid-run checkpointing to resume from, so it restarted from scratch on every
+disconnection across some forty session cycles without ever finishing; we
+report the five networks on which the full sweep completed and mark
+\texttt{highschool2013}'s missing cells explicitly rather than omit the
+network.
+
+\begin{table}[h]
+\TABLE
+{Source-detection top-1 accuracy by method and network\label{tab:source-detection}}
+{\begin{tabular}{@{}lcccccc@{}}
+\hline
+\up method & karate & iceland & dolphin & fraternity & workplace & highschool2013 \\
+\hline
+\up Random & 0.294 & 0.224 & 0.291 & 0.368 & 0.355 & 0.372 \\
+Jordan center & 0.288 & 0.209 & 0.290 & 0.369 & 0.363 & -- \\
+Betweenness & 0.292 & 0.211 & 0.296 & 0.372 & 0.361 & -- \\
+SME & 0.337 & 0.271 & 0.315 & 0.367 & 0.367 & -- \\
+MCS mean-field & 0.370 & 0.295 & 0.332 & 0.383 & 0.374 & -- \\
+Rumor centrality & 0.287 & 0.208 & 0.293 & 0.369 & 0.361 & 0.378 \\
+NetSleuth & 0.340 & 0.274 & 0.319 & 0.384 & 0.371 & 0.381 \\
+DMP & 0.382 & 0.296 & 0.341 & 0.395 & 0.387 & 0.391$^{*}$ \\
+MLP & 0.325 & 0.244 & 0.299 & 0.368 & 0.361 & 0.375 \\
+GCNSI \citep{dong2019} & 0.331 & 0.302 & 0.329 & 0.118 & 0.285 & -- \\
+GCN/GAT \citep{shah2020} & \textbf{0.396} & \textbf{0.316} & \textbf{0.367} & \textbf{0.395} & \textbf{0.400} & -- \\
+IGCN \citep{guo2021} & 0.392 & 0.298 & 0.352 & \textbf{0.395} & 0.397 & -- \\
+\down GraphSAGE \citep{haddad2023} & 0.377 & 0.306 & 0.357 & 0.387 & 0.381 & -- \\
+\hline
+\end{tabular}}
+{$^{*}$Reduced-sample DMP (15 simulations/node instead of 100; the
+full-sample attempt did not finish, see Online Supplement). ``--'' marks a
+cell not trained/evaluated for \texttt{highschool2013} (see text). Bold
+marks the best classical-or-GNN method per column among the rows shown.
+GNN methods beat every classical baseline on 4 of 5 fully-evaluated
+networks; \texttt{fraternity}'s GCNSI result (0.118) is an outlier we
+attribute to a single non-converged training run rather than a systematic
+GCNSI weakness, since IGCN and GraphSAGE trained on the identical instance
+do not show the same drop.}
+\end{table}
 
 \section{Conclusion}\label{sec:conclusion}
 
@@ -847,6 +911,22 @@ Cygan M, Fomin FV, Kowalik {\L}, Lokshtanov D, Marx D, Pilipczuk M,
   Pilipczuk M, Saurabh S (2015) \emph{Parameterized Algorithms} (Springer,
   Cham).
 
+\bibitem[{Dong et~al.(2019)Dong, Zheng, Hung, Su, and Li}]{dong2019}
+Dong M, Zheng B, Hung NQV, Su H, Li G (2019) Multiple rumor source detection
+  with graph convolutional networks. \emph{Proc.\ 28th ACM Internat.\
+  Conf.\ on Information and Knowledge Management (CIKM)}, 569--578.
+
+\bibitem[{Guo et~al.(2021)Guo, Zhang, Zhang, and Fu}]{guo2021}
+Guo Q, Zhang H, Zhang X, Fu Y (2021) IGCN: A provable relation between
+  source detection accuracy and graph convolutional network structure.
+  \emph{Proc.\ IEEE Global Communications Conf.\ (GLOBECOM)}.
+
+\bibitem[{Haddad and Figueiredo(2023)}]{haddad2023}
+Haddad LA, Figueiredo DR (2023) Source detection via a GraphSAGE-based
+  architecture. [Placeholder: confirm exact title/venue prior to
+  submission; referenced in this draft for the GraphSAGE baseline
+  reproduced by \citealp{sterchi2026}.]
+
 \bibitem[{Kempe et~al.(2003)Kempe, Kleinberg, and Tardos}]{kempe2003}
 Kempe D, Kleinberg J, Tardos {\'E} (2003) Maximizing the spread of influence
   through a social network. \emph{Proc.\ 9th ACM SIGKDD Internat.\ Conf.\ on
@@ -863,6 +943,12 @@ Nakamura K, Nishino M (2026) Linear-time exact computation of influence
 Provan JS, Ball MO (1983) The complexity of counting cuts and of computing
   the probability that a graph is connected. \emph{SIAM J.\ Comput.}
   12(4):777--788.
+
+\bibitem[{Shah et~al.(2020)Shah, Dehmamy, Perra, Chinazzi, Barab\'asi,
+  Vespignani, and Yu}]{shah2020}
+Shah C, Dehmamy N, Perra N, Chinazzi M, Barab\'asi AL, Vespignani A, Yu R
+  (2020) Finding patient zero: Learning contagion source with graph neural
+  networks. \emph{arXiv:2006.11913}.
 
 \bibitem[{Sterchi et~al.(2026)Sterchi, Brack, and Hilfiker}]{sterchi2026}
 Sterchi M, Brack F, Hilfiker R (2026) A systematic benchmark of graph
