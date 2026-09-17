@@ -219,7 +219,9 @@ Theorem~\ref{thm:adaptivity-gap} for this problem.
 
 \section{Preliminaries}\label{sec:prelim}
 
-\textbf{Independent cascade model.} $G=(V,E)$ is a directed graph,
+\subsection{The independent cascade model}\label{sec:ic-model}
+
+$G=(V,E)$ is a directed graph,
 $n=|V|$, $m=|E|$, with edge probabilities $p:E\to(0,1]$. A live-edge
 realization $\omega\in\{0,1\}^E$ is drawn with
 $\Pr[\omega]=\prod_{e}p_e^{\omega_e}(1-p_e)^{1-\omega_e}$. For a seed set
@@ -231,18 +233,73 @@ the set of vertices reachable from $S$ using only live edges of $G_B$. The
 \FF(B)\;=\;\mathbb E_\omega\bigl[\,|\Rspread(\omega,B)\setminus S|\,\bigr].
 \end{equation}
 
-\textbf{IMIN (one-shot).} Given $G$, $p$, $S$, and budget $b$, choose
-$B\subseteq V\setminus S$, $|B|\le b$, minimizing $\FF(B)$.
+\subsection{Problem formalization}\label{sec:formalization}
 
-\textbf{Adaptive IMIN.} The cascade unfolds in rounds $t=0,1,2,\dots$. In
-round $t$ the controller observes the newly activated set $N_t$
-(full-adoption feedback: activations, not live edges, are observed), may
-block any inactive, unblocked vertex, and the total number of vertices
-blocked over all rounds is at most $b$. The objective is to minimize the
-expected final spread. A one-shot solution is the special case that spends
-the whole budget in round $0$.
+\begin{definition}[IMIN, one-shot]\label{def:imin}
+Given $G$, $p$, seed set $S$, and budget $b\in\mathbb N$, the
+\emph{influence minimization} (IMIN) problem is
+\begin{equation}\label{eq:imin}
+\min_{B\subseteq V\setminus S}\ \FF(B)
+\qquad\text{subject to}\qquad
+|B|\le b.
+\end{equation}
+\end{definition}
 
-\textbf{Treewidth machinery (used only in Section~\ref{sec:twig}).} Fix a
+\noindent \citet{xie2023} show Problem~\eqref{eq:imin} is NP-hard and hard
+to approximate within any constant factor unless P$=$NP, and that $\FF$ is
+not supermodular in $B$ under the IC model, so the greedy
+$(1-1/e)$-guarantee available for influence \emph{maximization}
+\citep{kempe2003} does not transfer.
+
+To formalize the adaptive variant, let a \emph{history} up to round $t$ be
+$h_t=(N_0,N_1,\dots,N_t)$, the sequence of newly activated sets observed so
+far (full-adoption feedback: which vertices activate each round, not which
+live edges carried the activation). Let $\mathcal H$ denote the set of all
+histories of any length.
+
+\begin{definition}[Adaptive policy]\label{def:policy}
+An \emph{adaptive blocking policy} is a function
+$\pi:\mathcal H\to 2^V$ mapping each history $h_t$ to a set of
+not-yet-activated, not-yet-blocked vertices to additionally block in round
+$t+1$, subject to $\sum_{t}|\pi(h_t)|\le b$ over the run of the cascade.
+Write $\sigma(\pi)$ for the (random) final spread beyond $S$ that results
+from running the cascade under policy $\pi$.
+\end{definition}
+
+\begin{definition}[IMIN, adaptive]\label{def:adaptive-imin}
+Given $G$, $p$, $S$, and budget $b$, the \emph{adaptive} IMIN problem is
+\begin{equation}\label{eq:adaptive-imin}
+\min_{\pi}\ \mathbb E\bigl[\sigma(\pi)\bigr]
+\qquad\text{subject to}\qquad
+\textstyle\sum_t|\pi(h_t)|\le b\ \text{a.s.}
+\end{equation}
+A one-shot policy is the special case $\pi(h_0)=B$ for a fixed
+$B$ with $|B|\le b$ and $\pi(h_t)=\varnothing$ for $t\ge1$, so
+Problem~\eqref{eq:imin} is exactly Problem~\eqref{eq:adaptive-imin}
+restricted to one-shot policies, and
+$\min_\pi\mathbb E[\sigma(\pi)]\le\min_{|B|\le b}\FF(B)$ trivially, since
+every one-shot policy is a feasible (adaptive) policy. The
+\emph{adaptivity gap} of an instance is the ratio of the right-hand side to
+the left-hand side of this inequality; Theorem~\ref{thm:adaptivity-gap}
+shows this gap is unbounded.
+\end{definition}
+
+DEFER (Section~\ref{sec:defer}) is a construction of a specific policy
+$\pi_{\mathrm{DEFER}}$, parameterized by a choice of one-shot planner
+$\mathcal P$, that is feasible for Problem~\eqref{eq:adaptive-imin} and
+provably close to optimal relative to $\mathcal P$'s own one-shot value
+(Theorem~\ref{thm:defer-dominates}). TWIG (Section~\ref{sec:twig}) instead
+addresses an orthogonal computational issue in Problem~\eqref{eq:imin}
+itself: $\FF(B)$, the objective being optimized, is a \#P-hard quantity to
+evaluate exactly \citep{valiant1979,provan1983}, so every algorithm for
+either problem above that a practitioner actually runs replaces $\FF(B)$
+with a Monte-Carlo estimate; TWIG computes $\FF(B)$ exactly instead, on
+graphs where doing so is tractable, to certify how much error that
+replacement introduces.
+
+\subsection{Treewidth machinery}\label{sec:treewidth-prelim}
+
+Used only in Section~\ref{sec:twig}. Fix a
 permutation $\sigma=(\sigma_1,\dots,\sigma_n)$ of $V$ and write
 $\mathrm{pos}(v)$ for $v$'s index. For $v=\sigma_i$, let
 $\mathrm{connect\_to}(v)=\{u\in N(v):\mathrm{pos}(u)<i\}$ and
@@ -428,12 +485,16 @@ the total is $O\bigl(\sum_t(1+b_t)\,\theta\,m_t\,\alpha\bigr)$, which is
 $O(r\,b\,\theta\,m\,\alpha(m,n))$ in the worst case.
 \end{theorem}
 
-An additional ablation, \texttt{isocut}, adds frontier-isolation moves to
-the planner and admits a further worst-case separation
-(Theorem~\ref{thm:isocut-separation}, Online Supplement) from
-AdvancedGreedy, GreedyReplace, and the Sandwich lower bound, though it is
-reported only as an ablation because it is rarely selected on the SNAP
-graphs used in Section~\ref{sec:experiments}.
+We additionally construct \texttt{isocut}, a one-shot planner of our own
+that adds one further kind of candidate move to AG's planner --
+isolating a whole seed's out-neighborhood at once, rather than blocking
+one vertex at a time -- and prove it admits a worst-case separation
+(Theorem~\ref{thm:isocut-separation}, Online Supplement) from published
+one-shot planners: AdvancedGreedy, GreedyReplace, and the Sandwich lower
+bound. \texttt{isocut} is not itself a competing baseline from the
+literature; it is reported only as an ablation, in
+Section~\ref{sec:isocut-practice}, because it is rarely selected on the
+SNAP graphs used there.
 
 \begin{theorem}[Isolation-move separation]\label{thm:isocut-separation}
 There is a family of instances on which AdvancedGreedy, GreedyReplace, and
@@ -625,18 +686,121 @@ worst case (mean excess 2.2\% across all 60). This is, to our knowledge, the
 first exact (not Monte-Carlo-confounded) measurement of how often and how
 badly greedy departs from optimal IMIN selection.
 
+\subsection{Complexity comparison}\label{sec:complexity-comparison}
+
+Table~\ref{tab:complexity} collects the time complexity of every method
+this paper compares against or introduces, so the cost of DEFER's
+adaptivity and of TWIG's exactness can be read off against the published
+one-shot planners in one place. Three points are worth stating explicitly.
+First, DEFER's cost (Theorem~\ref{thm:defer-complexity}) is exactly AG's
+per-round cost multiplied by the number of rounds $r$: adaptivity is not
+free computationally, even though Theorem~\ref{thm:defer-dominates} shows
+it is free in expected-spread terms. Second, TWIG's two variants solve a
+strictly harder problem than AG/GR/DEFER (exact evaluation of $\FF(B)$
+rather than an unbiased Monte-Carlo estimate of it) and are not drop-in
+replacements for the sampling-based planners at the graph sizes those
+planners target; Proposition~\ref{prop:fpt-space}'s
+$n$-independence is what makes \texttt{ExactSpreadFast} usable at all
+compared to the brute-force alternative of enumerating all $2^m$ live-edge
+realizations, but $B_{w+1}$ still grows very quickly in the treewidth $w$
+(Table~\ref{tab:bell-numbers}). Third, \texttt{brute\_force\_optimal\_block}
+compounds TWIG's per-evaluation cost with an outer search over all
+size-$\le b$ subsets, which is what confines
+Section~\ref{sec:twig-empirical}'s optimality-gap study to $n\le14$.
+
+\begin{table}[h]
+\TABLE
+{Time complexity of every method compared in this paper\label{tab:complexity}}
+{\begin{tabular}{@{}ll@{}}
+\hline
+\up Method & Time complexity \\
+\hline
+\up AG \citep{xie2024} & $O(b\,\theta\,m\,\alpha(m,n))$ \\
+GR \citep{xie2024} & $O(\min\{d^{out}_S,b\}\,\theta\,m\,\alpha(m,n))$ plus a replacement pass \\
+DEFER (Theorem~\ref{thm:defer-complexity}) & $O(r\,b\,\theta\,m\,\alpha(m,n))$ ($r$ = number of rounds) \\
+\texttt{ExactSpread} (Proposition~\ref{prop:xp-space}) & one \texttt{evaluate}: $O(n\cdot B_{w+1}\cdot(n+1)^{w+1})$ (XP in $w$) \\
+\texttt{ExactSpreadFast} (Proposition~\ref{prop:fpt-space}) & one \texttt{evaluate}: $O(n\cdot B_{w+1}\cdot\mathrm{poly}(w))$ (FPT in $w$) \\
+\texttt{greedy\_exact} & $O(b)$ \texttt{evaluate} calls, each as above \\
+\down \texttt{brute\_force\_optimal\_block} & $O(n^b)$ \texttt{evaluate} calls, each as above \\
+\hline
+\end{tabular}}
+{$\theta$: sample size used by the Monte-Carlo planners; $m$, $n$:
+edges/vertices of the reachable region a planner actually processes;
+$\alpha$: inverse Ackermann function (dominator-tree construction);
+$d^{out}_S$: out-degree of the seed set; $w$: treewidth; $B_{w+1}$: the
+$(w+1)$-th Bell number. AG/GR/DEFER estimate $\FF(B)$ by sampling;
+\texttt{ExactSpread}/\texttt{ExactSpreadFast}/\texttt{greedy\_exact}/
+\texttt{brute\_force\_optimal\_block} compute or search using $\FF(B)$
+exactly, a strictly harder guarantee at a correspondingly higher cost. We
+were unable to find a stated asymptotic complexity for the Sandwich lower
+bound (LSBM) in \citet{wang2024sandwich} to include here.}
+\end{table}
+
+\textbf{Ranking, and whether the experiments confirm it.} Among the four
+methods benchmarked empirically in Section~\ref{sec:defer-experiments}
+(AG, GR, DEFER, COMMIT; \texttt{isocut} is asymptotically identical to AG),
+the smallest cost by Table~\ref{tab:complexity} is AG's, since GR differs
+only by an $O(1)$-factor replacement pass on top of the same single
+planning call. DEFER and COMMIT are the largest, both scaling as
+$O(r\,b\,\theta\,m\,\alpha)$ with the number of rounds $r$ rather than a
+single call; the theory does not rank DEFER against COMMIT a priori,
+because $r$ is realized by the cascade, not fixed by the algorithm.
+Table~\ref{tab:timing}'s wall-clock measurements confirm exactly this
+shape: AG is cheapest on every one of the four networks, GR is a small
+constant factor above AG (roughly 1.1--1.3$\times$), and DEFER and
+COMMIT are both several times to an order of magnitude above both (DEFER/AG
+ranges from about 2.5$\times$ on power-grid and BA(2000) to about
+$4$--$7\times$ on ca-HepTh and ca-GrQc) -- but COMMIT, not
+DEFER, is the most expensive throughout, which the complexity bound alone
+does not predict and which Section~\ref{sec:complexity-practice}'s
+explanation (COMMIT's worse plan quality realizes a larger $r$) accounts
+for. On the TWIG side, Proposition~\ref{prop:fpt-space}'s removal of the
+$(n+1)^{w+1}$ factor is not a paper claim left unchecked: Table
+\ref{tab:twig-feasibility}'s own note reports that, before the collapse of
+Theorem~\ref{thm:twig-collapse} and the reversed processing order of
+Proposition~\ref{prop:direction} were both applied, the karate network
+(the smallest of the three shown) did not finish evaluation in 60 seconds
+under \texttt{ExactSpread} (XP), whereas \texttt{ExactSpreadFast} (FPT)
+evaluates it in 2.5 seconds -- an empirical confirmation, not merely an
+asymptotic one, that removing the $n$-dependent factor is what makes exact
+evaluation of real (not synthetic) networks practical at all. Ordered from
+smallest to largest measured cost throughout this paper:
+\texttt{ExactSpreadFast} per call $<$ AG/GR/\texttt{isocut}
+$\ll$ DEFER $<$ COMMIT $\ll$ \texttt{ExactSpread} per call (once $w$ is
+large enough to matter) $\ll$ \texttt{greedy\_exact}
+$\ll$ \texttt{brute\_force\_optimal\_block}.
+
+\begin{table}[h]
+\TABLE
+{Bell numbers $B_{w+1}$, illustrating why treewidth (not just $n$) bounds \texttt{ExactSpreadFast}\label{tab:bell-numbers}}
+{\begin{tabular}{@{}lccccccc@{}}
+\hline
+\up $w$ & 1 & 2 & 3 & 4 & 5 & 8 & 10 \\
+\hline
+\down $B_{w+1}$ & 2 & 5 & 15 & 52 & 203 & 21{,}147 & 678{,}570 \\
+\hline
+\end{tabular}}
+{$w+1$ ranges over the widths measured in Table~\ref{tab:twig-feasibility} (karate: 5, iceland: 4, dolphin: $\sim$10--11); the jump from $w=5$ to $w=10$-ish is the entire empirical gap between ``tractable in seconds'' and ``infeasible by memory.''}
+\end{table}
+
 \section{Experiments}\label{sec:experiments}
 
 \subsection{DEFER benchmark}\label{sec:defer-experiments}
 
-We benchmark DEFER, wrapping the dominator-tree planner (default), against
-the following baselines and ablations:
+To keep clear which methods are prior published work that DEFER is
+compared \emph{against}, and which are our own constructions used to
+isolate \emph{why} DEFER behaves as it does, we list the two groups
+separately. Everything with ``DEFER'' or ``defer'' in its name below
+belongs to the second group: it is a variant or ablation of our own
+method, not a competing baseline.
+
+\noindent\textbf{External one-shot baselines (prior work):}
 
 \begin{enumerate}
-\item \textbf{AdvancedGreedy (AG)} \citep{xie2024}: the one-shot planner
-  DEFER wraps by default; picks vertices greedily by dominator-tree
-  subtree size on Monte-Carlo live-edge samples, recomputing after each
-  pick.
+\item \textbf{AdvancedGreedy (AG)} \citep{xie2024}: picks vertices
+  greedily by dominator-tree subtree size on Monte-Carlo live-edge
+  samples, recomputing after each pick; the one-shot planner DEFER wraps
+  by default.
 \item \textbf{GreedyReplace (GR)} \citep{xie2024}: AG followed by a
   replacement pass that swaps any picked vertex for a better one if doing
   so improves the sampled objective; the alternate planner DEFER can wrap
@@ -647,11 +811,27 @@ the following baselines and ablations:
 \item \textbf{Proximity}: a simple one-shot heuristic that blocks the
   vertices closest to the seed set by hop distance; included as a
   na\"ive reference point, not a state-of-the-art baseline.
-\item \textbf{COMMIT}: our own ablation of DEFER that re-plans every round
-  identically to DEFER but commits the entire plan immediately rather than
-  applying the push-down rule (Section~\ref{sec:defer-algo}); isolates the
-  effect of \emph{when} a plan is committed from the effect of re-planning
-  itself.
+\end{enumerate}
+
+\noindent\textbf{Our own ablations (all wrap or extend AG, not external
+methods):}
+
+\begin{enumerate}
+\item \textbf{DEFER}: the contribution of this paper (Section~\ref{sec:defer-algo}),
+  wrapping AG by default.
+\item \textbf{COMMIT}: DEFER's own re-planning loop with the push-down
+  rule (step 4 of Algorithm~\ref{alg:defer}) replaced by committing the
+  entire plan immediately every round; isolates the effect of \emph{when}
+  a plan is committed from the effect of re-planning itself.
+\item \textbf{isocut}: AG with one additional candidate move added to its
+  planner -- isolating a whole seed's out-neighborhood at once
+  (Section~\ref{sec:complexity-comparison}, Theorem~\ref{thm:isocut-separation});
+  a one-shot planner, not a DEFER variant, used only in
+  Section~\ref{sec:isocut-practice}.
+\item \textbf{defer\_cut}: DEFER wrapping \texttt{isocut} instead of plain
+  AG; used only in Section~\ref{sec:isocut-practice} to check whether the
+  isolation move's worst-case advantage (Theorem~\ref{thm:isocut-separation})
+  is visible once DEFER's adaptivity is layered on top of it.
 \end{enumerate}
 
 \noindent The networks are:
@@ -830,7 +1010,10 @@ introducing DEFER's round-by-round re-planning.}
 
 \subsection{Isolation moves in practice}\label{sec:isocut-practice}
 
-Theorem~\ref{thm:isocut-separation} shows a worst-case family on which
+This subsection is entirely about our own constructions: \texttt{isocut}
+(a one-shot planner we built by extending AG) and \texttt{defer\_cut}
+(DEFER wrapping \texttt{isocut} instead of AG); neither is a baseline from
+prior literature. Theorem~\ref{thm:isocut-separation} shows a worst-case family on which
 frontier-isolation moves save $\Omega(N)$ where every other rule
 considered saves $O(b)$. Table~\ref{tab:isocut} checks whether this
 worst-case advantage is visible on the real SNAP-scale networks used
@@ -982,6 +1165,49 @@ networks; \texttt{fraternity}'s GCNSI result (0.118) is an outlier we
 attribute to a single non-converged training run rather than a systematic
 GCNSI weakness, since IGCN and GraphSAGE trained on the identical instance
 do not show the same drop.}
+\end{table}
+
+\subsection{Reproduction check against published numbers}\label{sec:reproduction-check}
+
+Because Table~\ref{tab:source-detection} reproduces \citet{sterchi2026}'s
+methodology rather than rerunning their exact code end-to-end, we checked
+our pipeline directly against their own published top-5 accuracies on
+karate -- the one network in our sweep whose calibration exactly matches
+theirs (both use $\beta=1.3$, $T=0.85$, targeting the same $\sim$40\%
+infected fraction). Table~\ref{tab:reproduction} shows the comparison.
+
+\begin{table}[h]
+\TABLE
+{Top-5 accuracy on karate: our reproduction vs.\ \citet{sterchi2026}'s published numbers\label{tab:reproduction}}
+{\begin{tabular}{@{}lccc@{}}
+\hline
+\up method & ours & \citet{sterchi2026} & difference \\
+\hline
+\up Random & 0.372 & 0.394 & $-$0.022 \\
+Jordan center & 0.508 & 0.527 & $-$0.019 \\
+Betweenness & 0.535 & 0.552 & $-$0.017 \\
+SME & 0.598 & 0.607 & $-$0.009 \\
+DMP / MCMF & 0.679 & 0.656 & $+$0.023 \\
+MLP & 0.589 & 0.679 & $-$0.090 \\
+GCNSI (Dong arch.) & 0.671 & 0.687 & $-$0.016 \\
+GCN/GAT (Shah arch.) & 0.726 & 0.729 & $-$0.003 \\
+IGCN & 0.727 & 0.728 & $-$0.001 \\
+\down GraphSAGE (Haddad arch.) & 0.699 & 0.719 & $-$0.020 \\
+\hline
+\end{tabular}}
+{Nine of ten methods land within 2.3 percentage points of the published
+value, and the two GNN architectures central to \citet{sterchi2026}'s own
+headline comparison -- GCN/GAT and IGCN -- match to within 0.1--0.3 points,
+which is the level of agreement we take as confirming that our
+reimplementation of their training and inference pipeline is correct
+rather than coincidentally similar. MLP is the one outlier (9.0 points
+low); we did not track down whether this is a feature-engineering
+difference or run-to-run training variance in that specific baseline, and
+flag it rather than average it away. This check is restricted to karate
+because it is the only network where our calibration exactly matches
+theirs; Section~\ref{sec:source-experiments}'s per-network calibrated beta
+and $T$ target the same $\sim$40\% infected fraction on every other
+network but were not verified against a second published number.}
 \end{table}
 
 \section{Discussion and Conclusion}\label{sec:discussion}

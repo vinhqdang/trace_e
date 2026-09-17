@@ -4,4 +4,5 @@
 *.blg
 *.out
 *.synctex.gz
-main.pdf
+*.pdf
+!figures/*.pdf
