@@ -1,0 +1,9 @@
+2026-09-16 03:08:06 INFO run sequential_cagrqc_ablation_20260916T030806Z_0270 started, dir=/home/user/trace_e/results/runs/sequential_cagrqc_ablation_20260916T030806Z_0270
+2026-09-16 03:08:06 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-09-16 03:08:06 INFO === eprocess + greedy_p0 ===
+2026-09-16 03:08:12 INFO RESULT cagrqc eprocess+greedy_p0: FA=0.007 det=0.790 delay=2.143 harm@alarm=17.684 harm_final=1276.76 (cf 1819.347) saved=0.2982 benign_loss=0.02 kappa_mae=0.446 (6s)
+2026-09-16 03:08:12 INFO === eprocess + adaptive_p0 ===
+2026-09-16 03:08:20 INFO RESULT cagrqc eprocess+adaptive_p0: FA=0.007 det=0.790 delay=2.143 harm@alarm=17.684 harm_final=1276.76 (cf 1819.347) saved=0.2982 benign_loss=0.02 kappa_mae=0.446 (7s)
+2026-09-16 03:08:20 INFO === eprocess + adaptive_commit ===
+2026-09-16 03:08:44 INFO RESULT cagrqc eprocess+adaptive_commit: FA=0.007 det=0.790 delay=2.143 harm@alarm=17.684 harm_final=948.72 (cf 1819.347) saved=0.4785 benign_loss=0.043 kappa_mae=0.446 (24s)
+2026-09-16 03:08:44 INFO run sequential_cagrqc_ablation_20260916T030806Z_0270 finished in 38.0s

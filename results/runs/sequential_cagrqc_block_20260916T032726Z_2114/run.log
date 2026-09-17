@@ -1,0 +1,7 @@
+2026-09-16 03:27:26 INFO run sequential_cagrqc_block_20260916T032726Z_2114 started, dir=/home/user/trace_e/results/runs/sequential_cagrqc_block_20260916T032726Z_2114
+2026-09-16 03:27:26 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-09-16 03:27:26 INFO === eprocess + adaptive + throttle:hub ===
+2026-09-16 03:27:56 INFO RESULT cagrqc eprocess+adaptive+hub: FA=0.000 det=0.640 delay=2.089 harm@alarm=16.182 harm_final=739.72 (cf 1822.817) saved=0.5942 benign_loss=0.56 kappa_mae=0.531 (30s)
+2026-09-16 03:27:56 INFO === eprocess + adaptive + throttle:random ===
+2026-09-16 03:28:33 INFO RESULT cagrqc eprocess+adaptive+random: FA=0.000 det=0.677 delay=2.143 harm@alarm=16.507 harm_final=874.69 (cf 1822.817) saved=0.5201 benign_loss=0.567 kappa_mae=0.484 (37s)
+2026-09-16 03:28:33 INFO run sequential_cagrqc_block_20260916T032726Z_2114 finished in 66.5s

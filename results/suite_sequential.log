@@ -1,0 +1,433 @@
+2026-09-16 03:00:41 INFO run sequential_cagrqc_block_20260916T030041Z_7802 started, dir=/home/user/trace_e/results/runs/sequential_cagrqc_block_20260916T030041Z_7802
+2026-09-16 03:00:41 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-09-16 03:00:41 INFO calibrated size on 300 benign cascades (seeds=3): threshold=27 (0.1s)
+2026-09-16 03:00:41 INFO calibrated excess on 300 benign cascades (seeds=3): threshold=1.755 (0.1s)
+2026-09-16 03:00:43 INFO calibrated logistic on 150 benign cascades (train acc 0.963): threshold=0.9123 (1.4s)
+2026-09-16 03:00:43 INFO calibrated cusum on 300 benign cascades (seeds=3): threshold=2.229 (0.1s)
+2026-09-16 03:00:43 INFO calibrated growth on 300 benign cascades (seeds=3): threshold=9 (0.1s)
+2026-09-16 03:00:43 INFO === eprocess + none ===
+2026-09-16 03:00:45 INFO RESULT cagrqc eprocess+none: FA=0.007 det=0.790 delay=2.143 harm@alarm=17.684 harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae=0.446 (2s)
+2026-09-16 03:00:45 INFO === sprt + none ===
+2026-09-16 03:00:47 INFO RESULT cagrqc sprt+none: FA=0.013 det=0.773 delay=1.905 harm@alarm=15.668 harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae=0.784 (2s)
+2026-09-16 03:00:47 INFO === cusum + none ===
+2026-09-16 03:00:48 INFO RESULT cagrqc cusum+none: FA=0.050 det=0.827 delay=1.653 harm@alarm=13.246 harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae=0.761 (1s)
+2026-09-16 03:00:48 INFO === size + none ===
+2026-09-16 03:00:50 INFO RESULT cagrqc size+none: FA=0.040 det=0.700 delay=3.733 harm@alarm=38.186 harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae=1.695 (1s)
+2026-09-16 03:00:50 INFO === growth + none ===
+2026-09-16 03:00:51 INFO RESULT cagrqc growth+none: FA=0.027 det=0.667 delay=3.11 harm@alarm=28.09 harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae=1.721 (1s)
+2026-09-16 03:00:51 INFO === excess + none ===
+2026-09-16 03:00:53 INFO RESULT cagrqc excess+none: FA=0.040 det=0.803 delay=1.793 harm@alarm=13.913 harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae=1.664 (1s)
+2026-09-16 03:00:53 INFO === logistic + none ===
+2026-09-16 03:00:54 INFO RESULT cagrqc logistic+none: FA=0.037 det=0.800 delay=1.771 harm@alarm=14.454 harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae=1.671 (2s)
+2026-09-16 03:00:54 INFO === never + none ===
+2026-09-16 03:00:57 INFO RESULT cagrqc never+none: FA=0.000 det=0.000 delay= harm@alarm= harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae= (2s)
+2026-09-16 03:00:57 INFO === immediate + none ===
+2026-09-16 03:00:58 INFO RESULT cagrqc immediate+none: FA=1.000 det=1.000 delay=1.0 harm@alarm=8.86 harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae=1.524 (1s)
+2026-09-16 03:00:58 INFO run sequential_cagrqc_block_20260916T030041Z_7802 finished in 17.1s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:01:04 INFO run sequential_cagrqc_block_20260916T030104Z_8019 started, dir=/home/user/trace_e/results/runs/sequential_cagrqc_block_20260916T030104Z_8019
+2026-09-16 03:01:04 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-09-16 03:01:04 INFO calibrated excess on 300 benign cascades (seeds=1): threshold=1.614 (0.1s)
+2026-09-16 03:01:04 INFO calibrated growth on 300 benign cascades (seeds=1): threshold=6 (0.1s)
+2026-09-16 03:01:05 INFO calibrated logistic on 150 benign cascades (train acc 0.901): threshold=0.8984 (0.7s)
+2026-09-16 03:01:05 INFO calibrated cusum on 300 benign cascades (seeds=1): threshold=1.488 (0.1s)
+2026-09-16 03:01:05 INFO calibrated size on 300 benign cascades (seeds=1): threshold=17 (0.1s)
+2026-09-16 03:01:05 INFO === eprocess + none ===
+2026-09-16 03:01:06 INFO RESULT cagrqc eprocess+none: FA=0.003 det=0.707 delay=2.132 harm@alarm=17.835 harm_final=1809.47 (cf 1809.687) saved=0.0001 benign_loss=0.0 kappa_mae=0.45 (1s)
+2026-09-16 03:01:06 INFO === sprt + none ===
+2026-09-16 03:01:08 INFO RESULT cagrqc sprt+none: FA=0.007 det=0.690 delay=1.99 harm@alarm=17.725 harm_final=1809.47 (cf 1809.687) saved=0.0001 benign_loss=0.0 kappa_mae=0.826 (1s)
+2026-09-16 03:01:08 INFO === cusum + none ===
+2026-09-16 03:01:09 INFO RESULT cagrqc cusum+none: FA=0.140 det=0.833 delay=1.5 harm@alarm=12.156 harm_final=1809.47 (cf 1809.687) saved=0.0001 benign_loss=0.0 kappa_mae=0.746 (1s)
+2026-09-16 03:01:09 INFO === size + none ===
+2026-09-16 03:01:10 INFO RESULT cagrqc size+none: FA=0.137 det=0.717 delay=2.674 harm@alarm=24.651 harm_final=1809.47 (cf 1809.687) saved=0.0001 benign_loss=0.0 kappa_mae=1.68 (1s)
+2026-09-16 03:01:10 INFO === growth + none ===
+2026-09-16 03:01:11 INFO RESULT cagrqc growth+none: FA=0.137 det=0.723 delay=2.124 harm@alarm=18.604 harm_final=1809.47 (cf 1809.687) saved=0.0001 benign_loss=0.0 kappa_mae=1.681 (2s)
+2026-09-16 03:01:11 INFO === excess + none ===
+2026-09-16 03:01:12 INFO RESULT cagrqc excess+none: FA=0.040 det=0.737 delay=1.661 harm@alarm=13.747 harm_final=1809.47 (cf 1809.687) saved=0.0001 benign_loss=0.0 kappa_mae=1.695 (1s)
+2026-09-16 03:01:12 INFO === logistic + none ===
+2026-09-16 03:01:14 INFO RESULT cagrqc logistic+none: FA=0.003 det=0.677 delay=2.438 harm@alarm=21.281 harm_final=1809.47 (cf 1809.687) saved=0.0001 benign_loss=0.0 kappa_mae=1.771 (1s)
+2026-09-16 03:01:14 INFO === never + none ===
+2026-09-16 03:01:15 INFO RESULT cagrqc never+none: FA=0.000 det=0.000 delay= harm@alarm= harm_final=1809.47 (cf 1809.687) saved=0.0001 benign_loss=0.0 kappa_mae= (2s)
+2026-09-16 03:01:15 INFO === immediate + none ===
+2026-09-16 03:01:16 INFO RESULT cagrqc immediate+none: FA=1.000 det=1.000 delay=1.0 harm@alarm=8.913 harm_final=1809.47 (cf 1809.687) saved=0.0001 benign_loss=0.0 kappa_mae=1.514 (1s)
+2026-09-16 03:01:16 INFO run sequential_cagrqc_block_20260916T030104Z_8019 finished in 12.6s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:01:22 INFO run sequential_cagrqc_block_20260916T030122Z_8278 started, dir=/home/user/trace_e/results/runs/sequential_cagrqc_block_20260916T030122Z_8278
+2026-09-16 03:01:22 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-09-16 03:01:22 INFO calibrated size on 300 benign cascades (seeds=3): threshold=16 (0.2s)
+2026-09-16 03:01:22 INFO calibrated excess on 300 benign cascades (seeds=3): threshold=1.085 (0.1s)
+2026-09-16 03:01:22 INFO calibrated cusum on 300 benign cascades (seeds=3): threshold=1.281 (0.1s)
+2026-09-16 03:01:24 INFO calibrated logistic on 150 benign cascades (train acc 0.984): threshold=0.9104 (1.2s)
+2026-09-16 03:01:24 INFO calibrated growth on 300 benign cascades (seeds=3): threshold=6 (0.1s)
+2026-09-16 03:01:24 INFO === eprocess + none ===
+2026-09-16 03:01:26 INFO RESULT cagrqc eprocess+none: FA=0.003 det=0.790 delay=2.143 harm@alarm=17.684 harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae=0.446 (2s)
+2026-09-16 03:01:26 INFO === sprt + none ===
+2026-09-16 03:01:27 INFO RESULT cagrqc sprt+none: FA=0.003 det=0.773 delay=1.905 harm@alarm=15.668 harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae=0.784 (2s)
+2026-09-16 03:01:27 INFO === cusum + none ===
+2026-09-16 03:01:28 INFO RESULT cagrqc cusum+none: FA=0.040 det=0.903 delay=1.428 harm@alarm=11.458 harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae=0.728 (1s)
+2026-09-16 03:01:28 INFO === size + none ===
+2026-09-16 03:01:30 INFO RESULT cagrqc size+none: FA=0.067 det=0.797 delay=2.778 harm@alarm=23.004 harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae=1.638 (1s)
+2026-09-16 03:01:30 INFO === growth + none ===
+2026-09-16 03:01:31 INFO RESULT cagrqc growth+none: FA=0.053 det=0.760 delay=2.276 harm@alarm=18.5 harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae=1.668 (1s)
+2026-09-16 03:01:31 INFO === excess + none ===
+2026-09-16 03:01:33 INFO RESULT cagrqc excess+none: FA=0.060 det=0.873 delay=1.366 harm@alarm=10.939 harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae=1.604 (1s)
+2026-09-16 03:01:33 INFO === logistic + none ===
+2026-09-16 03:01:34 INFO RESULT cagrqc logistic+none: FA=0.050 det=0.877 delay=1.422 harm@alarm=11.217 harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae=1.601 (2s)
+2026-09-16 03:01:34 INFO === never + none ===
+2026-09-16 03:01:36 INFO RESULT cagrqc never+none: FA=0.000 det=0.000 delay= harm@alarm= harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae= (2s)
+2026-09-16 03:01:36 INFO === immediate + none ===
+2026-09-16 03:01:38 INFO RESULT cagrqc immediate+none: FA=1.000 det=1.000 delay=1.0 harm@alarm=8.86 harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae=1.524 (1s)
+2026-09-16 03:01:38 INFO run sequential_cagrqc_block_20260916T030122Z_8278 finished in 15.7s
+Traceback (most recent call last):
+  File "/home/user/trace_e/scripts/aggregate.py", line 167, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/user/trace_e/scripts/aggregate.py", line 159, in main
+    parts.append(sequential_report(q))
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/trace_e/scripts/aggregate.py", line 95, in sequential_report
+    df = pd.read_csv(path)
+         ^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/io/parsers/readers.py", line 873, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/io/parsers/readers.py", line 306, in _read
+    return parser.read(nrows)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/io/parsers/readers.py", line 1947, in read
+    ) = self._engine.read(  # type: ignore[attr-defined]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/io/parsers/c_parser_wrapper.py", line 215, in read
+    chunks = self._reader.read_low_memory(nrows)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/parsers.pyx", line 832, in pandas._libs.parsers.TextReader.read_low_memory
+  File "pandas/_libs/parsers.pyx", line 897, in pandas._libs.parsers.TextReader._read_rows
+  File "pandas/_libs/parsers.pyx", line 868, in pandas._libs.parsers.TextReader._tokenize_rows
+  File "pandas/_libs/parsers.pyx", line 885, in pandas._libs.parsers.TextReader._check_tokenize_status
+  File "pandas/_libs/parsers.pyx", line 2084, in pandas._libs.parsers.raise_parser_error
+pandas.errors.ParserError: Error tokenizing data. C error: Expected 38 fields in line 20, saw 40
+
+2026-09-16 03:01:43 INFO run sequential_cagrqc_block_20260916T030143Z_8488 started, dir=/home/user/trace_e/results/runs/sequential_cagrqc_block_20260916T030143Z_8488
+2026-09-16 03:01:43 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-09-16 03:01:43 INFO === eprocess + adaptive ===
+Terminated
+Traceback (most recent call last):
+  File "/home/user/trace_e/scripts/aggregate.py", line 167, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/user/trace_e/scripts/aggregate.py", line 159, in main
+    parts.append(sequential_report(q))
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/trace_e/scripts/aggregate.py", line 95, in sequential_report
+    df = pd.read_csv(path)
+         ^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/io/parsers/readers.py", line 873, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/io/parsers/readers.py", line 306, in _read
+    return parser.read(nrows)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/io/parsers/readers.py", line 1947, in read
+    ) = self._engine.read(  # type: ignore[attr-defined]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/io/parsers/c_parser_wrapper.py", line 215, in read
+    chunks = self._reader.read_low_memory(nrows)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/parsers.pyx", line 832, in pandas._libs.parsers.TextReader.read_low_memory
+  File "pandas/_libs/parsers.pyx", line 897, in pandas._libs.parsers.TextReader._read_rows
+  File "pandas/_libs/parsers.pyx", line 868, in pandas._libs.parsers.TextReader._tokenize_rows
+  File "pandas/_libs/parsers.pyx", line 885, in pandas._libs.parsers.TextReader._check_tokenize_status
+  File "pandas/_libs/parsers.pyx", line 2084, in pandas._libs.parsers.raise_parser_error
+pandas.errors.ParserError: Error tokenizing data. C error: Expected 38 fields in line 20, saw 40
+
+2026-09-16 03:03:48 INFO run sequential_highschool2013_block_20260916T030348Z_8822 started, dir=/home/user/trace_e/results/runs/sequential_highschool2013_block_20260916T030348Z_8822
+2026-09-16 03:03:48 INFO network highschool2013: {'n_nodes': 327, 'n_edges': 5818, 'avg_degree': 35.584097859327215, 'n_components': 1, 'lcc_size': 327}
+2026-09-16 03:03:48 INFO calibrated growth on 300 benign cascades (seeds=3): threshold=11 (0.2s)
+2026-09-16 03:03:48 INFO calibrated cusum on 300 benign cascades (seeds=3): threshold=2.755 (0.2s)
+2026-09-16 03:03:48 INFO calibrated excess on 300 benign cascades (seeds=3): threshold=2.353 (0.2s)
+2026-09-16 03:03:49 INFO calibrated size on 300 benign cascades (seeds=3): threshold=65 (0.2s)
+2026-09-16 03:03:50 INFO calibrated logistic on 150 benign cascades (train acc 0.951): threshold=0.841 (1.1s)
+2026-09-16 03:03:50 INFO === eprocess + none ===
+2026-09-16 03:03:51 INFO RESULT highschool2013 eprocess+none: FA=0.013 det=0.970 delay=2.763 harm@alarm=30.687 harm_final=272.503 (cf 272.503) saved=0.0 benign_loss=0.0 kappa_mae=0.413 (1s)
+2026-09-16 03:03:51 INFO === sprt + none ===
+2026-09-16 03:03:52 INFO RESULT highschool2013 sprt+none: FA=0.013 det=0.960 delay=2.722 harm@alarm=30.594 harm_final=272.503 (cf 272.503) saved=0.0 benign_loss=0.0 kappa_mae=0.706 (1s)
+2026-09-16 03:03:52 INFO === cusum + none ===
+2026-09-16 03:03:52 INFO RESULT highschool2013 cusum+none: FA=0.070 det=0.970 delay=2.433 harm@alarm=25.402 harm_final=272.503 (cf 272.503) saved=0.0 benign_loss=0.0 kappa_mae=0.702 (1s)
+2026-09-16 03:03:52 INFO === size + none ===
+2026-09-16 03:03:53 INFO RESULT highschool2013 size+none: FA=0.077 det=0.970 delay=4.405 harm@alarm=92.598 harm_final=272.503 (cf 272.503) saved=0.0 benign_loss=0.0 kappa_mae=1.551 (1s)
+2026-09-16 03:03:53 INFO === growth + none ===
+2026-09-16 03:03:54 INFO RESULT highschool2013 growth+none: FA=0.040 det=0.967 delay=2.793 harm@alarm=33.81 harm_final=272.503 (cf 272.503) saved=0.0 benign_loss=0.0 kappa_mae=1.555 (1s)
+2026-09-16 03:03:54 INFO === excess + none ===
+2026-09-16 03:03:54 INFO RESULT highschool2013 excess+none: FA=0.047 det=0.970 delay=2.182 harm@alarm=21.522 harm_final=272.503 (cf 272.503) saved=0.0 benign_loss=0.0 kappa_mae=1.551 (1s)
+2026-09-16 03:03:54 INFO === logistic + none ===
+2026-09-16 03:03:55 INFO RESULT highschool2013 logistic+none: FA=0.050 det=0.967 delay=2.159 harm@alarm=22.955 harm_final=272.503 (cf 272.503) saved=0.0 benign_loss=0.0 kappa_mae=1.555 (1s)
+2026-09-16 03:03:55 INFO === never + none ===
+2026-09-16 03:03:56 INFO RESULT highschool2013 never+none: FA=0.000 det=0.000 delay= harm@alarm= harm_final=272.503 (cf 272.503) saved=0.0 benign_loss=0.0 kappa_mae= (1s)
+2026-09-16 03:03:56 INFO === immediate + none ===
+2026-09-16 03:03:57 INFO RESULT highschool2013 immediate+none: FA=1.000 det=1.000 delay=1.0 harm@alarm=10.513 harm_final=272.503 (cf 272.503) saved=0.0 benign_loss=0.0 kappa_mae=1.524 (1s)
+2026-09-16 03:03:57 INFO run sequential_highschool2013_block_20260916T030348Z_8822 finished in 8.8s
+Traceback (most recent call last):
+  File "/home/user/trace_e/scripts/aggregate.py", line 167, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/user/trace_e/scripts/aggregate.py", line 159, in main
+    parts.append(sequential_report(q))
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/trace_e/scripts/aggregate.py", line 95, in sequential_report
+    df = pd.read_csv(path)
+         ^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/io/parsers/readers.py", line 873, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/io/parsers/readers.py", line 306, in _read
+    return parser.read(nrows)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/io/parsers/readers.py", line 1947, in read
+    ) = self._engine.read(  # type: ignore[attr-defined]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/io/parsers/c_parser_wrapper.py", line 215, in read
+    chunks = self._reader.read_low_memory(nrows)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/parsers.pyx", line 832, in pandas._libs.parsers.TextReader.read_low_memory
+  File "pandas/_libs/parsers.pyx", line 897, in pandas._libs.parsers.TextReader._read_rows
+  File "pandas/_libs/parsers.pyx", line 868, in pandas._libs.parsers.TextReader._tokenize_rows
+  File "pandas/_libs/parsers.pyx", line 885, in pandas._libs.parsers.TextReader._check_tokenize_status
+  File "pandas/_libs/parsers.pyx", line 2084, in pandas._libs.parsers.raise_parser_error
+pandas.errors.ParserError: Error tokenizing data. C error: Expected 38 fields in line 20, saw 40
+
+2026-09-16 03:04:02 INFO run sequential_highschool2013_block_20260916T030402Z_8976 started, dir=/home/user/trace_e/results/runs/sequential_highschool2013_block_20260916T030402Z_8976
+2026-09-16 03:04:02 INFO network highschool2013: {'n_nodes': 327, 'n_edges': 5818, 'avg_degree': 35.584097859327215, 'n_components': 1, 'lcc_size': 327}
+2026-09-16 03:04:02 INFO calibrated growth on 300 benign cascades (seeds=1): threshold=8 (0.1s)
+2026-09-16 03:04:02 INFO calibrated size on 300 benign cascades (seeds=1): threshold=48 (0.1s)
+2026-09-16 03:04:02 INFO calibrated cusum on 300 benign cascades (seeds=1): threshold=2.516 (0.2s)
+2026-09-16 03:04:04 INFO calibrated logistic on 150 benign cascades (train acc 0.882): threshold=0.8152 (0.9s)
+2026-09-16 03:04:04 INFO calibrated excess on 300 benign cascades (seeds=1): threshold=2.466 (0.1s)
+2026-09-16 03:04:04 INFO === eprocess + none ===
+2026-09-16 03:04:05 INFO RESULT highschool2013 eprocess+none: FA=0.020 det=0.963 delay=2.851 harm@alarm=31.55 harm_final=269.277 (cf 269.277) saved=0.0 benign_loss=0.0 kappa_mae=0.386 (1s)
+2026-09-16 03:04:05 INFO === sprt + none ===
+2026-09-16 03:04:05 INFO RESULT highschool2013 sprt+none: FA=0.020 det=0.947 delay=2.588 harm@alarm=28.447 harm_final=269.277 (cf 269.277) saved=0.0 benign_loss=0.0 kappa_mae=0.697 (1s)
+2026-09-16 03:04:05 INFO === cusum + none ===
+2026-09-16 03:04:06 INFO RESULT highschool2013 cusum+none: FA=0.070 det=0.963 delay=2.363 harm@alarm=23.886 harm_final=269.277 (cf 269.277) saved=0.0 benign_loss=0.0 kappa_mae=0.692 (1s)
+2026-09-16 03:04:06 INFO === size + none ===
+2026-09-16 03:04:07 INFO RESULT highschool2013 size+none: FA=0.157 det=0.967 delay=3.938 harm@alarm=70.472 harm_final=269.277 (cf 269.277) saved=0.0 benign_loss=0.0 kappa_mae=1.54 (1s)
+2026-09-16 03:04:07 INFO === growth + none ===
+2026-09-16 03:04:07 INFO RESULT highschool2013 growth+none: FA=0.123 det=0.967 delay=2.255 harm@alarm=22.507 harm_final=269.277 (cf 269.277) saved=0.0 benign_loss=0.0 kappa_mae=1.54 (1s)
+2026-09-16 03:04:07 INFO === excess + none ===
+2026-09-16 03:04:08 INFO RESULT highschool2013 excess+none: FA=0.053 det=0.963 delay=2.346 harm@alarm=23.581 harm_final=269.277 (cf 269.277) saved=0.0 benign_loss=0.0 kappa_mae=1.543 (1s)
+2026-09-16 03:04:08 INFO === logistic + none ===
+2026-09-16 03:04:09 INFO RESULT highschool2013 logistic+none: FA=0.020 det=0.950 delay=2.895 harm@alarm=32.214 harm_final=269.277 (cf 269.277) saved=0.0 benign_loss=0.0 kappa_mae=1.557 (1s)
+2026-09-16 03:04:09 INFO === never + none ===
+2026-09-16 03:04:10 INFO RESULT highschool2013 never+none: FA=0.000 det=0.000 delay= harm@alarm= harm_final=269.277 (cf 269.277) saved=0.0 benign_loss=0.0 kappa_mae= (1s)
+2026-09-16 03:04:10 INFO === immediate + none ===
+2026-09-16 03:04:10 INFO RESULT highschool2013 immediate+none: FA=1.000 det=1.000 delay=1.0 harm@alarm=10.5 harm_final=269.277 (cf 269.277) saved=0.0 benign_loss=0.0 kappa_mae=1.514 (1s)
+2026-09-16 03:04:10 INFO run sequential_highschool2013_block_20260916T030402Z_8976 finished in 8.5s
+Traceback (most recent call last):
+  File "/home/user/trace_e/scripts/aggregate.py", line 167, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/user/trace_e/scripts/aggregate.py", line 159, in main
+    parts.append(sequential_report(q))
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/trace_e/scripts/aggregate.py", line 95, in sequential_report
+    df = pd.read_csv(path)
+         ^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/io/parsers/readers.py", line 873, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/io/parsers/readers.py", line 306, in _read
+    return parser.read(nrows)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/io/parsers/readers.py", line 1947, in read
+    ) = self._engine.read(  # type: ignore[attr-defined]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/io/parsers/c_parser_wrapper.py", line 215, in read
+    chunks = self._reader.read_low_memory(nrows)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/parsers.pyx", line 832, in pandas._libs.parsers.TextReader.read_low_memory
+  File "pandas/_libs/parsers.pyx", line 897, in pandas._libs.parsers.TextReader._read_rows
+  File "pandas/_libs/parsers.pyx", line 868, in pandas._libs.parsers.TextReader._tokenize_rows
+  File "pandas/_libs/parsers.pyx", line 885, in pandas._libs.parsers.TextReader._check_tokenize_status
+  File "pandas/_libs/parsers.pyx", line 2084, in pandas._libs.parsers.raise_parser_error
+pandas.errors.ParserError: Error tokenizing data. C error: Expected 38 fields in line 20, saw 40
+
+2026-09-16 03:04:16 INFO run sequential_highschool2013_block_20260916T030416Z_9128 started, dir=/home/user/trace_e/results/runs/sequential_highschool2013_block_20260916T030416Z_9128
+2026-09-16 03:04:16 INFO network highschool2013: {'n_nodes': 327, 'n_edges': 5818, 'avg_degree': 35.584097859327215, 'n_components': 1, 'lcc_size': 327}
+2026-09-16 03:04:16 INFO calibrated cusum on 300 benign cascades (seeds=3): threshold=1.887 (0.2s)
+2026-09-16 03:04:16 INFO calibrated growth on 300 benign cascades (seeds=3): threshold=8 (0.2s)
+2026-09-16 03:04:16 INFO calibrated size on 300 benign cascades (seeds=3): threshold=43 (0.2s)
+2026-09-16 03:04:17 INFO calibrated excess on 300 benign cascades (seeds=3): threshold=1.645 (0.1s)
+2026-09-16 03:04:18 INFO calibrated logistic on 150 benign cascades (train acc 0.959): threshold=0.8637 (1.0s)
+2026-09-16 03:04:18 INFO === eprocess + none ===
+2026-09-16 03:04:19 INFO RESULT highschool2013 eprocess+none: FA=0.003 det=0.970 delay=2.763 harm@alarm=30.687 harm_final=272.503 (cf 272.503) saved=0.0 benign_loss=0.0 kappa_mae=0.413 (1s)
+2026-09-16 03:04:19 INFO === sprt + none ===
+2026-09-16 03:04:20 INFO RESULT highschool2013 sprt+none: FA=0.003 det=0.960 delay=2.722 harm@alarm=30.594 harm_final=272.503 (cf 272.503) saved=0.0 benign_loss=0.0 kappa_mae=0.706 (1s)
+2026-09-16 03:04:20 INFO === cusum + none ===
+2026-09-16 03:04:21 INFO RESULT highschool2013 cusum+none: FA=0.043 det=0.977 delay=2.014 harm@alarm=19.679 harm_final=272.503 (cf 272.503) saved=0.0 benign_loss=0.0 kappa_mae=0.7 (1s)
+2026-09-16 03:04:21 INFO === size + none ===
+2026-09-16 03:04:22 INFO RESULT highschool2013 size+none: FA=0.040 det=0.970 delay=3.656 harm@alarm=63.625 harm_final=272.503 (cf 272.503) saved=0.0 benign_loss=0.0 kappa_mae=1.551 (1s)
+2026-09-16 03:04:22 INFO === growth + none ===
+2026-09-16 03:04:23 INFO RESULT highschool2013 growth+none: FA=0.023 det=0.973 delay=2.212 harm@alarm=22.918 harm_final=272.503 (cf 272.503) saved=0.0 benign_loss=0.0 kappa_mae=1.548 (1s)
+2026-09-16 03:04:23 INFO === excess + none ===
+2026-09-16 03:04:23 INFO RESULT highschool2013 excess+none: FA=0.020 det=0.977 delay=1.741 harm@alarm=16.044 harm_final=272.503 (cf 272.503) saved=0.0 benign_loss=0.0 kappa_mae=1.544 (1s)
+2026-09-16 03:04:23 INFO === logistic + none ===
+2026-09-16 03:04:24 INFO RESULT highschool2013 logistic+none: FA=0.017 det=0.970 delay=1.801 harm@alarm=17.667 harm_final=272.503 (cf 272.503) saved=0.0 benign_loss=0.0 kappa_mae=1.551 (1s)
+2026-09-16 03:04:24 INFO === never + none ===
+2026-09-16 03:04:25 INFO RESULT highschool2013 never+none: FA=0.000 det=0.000 delay= harm@alarm= harm_final=272.503 (cf 272.503) saved=0.0 benign_loss=0.0 kappa_mae= (1s)
+2026-09-16 03:04:25 INFO === immediate + none ===
+2026-09-16 03:04:25 INFO RESULT highschool2013 immediate+none: FA=1.000 det=1.000 delay=1.0 harm@alarm=10.513 harm_final=272.503 (cf 272.503) saved=0.0 benign_loss=0.0 kappa_mae=1.524 (1s)
+2026-09-16 03:04:25 INFO run sequential_highschool2013_block_20260916T030416Z_9128 finished in 9.6s
+Traceback (most recent call last):
+  File "/home/user/trace_e/scripts/aggregate.py", line 167, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/user/trace_e/scripts/aggregate.py", line 159, in main
+    parts.append(sequential_report(q))
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/trace_e/scripts/aggregate.py", line 95, in sequential_report
+    df = pd.read_csv(path)
+         ^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/io/parsers/readers.py", line 873, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/io/parsers/readers.py", line 306, in _read
+    return parser.read(nrows)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/io/parsers/readers.py", line 1947, in read
+    ) = self._engine.read(  # type: ignore[attr-defined]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/io/parsers/c_parser_wrapper.py", line 215, in read
+    chunks = self._reader.read_low_memory(nrows)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/parsers.pyx", line 832, in pandas._libs.parsers.TextReader.read_low_memory
+  File "pandas/_libs/parsers.pyx", line 897, in pandas._libs.parsers.TextReader._read_rows
+  File "pandas/_libs/parsers.pyx", line 868, in pandas._libs.parsers.TextReader._tokenize_rows
+  File "pandas/_libs/parsers.pyx", line 885, in pandas._libs.parsers.TextReader._check_tokenize_status
+  File "pandas/_libs/parsers.pyx", line 2084, in pandas._libs.parsers.raise_parser_error
+pandas.errors.ParserError: Error tokenizing data. C error: Expected 38 fields in line 20, saw 40
+
+2026-09-16 03:04:31 INFO run sequential_highschool2013_block_20260916T030431Z_9325 started, dir=/home/user/trace_e/results/runs/sequential_highschool2013_block_20260916T030431Z_9325
+2026-09-16 03:04:31 INFO network highschool2013: {'n_nodes': 327, 'n_edges': 5818, 'avg_degree': 35.584097859327215, 'n_components': 1, 'lcc_size': 327}
+2026-09-16 03:04:31 INFO === eprocess + adaptive ===
+2026-09-16 03:06:25 INFO RESULT highschool2013 eprocess+adaptive: FA=0.013 det=0.970 delay=2.763 harm@alarm=30.687 harm_final=256.957 (cf 272.503) saved=0.0571 benign_loss=0.093 kappa_mae=0.413 (114s)
+2026-09-16 03:06:25 INFO === eprocess + greedy ===
+2026-09-16 03:07:32 INFO RESULT highschool2013 eprocess+greedy: FA=0.013 det=0.970 delay=2.763 harm@alarm=30.687 harm_final=257.1 (cf 272.503) saved=0.0565 benign_loss=0.093 kappa_mae=0.413 (67s)
+2026-09-16 03:07:32 INFO === eprocess + proximity ===
+2026-09-16 03:07:36 INFO RESULT highschool2013 eprocess+proximity: FA=0.013 det=0.970 delay=2.763 harm@alarm=30.687 harm_final=254.727 (cf 272.503) saved=0.0652 benign_loss=0.083 kappa_mae=0.413 (4s)
+2026-09-16 03:07:36 INFO === eprocess + degree ===
+2026-09-16 03:07:37 INFO RESULT highschool2013 eprocess+degree: FA=0.013 det=0.970 delay=2.763 harm@alarm=30.687 harm_final=254.473 (cf 272.503) saved=0.0662 benign_loss=0.083 kappa_mae=0.413 (1s)
+2026-09-16 03:07:37 INFO === immediate + adaptive ===
+2026-09-16 03:07:49 INFO RESULT highschool2013 immediate+adaptive: FA=1.000 det=1.000 delay=1.0 harm@alarm=10.513 harm_final=255.047 (cf 272.503) saved=0.0641 benign_loss=5.923 kappa_mae=1.524 (12s)
+2026-09-16 03:07:49 INFO run sequential_highschool2013_block_20260916T030431Z_9325 finished in 197.8s
+Traceback (most recent call last):
+  File "/home/user/trace_e/scripts/aggregate.py", line 167, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/user/trace_e/scripts/aggregate.py", line 159, in main
+    parts.append(sequential_report(q))
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/trace_e/scripts/aggregate.py", line 95, in sequential_report
+    df = pd.read_csv(path)
+         ^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/io/parsers/readers.py", line 873, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/io/parsers/readers.py", line 306, in _read
+    return parser.read(nrows)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/io/parsers/readers.py", line 1947, in read
+    ) = self._engine.read(  # type: ignore[attr-defined]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/pandas/io/parsers/c_parser_wrapper.py", line 215, in read
+    chunks = self._reader.read_low_memory(nrows)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/parsers.pyx", line 832, in pandas._libs.parsers.TextReader.read_low_memory
+  File "pandas/_libs/parsers.pyx", line 897, in pandas._libs.parsers.TextReader._read_rows
+  File "pandas/_libs/parsers.pyx", line 868, in pandas._libs.parsers.TextReader._tokenize_rows
+  File "pandas/_libs/parsers.pyx", line 885, in pandas._libs.parsers.TextReader._check_tokenize_status
+  File "pandas/_libs/parsers.pyx", line 2084, in pandas._libs.parsers.raise_parser_error
+pandas.errors.ParserError: Error tokenizing data. C error: Expected 38 fields in line 20, saw 40
+
+2026-09-16 03:07:54 INFO run sequential_powergrid_block_20260916T030754Z_0061 started, dir=/home/user/trace_e/results/runs/sequential_powergrid_block_20260916T030754Z_0061
+2026-09-16 03:07:54 INFO network powergrid: {'n_nodes': 4941, 'n_edges': 6594, 'avg_degree': 2.66909532483303, 'n_components': 1, 'lcc_size': 4941}
+2026-09-16 03:07:55 INFO calibrated growth on 300 benign cascades (seeds=3): threshold=8 (0.1s)
+2026-09-16 03:07:55 INFO calibrated excess on 300 benign cascades (seeds=3): threshold=1.482 (0.1s)
+2026-09-16 03:07:55 INFO calibrated size on 300 benign cascades (seeds=3): threshold=25 (0.1s)
+2026-09-16 03:07:55 INFO calibrated cusum on 300 benign cascades (seeds=3): threshold=2.549 (0.1s)
+2026-09-16 03:07:56 INFO calibrated logistic on 150 benign cascades (train acc 0.980): threshold=0.8933 (0.8s)
+2026-09-16 03:07:56 INFO === eprocess + none ===
+2026-09-16 03:07:57 INFO RESULT powergrid eprocess+none: FA=0.010 det=0.853 delay=2.008 harm@alarm=14.676 harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae=0.439 (1s)
+2026-09-16 03:07:57 INFO === sprt + none ===
+2026-09-16 03:07:58 INFO RESULT powergrid sprt+none: FA=0.013 det=0.817 delay=1.694 harm@alarm=12.951 harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae=0.773 (1s)
+2026-09-16 03:07:58 INFO === cusum + none ===
+2026-09-16 03:08:00 INFO RESULT powergrid cusum+none: FA=0.037 det=0.900 delay=1.696 harm@alarm=12.567 harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae=0.732 (1s)
+2026-09-16 03:08:00 INFO === size + none ===
+2026-09-16 03:08:01 INFO RESULT powergrid size+none: FA=0.033 det=0.830 delay=3.719 harm@alarm=32.667 harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae=1.668 (1s)
+2026-09-16 03:08:01 INFO === growth + none ===
+2026-09-16 03:08:02 INFO RESULT powergrid growth+none: FA=0.020 det=0.757 delay=3.106 harm@alarm=25.348 harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae=1.752 (1s)
+2026-09-16 03:08:02 INFO === excess + none ===
+2026-09-16 03:08:03 INFO RESULT powergrid excess+none: FA=0.063 det=0.880 delay=1.621 harm@alarm=11.803 harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae=1.626 (1s)
+2026-09-16 03:08:03 INFO === logistic + none ===
+2026-09-16 03:08:04 INFO RESULT powergrid logistic+none: FA=0.040 det=0.873 delay=1.729 harm@alarm=12.313 harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae=1.633 (1s)
+2026-09-16 03:08:04 INFO === never + none ===
+2026-09-16 03:08:06 INFO RESULT powergrid never+none: FA=0.000 det=0.000 delay= harm@alarm= harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae= (2s)
+2026-09-16 03:08:06 INFO === immediate + none ===
+2026-09-16 03:08:08 INFO RESULT powergrid immediate+none: FA=1.000 det=1.000 delay=1.0 harm@alarm=8.697 harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae=1.524 (2s)
+2026-09-16 03:08:08 INFO run sequential_powergrid_block_20260916T030754Z_0061 finished in 13.3s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:08:13 INFO run sequential_powergrid_block_20260916T030813Z_0333 started, dir=/home/user/trace_e/results/runs/sequential_powergrid_block_20260916T030813Z_0333
+2026-09-16 03:08:13 INFO network powergrid: {'n_nodes': 4941, 'n_edges': 6594, 'avg_degree': 2.66909532483303, 'n_components': 1, 'lcc_size': 4941}
+2026-09-16 03:08:14 INFO calibrated growth on 300 benign cascades (seeds=1): threshold=4 (0.1s)
+2026-09-16 03:08:14 INFO calibrated excess on 300 benign cascades (seeds=1): threshold=1.384 (0.1s)
+2026-09-16 03:08:15 INFO calibrated logistic on 150 benign cascades (train acc 0.966): threshold=0.9468 (1.4s)
+2026-09-16 03:08:15 INFO calibrated cusum on 300 benign cascades (seeds=1): threshold=1.946 (0.1s)
+2026-09-16 03:08:16 INFO calibrated size on 300 benign cascades (seeds=1): threshold=12 (0.1s)
+2026-09-16 03:08:16 INFO === eprocess + none ===
+2026-09-16 03:08:17 INFO RESULT powergrid eprocess+none: FA=0.003 det=0.877 delay=2.16 harm@alarm=15.605 harm_final=1942.287 (cf 2005.597) saved=0.0316 benign_loss=0.0 kappa_mae=0.445 (2s)
+2026-09-16 03:08:17 INFO === sprt + none ===
+2026-09-16 03:08:19 INFO RESULT powergrid sprt+none: FA=0.023 det=0.840 delay=1.77 harm@alarm=13.992 harm_final=1942.287 (cf 2005.597) saved=0.0316 benign_loss=0.0 kappa_mae=0.749 (1s)
+2026-09-16 03:08:19 INFO === cusum + none ===
+2026-09-16 03:08:20 INFO RESULT powergrid cusum+none: FA=0.127 det=0.930 delay=1.595 harm@alarm=11.763 harm_final=1942.287 (cf 2005.597) saved=0.0316 benign_loss=0.0 kappa_mae=0.704 (1s)
+2026-09-16 03:08:20 INFO === size + none ===
+2026-09-16 03:08:22 INFO RESULT powergrid size+none: FA=0.303 det=0.940 delay=2.23 harm@alarm=17.702 harm_final=1942.287 (cf 2005.597) saved=0.0316 benign_loss=0.0 kappa_mae=1.561 (2s)
+2026-09-16 03:08:22 INFO === growth + none ===
+2026-09-16 03:08:24 INFO RESULT powergrid growth+none: FA=0.270 det=0.900 delay=1.522 harm@alarm=11.926 harm_final=1942.287 (cf 2005.597) saved=0.0316 benign_loss=0.0 kappa_mae=1.596 (2s)
+2026-09-16 03:08:24 INFO === excess + none ===
+2026-09-16 03:08:25 INFO RESULT powergrid excess+none: FA=0.063 det=0.913 delay=1.639 harm@alarm=11.949 harm_final=1942.287 (cf 2005.597) saved=0.0316 benign_loss=0.0 kappa_mae=1.586 (2s)
+2026-09-16 03:08:25 INFO === logistic + none ===
+2026-09-16 03:08:27 INFO RESULT powergrid logistic+none: FA=0.010 det=0.830 delay=2.494 harm@alarm=17.924 harm_final=1942.287 (cf 2005.597) saved=0.0316 benign_loss=0.0 kappa_mae=1.675 (2s)
+2026-09-16 03:08:27 INFO === never + none ===
+2026-09-16 03:08:30 INFO RESULT powergrid never+none: FA=0.000 det=0.000 delay= harm@alarm= harm_final=1942.287 (cf 2005.597) saved=0.0316 benign_loss=0.0 kappa_mae= (3s)
+2026-09-16 03:08:30 INFO === immediate + none ===
+2026-09-16 03:08:32 INFO RESULT powergrid immediate+none: FA=1.000 det=1.000 delay=1.0 harm@alarm=8.877 harm_final=1942.287 (cf 2005.597) saved=0.0316 benign_loss=0.0 kappa_mae=1.514 (2s)
+2026-09-16 03:08:32 INFO run sequential_powergrid_block_20260916T030813Z_0333 finished in 18.7s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:08:37 INFO run sequential_powergrid_block_20260916T030837Z_0561 started, dir=/home/user/trace_e/results/runs/sequential_powergrid_block_20260916T030837Z_0561
+2026-09-16 03:08:38 INFO network powergrid: {'n_nodes': 4941, 'n_edges': 6594, 'avg_degree': 2.66909532483303, 'n_components': 1, 'lcc_size': 4941}
+2026-09-16 03:08:39 INFO calibrated logistic on 150 benign cascades (train acc 0.990): threshold=0.9504 (1.6s)
+2026-09-16 03:08:40 INFO calibrated growth on 300 benign cascades (seeds=3): threshold=6 (0.1s)
+2026-09-16 03:08:40 INFO calibrated excess on 300 benign cascades (seeds=3): threshold=1.126 (0.1s)
+2026-09-16 03:08:40 INFO calibrated cusum on 300 benign cascades (seeds=3): threshold=1.463 (0.1s)
+2026-09-16 03:08:40 INFO calibrated size on 300 benign cascades (seeds=3): threshold=16 (0.1s)
+2026-09-16 03:08:40 INFO === eprocess + none ===
+2026-09-16 03:08:42 INFO RESULT powergrid eprocess+none: FA=0.003 det=0.853 delay=2.008 harm@alarm=14.676 harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae=0.439 (2s)
+2026-09-16 03:08:42 INFO === sprt + none ===
+2026-09-16 03:08:43 INFO RESULT powergrid sprt+none: FA=0.003 det=0.817 delay=1.694 harm@alarm=12.951 harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae=0.773 (2s)
+2026-09-16 03:08:43 INFO === cusum + none ===
+2026-09-16 03:08:44 INFO RESULT powergrid cusum+none: FA=0.043 det=0.937 delay=1.359 harm@alarm=10.448 harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae=0.716 (1s)
+2026-09-16 03:08:44 INFO === size + none ===
+2026-09-16 03:08:45 INFO RESULT powergrid size+none: FA=0.053 det=0.887 delay=2.714 harm@alarm=21.887 harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae=1.613 (1s)
+2026-09-16 03:08:45 INFO === growth + none ===
+2026-09-16 03:08:46 INFO RESULT powergrid growth+none: FA=0.027 det=0.813 delay=2.266 harm@alarm=17.787 harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae=1.68 (1s)
+2026-09-16 03:08:46 INFO === excess + none ===
+2026-09-16 03:08:48 INFO RESULT powergrid excess+none: FA=0.033 det=0.913 delay=1.383 harm@alarm=10.445 harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae=1.598 (1s)
+2026-09-16 03:08:48 INFO === logistic + none ===
+2026-09-16 03:08:49 INFO RESULT powergrid logistic+none: FA=0.023 det=0.897 delay=1.502 harm@alarm=11.063 harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae=1.611 (1s)
+2026-09-16 03:08:49 INFO === never + none ===
+2026-09-16 03:08:50 INFO RESULT powergrid never+none: FA=0.000 det=0.000 delay= harm@alarm= harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae= (2s)
+2026-09-16 03:08:50 INFO === immediate + none ===
+2026-09-16 03:08:52 INFO RESULT powergrid immediate+none: FA=1.000 det=1.000 delay=1.0 harm@alarm=8.697 harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae=1.524 (1s)
+2026-09-16 03:08:52 INFO run sequential_powergrid_block_20260916T030837Z_0561 finished in 14.2s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:08:57 INFO run sequential_powergrid_block_20260916T030857Z_0807 started, dir=/home/user/trace_e/results/runs/sequential_powergrid_block_20260916T030857Z_0807
+2026-09-16 03:08:57 INFO network powergrid: {'n_nodes': 4941, 'n_edges': 6594, 'avg_degree': 2.66909532483303, 'n_components': 1, 'lcc_size': 4941}
+2026-09-16 03:08:57 INFO === eprocess + adaptive ===

@@ -1,0 +1,41 @@
+Using device: cuda
+============================
+Number of nodes: 92
+Number of edges: 755
+Average degree: 16.41304347826087
+Diameter (LCC): 3
+Average time per sim.: 0.000009 seconds
+============================
+Avg. outbreak size: 36.5017
+Avg. R0: 2.02435
+Avg. sampled infection rate: 0.165
+Number of sim. with only one inf. node: 14071
+============================
+Training examples: 32200
+Validation examples: 13800
+============================
+MLP(
+  (layers): ModuleList(
+    (0): Linear(in_features=3, out_features=128, bias=True)
+    (1-4): 4 x Linear(in_features=128, out_features=128, bias=True)
+  )
+  (activ): ModuleList(
+    (0-4): 5 x ReLU()
+  )
+  (final): Linear(in_features=128, out_features=1, bias=True)
+)
+============================
+Epoch: 001, Train Acc: 0.3605, Train Loss: 2.3846, Val. Acc: 0.3591, Val. Loss: 2.3821
+Epoch: 002, Train Acc: 0.3605, Train Loss: 2.3848, Val. Acc: 0.3591, Val. Loss: 2.3817
+Epoch: 003, Train Acc: 0.3605, Train Loss: 2.3853, Val. Acc: 0.3591, Val. Loss: 2.3820
+Epoch: 004, Train Acc: 0.3605, Train Loss: 2.3853, Val. Acc: 0.3591, Val. Loss: 2.3820
+Epoch: 005, Train Acc: 0.3605, Train Loss: 2.3872, Val. Acc: 0.3591, Val. Loss: 2.3834
+Epoch: 006, Train Acc: 0.3605, Train Loss: 2.3846, Val. Acc: 0.3591, Val. Loss: 2.3816
+Epoch: 007, Train Acc: 0.3605, Train Loss: 2.3847, Val. Acc: 0.3591, Val. Loss: 2.3824
+Epoch: 008, Train Acc: 0.3605, Train Loss: 2.3850, Val. Acc: 0.3591, Val. Loss: 2.3828
+Epoch: 009, Train Acc: 0.3605, Train Loss: 2.3846, Val. Acc: 0.3591, Val. Loss: 2.3821
+Epoch: 010, Train Acc: 0.3605, Train Loss: 2.3844, Val. Acc: 0.3591, Val. Loss: 2.3816
+Epoch: 011, Train Acc: 0.3605, Train Loss: 2.3844, Val. Acc: 0.3591, Val. Loss: 2.3817
+============================
+Saving model that yielded validation loss of 2.3816.
+Average batch time: 0.005082 seconds (SEM:  0.000075)

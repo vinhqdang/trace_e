@@ -1,0 +1,4 @@
+epinions n 75879 m 811480
+{"inst": 0, "ag_time": 0.2063927089984645, "ag_spread": 5.666666666666667, "gr_time": 0.11490545100059535, "gr_spread": 5.666666666666667, "defer_spread": 17.666666666666668, "defer_time": 0.8339470227559408, "none_spread": 30.0}
+{"inst": 1, "ag_time": 0.1090057359997445, "ag_spread": 63.0, "gr_time": 0.11405592699884437, "gr_spread": 63.0, "defer_spread": 23.0, "defer_time": 0.5085988839467367, "none_spread": 79.66666666666667}
+{"inst": 2, "ag_time": 0.05301130000043486, "ag_spread": 0.0, "gr_time": 0.129406841000673, "gr_spread": 0.0, "defer_spread": 0.3333333333333333, "defer_time": 0.3037179311116536, "none_spread": 113.66666666666667}

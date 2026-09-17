@@ -1,0 +1,5 @@
+2026-09-16 03:40:45 INFO run sequential_cahepth_block_20260916T034045Z_4083 started, dir=/home/user/trace_e/results/runs/sequential_cahepth_block_20260916T034045Z_4083
+2026-09-16 03:40:45 INFO network cahepth: {'n_nodes': 9875, 'n_edges': 25973, 'avg_degree': 5.2603544303797465, 'n_components': 427, 'lcc_size': 8638}
+2026-09-16 03:40:45 INFO === eprocess + adaptive + throttle:none ===
+2026-09-16 03:42:03 INFO RESULT cahepth eprocess+adaptive+none: FA=0.000 det=0.763 delay=2.022 harm@alarm=18.293 harm_final=3273.8 (cf 4578.35) saved=0.2849 benign_loss=0.0 kappa_mae=0.443 (78s)
+2026-09-16 03:42:03 INFO run sequential_cahepth_block_20260916T034045Z_4083 finished in 78.3s

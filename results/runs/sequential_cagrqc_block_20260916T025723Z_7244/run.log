@@ -1,0 +1,8 @@
+2026-09-16 02:57:23 INFO run sequential_cagrqc_block_20260916T025723Z_7244 started, dir=/home/user/trace_e/results/runs/sequential_cagrqc_block_20260916T025723Z_7244
+2026-09-16 02:57:23 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-09-16 02:57:24 INFO calibrated logistic on 150 benign cascades (train acc 0.963): threshold=0.9123 (1.0s)
+2026-09-16 02:57:25 INFO calibrated size on 300 benign cascades (seeds=3): threshold=27 (0.1s)
+2026-09-16 02:57:25 INFO calibrated cusum on 300 benign cascades (seeds=3): threshold=2.229 (0.1s)
+2026-09-16 02:57:25 INFO calibrated growth on 300 benign cascades (seeds=3): threshold=9 (0.1s)
+2026-09-16 02:57:25 INFO calibrated excess on 300 benign cascades (seeds=3): threshold=1.755 (0.1s)
+2026-09-16 02:57:25 INFO === eprocess + greedy ===

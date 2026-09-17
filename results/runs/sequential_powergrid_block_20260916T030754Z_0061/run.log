@@ -1,0 +1,26 @@
+2026-09-16 03:07:54 INFO run sequential_powergrid_block_20260916T030754Z_0061 started, dir=/home/user/trace_e/results/runs/sequential_powergrid_block_20260916T030754Z_0061
+2026-09-16 03:07:54 INFO network powergrid: {'n_nodes': 4941, 'n_edges': 6594, 'avg_degree': 2.66909532483303, 'n_components': 1, 'lcc_size': 4941}
+2026-09-16 03:07:55 INFO calibrated growth on 300 benign cascades (seeds=3): threshold=8 (0.1s)
+2026-09-16 03:07:55 INFO calibrated excess on 300 benign cascades (seeds=3): threshold=1.482 (0.1s)
+2026-09-16 03:07:55 INFO calibrated size on 300 benign cascades (seeds=3): threshold=25 (0.1s)
+2026-09-16 03:07:55 INFO calibrated cusum on 300 benign cascades (seeds=3): threshold=2.549 (0.1s)
+2026-09-16 03:07:56 INFO calibrated logistic on 150 benign cascades (train acc 0.980): threshold=0.8933 (0.8s)
+2026-09-16 03:07:56 INFO === eprocess + none ===
+2026-09-16 03:07:57 INFO RESULT powergrid eprocess+none: FA=0.010 det=0.853 delay=2.008 harm@alarm=14.676 harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae=0.439 (1s)
+2026-09-16 03:07:57 INFO === sprt + none ===
+2026-09-16 03:07:58 INFO RESULT powergrid sprt+none: FA=0.013 det=0.817 delay=1.694 harm@alarm=12.951 harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae=0.773 (1s)
+2026-09-16 03:07:58 INFO === cusum + none ===
+2026-09-16 03:08:00 INFO RESULT powergrid cusum+none: FA=0.037 det=0.900 delay=1.696 harm@alarm=12.567 harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae=0.732 (1s)
+2026-09-16 03:08:00 INFO === size + none ===
+2026-09-16 03:08:01 INFO RESULT powergrid size+none: FA=0.033 det=0.830 delay=3.719 harm@alarm=32.667 harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae=1.668 (1s)
+2026-09-16 03:08:01 INFO === growth + none ===
+2026-09-16 03:08:02 INFO RESULT powergrid growth+none: FA=0.020 det=0.757 delay=3.106 harm@alarm=25.348 harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae=1.752 (1s)
+2026-09-16 03:08:02 INFO === excess + none ===
+2026-09-16 03:08:03 INFO RESULT powergrid excess+none: FA=0.063 det=0.880 delay=1.621 harm@alarm=11.803 harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae=1.626 (1s)
+2026-09-16 03:08:03 INFO === logistic + none ===
+2026-09-16 03:08:04 INFO RESULT powergrid logistic+none: FA=0.040 det=0.873 delay=1.729 harm@alarm=12.313 harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae=1.633 (1s)
+2026-09-16 03:08:04 INFO === never + none ===
+2026-09-16 03:08:06 INFO RESULT powergrid never+none: FA=0.000 det=0.000 delay= harm@alarm= harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae= (2s)
+2026-09-16 03:08:06 INFO === immediate + none ===
+2026-09-16 03:08:08 INFO RESULT powergrid immediate+none: FA=1.000 det=1.000 delay=1.0 harm@alarm=8.697 harm_final=1964.703 (cf 2051.267) saved=0.0422 benign_loss=0.0 kappa_mae=1.524 (2s)
+2026-09-16 03:08:08 INFO run sequential_powergrid_block_20260916T030754Z_0061 finished in 13.3s

@@ -1,0 +1,58 @@
+2026-09-16 02:19:26 INFO run blocking_iceland_counter_20260916T021926Z_4503 started, dir=/home/user/trace_e/results/runs/blocking_iceland_counter_20260916T021926Z_4503
+2026-09-16 02:19:26 INFO network iceland: {'n_nodes': 75, 'n_edges': 114, 'avg_degree': 3.04, 'n_components': 1, 'lcc_size': 75}
+2026-09-16 02:19:26 INFO no-intervention spread: mean 2.68 nodes (0.036 of graph) over 20 instances (0.2s)
+2026-09-16 02:19:26 INFO === method random (counter mode) ===
+2026-09-16 02:19:27 INFO [random] 5/20 instances, saved@10=0.158
+2026-09-16 02:19:27 INFO [random] 10/20 instances, saved@10=0.157
+2026-09-16 02:19:28 INFO [random] 15/20 instances, saved@10=0.195
+2026-09-16 02:19:29 INFO [random] 20/20 instances, saved@10=0.185
+2026-09-16 02:19:29 INFO RESULT iceland counter random budget=1: saved=0.0435 (se 0.0261) bad_frac=0.0343 bad_count=2.57 select=0.000s
+2026-09-16 02:19:29 INFO RESULT iceland counter random budget=2: saved=0.0827 (se 0.0253) bad_frac=0.0326 bad_count=2.45 select=0.000s
+2026-09-16 02:19:29 INFO RESULT iceland counter random budget=5: saved=0.1696 (se 0.0348) bad_frac=0.0299 bad_count=2.24 select=0.000s
+2026-09-16 02:19:29 INFO RESULT iceland counter random budget=10: saved=0.1855 (se 0.0236) bad_frac=0.0288 bad_count=2.16 select=0.000s
+2026-09-16 02:19:29 INFO === method degree (counter mode) ===
+2026-09-16 02:19:31 INFO [degree] 5/20 instances, saved@10=0.470
+2026-09-16 02:19:33 INFO [degree] 10/20 instances, saved@10=0.469
+2026-09-16 02:19:35 INFO [degree] 15/20 instances, saved@10=0.496
+2026-09-16 02:19:37 INFO [degree] 20/20 instances, saved@10=0.489
+2026-09-16 02:19:37 INFO RESULT iceland counter degree budget=1: saved=0.1619 (se 0.0347) bad_frac=0.0299 bad_count=2.25 select=0.000s
+2026-09-16 02:19:37 INFO RESULT iceland counter degree budget=2: saved=0.2258 (se 0.0362) bad_frac=0.0269 bad_count=2.02 select=0.000s
+2026-09-16 02:19:37 INFO RESULT iceland counter degree budget=5: saved=0.3636 (se 0.0409) bad_frac=0.0212 bad_count=1.59 select=0.000s
+2026-09-16 02:19:37 INFO RESULT iceland counter degree budget=10: saved=0.4888 (se 0.0250) bad_frac=0.0166 bad_count=1.25 select=0.000s
+2026-09-16 02:19:37 INFO === method pagerank (counter mode) ===
+2026-09-16 02:19:39 INFO [pagerank] 5/20 instances, saved@10=0.467
+2026-09-16 02:19:40 INFO [pagerank] 10/20 instances, saved@10=0.467
+2026-09-16 02:19:42 INFO [pagerank] 15/20 instances, saved@10=0.494
+2026-09-16 02:19:44 INFO [pagerank] 20/20 instances, saved@10=0.488
+2026-09-16 02:19:44 INFO RESULT iceland counter pagerank budget=1: saved=0.1619 (se 0.0347) bad_frac=0.0299 bad_count=2.25 select=0.000s
+2026-09-16 02:19:44 INFO RESULT iceland counter pagerank budget=2: saved=0.2258 (se 0.0362) bad_frac=0.0269 bad_count=2.02 select=0.000s
+2026-09-16 02:19:44 INFO RESULT iceland counter pagerank budget=5: saved=0.3730 (se 0.0439) bad_frac=0.0210 bad_count=1.58 select=0.000s
+2026-09-16 02:19:44 INFO RESULT iceland counter pagerank budget=10: saved=0.4877 (se 0.0254) bad_frac=0.0167 bad_count=1.25 select=0.000s
+2026-09-16 02:19:44 INFO === method proximity (counter mode) ===
+2026-09-16 02:19:46 INFO [proximity] 5/20 instances, saved@10=0.509
+2026-09-16 02:19:47 INFO [proximity] 10/20 instances, saved@10=0.497
+2026-09-16 02:19:49 INFO [proximity] 15/20 instances, saved@10=0.517
+2026-09-16 02:19:50 INFO [proximity] 20/20 instances, saved@10=0.514
+2026-09-16 02:19:50 INFO RESULT iceland counter proximity budget=1: saved=0.4168 (se 0.0193) bad_frac=0.0230 bad_count=1.73 select=0.000s
+2026-09-16 02:19:50 INFO RESULT iceland counter proximity budget=2: saved=0.4730 (se 0.0198) bad_frac=0.0195 bad_count=1.46 select=0.000s
+2026-09-16 02:19:50 INFO RESULT iceland counter proximity budget=5: saved=0.4984 (se 0.0214) bad_frac=0.0166 bad_count=1.25 select=0.000s
+2026-09-16 02:19:50 INFO RESULT iceland counter proximity budget=10: saved=0.5144 (se 0.0278) bad_frac=0.0147 bad_count=1.10 select=0.000s
+2026-09-16 02:19:50 INFO === method reach (counter mode) ===
+2026-09-16 02:19:51 INFO [reach] 5/20 instances, saved@10=0.509
+2026-09-16 02:19:52 INFO [reach] 10/20 instances, saved@10=0.497
+2026-09-16 02:19:53 INFO [reach] 15/20 instances, saved@10=0.517
+2026-09-16 02:19:54 INFO [reach] 20/20 instances, saved@10=0.518
+2026-09-16 02:19:54 INFO RESULT iceland counter reach budget=1: saved=0.4133 (se 0.0178) bad_frac=0.0228 bad_count=1.71 select=0.002s
+2026-09-16 02:19:54 INFO RESULT iceland counter reach budget=2: saved=0.4680 (se 0.0209) bad_frac=0.0199 bad_count=1.49 select=0.002s
+2026-09-16 02:19:54 INFO RESULT iceland counter reach budget=5: saved=0.5021 (se 0.0219) bad_frac=0.0161 bad_count=1.20 select=0.001s
+2026-09-16 02:19:54 INFO RESULT iceland counter reach budget=10: saved=0.5181 (se 0.0294) bad_frac=0.0141 bad_count=1.06 select=0.001s
+2026-09-16 02:19:54 INFO === method greedy (counter mode) ===
+2026-09-16 02:20:00 INFO [greedy] 5/20 instances, saved@10=0.509
+2026-09-16 02:20:07 INFO [greedy] 10/20 instances, saved@10=0.497
+2026-09-16 02:20:15 INFO [greedy] 15/20 instances, saved@10=0.517
+2026-09-16 02:20:22 INFO [greedy] 20/20 instances, saved@10=0.521
+2026-09-16 02:20:22 INFO RESULT iceland counter greedy budget=1: saved=0.4181 (se 0.0157) bad_frac=0.0225 bad_count=1.69 select=0.122s
+2026-09-16 02:20:22 INFO RESULT iceland counter greedy budget=2: saved=0.4753 (se 0.0194) bad_frac=0.0193 bad_count=1.45 select=0.258s
+2026-09-16 02:20:22 INFO RESULT iceland counter greedy budget=5: saved=0.5029 (se 0.0223) bad_frac=0.0160 bad_count=1.20 select=0.350s
+2026-09-16 02:20:22 INFO RESULT iceland counter greedy budget=10: saved=0.5214 (se 0.0312) bad_frac=0.0137 bad_count=1.02 select=0.453s
+2026-09-16 02:20:22 INFO run blocking_iceland_counter_20260916T021926Z_4503 finished in 56.7s

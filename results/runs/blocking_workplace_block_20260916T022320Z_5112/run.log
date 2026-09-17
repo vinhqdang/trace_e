@@ -1,0 +1,58 @@
+2026-09-16 02:23:20 INFO run blocking_workplace_block_20260916T022320Z_5112 started, dir=/home/user/trace_e/results/runs/blocking_workplace_block_20260916T022320Z_5112
+2026-09-16 02:23:20 INFO network workplace: {'n_nodes': 92, 'n_edges': 755, 'avg_degree': 16.41304347826087, 'n_components': 1, 'lcc_size': 92}
+2026-09-16 02:23:21 INFO no-intervention spread: mean 5.95 nodes (0.065 of graph) over 20 instances (0.3s)
+2026-09-16 02:23:21 INFO === method random (block mode) ===
+2026-09-16 02:23:21 INFO [random] 5/20 instances, saved@10=0.267
+2026-09-16 02:23:21 INFO [random] 10/20 instances, saved@10=0.259
+2026-09-16 02:23:21 INFO [random] 15/20 instances, saved@10=0.257
+2026-09-16 02:23:22 INFO [random] 20/20 instances, saved@10=0.272
+2026-09-16 02:23:22 INFO RESULT workplace block random budget=1: saved=0.0318 (se 0.0118) bad_frac=0.0625 bad_count=5.75 select=0.000s
+2026-09-16 02:23:22 INFO RESULT workplace block random budget=2: saved=0.0519 (se 0.0099) bad_frac=0.0613 bad_count=5.64 select=0.000s
+2026-09-16 02:23:22 INFO RESULT workplace block random budget=5: saved=0.1401 (se 0.0112) bad_frac=0.0555 bad_count=5.11 select=0.000s
+2026-09-16 02:23:22 INFO RESULT workplace block random budget=10: saved=0.2722 (se 0.0177) bad_frac=0.0464 bad_count=4.27 select=0.000s
+2026-09-16 02:23:22 INFO === method degree (block mode) ===
+2026-09-16 02:23:22 INFO [degree] 5/20 instances, saved@10=0.413
+2026-09-16 02:23:22 INFO [degree] 10/20 instances, saved@10=0.391
+2026-09-16 02:23:23 INFO [degree] 15/20 instances, saved@10=0.391
+2026-09-16 02:23:23 INFO [degree] 20/20 instances, saved@10=0.397
+2026-09-16 02:23:23 INFO RESULT workplace block degree budget=1: saved=0.0735 (se 0.0079) bad_frac=0.0596 bad_count=5.48 select=0.000s
+2026-09-16 02:23:23 INFO RESULT workplace block degree budget=2: saved=0.1447 (se 0.0075) bad_frac=0.0553 bad_count=5.09 select=0.000s
+2026-09-16 02:23:23 INFO RESULT workplace block degree budget=5: saved=0.2517 (se 0.0150) bad_frac=0.0479 bad_count=4.41 select=0.000s
+2026-09-16 02:23:23 INFO RESULT workplace block degree budget=10: saved=0.3970 (se 0.0131) bad_frac=0.0386 bad_count=3.55 select=0.000s
+2026-09-16 02:23:23 INFO === method pagerank (block mode) ===
+2026-09-16 02:23:23 INFO [pagerank] 5/20 instances, saved@10=0.408
+2026-09-16 02:23:23 INFO [pagerank] 10/20 instances, saved@10=0.399
+2026-09-16 02:23:24 INFO [pagerank] 15/20 instances, saved@10=0.403
+2026-09-16 02:23:24 INFO [pagerank] 20/20 instances, saved@10=0.413
+2026-09-16 02:23:24 INFO RESULT workplace block pagerank budget=1: saved=0.0735 (se 0.0079) bad_frac=0.0596 bad_count=5.48 select=0.000s
+2026-09-16 02:23:24 INFO RESULT workplace block pagerank budget=2: saved=0.1447 (se 0.0075) bad_frac=0.0553 bad_count=5.09 select=0.000s
+2026-09-16 02:23:24 INFO RESULT workplace block pagerank budget=5: saved=0.2517 (se 0.0150) bad_frac=0.0479 bad_count=4.41 select=0.000s
+2026-09-16 02:23:24 INFO RESULT workplace block pagerank budget=10: saved=0.4128 (se 0.0116) bad_frac=0.0378 bad_count=3.47 select=0.000s
+2026-09-16 02:23:24 INFO === method proximity (block mode) ===
+2026-09-16 02:23:24 INFO [proximity] 5/20 instances, saved@10=0.646
+2026-09-16 02:23:24 INFO [proximity] 10/20 instances, saved@10=0.624
+2026-09-16 02:23:25 INFO [proximity] 15/20 instances, saved@10=0.626
+2026-09-16 02:23:25 INFO [proximity] 20/20 instances, saved@10=0.619
+2026-09-16 02:23:25 INFO RESULT workplace block proximity budget=1: saved=0.0906 (se 0.0095) bad_frac=0.0590 bad_count=5.43 select=0.000s
+2026-09-16 02:23:25 INFO RESULT workplace block proximity budget=2: saved=0.1870 (se 0.0086) bad_frac=0.0531 bad_count=4.88 select=0.000s
+2026-09-16 02:23:25 INFO RESULT workplace block proximity budget=5: saved=0.4070 (se 0.0185) bad_frac=0.0398 bad_count=3.67 select=0.000s
+2026-09-16 02:23:25 INFO RESULT workplace block proximity budget=10: saved=0.6186 (se 0.0147) bad_frac=0.0255 bad_count=2.35 select=0.000s
+2026-09-16 02:23:25 INFO === method reach (block mode) ===
+2026-09-16 02:23:25 INFO [reach] 5/20 instances, saved@10=0.613
+2026-09-16 02:23:25 INFO [reach] 10/20 instances, saved@10=0.601
+2026-09-16 02:23:26 INFO [reach] 15/20 instances, saved@10=0.602
+2026-09-16 02:23:26 INFO [reach] 20/20 instances, saved@10=0.586
+2026-09-16 02:23:26 INFO RESULT workplace block reach budget=1: saved=0.0865 (se 0.0093) bad_frac=0.0594 bad_count=5.47 select=0.003s
+2026-09-16 02:23:26 INFO RESULT workplace block reach budget=2: saved=0.1689 (se 0.0076) bad_frac=0.0542 bad_count=4.99 select=0.003s
+2026-09-16 02:23:26 INFO RESULT workplace block reach budget=5: saved=0.3825 (se 0.0150) bad_frac=0.0411 bad_count=3.78 select=0.003s
+2026-09-16 02:23:26 INFO RESULT workplace block reach budget=10: saved=0.5861 (se 0.0166) bad_frac=0.0277 bad_count=2.55 select=0.003s
+2026-09-16 02:23:26 INFO === method greedy (block mode) ===
+2026-09-16 02:23:27 INFO [greedy] 5/20 instances, saved@10=0.645
+2026-09-16 02:23:29 INFO [greedy] 10/20 instances, saved@10=0.620
+2026-09-16 02:23:31 INFO [greedy] 15/20 instances, saved@10=0.626
+2026-09-16 02:23:33 INFO [greedy] 20/20 instances, saved@10=0.614
+2026-09-16 02:23:33 INFO RESULT workplace block greedy budget=1: saved=0.0835 (se 0.0076) bad_frac=0.0595 bad_count=5.47 select=0.300s
+2026-09-16 02:23:33 INFO RESULT workplace block greedy budget=2: saved=0.1799 (se 0.0101) bad_frac=0.0538 bad_count=4.95 select=0.300s
+2026-09-16 02:23:33 INFO RESULT workplace block greedy budget=5: saved=0.3878 (se 0.0191) bad_frac=0.0412 bad_count=3.79 select=0.300s
+2026-09-16 02:23:33 INFO RESULT workplace block greedy budget=10: saved=0.6143 (se 0.0152) bad_frac=0.0258 bad_count=2.38 select=0.300s
+2026-09-16 02:23:33 INFO run blocking_workplace_block_20260916T022320Z_5112 finished in 12.6s

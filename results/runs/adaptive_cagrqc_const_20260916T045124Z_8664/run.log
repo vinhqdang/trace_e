@@ -1,0 +1,48 @@
+2026-09-16 04:51:24 INFO run adaptive_cagrqc_const_20260916T045124Z_8664 started, dir=/home/user/trace_e/results/runs/adaptive_cagrqc_const_20260916T045124Z_8664
+2026-09-16 04:51:24 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-09-16 04:51:31 INFO plans ready for instance 1/10
+2026-09-16 04:51:34 INFO plans ready for instance 2/10
+2026-09-16 04:51:38 INFO plans ready for instance 3/10
+2026-09-16 04:51:40 INFO plans ready for instance 4/10
+2026-09-16 04:51:48 INFO plans ready for instance 5/10
+2026-09-16 04:51:55 INFO plans ready for instance 6/10
+2026-09-16 04:52:01 INFO plans ready for instance 7/10
+2026-09-16 04:52:07 INFO plans ready for instance 8/10
+2026-09-16 04:52:12 INFO plans ready for instance 9/10
+2026-09-16 04:52:17 INFO plans ready for instance 10/10
+2026-09-16 04:52:17 INFO running 1650 episodes
+2026-09-16 04:52:55 INFO episodes done in 38s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=20 none       spread=74.50 (se 5.61) saved=0.0000 used=0.0 time=0.00s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=20 ag         spread=35.16 (se 2.70) saved=0.5281 used=20.0 time=0.06s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=20 gr         spread=35.16 (se 2.70) saved=0.5281 used=20.0 time=0.07s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=20 lsbm       spread=34.82 (se 2.86) saved=0.5326 used=20.0 time=0.03s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=20 isocut     spread=35.16 (se 2.70) saved=0.5281 used=20.0 time=0.07s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=20 proximity  spread=35.10 (se 2.90) saved=0.5289 used=20.0 time=0.06s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=20 defer      spread=34.92 (se 2.69) saved=0.5313 used=20.0 time=0.10s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=20 defer_nopush spread=34.92 (se 2.69) saved=0.5313 used=20.0 time=0.09s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=20 defer_gr   spread=35.16 (se 2.70) saved=0.5281 used=20.0 time=0.08s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=20 defer_cut  spread=34.92 (se 2.69) saved=0.5313 used=20.0 time=0.08s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=20 commit     spread=35.56 (se 2.89) saved=0.5227 used=20.0 time=0.54s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=50 none       spread=74.50 (se 5.61) saved=0.0000 used=0.0 time=0.00s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=50 ag         spread=19.76 (se 1.62) saved=0.7348 used=50.0 time=0.08s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=50 gr         spread=19.68 (se 1.60) saved=0.7358 used=50.0 time=0.08s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=50 lsbm       spread=20.40 (se 1.66) saved=0.7262 used=50.0 time=0.04s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=50 isocut     spread=19.76 (se 1.62) saved=0.7348 used=50.0 time=0.10s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=50 proximity  spread=23.56 (se 2.09) saved=0.6838 used=50.0 time=0.06s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=50 defer      spread=19.68 (se 1.60) saved=0.7358 used=50.0 time=0.10s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=50 defer_nopush spread=19.68 (se 1.61) saved=0.7358 used=50.0 time=0.09s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=50 defer_gr   spread=19.70 (se 1.60) saved=0.7356 used=50.0 time=0.07s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=50 defer_cut  spread=19.68 (se 1.60) saved=0.7358 used=50.0 time=0.09s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=50 commit     spread=19.90 (se 1.69) saved=0.7329 used=50.0 time=0.67s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=100 none       spread=74.50 (se 5.61) saved=0.0000 used=0.0 time=0.00s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=100 ag         spread=13.20 (se 1.06) saved=0.8228 used=100.0 time=0.09s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=100 gr         spread=13.20 (se 1.06) saved=0.8228 used=100.0 time=0.09s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=100 lsbm       spread=13.08 (se 1.08) saved=0.8244 used=100.0 time=0.06s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=100 isocut     spread=13.20 (se 1.06) saved=0.8228 used=100.0 time=0.12s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=100 proximity  spread=12.34 (se 1.14) saved=0.8344 used=100.0 time=0.06s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=100 defer      spread=13.20 (se 1.06) saved=0.8228 used=99.9 time=0.09s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=100 defer_nopush spread=13.16 (se 1.06) saved=0.8234 used=100.0 time=0.09s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=100 defer_gr   spread=13.20 (se 1.06) saved=0.8228 used=100.0 time=0.07s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=100 defer_cut  spread=13.20 (se 1.06) saved=0.8228 used=99.9 time=0.08s
+2026-09-16 04:52:55 INFO RESULT cagrqc budget=100 commit     spread=13.44 (se 1.28) saved=0.8196 used=100.0 time=0.78s
+2026-09-16 04:52:55 INFO run adaptive_cagrqc_const_20260916T045124Z_8664 finished in 91.5s

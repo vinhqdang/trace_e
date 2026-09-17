@@ -1,0 +1,98 @@
+2026-09-16 03:24:09 INFO run sequential_cagrqc_block_20260916T032409Z_1575 started, dir=/home/user/trace_e/results/runs/sequential_cagrqc_block_20260916T032409Z_1575
+2026-09-16 03:24:09 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-09-16 03:24:09 INFO === eprocess + adaptive + throttle:none ===
+2026-09-16 03:24:37 INFO RESULT cagrqc eprocess+adaptive+none: FA=0.000 det=0.730 delay=2.169 harm@alarm=17.717 harm_final=962.713 (cf 1822.817) saved=0.4719 benign_loss=0.0 kappa_mae=0.482 (28s)
+2026-09-16 03:24:37 INFO run sequential_cagrqc_block_20260916T032409Z_1575 finished in 28.4s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:24:44 INFO run sequential_cagrqc_block_20260916T032443Z_1721 started, dir=/home/user/trace_e/results/runs/sequential_cagrqc_block_20260916T032443Z_1721
+2026-09-16 03:24:44 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-09-16 03:24:44 INFO === eprocess + adaptive + throttle:hub ===
+2026-09-16 03:25:08 INFO RESULT cagrqc eprocess+adaptive+hub: FA=0.000 det=0.627 delay=1.947 harm@alarm=15.537 harm_final=670.04 (cf 1822.817) saved=0.6324 benign_loss=0.667 kappa_mae=0.542 (24s)
+2026-09-16 03:25:08 INFO === eprocess + adaptive + throttle:random ===
+2026-09-16 03:25:37 INFO RESULT cagrqc eprocess+adaptive+random: FA=0.000 det=0.663 delay=2.075 harm@alarm=16.025 harm_final=828.333 (cf 1822.817) saved=0.5456 benign_loss=0.693 kappa_mae=0.499 (29s)
+2026-09-16 03:25:37 INFO run sequential_cagrqc_block_20260916T032443Z_1721 finished in 53.5s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:25:43 INFO run sequential_cagrqc_block_20260916T032543Z_1941 started, dir=/home/user/trace_e/results/runs/sequential_cagrqc_block_20260916T032543Z_1941
+2026-09-16 03:25:43 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-09-16 03:25:43 INFO === eprocess + adaptive + throttle:hub ===
+2026-09-16 03:26:05 INFO RESULT cagrqc eprocess+adaptive+hub: FA=0.000 det=0.573 delay=1.785 harm@alarm=14.413 harm_final=600.997 (cf 1822.817) saved=0.6703 benign_loss=0.933 kappa_mae=0.555 (22s)
+2026-09-16 03:26:05 INFO === eprocess + adaptive + throttle:random ===
+2026-09-16 03:26:30 INFO RESULT cagrqc eprocess+adaptive+random: FA=0.007 det=0.623 delay=2.0 harm@alarm=14.807 harm_final=773.967 (cf 1822.817) saved=0.5754 benign_loss=0.807 kappa_mae=0.524 (25s)
+2026-09-16 03:26:30 INFO run sequential_cagrqc_block_20260916T032543Z_1941 finished in 47.4s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:26:36 INFO run sequential_cagrqc_block_20260916T032636Z_2008 started, dir=/home/user/trace_e/results/runs/sequential_cagrqc_block_20260916T032636Z_2008
+2026-09-16 03:26:36 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-09-16 03:26:36 INFO === eprocess + adaptive + throttle:hub ===
+2026-09-16 03:26:57 INFO RESULT cagrqc eprocess+adaptive+hub: FA=0.000 det=0.493 delay=1.574 harm@alarm=13.372 harm_final=555.673 (cf 1822.817) saved=0.6952 benign_loss=0.927 kappa_mae=0.572 (21s)
+2026-09-16 03:26:57 INFO === eprocess + adaptive + throttle:random ===
+2026-09-16 03:27:20 INFO RESULT cagrqc eprocess+adaptive+random: FA=0.003 det=0.547 delay=1.774 harm@alarm=14.018 harm_final=661.27 (cf 1822.817) saved=0.6372 benign_loss=0.927 kappa_mae=0.548 (24s)
+2026-09-16 03:27:20 INFO run sequential_cagrqc_block_20260916T032636Z_2008 finished in 44.7s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:27:26 INFO run sequential_cagrqc_block_20260916T032726Z_2114 started, dir=/home/user/trace_e/results/runs/sequential_cagrqc_block_20260916T032726Z_2114
+2026-09-16 03:27:26 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-09-16 03:27:26 INFO === eprocess + adaptive + throttle:hub ===
+2026-09-16 03:27:56 INFO RESULT cagrqc eprocess+adaptive+hub: FA=0.000 det=0.640 delay=2.089 harm@alarm=16.182 harm_final=739.72 (cf 1822.817) saved=0.5942 benign_loss=0.56 kappa_mae=0.531 (30s)
+2026-09-16 03:27:56 INFO === eprocess + adaptive + throttle:random ===
+2026-09-16 03:28:33 INFO RESULT cagrqc eprocess+adaptive+random: FA=0.000 det=0.677 delay=2.143 harm@alarm=16.507 harm_final=874.69 (cf 1822.817) saved=0.5201 benign_loss=0.567 kappa_mae=0.484 (37s)
+2026-09-16 03:28:33 INFO run sequential_cagrqc_block_20260916T032726Z_2114 finished in 66.5s
+Traceback (most recent call last):
+  File "/home/user/trace_e/scripts/aggregate.py", line 197, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/user/trace_e/scripts/aggregate.py", line 190, in main
+    parts.append(theory_report())
+                 ^^^^^^^^^^^^^^^
+  File "/home/user/trace_e/scripts/aggregate.py", line 155, in theory_report
+    out.append(f"### {r['network']} ({r['prob_model']}, {r['n_seeds']} seeds, {r['n']} benign cascades per null, grid size {r['grid_size']})")
+                      ~^^^^^^^^^^^
+KeyError: 'network'
+2026-09-16 03:28:39 INFO run sequential_cagrqc_block_20260916T032839Z_2211 started, dir=/home/user/trace_e/results/runs/sequential_cagrqc_block_20260916T032839Z_2211
+2026-09-16 03:28:39 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-09-16 03:28:39 INFO === eprocess + adaptive + throttle:hub ===
+2026-09-16 03:29:04 INFO RESULT cagrqc eprocess+adaptive+hub: FA=0.000 det=0.603 delay=2.0 harm@alarm=15.392 harm_final=687.737 (cf 1822.817) saved=0.6227 benign_loss=0.843 kappa_mae=0.515 (25s)
+2026-09-16 03:29:04 INFO === eprocess + adaptive + throttle:random ===
+2026-09-16 03:29:40 INFO RESULT cagrqc eprocess+adaptive+random: FA=0.000 det=0.637 delay=1.99 harm@alarm=15.602 harm_final=854.233 (cf 1822.817) saved=0.5314 benign_loss=0.747 kappa_mae=0.506 (36s)
+2026-09-16 03:29:40 INFO run sequential_cagrqc_block_20260916T032839Z_2211 finished in 60.9s
+Traceback (most recent call last):
+  File "/home/user/trace_e/scripts/aggregate.py", line 197, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/user/trace_e/scripts/aggregate.py", line 190, in main
+    parts.append(theory_report())
+                 ^^^^^^^^^^^^^^^
+  File "/home/user/trace_e/scripts/aggregate.py", line 155, in theory_report
+    out.append(f"### {r['network']} ({r['prob_model']}, {r['n_seeds']} seeds, {r['n']} benign cascades per null, grid size {r['grid_size']})")
+                      ~^^^^^^^^^^^
+KeyError: 'network'
+2026-09-16 03:29:45 INFO run sequential_cagrqc_block_20260916T032945Z_2489 started, dir=/home/user/trace_e/results/runs/sequential_cagrqc_block_20260916T032945Z_2489
+2026-09-16 03:29:45 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-09-16 03:29:45 INFO === eprocess + adaptive + throttle:hub ===
+2026-09-16 03:30:20 INFO RESULT cagrqc eprocess+adaptive+hub: FA=0.000 det=0.553 delay=1.753 harm@alarm=14.271 harm_final=633.643 (cf 1822.817) saved=0.6524 benign_loss=0.9 kappa_mae=0.525 (34s)
+2026-09-16 03:30:20 INFO === eprocess + adaptive + throttle:random ===
+2026-09-16 03:30:55 INFO RESULT cagrqc eprocess+adaptive+random: FA=0.000 det=0.583 delay=1.863 harm@alarm=14.794 harm_final=802.717 (cf 1822.817) saved=0.5596 benign_loss=0.853 kappa_mae=0.533 (35s)
+2026-09-16 03:30:55 INFO run sequential_cagrqc_block_20260916T032945Z_2489 finished in 69.4s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:31:00 INFO run sequential_cagrqc_block_20260916T033100Z_2775 started, dir=/home/user/trace_e/results/runs/sequential_cagrqc_block_20260916T033100Z_2775
+2026-09-16 03:31:00 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-09-16 03:31:00 INFO === eprocess + adaptive + throttle:uniform ===
+2026-09-16 03:31:29 INFO RESULT cagrqc eprocess+adaptive+uniform: FA=0.000 det=0.487 delay=1.637 harm@alarm=13.692 harm_final=633.997 (cf 1822.817) saved=0.6522 benign_loss=0.967 kappa_mae=0.558 (29s)
+2026-09-16 03:31:29 INFO run sequential_cagrqc_block_20260916T033100Z_2775 finished in 28.7s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:31:35 INFO run sequential_cagrqc_block_20260916T033135Z_2828 started, dir=/home/user/trace_e/results/runs/sequential_cagrqc_block_20260916T033135Z_2828
+2026-09-16 03:31:35 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-09-16 03:31:35 INFO === eprocess + adaptive + throttle:uniform ===
+2026-09-16 03:32:07 INFO RESULT cagrqc eprocess+adaptive+uniform: FA=0.000 det=0.603 delay=1.939 harm@alarm=15.21 harm_final=789.55 (cf 1822.817) saved=0.5669 benign_loss=0.837 kappa_mae=0.535 (33s)
+2026-09-16 03:32:07 INFO run sequential_cagrqc_block_20260916T033135Z_2828 finished in 32.6s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:32:13 INFO run sequential_cagrqc_block_20260916T033213Z_2928 started, dir=/home/user/trace_e/results/runs/sequential_cagrqc_block_20260916T033213Z_2928
+2026-09-16 03:32:13 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-09-16 03:32:13 INFO === eprocess + adaptive + throttle:uniform ===
+2026-09-16 03:32:51 INFO RESULT cagrqc eprocess+adaptive+uniform: FA=0.000 det=0.663 delay=2.055 harm@alarm=16.477 harm_final=927.72 (cf 1822.817) saved=0.4911 benign_loss=0.593 kappa_mae=0.524 (38s)
+2026-09-16 03:32:51 INFO run sequential_cagrqc_block_20260916T033213Z_2928 finished in 37.8s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:32:57 INFO run sequential_cagrqc_block_20260916T033257Z_2989 started, dir=/home/user/trace_e/results/runs/sequential_cagrqc_block_20260916T033257Z_2989
+2026-09-16 03:32:57 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-09-16 03:32:57 INFO === eprocess + adaptive + throttle:uniform ===
+2026-09-16 03:33:37 INFO RESULT cagrqc eprocess+adaptive+uniform: FA=0.000 det=0.710 delay=2.202 harm@alarm=17.38 harm_final=946.933 (cf 1822.817) saved=0.4805 benign_loss=0.207 kappa_mae=0.494 (40s)
+2026-09-16 03:33:37 INFO run sequential_cagrqc_block_20260916T033257Z_2989 finished in 39.6s
+wrote /home/user/trace_e/results/REPORT.md

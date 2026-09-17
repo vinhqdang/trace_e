@@ -1,0 +1,18 @@
+Using training beta=1.3
+Using device: cpu
+============================
+Avg. outbreak size: 13.6441
+Avg. R0: 1.85412
+Avg. sampled infection rate: 1.3
+Number of sim. with only one inf. node: 739
+============================
+SHAH RESULTS
+Top-1 Acc.: 0.3959
+Top-3 Acc.: 0.6074
+Top-5 Acc.: 0.7256
+Avg. error dist.: 0.9526
+Avg. reciprocal rank: 0.5415
+Avg. credible set size: 9.0244
+Avg. scoring rule (Brier): 0.6619
+Avg. scoring rule (Resistance): 0.2239
+Average time per inference run: 0.001051 seconds

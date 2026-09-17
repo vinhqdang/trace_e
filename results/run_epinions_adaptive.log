@@ -1,0 +1,2 @@
+2026-09-16 04:39:47 INFO run adaptive_epinions_degree_20260916T043947Z_7713 started, dir=/home/user/trace_e/results/runs/adaptive_epinions_degree_20260916T043947Z_7713
+2026-09-16 04:39:48 INFO network socepinions1: {'n_nodes': 75879, 'n_edges': 405740, 'avg_degree': 10.694395023656083, 'n_components': 2, 'lcc_size': 75877}

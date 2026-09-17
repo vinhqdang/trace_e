@@ -1,0 +1,51 @@
+Using device: cuda
+============================
+Number of nodes: 58
+Number of edges: 967
+Average degree: 33.3448275862069
+Diameter (LCC): 3
+Average time per sim.: 0.000008 seconds
+============================
+Avg. outbreak size: 23.0774
+Avg. R0: 1.98624
+Avg. sampled infection rate: 0.073
+Number of sim. with only one inf. node: 9215
+============================
+Training examples: 20300
+Validation examples: 8700
+============================
+HADDAD(
+  (convs): ModuleList(
+    (0): SAGEConv(3, 128, aggr=max)
+    (1-3): 3 x SAGEConv(128, 128, aggr=max)
+    (4): SAGEConv(128, 1, aggr=max)
+  )
+  (activ): ModuleList(
+    (0-4): 5 x ReLU()
+  )
+)
+============================
+/usr/local/lib/python3.13/dist-packages/torch_geometric/utils/_scatter.py:91: UserWarning: The usage of `scatter(reduce='max')` can be accelerated via the 'torch-scatter' package, but it was not found
+  warnings.warn(
+Epoch: 001, Train Acc: 0.3919, Train Loss: 2.1056, Val. Acc: 0.3932, Val. Loss: 2.0787
+Epoch: 002, Train Acc: 0.3886, Train Loss: 2.0985, Val. Acc: 0.3906, Val. Loss: 2.0725
+Epoch: 003, Train Acc: 0.3900, Train Loss: 2.1051, Val. Acc: 0.3928, Val. Loss: 2.0783
+Epoch: 004, Train Acc: 0.3918, Train Loss: 2.0974, Val. Acc: 0.3944, Val. Loss: 2.0701
+Epoch: 005, Train Acc: 0.3875, Train Loss: 2.1003, Val. Acc: 0.3872, Val. Loss: 2.0739
+Epoch: 006, Train Acc: 0.3862, Train Loss: 2.0974, Val. Acc: 0.3891, Val. Loss: 2.0706
+Epoch: 007, Train Acc: 0.3853, Train Loss: 2.0975, Val. Acc: 0.3914, Val. Loss: 2.0697
+Epoch: 008, Train Acc: 0.3900, Train Loss: 2.0961, Val. Acc: 0.3939, Val. Loss: 2.0690
+Epoch: 009, Train Acc: 0.3874, Train Loss: 2.0964, Val. Acc: 0.3925, Val. Loss: 2.0692
+Epoch: 010, Train Acc: 0.3880, Train Loss: 2.1017, Val. Acc: 0.3956, Val. Loss: 2.0744
+Epoch: 011, Train Acc: 0.3870, Train Loss: 2.0966, Val. Acc: 0.3910, Val. Loss: 2.0703
+Epoch: 012, Train Acc: 0.3899, Train Loss: 2.0962, Val. Acc: 0.3947, Val. Loss: 2.0697
+Epoch: 013, Train Acc: 0.3900, Train Loss: 2.0963, Val. Acc: 0.3924, Val. Loss: 2.0684
+Epoch: 014, Train Acc: 0.3901, Train Loss: 2.0953, Val. Acc: 0.3951, Val. Loss: 2.0679
+Epoch: 015, Train Acc: 0.3883, Train Loss: 2.1030, Val. Acc: 0.3903, Val. Loss: 2.0765
+Epoch: 016, Train Acc: 0.3902, Train Loss: 2.0973, Val. Acc: 0.3940, Val. Loss: 2.0704
+Epoch: 017, Train Acc: 0.3869, Train Loss: 2.0997, Val. Acc: 0.3917, Val. Loss: 2.0727
+Epoch: 018, Train Acc: 0.3926, Train Loss: 2.0959, Val. Acc: 0.3937, Val. Loss: 2.0687
+Epoch: 019, Train Acc: 0.3894, Train Loss: 2.0965, Val. Acc: 0.3906, Val. Loss: 2.0696
+============================
+Saving model that yielded validation loss of 2.0679.
+Average batch time: 0.049580 seconds (SEM:  0.000117)

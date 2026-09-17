@@ -1,0 +1,96 @@
+Using device: cuda
+============================
+Number of nodes: 58
+Number of edges: 967
+Average degree: 33.3448275862069
+Diameter (LCC): 3
+Average time per sim.: 0.000009 seconds
+============================
+Avg. outbreak size: 23.0774
+Avg. R0: 1.98624
+Avg. sampled infection rate: 0.073
+Number of sim. with only one inf. node: 9215
+============================
+Training examples: 20300
+Validation examples: 8700
+============================
+DONG(
+  (convs): ModuleList(
+    (0): GCNConv(3, 128)
+    (1-4): 4 x GCNConv(128, 128)
+  )
+  (activ): ModuleList(
+    (0-4): 5 x ReLU()
+  )
+  (final): Sequential(
+    (0): Linear(in_features=128, out_features=1, bias=True)
+  )
+)
+============================
+Epoch: 001, Train Acc: 0.0404, Train Loss: 4.0261, Val. Acc: 0.0402, Val. Loss: 4.0290
+Epoch: 002, Train Acc: 0.0406, Train Loss: 4.0243, Val. Acc: 0.0402, Val. Loss: 4.0281
+Epoch: 003, Train Acc: 0.0406, Train Loss: 4.0183, Val. Acc: 0.0393, Val. Loss: 4.0214
+Epoch: 004, Train Acc: 0.0409, Train Loss: 3.9463, Val. Acc: 0.0401, Val. Loss: 3.9473
+Epoch: 005, Train Acc: 0.0416, Train Loss: 3.8448, Val. Acc: 0.0406, Val. Loss: 3.8474
+Epoch: 006, Train Acc: 0.0531, Train Loss: 3.8346, Val. Acc: 0.0513, Val. Loss: 3.8366
+Epoch: 007, Train Acc: 0.0531, Train Loss: 3.8365, Val. Acc: 0.0515, Val. Loss: 3.8390
+Epoch: 008, Train Acc: 0.0531, Train Loss: 3.8266, Val. Acc: 0.0514, Val. Loss: 3.8291
+Epoch: 009, Train Acc: 0.0581, Train Loss: 3.8266, Val. Acc: 0.0569, Val. Loss: 3.8291
+Epoch: 010, Train Acc: 0.0601, Train Loss: 3.8465, Val. Acc: 0.0582, Val. Loss: 3.8484
+Epoch: 011, Train Acc: 0.0531, Train Loss: 3.8154, Val. Acc: 0.0514, Val. Loss: 3.8187
+Epoch: 012, Train Acc: 0.0532, Train Loss: 3.8276, Val. Acc: 0.0514, Val. Loss: 3.8300
+Epoch: 013, Train Acc: 0.0533, Train Loss: 3.8044, Val. Acc: 0.0515, Val. Loss: 3.8086
+Epoch: 014, Train Acc: 0.0583, Train Loss: 3.8024, Val. Acc: 0.0569, Val. Loss: 3.8057
+Epoch: 015, Train Acc: 0.0596, Train Loss: 3.7979, Val. Acc: 0.0567, Val. Loss: 3.8022
+Epoch: 016, Train Acc: 0.0597, Train Loss: 3.7915, Val. Acc: 0.0568, Val. Loss: 3.7958
+Epoch: 017, Train Acc: 0.0588, Train Loss: 3.7850, Val. Acc: 0.0554, Val. Loss: 3.7897
+Epoch: 018, Train Acc: 0.0533, Train Loss: 3.7923, Val. Acc: 0.0515, Val. Loss: 3.7965
+Epoch: 019, Train Acc: 0.0533, Train Loss: 3.7759, Val. Acc: 0.0516, Val. Loss: 3.7810
+Epoch: 020, Train Acc: 0.0533, Train Loss: 3.7653, Val. Acc: 0.0517, Val. Loss: 3.7716
+Epoch: 021, Train Acc: 0.0598, Train Loss: 3.7616, Val. Acc: 0.0569, Val. Loss: 3.7678
+Epoch: 022, Train Acc: 0.0532, Train Loss: 3.7660, Val. Acc: 0.0516, Val. Loss: 3.7717
+Epoch: 023, Train Acc: 0.0587, Train Loss: 3.7492, Val. Acc: 0.0555, Val. Loss: 3.7536
+Epoch: 024, Train Acc: 0.0622, Train Loss: 3.7482, Val. Acc: 0.0624, Val. Loss: 3.7531
+Epoch: 025, Train Acc: 0.0533, Train Loss: 3.7456, Val. Acc: 0.0516, Val. Loss: 3.7514
+Epoch: 026, Train Acc: 0.0672, Train Loss: 3.7309, Val. Acc: 0.0679, Val. Loss: 3.7351
+Epoch: 027, Train Acc: 0.0826, Train Loss: 3.7186, Val. Acc: 0.0822, Val. Loss: 3.7224
+Epoch: 028, Train Acc: 0.0622, Train Loss: 3.7079, Val. Acc: 0.0623, Val. Loss: 3.7119
+Epoch: 029, Train Acc: 0.0826, Train Loss: 3.6968, Val. Acc: 0.0823, Val. Loss: 3.6996
+Epoch: 030, Train Acc: 0.0711, Train Loss: 3.6883, Val. Acc: 0.0714, Val. Loss: 3.6908
+Epoch: 031, Train Acc: 0.0884, Train Loss: 3.7268, Val. Acc: 0.0890, Val. Loss: 3.7304
+Epoch: 032, Train Acc: 0.0775, Train Loss: 3.6678, Val. Acc: 0.0766, Val. Loss: 3.6708
+Epoch: 033, Train Acc: 0.0781, Train Loss: 3.6612, Val. Acc: 0.0782, Val. Loss: 3.6630
+Epoch: 034, Train Acc: 0.0898, Train Loss: 3.6497, Val. Acc: 0.0914, Val. Loss: 3.6530
+Epoch: 035, Train Acc: 0.0856, Train Loss: 3.6713, Val. Acc: 0.0843, Val. Loss: 3.6734
+Epoch: 036, Train Acc: 0.0863, Train Loss: 3.6344, Val. Acc: 0.0857, Val. Loss: 3.6369
+Epoch: 037, Train Acc: 0.0986, Train Loss: 3.6557, Val. Acc: 0.0987, Val. Loss: 3.6579
+Epoch: 038, Train Acc: 0.0782, Train Loss: 3.6351, Val. Acc: 0.0782, Val. Loss: 3.6366
+Epoch: 039, Train Acc: 0.0906, Train Loss: 3.6310, Val. Acc: 0.0899, Val. Loss: 3.6325
+Epoch: 040, Train Acc: 0.1045, Train Loss: 3.6336, Val. Acc: 0.1036, Val. Loss: 3.6350
+Epoch: 041, Train Acc: 0.0985, Train Loss: 3.6261, Val. Acc: 0.0987, Val. Loss: 3.6272
+Epoch: 042, Train Acc: 0.0872, Train Loss: 3.6292, Val. Acc: 0.0867, Val. Loss: 3.6303
+Epoch: 043, Train Acc: 0.0906, Train Loss: 3.6132, Val. Acc: 0.0899, Val. Loss: 3.6137
+Epoch: 044, Train Acc: 0.0901, Train Loss: 3.5975, Val. Acc: 0.0897, Val. Loss: 3.5980
+Epoch: 045, Train Acc: 0.1200, Train Loss: 3.6030, Val. Acc: 0.1171, Val. Loss: 3.6034
+Epoch: 046, Train Acc: 0.1142, Train Loss: 3.5953, Val. Acc: 0.1118, Val. Loss: 3.5951
+Epoch: 047, Train Acc: 0.1315, Train Loss: 3.6011, Val. Acc: 0.1294, Val. Loss: 3.6012
+Epoch: 048, Train Acc: 0.1216, Train Loss: 3.5913, Val. Acc: 0.1192, Val. Loss: 3.5906
+Epoch: 049, Train Acc: 0.0986, Train Loss: 3.6406, Val. Acc: 0.1000, Val. Loss: 3.6397
+Epoch: 050, Train Acc: 0.0908, Train Loss: 3.5879, Val. Acc: 0.0901, Val. Loss: 3.5866
+Epoch: 051, Train Acc: 0.0901, Train Loss: 3.6641, Val. Acc: 0.0895, Val. Loss: 3.6639
+Epoch: 052, Train Acc: 0.1248, Train Loss: 3.5844, Val. Acc: 0.1229, Val. Loss: 3.5831
+Epoch: 053, Train Acc: 0.1054, Train Loss: 3.5859, Val. Acc: 0.1032, Val. Loss: 3.5841
+Epoch: 054, Train Acc: 0.1005, Train Loss: 3.6587, Val. Acc: 0.1022, Val. Loss: 3.6583
+Epoch: 055, Train Acc: 0.1025, Train Loss: 3.5966, Val. Acc: 0.1040, Val. Loss: 3.5950
+Epoch: 056, Train Acc: 0.1209, Train Loss: 3.6132, Val. Acc: 0.1221, Val. Loss: 3.6108
+Epoch: 057, Train Acc: 0.0943, Train Loss: 3.5791, Val. Acc: 0.0936, Val. Loss: 3.5779
+Epoch: 058, Train Acc: 0.1304, Train Loss: 3.5822, Val. Acc: 0.1299, Val. Loss: 3.5803
+Epoch: 059, Train Acc: 0.1286, Train Loss: 3.5703, Val. Acc: 0.1259, Val. Loss: 3.5684
+Epoch: 060, Train Acc: 0.1058, Train Loss: 3.5734, Val. Acc: 0.1068, Val. Loss: 3.5708
+Epoch: 061, Train Acc: 0.1168, Train Loss: 3.6190, Val. Acc: 0.1172, Val. Loss: 3.6179
+Epoch: 062, Train Acc: 0.0903, Train Loss: 3.7058, Val. Acc: 0.0918, Val. Loss: 3.7068
+Epoch: 063, Train Acc: 0.1205, Train Loss: 3.5764, Val. Acc: 0.1187, Val. Loss: 3.5740
+Epoch: 064, Train Acc: 0.1260, Train Loss: 3.5759, Val. Acc: 0.1261, Val. Loss: 3.5734
+============================
+Saving model that yielded validation loss of 3.5684.
+Average batch time: 0.033368 seconds (SEM:  0.000034)

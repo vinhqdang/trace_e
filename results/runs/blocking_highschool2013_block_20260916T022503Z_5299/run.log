@@ -1,0 +1,58 @@
+2026-09-16 02:25:03 INFO run blocking_highschool2013_block_20260916T022503Z_5299 started, dir=/home/user/trace_e/results/runs/blocking_highschool2013_block_20260916T022503Z_5299
+2026-09-16 02:25:03 INFO network highschool2013: {'n_nodes': 327, 'n_edges': 5818, 'avg_degree': 35.584097859327215, 'n_components': 1, 'lcc_size': 327}
+2026-09-16 02:25:04 INFO no-intervention spread: mean 8.71 nodes (0.027 of graph) over 20 instances (0.5s)
+2026-09-16 02:25:04 INFO === method random (block mode) ===
+2026-09-16 02:25:04 INFO [random] 5/20 instances, saved@10=0.145
+2026-09-16 02:25:05 INFO [random] 10/20 instances, saved@10=0.159
+2026-09-16 02:25:05 INFO [random] 15/20 instances, saved@10=0.149
+2026-09-16 02:25:06 INFO [random] 20/20 instances, saved@10=0.155
+2026-09-16 02:25:06 INFO RESULT highschool2013 block random budget=1: saved=0.0340 (se 0.0064) bad_frac=0.0257 bad_count=8.42 select=0.000s
+2026-09-16 02:25:06 INFO RESULT highschool2013 block random budget=2: saved=0.0528 (se 0.0087) bad_frac=0.0252 bad_count=8.26 select=0.000s
+2026-09-16 02:25:06 INFO RESULT highschool2013 block random budget=5: saved=0.0802 (se 0.0128) bad_frac=0.0244 bad_count=7.99 select=0.000s
+2026-09-16 02:25:06 INFO RESULT highschool2013 block random budget=10: saved=0.1547 (se 0.0112) bad_frac=0.0226 bad_count=7.39 select=0.000s
+2026-09-16 02:25:06 INFO === method degree (block mode) ===
+2026-09-16 02:25:06 INFO [degree] 5/20 instances, saved@10=0.262
+2026-09-16 02:25:07 INFO [degree] 10/20 instances, saved@10=0.253
+2026-09-16 02:25:07 INFO [degree] 15/20 instances, saved@10=0.239
+2026-09-16 02:25:08 INFO [degree] 20/20 instances, saved@10=0.233
+2026-09-16 02:25:08 INFO RESULT highschool2013 block degree budget=1: saved=0.0383 (se 0.0070) bad_frac=0.0256 bad_count=8.38 select=0.000s
+2026-09-16 02:25:08 INFO RESULT highschool2013 block degree budget=2: saved=0.0670 (se 0.0107) bad_frac=0.0249 bad_count=8.14 select=0.000s
+2026-09-16 02:25:08 INFO RESULT highschool2013 block degree budget=5: saved=0.1255 (se 0.0120) bad_frac=0.0234 bad_count=7.64 select=0.000s
+2026-09-16 02:25:08 INFO RESULT highschool2013 block degree budget=10: saved=0.2335 (se 0.0115) bad_frac=0.0205 bad_count=6.70 select=0.000s
+2026-09-16 02:25:08 INFO === method pagerank (block mode) ===
+2026-09-16 02:25:08 INFO [pagerank] 5/20 instances, saved@10=0.262
+2026-09-16 02:25:08 INFO [pagerank] 10/20 instances, saved@10=0.253
+2026-09-16 02:25:09 INFO [pagerank] 15/20 instances, saved@10=0.239
+2026-09-16 02:25:09 INFO [pagerank] 20/20 instances, saved@10=0.233
+2026-09-16 02:25:09 INFO RESULT highschool2013 block pagerank budget=1: saved=0.0383 (se 0.0112) bad_frac=0.0257 bad_count=8.40 select=0.000s
+2026-09-16 02:25:09 INFO RESULT highschool2013 block pagerank budget=2: saved=0.0670 (se 0.0107) bad_frac=0.0249 bad_count=8.14 select=0.000s
+2026-09-16 02:25:09 INFO RESULT highschool2013 block pagerank budget=5: saved=0.1255 (se 0.0120) bad_frac=0.0234 bad_count=7.64 select=0.000s
+2026-09-16 02:25:09 INFO RESULT highschool2013 block pagerank budget=10: saved=0.2335 (se 0.0115) bad_frac=0.0205 bad_count=6.70 select=0.000s
+2026-09-16 02:25:09 INFO === method proximity (block mode) ===
+2026-09-16 02:25:10 INFO [proximity] 5/20 instances, saved@10=0.443
+2026-09-16 02:25:10 INFO [proximity] 10/20 instances, saved@10=0.435
+2026-09-16 02:25:11 INFO [proximity] 15/20 instances, saved@10=0.462
+2026-09-16 02:25:11 INFO [proximity] 20/20 instances, saved@10=0.443
+2026-09-16 02:25:11 INFO RESULT highschool2013 block proximity budget=1: saved=0.0642 (se 0.0100) bad_frac=0.0251 bad_count=8.19 select=0.002s
+2026-09-16 02:25:11 INFO RESULT highschool2013 block proximity budget=2: saved=0.1220 (se 0.0120) bad_frac=0.0236 bad_count=7.70 select=0.002s
+2026-09-16 02:25:11 INFO RESULT highschool2013 block proximity budget=5: saved=0.2668 (se 0.0175) bad_frac=0.0199 bad_count=6.50 select=0.002s
+2026-09-16 02:25:11 INFO RESULT highschool2013 block proximity budget=10: saved=0.4428 (se 0.0215) bad_frac=0.0154 bad_count=5.04 select=0.002s
+2026-09-16 02:25:11 INFO === method reach (block mode) ===
+2026-09-16 02:25:11 INFO [reach] 5/20 instances, saved@10=0.419
+2026-09-16 02:25:12 INFO [reach] 10/20 instances, saved@10=0.421
+2026-09-16 02:25:12 INFO [reach] 15/20 instances, saved@10=0.438
+2026-09-16 02:25:13 INFO [reach] 20/20 instances, saved@10=0.428
+2026-09-16 02:25:13 INFO RESULT highschool2013 block reach budget=1: saved=0.0624 (se 0.0077) bad_frac=0.0251 bad_count=8.19 select=0.005s
+2026-09-16 02:25:13 INFO RESULT highschool2013 block reach budget=2: saved=0.1216 (se 0.0120) bad_frac=0.0235 bad_count=7.70 select=0.005s
+2026-09-16 02:25:13 INFO RESULT highschool2013 block reach budget=5: saved=0.2595 (se 0.0154) bad_frac=0.0200 bad_count=6.55 select=0.005s
+2026-09-16 02:25:13 INFO RESULT highschool2013 block reach budget=10: saved=0.4285 (se 0.0193) bad_frac=0.0158 bad_count=5.15 select=0.005s
+2026-09-16 02:25:13 INFO === method greedy (block mode) ===
+2026-09-16 02:25:20 INFO [greedy] 5/20 instances, saved@10=0.413
+2026-09-16 02:25:29 INFO [greedy] 10/20 instances, saved@10=0.419
+2026-09-16 02:25:36 INFO [greedy] 15/20 instances, saved@10=0.443
+2026-09-16 02:25:48 INFO [greedy] 20/20 instances, saved@10=0.423
+2026-09-16 02:25:48 INFO RESULT highschool2013 block greedy budget=1: saved=0.0599 (se 0.0103) bad_frac=0.0251 bad_count=8.22 select=1.670s
+2026-09-16 02:25:48 INFO RESULT highschool2013 block greedy budget=2: saved=0.1126 (se 0.0092) bad_frac=0.0238 bad_count=7.78 select=1.670s
+2026-09-16 02:25:48 INFO RESULT highschool2013 block greedy budget=5: saved=0.2360 (se 0.0165) bad_frac=0.0207 bad_count=6.78 select=1.670s
+2026-09-16 02:25:48 INFO RESULT highschool2013 block greedy budget=10: saved=0.4228 (se 0.0223) bad_frac=0.0160 bad_count=5.23 select=1.670s
+2026-09-16 02:25:48 INFO run blocking_highschool2013_block_20260916T022503Z_5299 finished in 44.4s

@@ -1,0 +1,13 @@
+2026-09-16 04:35:39 INFO run adaptive_cagrqc_const_20260916T043539Z_7374 started, dir=/home/user/trace_e/results/runs/adaptive_cagrqc_const_20260916T043539Z_7374
+2026-09-16 04:35:39 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-09-16 04:35:53 INFO plans ready for instance 1/10
+2026-09-16 04:36:07 INFO plans ready for instance 2/10
+2026-09-16 04:36:21 INFO plans ready for instance 3/10
+2026-09-16 04:36:35 INFO plans ready for instance 4/10
+2026-09-16 04:36:50 INFO plans ready for instance 5/10
+2026-09-16 04:37:03 INFO plans ready for instance 6/10
+2026-09-16 04:37:16 INFO plans ready for instance 7/10
+2026-09-16 04:37:30 INFO plans ready for instance 8/10
+2026-09-16 04:37:44 INFO plans ready for instance 9/10
+2026-09-16 04:37:59 INFO plans ready for instance 10/10
+2026-09-16 04:37:59 INFO running 1650 episodes

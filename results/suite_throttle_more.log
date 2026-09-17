@@ -1,0 +1,153 @@
+2026-09-16 03:34:09 INFO run sequential_powergrid_block_20260916T033409Z_3074 started, dir=/home/user/trace_e/results/runs/sequential_powergrid_block_20260916T033409Z_3074
+2026-09-16 03:34:09 INFO network powergrid: {'n_nodes': 4941, 'n_edges': 6594, 'avg_degree': 2.66909532483303, 'n_components': 1, 'lcc_size': 4941}
+2026-09-16 03:34:09 INFO === eprocess + adaptive + throttle:none ===
+2026-09-16 03:34:30 INFO RESULT powergrid eprocess+adaptive+none: FA=0.000 det=0.883 delay=2.298 harm@alarm=15.547 harm_final=539.563 (cf 1799.807) saved=0.7002 benign_loss=0.0 kappa_mae=0.408 (21s)
+2026-09-16 03:34:30 INFO run sequential_powergrid_block_20260916T033409Z_3074 finished in 21.2s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:34:36 INFO run sequential_powergrid_block_20260916T033436Z_3118 started, dir=/home/user/trace_e/results/runs/sequential_powergrid_block_20260916T033436Z_3118
+2026-09-16 03:34:36 INFO network powergrid: {'n_nodes': 4941, 'n_edges': 6594, 'avg_degree': 2.66909532483303, 'n_components': 1, 'lcc_size': 4941}
+2026-09-16 03:34:36 INFO === eprocess + adaptive + throttle:hub ===
+2026-09-16 03:34:54 INFO RESULT powergrid eprocess+adaptive+hub: FA=0.003 det=0.697 delay=1.78 harm@alarm=12.708 harm_final=426.647 (cf 1799.807) saved=0.7629 benign_loss=0.24 kappa_mae=0.446 (18s)
+2026-09-16 03:34:54 INFO === eprocess + adaptive + throttle:random ===
+2026-09-16 03:35:13 INFO RESULT powergrid eprocess+adaptive+random: FA=0.000 det=0.760 delay=2.009 harm@alarm=13.654 harm_final=483.213 (cf 1799.807) saved=0.7315 benign_loss=0.23 kappa_mae=0.424 (19s)
+2026-09-16 03:35:13 INFO run sequential_powergrid_block_20260916T033436Z_3118 finished in 37.4s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:35:19 INFO run sequential_powergrid_block_20260916T033519Z_3173 started, dir=/home/user/trace_e/results/runs/sequential_powergrid_block_20260916T033519Z_3173
+2026-09-16 03:35:19 INFO network powergrid: {'n_nodes': 4941, 'n_edges': 6594, 'avg_degree': 2.66909532483303, 'n_components': 1, 'lcc_size': 4941}
+2026-09-16 03:35:19 INFO === eprocess + adaptive + throttle:hub ===
+2026-09-16 03:35:36 INFO RESULT powergrid eprocess+adaptive+hub: FA=0.003 det=0.590 delay=1.61 harm@alarm=12.209 harm_final=425.433 (cf 1799.807) saved=0.7636 benign_loss=0.307 kappa_mae=0.48 (17s)
+2026-09-16 03:35:36 INFO === eprocess + adaptive + throttle:random ===
+2026-09-16 03:35:54 INFO RESULT powergrid eprocess+adaptive+random: FA=0.000 det=0.680 delay=1.819 harm@alarm=12.73 harm_final=450.267 (cf 1799.807) saved=0.7498 benign_loss=0.27 kappa_mae=0.457 (18s)
+2026-09-16 03:35:54 INFO run sequential_powergrid_block_20260916T033519Z_3173 finished in 34.3s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:36:00 INFO run sequential_powergrid_block_20260916T033600Z_3270 started, dir=/home/user/trace_e/results/runs/sequential_powergrid_block_20260916T033600Z_3270
+2026-09-16 03:36:00 INFO network powergrid: {'n_nodes': 4941, 'n_edges': 6594, 'avg_degree': 2.66909532483303, 'n_components': 1, 'lcc_size': 4941}
+2026-09-16 03:36:00 INFO === eprocess + adaptive + throttle:hub ===
+2026-09-16 03:36:18 INFO RESULT powergrid eprocess+adaptive+hub: FA=0.000 det=0.487 delay=1.411 harm@alarm=11.63 harm_final=424.773 (cf 1799.807) saved=0.764 benign_loss=0.347 kappa_mae=0.517 (18s)
+2026-09-16 03:36:18 INFO === eprocess + adaptive + throttle:random ===
+2026-09-16 03:36:37 INFO RESULT powergrid eprocess+adaptive+random: FA=0.003 det=0.577 delay=1.618 harm@alarm=11.867 harm_final=440.477 (cf 1799.807) saved=0.7553 benign_loss=0.34 kappa_mae=0.477 (19s)
+2026-09-16 03:36:37 INFO run sequential_powergrid_block_20260916T033600Z_3270 finished in 37.0s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:36:44 INFO run sequential_powergrid_block_20260916T033644Z_3348 started, dir=/home/user/trace_e/results/runs/sequential_powergrid_block_20260916T033644Z_3348
+2026-09-16 03:36:44 INFO network powergrid: {'n_nodes': 4941, 'n_edges': 6594, 'avg_degree': 2.66909532483303, 'n_components': 1, 'lcc_size': 4941}
+2026-09-16 03:36:44 INFO === eprocess + adaptive + throttle:hub ===
+2026-09-16 03:37:06 INFO RESULT powergrid eprocess+adaptive+hub: FA=0.003 det=0.740 delay=1.964 harm@alarm=13.288 harm_final=431.143 (cf 1799.807) saved=0.7605 benign_loss=0.167 kappa_mae=0.441 (22s)
+2026-09-16 03:37:06 INFO === eprocess + adaptive + throttle:random ===
+2026-09-16 03:37:27 INFO RESULT powergrid eprocess+adaptive+random: FA=0.000 det=0.790 delay=2.08 harm@alarm=14.215 harm_final=512.94 (cf 1799.807) saved=0.715 benign_loss=0.177 kappa_mae=0.409 (21s)
+2026-09-16 03:37:27 INFO run sequential_powergrid_block_20260916T033644Z_3348 finished in 42.8s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:37:33 INFO run sequential_powergrid_block_20260916T033733Z_3600 started, dir=/home/user/trace_e/results/runs/sequential_powergrid_block_20260916T033733Z_3600
+2026-09-16 03:37:33 INFO network powergrid: {'n_nodes': 4941, 'n_edges': 6594, 'avg_degree': 2.66909532483303, 'n_components': 1, 'lcc_size': 4941}
+2026-09-16 03:37:33 INFO === eprocess + adaptive + throttle:hub ===
+2026-09-16 03:37:54 INFO RESULT powergrid eprocess+adaptive+hub: FA=0.000 det=0.657 delay=1.812 harm@alarm=12.726 harm_final=426.473 (cf 1799.807) saved=0.763 benign_loss=0.21 kappa_mae=0.476 (21s)
+2026-09-16 03:37:54 INFO === eprocess + adaptive + throttle:random ===
+2026-09-16 03:38:14 INFO RESULT powergrid eprocess+adaptive+random: FA=0.000 det=0.730 delay=2.046 harm@alarm=13.411 harm_final=482.273 (cf 1799.807) saved=0.732 benign_loss=0.243 kappa_mae=0.437 (20s)
+2026-09-16 03:38:14 INFO run sequential_powergrid_block_20260916T033733Z_3600 finished in 41.3s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:38:21 INFO run sequential_powergrid_block_20260916T033821Z_3793 started, dir=/home/user/trace_e/results/runs/sequential_powergrid_block_20260916T033821Z_3793
+2026-09-16 03:38:21 INFO network powergrid: {'n_nodes': 4941, 'n_edges': 6594, 'avg_degree': 2.66909532483303, 'n_components': 1, 'lcc_size': 4941}
+2026-09-16 03:38:21 INFO === eprocess + adaptive + throttle:hub ===
+2026-09-16 03:38:40 INFO RESULT powergrid eprocess+adaptive+hub: FA=0.000 det=0.590 delay=1.751 harm@alarm=12.288 harm_final=425.803 (cf 1799.807) saved=0.7634 benign_loss=0.267 kappa_mae=0.493 (19s)
+2026-09-16 03:38:40 INFO === eprocess + adaptive + throttle:random ===
+2026-09-16 03:38:58 INFO RESULT powergrid eprocess+adaptive+random: FA=0.003 det=0.653 delay=1.872 harm@alarm=12.577 harm_final=435.153 (cf 1799.807) saved=0.7582 benign_loss=0.277 kappa_mae=0.454 (18s)
+2026-09-16 03:38:58 INFO run sequential_powergrid_block_20260916T033821Z_3793 finished in 36.8s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:39:04 INFO run sequential_powergrid_block_20260916T033904Z_3850 started, dir=/home/user/trace_e/results/runs/sequential_powergrid_block_20260916T033904Z_3850
+2026-09-16 03:39:04 INFO network powergrid: {'n_nodes': 4941, 'n_edges': 6594, 'avg_degree': 2.66909532483303, 'n_components': 1, 'lcc_size': 4941}
+2026-09-16 03:39:04 INFO === eprocess + adaptive + throttle:uniform ===
+2026-09-16 03:39:21 INFO RESULT powergrid eprocess+adaptive+uniform: FA=0.000 det=0.543 delay=1.62 harm@alarm=11.736 harm_final=425.367 (cf 1799.807) saved=0.7637 benign_loss=0.313 kappa_mae=0.512 (16s)
+2026-09-16 03:39:21 INFO run sequential_powergrid_block_20260916T033904Z_3850 finished in 16.5s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:39:26 INFO run sequential_powergrid_block_20260916T033926Z_3936 started, dir=/home/user/trace_e/results/runs/sequential_powergrid_block_20260916T033926Z_3936
+2026-09-16 03:39:27 INFO network powergrid: {'n_nodes': 4941, 'n_edges': 6594, 'avg_degree': 2.66909532483303, 'n_components': 1, 'lcc_size': 4941}
+2026-09-16 03:39:27 INFO === eprocess + adaptive + throttle:uniform ===
+2026-09-16 03:39:45 INFO RESULT powergrid eprocess+adaptive+uniform: FA=0.000 det=0.673 delay=1.975 harm@alarm=12.847 harm_final=453.49 (cf 1799.807) saved=0.748 benign_loss=0.233 kappa_mae=0.462 (18s)
+2026-09-16 03:39:45 INFO run sequential_powergrid_block_20260916T033926Z_3936 finished in 18.2s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:39:51 INFO run sequential_powergrid_block_20260916T033951Z_3982 started, dir=/home/user/trace_e/results/runs/sequential_powergrid_block_20260916T033951Z_3982
+2026-09-16 03:39:51 INFO network powergrid: {'n_nodes': 4941, 'n_edges': 6594, 'avg_degree': 2.66909532483303, 'n_components': 1, 'lcc_size': 4941}
+2026-09-16 03:39:51 INFO === eprocess + adaptive + throttle:uniform ===
+2026-09-16 03:40:11 INFO RESULT powergrid eprocess+adaptive+uniform: FA=0.003 det=0.763 delay=2.201 harm@alarm=14.127 harm_final=474.013 (cf 1799.807) saved=0.7366 benign_loss=0.123 kappa_mae=0.44 (20s)
+2026-09-16 03:40:11 INFO run sequential_powergrid_block_20260916T033951Z_3982 finished in 19.9s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:40:17 INFO run sequential_powergrid_block_20260916T034017Z_4028 started, dir=/home/user/trace_e/results/runs/sequential_powergrid_block_20260916T034017Z_4028
+2026-09-16 03:40:17 INFO network powergrid: {'n_nodes': 4941, 'n_edges': 6594, 'avg_degree': 2.66909532483303, 'n_components': 1, 'lcc_size': 4941}
+2026-09-16 03:40:17 INFO === eprocess + adaptive + throttle:uniform ===
+2026-09-16 03:40:39 INFO RESULT powergrid eprocess+adaptive+uniform: FA=0.003 det=0.853 delay=2.41 harm@alarm=15.07 harm_final=511.177 (cf 1799.807) saved=0.716 benign_loss=0.053 kappa_mae=0.432 (22s)
+2026-09-16 03:40:39 INFO run sequential_powergrid_block_20260916T034017Z_4028 finished in 22.0s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:40:45 INFO run sequential_cahepth_block_20260916T034045Z_4083 started, dir=/home/user/trace_e/results/runs/sequential_cahepth_block_20260916T034045Z_4083
+2026-09-16 03:40:45 INFO network cahepth: {'n_nodes': 9875, 'n_edges': 25973, 'avg_degree': 5.2603544303797465, 'n_components': 427, 'lcc_size': 8638}
+2026-09-16 03:40:45 INFO === eprocess + adaptive + throttle:none ===
+2026-09-16 03:42:03 INFO RESULT cahepth eprocess+adaptive+none: FA=0.000 det=0.763 delay=2.022 harm@alarm=18.293 harm_final=3273.8 (cf 4578.35) saved=0.2849 benign_loss=0.0 kappa_mae=0.443 (78s)
+2026-09-16 03:42:03 INFO run sequential_cahepth_block_20260916T034045Z_4083 finished in 78.3s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:42:10 INFO run sequential_cahepth_block_20260916T034210Z_4173 started, dir=/home/user/trace_e/results/runs/sequential_cahepth_block_20260916T034210Z_4173
+2026-09-16 03:42:10 INFO network cahepth: {'n_nodes': 9875, 'n_edges': 25973, 'avg_degree': 5.2603544303797465, 'n_components': 427, 'lcc_size': 8638}
+2026-09-16 03:42:10 INFO === eprocess + adaptive + throttle:hub ===
+2026-09-16 03:43:12 INFO RESULT cahepth eprocess+adaptive+hub: FA=0.003 det=0.670 delay=1.766 harm@alarm=15.448 harm_final=2494.057 (cf 4578.35) saved=0.4552 benign_loss=0.947 kappa_mae=0.473 (62s)
+2026-09-16 03:43:12 INFO === eprocess + adaptive + throttle:random ===
+2026-09-16 03:44:35 INFO RESULT cahepth eprocess+adaptive+random: FA=0.003 det=0.677 delay=1.901 harm@alarm=16.7 harm_final=2900.44 (cf 4578.35) saved=0.3665 benign_loss=0.373 kappa_mae=0.458 (83s)
+2026-09-16 03:44:35 INFO run sequential_cahepth_block_20260916T034210Z_4173 finished in 145.7s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:44:42 INFO run sequential_cahepth_block_20260916T034442Z_4329 started, dir=/home/user/trace_e/results/runs/sequential_cahepth_block_20260916T034442Z_4329
+2026-09-16 03:44:43 INFO network cahepth: {'n_nodes': 9875, 'n_edges': 25973, 'avg_degree': 5.2603544303797465, 'n_components': 427, 'lcc_size': 8638}
+2026-09-16 03:44:43 INFO === eprocess + adaptive + throttle:hub ===
+2026-09-16 03:45:58 INFO RESULT cahepth eprocess+adaptive+hub: FA=0.003 det=0.613 delay=1.674 harm@alarm=14.94 harm_final=2312.933 (cf 4578.35) saved=0.4948 benign_loss=1.083 kappa_mae=0.479 (75s)
+2026-09-16 03:45:58 INFO === eprocess + adaptive + throttle:random ===
+2026-09-16 03:47:16 INFO RESULT cahepth eprocess+adaptive+random: FA=0.000 det=0.627 delay=1.718 harm@alarm=15.096 harm_final=2825.577 (cf 4578.35) saved=0.3828 benign_loss=0.663 kappa_mae=0.476 (78s)
+2026-09-16 03:47:16 INFO run sequential_cahepth_block_20260916T034442Z_4329 finished in 153.5s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:47:23 INFO run sequential_cahepth_block_20260916T034723Z_4438 started, dir=/home/user/trace_e/results/runs/sequential_cahepth_block_20260916T034723Z_4438
+2026-09-16 03:47:23 INFO network cahepth: {'n_nodes': 9875, 'n_edges': 25973, 'avg_degree': 5.2603544303797465, 'n_components': 427, 'lcc_size': 8638}
+2026-09-16 03:47:23 INFO === eprocess + adaptive + throttle:hub ===
+2026-09-16 03:48:35 INFO RESULT cahepth eprocess+adaptive+hub: FA=0.010 det=0.550 delay=1.509 harm@alarm=14.018 harm_final=2194.983 (cf 4578.35) saved=0.5206 benign_loss=1.18 kappa_mae=0.511 (72s)
+2026-09-16 03:48:35 INFO === eprocess + adaptive + throttle:random ===
+2026-09-16 03:49:49 INFO RESULT cahepth eprocess+adaptive+random: FA=0.003 det=0.577 delay=1.613 harm@alarm=14.393 harm_final=2454.11 (cf 4578.35) saved=0.464 benign_loss=1.113 kappa_mae=0.487 (74s)
+2026-09-16 03:49:49 INFO run sequential_cahepth_block_20260916T034723Z_4438 finished in 146.2s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:49:56 INFO run sequential_cahepth_block_20260916T034956Z_4511 started, dir=/home/user/trace_e/results/runs/sequential_cahepth_block_20260916T034956Z_4511
+2026-09-16 03:49:56 INFO network cahepth: {'n_nodes': 9875, 'n_edges': 25973, 'avg_degree': 5.2603544303797465, 'n_components': 427, 'lcc_size': 8638}
+2026-09-16 03:49:56 INFO === eprocess + adaptive + throttle:hub ===
+2026-09-16 03:51:14 INFO RESULT cahepth eprocess+adaptive+hub: FA=0.003 det=0.693 delay=1.798 harm@alarm=16.082 harm_final=2636.607 (cf 4578.35) saved=0.4241 benign_loss=0.88 kappa_mae=0.469 (78s)
+2026-09-16 03:51:14 INFO === eprocess + adaptive + throttle:random ===
+2026-09-16 03:52:36 INFO RESULT cahepth eprocess+adaptive+random: FA=0.003 det=0.697 delay=1.947 harm@alarm=17.201 harm_final=2994.46 (cf 4578.35) saved=0.346 benign_loss=0.343 kappa_mae=0.457 (82s)
+2026-09-16 03:52:36 INFO run sequential_cahepth_block_20260916T034956Z_4511 finished in 160.9s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:52:43 INFO run sequential_cahepth_block_20260916T035243Z_4622 started, dir=/home/user/trace_e/results/runs/sequential_cahepth_block_20260916T035243Z_4622
+2026-09-16 03:52:43 INFO network cahepth: {'n_nodes': 9875, 'n_edges': 25973, 'avg_degree': 5.2603544303797465, 'n_components': 427, 'lcc_size': 8638}
+2026-09-16 03:52:43 INFO === eprocess + adaptive + throttle:hub ===
+2026-09-16 03:54:00 INFO RESULT cahepth eprocess+adaptive+hub: FA=0.003 det=0.643 delay=1.782 harm@alarm=15.736 harm_final=2513.3 (cf 4578.35) saved=0.451 benign_loss=1.013 kappa_mae=0.473 (77s)
+2026-09-16 03:54:00 INFO === eprocess + adaptive + throttle:random ===
+2026-09-16 03:55:41 INFO RESULT cahepth eprocess+adaptive+random: FA=0.003 det=0.660 delay=1.879 harm@alarm=16.157 harm_final=2788.847 (cf 4578.35) saved=0.3909 benign_loss=0.553 kappa_mae=0.464 (101s)
+2026-09-16 03:55:41 INFO run sequential_cahepth_block_20260916T035243Z_4622 finished in 177.9s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:55:50 INFO run sequential_cahepth_block_20260916T035550Z_4768 started, dir=/home/user/trace_e/results/runs/sequential_cahepth_block_20260916T035550Z_4768
+2026-09-16 03:55:50 INFO network cahepth: {'n_nodes': 9875, 'n_edges': 25973, 'avg_degree': 5.2603544303797465, 'n_components': 427, 'lcc_size': 8638}
+2026-09-16 03:55:50 INFO === eprocess + adaptive + throttle:hub ===
+2026-09-16 03:57:10 INFO RESULT cahepth eprocess+adaptive+hub: FA=0.007 det=0.613 delay=1.723 harm@alarm=15.049 harm_final=2419.953 (cf 4578.35) saved=0.4714 benign_loss=1.1 kappa_mae=0.489 (80s)
+2026-09-16 03:57:10 INFO === eprocess + adaptive + throttle:random ===
+2026-09-16 03:58:30 INFO RESULT cahepth eprocess+adaptive+random: FA=0.007 det=0.630 delay=1.772 harm@alarm=15.317 harm_final=2697.183 (cf 4578.35) saved=0.4109 benign_loss=0.887 kappa_mae=0.474 (80s)
+2026-09-16 03:58:30 INFO run sequential_cahepth_block_20260916T035550Z_4768 finished in 160.3s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:58:37 INFO run sequential_cahepth_block_20260916T035837Z_4878 started, dir=/home/user/trace_e/results/runs/sequential_cahepth_block_20260916T035837Z_4878
+2026-09-16 03:58:37 INFO network cahepth: {'n_nodes': 9875, 'n_edges': 25973, 'avg_degree': 5.2603544303797465, 'n_components': 427, 'lcc_size': 8638}
+2026-09-16 03:58:37 INFO === eprocess + adaptive + throttle:uniform ===
+2026-09-16 03:59:52 INFO RESULT cahepth eprocess+adaptive+uniform: FA=0.003 det=0.580 delay=1.661 harm@alarm=14.58 harm_final=2391.823 (cf 4578.35) saved=0.4776 benign_loss=1.187 kappa_mae=0.497 (75s)
+2026-09-16 03:59:52 INFO run sequential_cahepth_block_20260916T035837Z_4878 finished in 75.0s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 03:59:59 INFO run sequential_cahepth_block_20260916T035959Z_4971 started, dir=/home/user/trace_e/results/runs/sequential_cahepth_block_20260916T035959Z_4971
+2026-09-16 03:59:59 INFO network cahepth: {'n_nodes': 9875, 'n_edges': 25973, 'avg_degree': 5.2603544303797465, 'n_components': 427, 'lcc_size': 8638}
+2026-09-16 03:59:59 INFO === eprocess + adaptive + throttle:uniform ===
+2026-09-16 04:01:06 INFO RESULT cahepth eprocess+adaptive+uniform: FA=0.000 det=0.630 delay=1.815 harm@alarm=15.566 harm_final=2686.49 (cf 4578.35) saved=0.4132 benign_loss=0.703 kappa_mae=0.49 (68s)
+2026-09-16 04:01:06 INFO run sequential_cahepth_block_20260916T035959Z_4971 finished in 67.7s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 04:01:12 INFO run sequential_cahepth_block_20260916T040112Z_5066 started, dir=/home/user/trace_e/results/runs/sequential_cahepth_block_20260916T040112Z_5066
+2026-09-16 04:01:12 INFO network cahepth: {'n_nodes': 9875, 'n_edges': 25973, 'avg_degree': 5.2603544303797465, 'n_components': 427, 'lcc_size': 8638}
+2026-09-16 04:01:12 INFO === eprocess + adaptive + throttle:uniform ===
+2026-09-16 04:02:22 INFO RESULT cahepth eprocess+adaptive+uniform: FA=0.007 det=0.700 delay=1.924 harm@alarm=16.719 harm_final=3071.357 (cf 4578.35) saved=0.3292 benign_loss=0.61 kappa_mae=0.493 (70s)
+2026-09-16 04:02:22 INFO run sequential_cahepth_block_20260916T040112Z_5066 finished in 70.0s
+wrote /home/user/trace_e/results/REPORT.md
+2026-09-16 04:02:28 INFO run sequential_cahepth_block_20260916T040228Z_5176 started, dir=/home/user/trace_e/results/runs/sequential_cahepth_block_20260916T040228Z_5176
+2026-09-16 04:02:28 INFO network cahepth: {'n_nodes': 9875, 'n_edges': 25973, 'avg_degree': 5.2603544303797465, 'n_components': 427, 'lcc_size': 8638}
+2026-09-16 04:02:28 INFO === eprocess + adaptive + throttle:uniform ===

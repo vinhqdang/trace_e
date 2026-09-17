@@ -1,0 +1,26 @@
+2026-09-16 03:04:02 INFO run sequential_highschool2013_block_20260916T030402Z_8976 started, dir=/home/user/trace_e/results/runs/sequential_highschool2013_block_20260916T030402Z_8976
+2026-09-16 03:04:02 INFO network highschool2013: {'n_nodes': 327, 'n_edges': 5818, 'avg_degree': 35.584097859327215, 'n_components': 1, 'lcc_size': 327}
+2026-09-16 03:04:02 INFO calibrated growth on 300 benign cascades (seeds=1): threshold=8 (0.1s)
+2026-09-16 03:04:02 INFO calibrated size on 300 benign cascades (seeds=1): threshold=48 (0.1s)
+2026-09-16 03:04:02 INFO calibrated cusum on 300 benign cascades (seeds=1): threshold=2.516 (0.2s)
+2026-09-16 03:04:04 INFO calibrated logistic on 150 benign cascades (train acc 0.882): threshold=0.8152 (0.9s)
+2026-09-16 03:04:04 INFO calibrated excess on 300 benign cascades (seeds=1): threshold=2.466 (0.1s)
+2026-09-16 03:04:04 INFO === eprocess + none ===
+2026-09-16 03:04:05 INFO RESULT highschool2013 eprocess+none: FA=0.020 det=0.963 delay=2.851 harm@alarm=31.55 harm_final=269.277 (cf 269.277) saved=0.0 benign_loss=0.0 kappa_mae=0.386 (1s)
+2026-09-16 03:04:05 INFO === sprt + none ===
+2026-09-16 03:04:05 INFO RESULT highschool2013 sprt+none: FA=0.020 det=0.947 delay=2.588 harm@alarm=28.447 harm_final=269.277 (cf 269.277) saved=0.0 benign_loss=0.0 kappa_mae=0.697 (1s)
+2026-09-16 03:04:05 INFO === cusum + none ===
+2026-09-16 03:04:06 INFO RESULT highschool2013 cusum+none: FA=0.070 det=0.963 delay=2.363 harm@alarm=23.886 harm_final=269.277 (cf 269.277) saved=0.0 benign_loss=0.0 kappa_mae=0.692 (1s)
+2026-09-16 03:04:06 INFO === size + none ===
+2026-09-16 03:04:07 INFO RESULT highschool2013 size+none: FA=0.157 det=0.967 delay=3.938 harm@alarm=70.472 harm_final=269.277 (cf 269.277) saved=0.0 benign_loss=0.0 kappa_mae=1.54 (1s)
+2026-09-16 03:04:07 INFO === growth + none ===
+2026-09-16 03:04:07 INFO RESULT highschool2013 growth+none: FA=0.123 det=0.967 delay=2.255 harm@alarm=22.507 harm_final=269.277 (cf 269.277) saved=0.0 benign_loss=0.0 kappa_mae=1.54 (1s)
+2026-09-16 03:04:07 INFO === excess + none ===
+2026-09-16 03:04:08 INFO RESULT highschool2013 excess+none: FA=0.053 det=0.963 delay=2.346 harm@alarm=23.581 harm_final=269.277 (cf 269.277) saved=0.0 benign_loss=0.0 kappa_mae=1.543 (1s)
+2026-09-16 03:04:08 INFO === logistic + none ===
+2026-09-16 03:04:09 INFO RESULT highschool2013 logistic+none: FA=0.020 det=0.950 delay=2.895 harm@alarm=32.214 harm_final=269.277 (cf 269.277) saved=0.0 benign_loss=0.0 kappa_mae=1.557 (1s)
+2026-09-16 03:04:09 INFO === never + none ===
+2026-09-16 03:04:10 INFO RESULT highschool2013 never+none: FA=0.000 det=0.000 delay= harm@alarm= harm_final=269.277 (cf 269.277) saved=0.0 benign_loss=0.0 kappa_mae= (1s)
+2026-09-16 03:04:10 INFO === immediate + none ===
+2026-09-16 03:04:10 INFO RESULT highschool2013 immediate+none: FA=1.000 det=1.000 delay=1.0 harm@alarm=10.5 harm_final=269.277 (cf 269.277) saved=0.0 benign_loss=0.0 kappa_mae=1.514 (1s)
+2026-09-16 03:04:10 INFO run sequential_highschool2013_block_20260916T030402Z_8976 finished in 8.5s

@@ -1,0 +1,127 @@
+2026-09-16 03:18:57 INFO run source_highschool2013_20260916T031857Z_1239 started, dir=/home/user/trace_e/results/runs/source_highschool2013_20260916T031857Z_1239
+2026-09-16 03:18:57 INFO network highschool2013: {'n_nodes': 327, 'n_edges': 5818, 'avg_degree': 35.584097859327215, 'n_components': 1, 'lcc_size': 327}
+2026-09-16 03:19:03 INFO train: 3270 outbreaks, avg size 314.08, singletons 112 (6.5s)
+2026-09-16 03:19:10 INFO test: 3270 outbreaks, avg size 316.65, singletons 95 (6.6s)
+2026-09-16 03:19:11 INFO === method random ===
+2026-09-16 03:19:12 INFO [random] 500/3270 top1=0.020 top5=0.044 ed=2.052 rr=0.022 (1s)
+2026-09-16 03:19:13 INFO [random] 1000/3270 top1=0.021 top5=0.038 ed=2.064 rr=0.025 (2s)
+2026-09-16 03:19:14 INFO [random] 1500/3270 top1=0.027 top5=0.042 ed=2.051 rr=0.031 (3s)
+2026-09-16 03:19:15 INFO [random] 2000/3270 top1=0.032 top5=0.046 ed=2.071 rr=0.034 (4s)
+2026-09-16 03:19:16 INFO [random] 2500/3270 top1=0.032 top5=0.045 ed=2.074 rr=0.034 (5s)
+2026-09-16 03:19:17 INFO [random] 3000/3270 top1=0.034 top5=0.046 ed=2.075 rr=0.037 (6s)
+2026-09-16 03:19:18 INFO RESULT highschool2013 random: top1=0.0327 top3=0.0391 top5=0.0446 ed=2.0700 rr=0.0358 css=285.62 fit=0.0s infer=0.00203s/inst
+2026-09-16 03:19:18 INFO === method degree ===
+2026-09-16 03:19:20 INFO [degree] 500/3270 top1=0.036 top5=0.036 ed=1.746 rr=0.051 (2s)
+2026-09-16 03:19:20 INFO [degree] 1000/3270 top1=0.029 top5=0.029 ed=1.762 rr=0.046 (3s)
+2026-09-16 03:19:21 INFO [degree] 1500/3270 top1=0.031 top5=0.038 ed=1.753 rr=0.049 (4s)
+2026-09-16 03:19:22 INFO [degree] 2000/3270 top1=0.034 top5=0.038 ed=1.770 rr=0.048 (5s)
+2026-09-16 03:19:23 INFO [degree] 2500/3270 top1=0.032 top5=0.040 ed=1.769 rr=0.047 (6s)
+2026-09-16 03:19:24 INFO [degree] 3000/3270 top1=0.034 top5=0.041 ed=1.760 rr=0.048 (7s)
+2026-09-16 03:19:25 INFO RESULT highschool2013 degree: top1=0.0327 top3=0.0394 top5=0.0456 ed=1.7587 rr=0.0491 fit=0.0s infer=0.00216s/inst
+2026-09-16 03:19:25 INFO === method jordan ===
+2026-09-16 03:42:45 INFO [jordan] 500/3270 top1=0.020 top5=0.034 ed=2.034 rr=0.023 (1400s)
+2026-09-16 03:42:46 INFO [jordan] 1000/3270 top1=0.023 top5=0.034 ed=2.049 rr=0.026 (1401s)
+2026-09-16 03:42:47 INFO [jordan] 1500/3270 top1=0.027 top5=0.039 ed=2.035 rr=0.031 (1402s)
+2026-09-16 03:42:47 INFO [jordan] 2000/3270 top1=0.032 top5=0.043 ed=2.042 rr=0.035 (1403s)
+2026-09-16 03:42:48 INFO [jordan] 2500/3270 top1=0.032 top5=0.043 ed=2.049 rr=0.035 (1404s)
+2026-09-16 03:42:49 INFO [jordan] 3000/3270 top1=0.035 top5=0.046 ed=2.052 rr=0.037 (1405s)
+2026-09-16 03:42:50 INFO RESULT highschool2013 jordan: top1=0.0336 top3=0.0379 top5=0.0453 ed=2.0446 rr=0.0365 fit=0.0s infer=0.42977s/inst
+2026-09-16 03:42:50 INFO === method distance ===
+2026-09-16 04:06:20 INFO [distance] 500/3270 top1=0.016 top5=0.056 ed=1.784 rr=0.039 (1410s)
+2026-09-16 04:06:21 INFO [distance] 1000/3270 top1=0.019 top5=0.039 ed=1.801 rr=0.039 (1411s)
+2026-09-16 04:06:22 INFO [distance] 1500/3270 top1=0.025 top5=0.038 ed=1.803 rr=0.043 (1412s)
+2026-09-16 04:06:23 INFO [distance] 2000/3270 top1=0.029 top5=0.038 ed=1.798 rr=0.044 (1413s)
+2026-09-16 04:06:24 INFO [distance] 2500/3270 top1=0.028 top5=0.040 ed=1.804 rr=0.044 (1414s)
+2026-09-16 04:06:25 INFO [distance] 3000/3270 top1=0.031 top5=0.041 ed=1.770 rr=0.045 (1415s)
+2026-09-16 04:06:25 INFO RESULT highschool2013 distance: top1=0.0333 top3=0.0394 top5=0.0456 ed=1.7012 rr=0.0491 fit=0.0s infer=0.43277s/inst
+2026-09-16 04:06:25 INFO === method rumor ===
+2026-09-16 04:16:32 INFO [rumor] 500/3270 top1=0.016 top5=0.016 ed=1.786 rr=0.026 (607s)
+2026-09-16 04:16:33 INFO [rumor] 1000/3270 top1=0.019 top5=0.019 ed=1.812 rr=0.030 (608s)
+2026-09-16 04:16:34 INFO [rumor] 1500/3270 top1=0.025 top5=0.025 ed=1.819 rr=0.036 (609s)
+2026-09-16 04:16:35 INFO [rumor] 2000/3270 top1=0.028 top5=0.029 ed=1.804 rr=0.038 (610s)
+2026-09-16 04:16:36 INFO [rumor] 2500/3270 top1=0.028 top5=0.028 ed=1.798 rr=0.039 (611s)
+2026-09-16 04:16:37 INFO [rumor] 3000/3270 top1=0.030 top5=0.034 ed=1.774 rr=0.044 (612s)
+2026-09-16 04:16:37 INFO RESULT highschool2013 rumor: top1=0.0327 top3=0.0394 top5=0.0453 ed=1.7235 rr=0.0490 fit=0.0s infer=0.18720s/inst
+2026-09-16 04:16:37 INFO === method netsleuth ===
+2026-09-16 04:16:47 INFO [netsleuth] 500/3270 top1=0.024 top5=0.032 ed=2.572 rr=0.036 (10s)
+2026-09-16 04:16:48 INFO [netsleuth] 1000/3270 top1=0.026 top5=0.037 ed=2.595 rr=0.040 (11s)
+2026-09-16 04:16:49 INFO [netsleuth] 1500/3270 top1=0.030 top5=0.040 ed=2.587 rr=0.043 (12s)
+2026-09-16 04:16:50 INFO [netsleuth] 2000/3270 top1=0.032 top5=0.043 ed=2.609 rr=0.046 (13s)
+2026-09-16 04:16:51 INFO [netsleuth] 2500/3270 top1=0.031 top5=0.045 ed=2.613 rr=0.047 (13s)
+2026-09-16 04:16:52 INFO [netsleuth] 3000/3270 top1=0.034 top5=0.047 ed=2.601 rr=0.050 (14s)
+2026-09-16 04:16:52 INFO RESULT highschool2013 netsleuth: top1=0.0327 top3=0.0394 top5=0.0456 ed=2.6024 rr=0.0486 fit=0.0s infer=0.00454s/inst
+2026-09-16 04:16:52 INFO === method dmp ===
+2026-09-16 04:34:38 INFO [dmp] 500/3270 top1=0.030 top5=0.058 ed=1.700 rr=0.058 (1066s)
+2026-09-16 04:34:39 INFO [dmp] 1000/3270 top1=0.027 top5=0.057 ed=1.738 rr=0.056 (1067s)
+2026-09-16 04:34:40 INFO [dmp] 1500/3270 top1=0.033 top5=0.057 ed=1.744 rr=0.059 (1068s)
+2026-09-16 04:34:41 INFO [dmp] 2000/3270 top1=0.035 top5=0.057 ed=1.746 rr=0.059 (1069s)
+2026-09-16 04:34:42 INFO [dmp] 2500/3270 top1=0.035 top5=0.058 ed=1.761 rr=0.058 (1070s)
+2026-09-16 04:34:43 INFO [dmp] 3000/3270 top1=0.037 top5=0.057 ed=1.755 rr=0.059 (1071s)
+2026-09-16 04:34:43 INFO RESULT highschool2013 dmp: top1=0.0367 top3=0.0486 top5=0.0584 ed=1.7382 rr=0.0598 css=179.28 fit=0.0s infer=0.32762s/inst
+2026-09-16 04:34:43 INFO === method sme ===
+2026-09-16 04:34:48 INFO [sme] 500/3270 top1=0.030 top5=0.070 ed=1.996 rr=0.047 (5s)
+2026-09-16 04:34:50 INFO [sme] 1000/3270 top1=0.027 top5=0.047 ed=1.988 rr=0.041 (6s)
+2026-09-16 04:34:51 INFO [sme] 1500/3270 top1=0.030 top5=0.048 ed=1.965 rr=0.044 (7s)
+2026-09-16 04:34:52 INFO [sme] 2000/3270 top1=0.033 top5=0.049 ed=1.998 rr=0.046 (8s)
+2026-09-16 04:34:53 INFO [sme] 2500/3270 top1=0.032 top5=0.045 ed=2.003 rr=0.045 (9s)
+2026-09-16 04:34:54 INFO [sme] 3000/3270 top1=0.034 top5=0.045 ed=2.010 rr=0.047 (10s)
+2026-09-16 04:34:54 INFO RESULT highschool2013 sme: top1=0.0327 top3=0.0379 top5=0.0440 ed=2.0156 rr=0.0457 css=213.80 fit=0.0s infer=0.00325s/inst
+2026-09-16 04:34:54 INFO === method mcs ===
+2026-09-16 04:34:56 INFO [mcs] 500/3270 top1=0.020 top5=0.036 ed=2.046 rr=0.038 (1s)
+2026-09-16 04:34:56 INFO [mcs] 1000/3270 top1=0.024 top5=0.038 ed=2.059 rr=0.042 (2s)
+2026-09-16 04:34:57 INFO [mcs] 1500/3270 top1=0.029 top5=0.043 ed=2.041 rr=0.046 (3s)
+2026-09-16 04:34:58 INFO [mcs] 2000/3270 top1=0.033 top5=0.046 ed=2.060 rr=0.050 (4s)
+2026-09-16 04:34:59 INFO [mcs] 2500/3270 top1=0.032 top5=0.046 ed=2.063 rr=0.049 (5s)
+2026-09-16 04:35:00 INFO [mcs] 3000/3270 top1=0.035 top5=0.049 ed=2.056 rr=0.051 (6s)
+2026-09-16 04:35:01 INFO RESULT highschool2013 mcs: top1=0.0339 top3=0.0394 top5=0.0468 ed=2.0535 rr=0.0502 css=4.46 fit=0.0s infer=0.00207s/inst
+2026-09-16 04:35:01 INFO === method mlp ===
+2026-09-16 04:35:20 INFO [mlp] epoch 1 val_loss=5.7886 val_acc=0.0367 (18s)
+2026-09-16 04:37:18 INFO [mlp] epoch 10 val_loss=5.7686 val_acc=0.0367 (136s)
+2026-09-16 04:38:39 INFO [mlp] epoch 20 val_loss=5.5921 val_acc=0.0367 (217s)
+2026-09-16 04:38:42 INFO [mlp] trained 26 epochs, best val_loss=5.5918, 220s
+2026-09-16 04:38:43 INFO [mlp] 500/3270 top1=0.022 top5=0.034 ed=2.050 rr=0.025 (1s)
+2026-09-16 04:38:44 INFO [mlp] 1000/3270 top1=0.023 top5=0.041 ed=2.050 rr=0.028 (2s)
+2026-09-16 04:38:45 INFO [mlp] 1500/3270 top1=0.029 top5=0.041 ed=2.050 rr=0.033 (3s)
+2026-09-16 04:38:46 INFO [mlp] 2000/3270 top1=0.032 top5=0.046 ed=2.055 rr=0.037 (4s)
+2026-09-16 04:38:47 INFO [mlp] 2500/3270 top1=0.032 top5=0.045 ed=2.064 rr=0.037 (5s)
+2026-09-16 04:38:48 INFO [mlp] 3000/3270 top1=0.035 top5=0.048 ed=2.058 rr=0.039 (6s)
+2026-09-16 04:38:49 INFO RESULT highschool2013 mlp: top1=0.0336 top3=0.0398 top5=0.0465 ed=2.0529 rr=0.0383 css=281.64 fit=221.4s infer=0.00193s/inst
+2026-09-16 04:38:49 INFO === method gcn ===
+2026-09-16 04:38:50 INFO [gcn] epoch 1 val_loss=5.7899 val_acc=0.0031 (1s)
+2026-09-16 04:38:57 INFO [gcn] trained 7 epochs, best val_loss=5.7899, 8s
+2026-09-16 04:38:58 INFO [gcn] 500/3270 top1=0.030 top5=0.032 ed=2.702 rr=0.040 (2s)
+2026-09-16 04:38:59 INFO [gcn] 1000/3270 top1=0.027 top5=0.041 ed=2.773 rr=0.043 (3s)
+2026-09-16 04:39:00 INFO [gcn] 1500/3270 top1=0.032 top5=0.044 ed=2.766 rr=0.046 (4s)
+2026-09-16 04:39:01 INFO [gcn] 2000/3270 top1=0.034 top5=0.048 ed=2.782 rr=0.050 (4s)
+2026-09-16 04:39:02 INFO [gcn] 2500/3270 top1=0.032 top5=0.050 ed=2.790 rr=0.051 (5s)
+2026-09-16 04:39:03 INFO [gcn] 3000/3270 top1=0.034 top5=0.050 ed=2.770 rr=0.053 (6s)
+2026-09-16 04:39:04 INFO RESULT highschool2013 gcn: top1=0.0333 top3=0.0398 top5=0.0477 ed=2.7709 rr=0.0511 css=285.62 fit=8.1s infer=0.00210s/inst
+2026-09-16 04:39:04 INFO === method gcn_skip ===
+2026-09-16 04:39:12 INFO [gcn_skip] epoch 1 val_loss=5.7827 val_acc=0.0031 (8s)
+2026-09-16 04:39:24 INFO [gcn_skip] epoch 10 val_loss=5.7156 val_acc=0.0102 (20s)
+2026-09-16 04:39:37 INFO [gcn_skip] epoch 20 val_loss=5.7034 val_acc=0.0153 (34s)
+2026-09-16 04:40:43 INFO [gcn_skip] epoch 30 val_loss=5.6855 val_acc=0.0112 (100s)
+2026-09-16 04:41:07 INFO [gcn_skip] epoch 40 val_loss=5.6478 val_acc=0.0336 (124s)
+2026-09-16 04:41:21 INFO [gcn_skip] epoch 50 val_loss=5.6298 val_acc=0.0234 (137s)
+2026-09-16 04:41:34 INFO [gcn_skip] trained 59 epochs, best val_loss=5.6284, 150s
+2026-09-16 04:41:35 INFO [gcn_skip] 500/3270 top1=0.022 top5=0.034 ed=1.878 rr=0.042 (2s)
+2026-09-16 04:41:36 INFO [gcn_skip] 1000/3270 top1=0.029 top5=0.046 ed=1.905 rr=0.050 (2s)
+2026-09-16 04:41:37 INFO [gcn_skip] 1500/3270 top1=0.033 top5=0.055 ed=1.913 rr=0.055 (3s)
+2026-09-16 04:41:38 INFO [gcn_skip] 2000/3270 top1=0.035 top5=0.056 ed=1.927 rr=0.057 (4s)
+2026-09-16 04:41:39 INFO [gcn_skip] 2500/3270 top1=0.035 top5=0.055 ed=1.929 rr=0.057 (5s)
+2026-09-16 04:41:40 INFO [gcn_skip] 3000/3270 top1=0.036 top5=0.054 ed=1.926 rr=0.057 (6s)
+2026-09-16 04:41:41 INFO RESULT highschool2013 gcn_skip: top1=0.0358 top3=0.0459 top5=0.0532 ed=1.9125 rr=0.0568 css=269.91 fit=150.2s infer=0.00205s/inst
+2026-09-16 04:41:41 INFO === method igcn ===
+2026-09-16 04:42:12 INFO [igcn] epoch 1 val_loss=5.7821 val_acc=0.0377 (32s)
+2026-09-16 04:49:16 INFO [igcn] epoch 10 val_loss=5.7345 val_acc=0.0398 (455s)
+2026-09-16 04:55:56 INFO [igcn] epoch 20 val_loss=5.5907 val_acc=0.0387 (855s)
+2026-09-16 05:03:46 INFO [igcn] epoch 30 val_loss=5.5802 val_acc=0.0377 (1325s)
+2026-09-16 05:08:25 INFO [igcn] trained 36 epochs, best val_loss=5.5797, 1604s
+2026-09-16 05:08:42 INFO [igcn] 500/3270 top1=0.020 top5=0.040 ed=2.254 rr=0.042 (18s)
+2026-09-16 05:08:43 INFO [igcn] 1000/3270 top1=0.023 top5=0.043 ed=2.264 rr=0.045 (19s)
+2026-09-16 05:08:44 INFO [igcn] 1500/3270 top1=0.027 top5=0.043 ed=2.269 rr=0.048 (20s)
+2026-09-16 05:08:45 INFO [igcn] 2000/3270 top1=0.033 top5=0.050 ed=2.268 rr=0.053 (21s)
+2026-09-16 05:08:46 INFO [igcn] 2500/3270 top1=0.033 top5=0.051 ed=2.281 rr=0.054 (22s)
+2026-09-16 05:08:47 INFO [igcn] 3000/3270 top1=0.035 top5=0.054 ed=2.280 rr=0.057 (23s)
+2026-09-16 05:08:48 INFO RESULT highschool2013 igcn: top1=0.0352 top3=0.0468 top5=0.0541 ed=2.2755 rr=0.0568 css=278.94 fit=1604.1s infer=0.00708s/inst
+2026-09-16 05:08:48 INFO run source_highschool2013_20260916T031857Z_1239 finished in 6591.1s

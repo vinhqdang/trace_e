@@ -1,0 +1,40 @@
+Using device: cpu
+============================
+Number of nodes: 34
+Number of edges: 77
+Average degree: 4.529411764705882
+Diameter (LCC): 5
+Average time per sim.: 0.000002 seconds
+============================
+Avg. outbreak size: 13.7035
+Avg. R0: 1.87941
+Avg. sampled infection rate: 1.3
+Number of sim. with only one inf. node: 3617
+============================
+Training examples: 11900
+Validation examples: 5100
+============================
+HADDAD(
+  (convs): ModuleList(
+    (0): SAGEConv(3, 128, aggr=max)
+    (1-3): 3 x SAGEConv(128, 128, aggr=max)
+    (4): SAGEConv(128, 1, aggr=max)
+  )
+  (activ): ModuleList(
+    (0-4): 5 x ReLU()
+  )
+)
+============================
+Epoch: 001, Train Acc: 0.3717, Train Loss: 1.9185, Val. Acc: 0.3771, Val. Loss: 1.8962
+Epoch: 002, Train Acc: 0.3757, Train Loss: 1.9067, Val. Acc: 0.3814, Val. Loss: 1.8837
+Epoch: 003, Train Acc: 0.3805, Train Loss: 1.8932, Val. Acc: 0.3845, Val. Loss: 1.8671
+Epoch: 004, Train Acc: 0.3797, Train Loss: 1.8899, Val. Acc: 0.3790, Val. Loss: 1.8675
+Epoch: 005, Train Acc: 0.3829, Train Loss: 1.8698, Val. Acc: 0.3853, Val. Loss: 1.8462
+Epoch: 006, Train Acc: 0.3845, Train Loss: 1.8740, Val. Acc: 0.3822, Val. Loss: 1.8511
+Epoch: 007, Train Acc: 0.3814, Train Loss: 1.8714, Val. Acc: 0.3806, Val. Loss: 1.8544
+Epoch: 008, Train Acc: 0.3842, Train Loss: 1.8685, Val. Acc: 0.3857, Val. Loss: 1.8483
+Epoch: 009, Train Acc: 0.3852, Train Loss: 1.8664, Val. Acc: 0.3875, Val. Loss: 1.8495
+Epoch: 010, Train Acc: 0.3767, Train Loss: 1.8803, Val. Acc: 0.3802, Val. Loss: 1.8670
+============================
+Saving model that yielded validation loss of 1.8462.
+Average batch time: 0.074906 seconds (SEM:  0.000217)

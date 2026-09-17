@@ -1,0 +1,41 @@
+Using device: cuda
+============================
+Number of nodes: 92
+Number of edges: 755
+Average degree: 16.41304347826087
+Diameter (LCC): 3
+Average time per sim.: 0.000010 seconds
+============================
+Avg. outbreak size: 36.5017
+Avg. R0: 2.02435
+Avg. sampled infection rate: 0.165
+Number of sim. with only one inf. node: 14071
+============================
+Training examples: 32200
+Validation examples: 13800
+============================
+SHAH(
+  (initial): Sequential(
+    (0): Linear(in_features=3, out_features=128, bias=True)
+  )
+  (convs): ModuleList(
+    (0-4): 5 x GCNConv(128, 128)
+  )
+  (banor): ModuleList(
+    (0-4): 5 x BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (activ): ModuleList(
+    (0-4): 5 x LeakyReLU(negative_slope=0.01)
+  )
+  (final): Sequential(
+    (0): Linear(in_features=128, out_features=1, bias=True)
+  )
+)
+============================
+Epoch: 001, Train Acc: 0.3917, Train Loss: 2.3123, Val. Acc: 0.3923, Val. Loss: 2.3127
+Epoch: 002, Train Acc: 0.3953, Train Loss: 2.3114, Val. Acc: 0.3983, Val. Loss: 2.3092
+Epoch: 003, Train Acc: 0.3946, Train Loss: 2.2935, Val. Acc: 0.3963, Val. Loss: 2.2919
+Epoch: 004, Train Acc: 0.3950, Train Loss: 2.2924, Val. Acc: 0.3956, Val. Loss: 2.2905
+Epoch: 005, Train Acc: 0.3951, Train Loss: 2.2882, Val. Acc: 0.3980, Val. Loss: 2.2854
+Epoch: 006, Train Acc: 0.3964, Train Loss: 2.2806, Val. Acc: 0.3983, Val. Loss: 2.2776
+Epoch: 007, Train Acc: 0.3942, Train Loss: 2.2923, Val. Acc: 0.3981, Val. Loss: 2.2907

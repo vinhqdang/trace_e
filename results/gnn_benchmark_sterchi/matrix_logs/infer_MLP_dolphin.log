@@ -1,0 +1,61 @@
+Using training beta=0.9
+Using device: cuda
+============================
+Avg. outbreak size: 25.1337
+Avg. R0: 1.99468
+Avg. sampled infection rate: 0.9
+Number of sim. with only one inf. node: 1471
+============================
+MLP RESULTS
+Top-1 Acc.: 0.2985
+Top-3 Acc.: 0.4013
+Top-5 Acc.: 0.4498
+Avg. error dist.: 1.6068
+Avg. reciprocal rank: 0.3463
+Avg. credible set size: 18.7871
+Avg. scoring rule (Brier): 0.7051
+Avg. scoring rule (Resistance): 0.2372
+Average time per inference run: 0.002768 seconds
+============================
+RANDOM RESULTS
+Top-1 Acc.: 0.2911
+Top-3 Acc.: 0.3156
+Top-5 Acc.: 0.3366
+Avg. error dist.: 1.7510
+Avg. reciprocal rank: 0.3133
+============================
+JORDAN CENTER RESULTS
+Top-1 Acc.: 0.2898
+Top-3 Acc.: 0.3705
+Top-5 Acc.: 0.4218
+Avg. error dist.: 1.4426
+Avg. reciprocal rank: 0.3566
+============================
+BETWEENNESS CENTRALITY RESULTS
+Top-1 Acc.: 0.2963
+Top-3 Acc.: 0.3837
+Top-5 Acc.: 0.4381
+Avg. error dist.: 1.3948
+Avg. reciprocal rank: 0.3794
+============================
+SOFT MARGIN RESULTS
+Top-1 Acc.: 0.3148
+Top-3 Acc.: 0.4032
+Top-5 Acc.: 0.4618
+Avg. error dist.: 1.4511
+Avg. reciprocal rank: 0.4038
+Avg. credible set size: 12.6747
+Avg. scoring rule (Brier): 0.8371
+Avg. scoring rule (Resistance): 0.2774
+Average time per inference run: 0.019426 seconds
+============================
+MCS MEAN-FIELD RESULTS
+Top-1 Acc.: 0.3318
+Top-3 Acc.: 0.4469
+Top-5 Acc.: 0.5189
+Avg. error dist.: 1.1977
+Avg. reciprocal rank: 0.4337
+Avg. credible set size: 5.1198
+Avg. scoring rule (Brier): 0.8480
+Avg. scoring rule (Resistance): 0.2669
+Average time per inference run: 0.003209 seconds

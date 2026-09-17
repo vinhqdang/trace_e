@@ -1,0 +1,7 @@
+2026-09-16 03:34:36 INFO run sequential_powergrid_block_20260916T033436Z_3118 started, dir=/home/user/trace_e/results/runs/sequential_powergrid_block_20260916T033436Z_3118
+2026-09-16 03:34:36 INFO network powergrid: {'n_nodes': 4941, 'n_edges': 6594, 'avg_degree': 2.66909532483303, 'n_components': 1, 'lcc_size': 4941}
+2026-09-16 03:34:36 INFO === eprocess + adaptive + throttle:hub ===
+2026-09-16 03:34:54 INFO RESULT powergrid eprocess+adaptive+hub: FA=0.003 det=0.697 delay=1.78 harm@alarm=12.708 harm_final=426.647 (cf 1799.807) saved=0.7629 benign_loss=0.24 kappa_mae=0.446 (18s)
+2026-09-16 03:34:54 INFO === eprocess + adaptive + throttle:random ===
+2026-09-16 03:35:13 INFO RESULT powergrid eprocess+adaptive+random: FA=0.000 det=0.760 delay=2.009 harm@alarm=13.654 harm_final=483.213 (cf 1799.807) saved=0.7315 benign_loss=0.23 kappa_mae=0.424 (19s)
+2026-09-16 03:35:13 INFO run sequential_powergrid_block_20260916T033436Z_3118 finished in 37.4s

@@ -1,0 +1,58 @@
+2026-09-16 02:18:23 INFO run blocking_dolphin_counter_20260916T021823Z_4151 started, dir=/home/user/trace_e/results/runs/blocking_dolphin_counter_20260916T021823Z_4151
+2026-09-16 02:18:23 INFO network dolphin: {'n_nodes': 62, 'n_edges': 159, 'avg_degree': 5.129032258064516, 'n_components': 1, 'lcc_size': 62}
+2026-09-16 02:18:24 INFO no-intervention spread: mean 4.00 nodes (0.065 of graph) over 20 instances (0.3s)
+2026-09-16 02:18:24 INFO === method random (counter mode) ===
+2026-09-16 02:18:24 INFO [random] 5/20 instances, saved@10=0.251
+2026-09-16 02:18:25 INFO [random] 10/20 instances, saved@10=0.339
+2026-09-16 02:18:26 INFO [random] 15/20 instances, saved@10=0.371
+2026-09-16 02:18:27 INFO [random] 20/20 instances, saved@10=0.362
+2026-09-16 02:18:27 INFO RESULT dolphin counter random budget=1: saved=0.0219 (se 0.0149) bad_frac=0.0622 bad_count=3.86 select=0.000s
+2026-09-16 02:18:27 INFO RESULT dolphin counter random budget=2: saved=0.0978 (se 0.0236) bad_frac=0.0570 bad_count=3.54 select=0.000s
+2026-09-16 02:18:27 INFO RESULT dolphin counter random budget=5: saved=0.2365 (se 0.0216) bad_frac=0.0488 bad_count=3.02 select=0.000s
+2026-09-16 02:18:27 INFO RESULT dolphin counter random budget=10: saved=0.3624 (se 0.0332) bad_frac=0.0384 bad_count=2.38 select=0.000s
+2026-09-16 02:18:27 INFO === method degree (counter mode) ===
+2026-09-16 02:18:28 INFO [degree] 5/20 instances, saved@10=0.369
+2026-09-16 02:18:30 INFO [degree] 10/20 instances, saved@10=0.432
+2026-09-16 02:18:31 INFO [degree] 15/20 instances, saved@10=0.466
+2026-09-16 02:18:32 INFO [degree] 20/20 instances, saved@10=0.472
+2026-09-16 02:18:32 INFO RESULT dolphin counter degree budget=1: saved=0.1149 (se 0.0238) bad_frac=0.0562 bad_count=3.48 select=0.000s
+2026-09-16 02:18:32 INFO RESULT dolphin counter degree budget=2: saved=0.1963 (se 0.0336) bad_frac=0.0504 bad_count=3.13 select=0.000s
+2026-09-16 02:18:32 INFO RESULT dolphin counter degree budget=5: saved=0.2946 (se 0.0445) bad_frac=0.0427 bad_count=2.65 select=0.000s
+2026-09-16 02:18:32 INFO RESULT dolphin counter degree budget=10: saved=0.4720 (se 0.0269) bad_frac=0.0325 bad_count=2.02 select=0.000s
+2026-09-16 02:18:32 INFO === method pagerank (counter mode) ===
+2026-09-16 02:18:33 INFO [pagerank] 5/20 instances, saved@10=0.351
+2026-09-16 02:18:34 INFO [pagerank] 10/20 instances, saved@10=0.407
+2026-09-16 02:18:36 INFO [pagerank] 15/20 instances, saved@10=0.446
+2026-09-16 02:18:37 INFO [pagerank] 20/20 instances, saved@10=0.458
+2026-09-16 02:18:37 INFO RESULT dolphin counter pagerank budget=1: saved=0.1149 (se 0.0238) bad_frac=0.0562 bad_count=3.48 select=0.000s
+2026-09-16 02:18:37 INFO RESULT dolphin counter pagerank budget=2: saved=0.2071 (se 0.0188) bad_frac=0.0515 bad_count=3.19 select=0.000s
+2026-09-16 02:18:37 INFO RESULT dolphin counter pagerank budget=5: saved=0.3672 (se 0.0201) bad_frac=0.0399 bad_count=2.47 select=0.000s
+2026-09-16 02:18:37 INFO RESULT dolphin counter pagerank budget=10: saved=0.4580 (se 0.0244) bad_frac=0.0334 bad_count=2.07 select=0.000s
+2026-09-16 02:18:37 INFO === method proximity (counter mode) ===
+2026-09-16 02:18:38 INFO [proximity] 5/20 instances, saved@10=0.567
+2026-09-16 02:18:39 INFO [proximity] 10/20 instances, saved@10=0.643
+2026-09-16 02:18:39 INFO [proximity] 15/20 instances, saved@10=0.677
+2026-09-16 02:18:40 INFO [proximity] 20/20 instances, saved@10=0.684
+2026-09-16 02:18:40 INFO RESULT dolphin counter proximity budget=1: saved=0.2899 (se 0.0148) bad_frac=0.0471 bad_count=2.92 select=0.000s
+2026-09-16 02:18:40 INFO RESULT dolphin counter proximity budget=2: saved=0.4332 (se 0.0239) bad_frac=0.0379 bad_count=2.35 select=0.000s
+2026-09-16 02:18:40 INFO RESULT dolphin counter proximity budget=5: saved=0.5949 (se 0.0305) bad_frac=0.0256 bad_count=1.58 select=0.000s
+2026-09-16 02:18:40 INFO RESULT dolphin counter proximity budget=10: saved=0.6844 (se 0.0375) bad_frac=0.0161 bad_count=1.00 select=0.000s
+2026-09-16 02:18:40 INFO === method reach (counter mode) ===
+2026-09-16 02:18:41 INFO [reach] 5/20 instances, saved@10=0.567
+2026-09-16 02:18:42 INFO [reach] 10/20 instances, saved@10=0.643
+2026-09-16 02:18:43 INFO [reach] 15/20 instances, saved@10=0.677
+2026-09-16 02:18:43 INFO [reach] 20/20 instances, saved@10=0.684
+2026-09-16 02:18:43 INFO RESULT dolphin counter reach budget=1: saved=0.2756 (se 0.0181) bad_frac=0.0484 bad_count=3.00 select=0.002s
+2026-09-16 02:18:43 INFO RESULT dolphin counter reach budget=2: saved=0.4263 (se 0.0215) bad_frac=0.0382 bad_count=2.37 select=0.002s
+2026-09-16 02:18:43 INFO RESULT dolphin counter reach budget=5: saved=0.6110 (se 0.0286) bad_frac=0.0235 bad_count=1.46 select=0.002s
+2026-09-16 02:18:43 INFO RESULT dolphin counter reach budget=10: saved=0.6844 (se 0.0375) bad_frac=0.0161 bad_count=1.00 select=0.002s
+2026-09-16 02:18:43 INFO === method greedy (counter mode) ===
+2026-09-16 02:18:49 INFO [greedy] 5/20 instances, saved@10=0.567
+2026-09-16 02:18:57 INFO [greedy] 10/20 instances, saved@10=0.643
+2026-09-16 02:19:04 INFO [greedy] 15/20 instances, saved@10=0.677
+2026-09-16 02:19:12 INFO [greedy] 20/20 instances, saved@10=0.684
+2026-09-16 02:19:12 INFO RESULT dolphin counter greedy budget=1: saved=0.2861 (se 0.0189) bad_frac=0.0480 bad_count=2.98 select=0.154s
+2026-09-16 02:19:12 INFO RESULT dolphin counter greedy budget=2: saved=0.4453 (se 0.0234) bad_frac=0.0372 bad_count=2.31 select=0.188s
+2026-09-16 02:19:12 INFO RESULT dolphin counter greedy budget=5: saved=0.6283 (se 0.0290) bad_frac=0.0219 bad_count=1.36 select=0.361s
+2026-09-16 02:19:12 INFO RESULT dolphin counter greedy budget=10: saved=0.6844 (se 0.0375) bad_frac=0.0161 bad_count=1.00 select=0.538s
+2026-09-16 02:19:12 INFO run blocking_dolphin_counter_20260916T021823Z_4151 finished in 48.2s

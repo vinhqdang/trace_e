@@ -1,0 +1,36 @@
+Using device: cuda
+============================
+Number of nodes: 58
+Number of edges: 967
+Average degree: 33.3448275862069
+Diameter (LCC): 3
+Average time per sim.: 0.000009 seconds
+============================
+Avg. outbreak size: 23.0774
+Avg. R0: 1.98624
+Avg. sampled infection rate: 0.073
+Number of sim. with only one inf. node: 9215
+============================
+Training examples: 20300
+Validation examples: 8700
+============================
+MLP(
+  (layers): ModuleList(
+    (0): Linear(in_features=3, out_features=128, bias=True)
+    (1-4): 4 x Linear(in_features=128, out_features=128, bias=True)
+  )
+  (activ): ModuleList(
+    (0-4): 5 x ReLU()
+  )
+  (final): Linear(in_features=128, out_features=1, bias=True)
+)
+============================
+Epoch: 001, Train Acc: 0.3793, Train Loss: 2.1011, Val. Acc: 0.3857, Val. Loss: 2.0719
+Epoch: 002, Train Acc: 0.3793, Train Loss: 2.1033, Val. Acc: 0.3857, Val. Loss: 2.0740
+Epoch: 003, Train Acc: 0.3793, Train Loss: 2.1016, Val. Acc: 0.3857, Val. Loss: 2.0724
+Epoch: 004, Train Acc: 0.3793, Train Loss: 2.1021, Val. Acc: 0.3857, Val. Loss: 2.0730
+Epoch: 005, Train Acc: 0.3793, Train Loss: 2.1023, Val. Acc: 0.3857, Val. Loss: 2.0733
+Epoch: 006, Train Acc: 0.3793, Train Loss: 2.1021, Val. Acc: 0.3857, Val. Loss: 2.0728
+============================
+Saving model that yielded validation loss of 2.0719.
+Average batch time: 0.005462 seconds (SEM:  0.000244)

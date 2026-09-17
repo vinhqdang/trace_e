@@ -1,0 +1,48 @@
+2026-09-16 05:19:00 INFO run adaptive_ba-2000-m=2_const_20260916T051900Z_9926 started, dir=/home/user/trace_e/results/runs/adaptive_ba-2000-m=2_const_20260916T051900Z_9926
+2026-09-16 05:19:00 INFO network ba:2000:m=2: {'n_nodes': 2000, 'n_edges': 3996, 'avg_degree': 3.996, 'n_components': 1, 'lcc_size': 2000}
+2026-09-16 05:19:01 INFO plans ready for instance 1/10
+2026-09-16 05:19:01 INFO plans ready for instance 2/10
+2026-09-16 05:19:02 INFO plans ready for instance 3/10
+2026-09-16 05:19:03 INFO plans ready for instance 4/10
+2026-09-16 05:19:04 INFO plans ready for instance 5/10
+2026-09-16 05:19:04 INFO plans ready for instance 6/10
+2026-09-16 05:19:05 INFO plans ready for instance 7/10
+2026-09-16 05:19:06 INFO plans ready for instance 8/10
+2026-09-16 05:19:07 INFO plans ready for instance 9/10
+2026-09-16 05:19:08 INFO plans ready for instance 10/10
+2026-09-16 05:19:08 INFO running 1650 episodes
+2026-09-16 05:19:14 INFO episodes done in 6s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=10 none       spread=34.42 (se 3.30) saved=0.0000 used=0.0 time=0.00s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=10 ag         spread=9.90 (se 1.01) saved=0.7124 used=10.0 time=0.01s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=10 gr         spread=10.22 (se 1.03) saved=0.7031 used=10.0 time=0.01s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=10 lsbm       spread=10.20 (se 0.98) saved=0.7037 used=10.0 time=0.01s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=10 isocut     spread=9.90 (se 1.01) saved=0.7124 used=10.0 time=0.01s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=10 proximity  spread=10.14 (se 1.05) saved=0.7054 used=10.0 time=0.01s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=10 defer      spread=9.86 (se 1.01) saved=0.7135 used=9.9 time=0.03s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=10 defer_nopush spread=9.90 (se 1.01) saved=0.7124 used=10.0 time=0.03s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=10 defer_gr   spread=10.18 (se 1.03) saved=0.7042 used=9.9 time=0.03s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=10 defer_cut  spread=9.80 (se 1.00) saved=0.7153 used=9.9 time=0.02s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=10 commit     spread=10.60 (se 1.04) saved=0.6920 used=10.0 time=0.04s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=20 none       spread=34.42 (se 3.30) saved=0.0000 used=0.0 time=0.00s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=20 ag         spread=7.14 (se 0.73) saved=0.7926 used=20.0 time=0.01s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=20 gr         spread=7.52 (se 0.80) saved=0.7815 used=20.0 time=0.01s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=20 lsbm       spread=6.84 (se 0.62) saved=0.8013 used=20.0 time=0.01s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=20 isocut     spread=7.14 (se 0.73) saved=0.7926 used=20.0 time=0.01s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=20 proximity  spread=6.84 (se 0.75) saved=0.8013 used=20.0 time=0.01s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=20 defer      spread=6.96 (se 0.70) saved=0.7978 used=19.8 time=0.03s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=20 defer_nopush spread=6.96 (se 0.70) saved=0.7978 used=20.0 time=0.03s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=20 defer_gr   spread=7.38 (se 0.79) saved=0.7856 used=20.0 time=0.02s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=20 defer_cut  spread=6.96 (se 0.70) saved=0.7978 used=19.8 time=0.03s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=20 commit     spread=7.82 (se 0.83) saved=0.7728 used=20.0 time=0.05s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=50 none       spread=34.42 (se 3.30) saved=0.0000 used=0.0 time=0.00s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=50 ag         spread=2.32 (se 0.34) saved=0.9326 used=49.8 time=0.01s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=50 gr         spread=2.22 (se 0.33) saved=0.9355 used=49.8 time=0.01s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=50 lsbm       spread=2.34 (se 0.33) saved=0.9320 used=50.0 time=0.01s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=50 isocut     spread=2.32 (se 0.34) saved=0.9326 used=49.8 time=0.02s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=50 proximity  spread=2.58 (se 0.57) saved=0.9250 used=50.0 time=0.01s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=50 defer      spread=2.28 (se 0.34) saved=0.9338 used=49.3 time=0.03s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=50 defer_nopush spread=2.28 (se 0.34) saved=0.9338 used=49.5 time=0.02s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=50 defer_gr   spread=2.22 (se 0.33) saved=0.9355 used=49.8 time=0.02s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=50 defer_cut  spread=2.28 (se 0.34) saved=0.9338 used=49.4 time=0.02s
+2026-09-16 05:19:14 INFO RESULT ba:2000:m=2 budget=50 commit     spread=1.98 (se 0.34) saved=0.9425 used=49.8 time=0.08s
+2026-09-16 05:19:14 INFO run adaptive_ba-2000-m=2_const_20260916T051900Z_9926 finished in 14.2s

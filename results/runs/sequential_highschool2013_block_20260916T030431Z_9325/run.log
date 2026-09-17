@@ -1,0 +1,13 @@
+2026-09-16 03:04:31 INFO run sequential_highschool2013_block_20260916T030431Z_9325 started, dir=/home/user/trace_e/results/runs/sequential_highschool2013_block_20260916T030431Z_9325
+2026-09-16 03:04:31 INFO network highschool2013: {'n_nodes': 327, 'n_edges': 5818, 'avg_degree': 35.584097859327215, 'n_components': 1, 'lcc_size': 327}
+2026-09-16 03:04:31 INFO === eprocess + adaptive ===
+2026-09-16 03:06:25 INFO RESULT highschool2013 eprocess+adaptive: FA=0.013 det=0.970 delay=2.763 harm@alarm=30.687 harm_final=256.957 (cf 272.503) saved=0.0571 benign_loss=0.093 kappa_mae=0.413 (114s)
+2026-09-16 03:06:25 INFO === eprocess + greedy ===
+2026-09-16 03:07:32 INFO RESULT highschool2013 eprocess+greedy: FA=0.013 det=0.970 delay=2.763 harm@alarm=30.687 harm_final=257.1 (cf 272.503) saved=0.0565 benign_loss=0.093 kappa_mae=0.413 (67s)
+2026-09-16 03:07:32 INFO === eprocess + proximity ===
+2026-09-16 03:07:36 INFO RESULT highschool2013 eprocess+proximity: FA=0.013 det=0.970 delay=2.763 harm@alarm=30.687 harm_final=254.727 (cf 272.503) saved=0.0652 benign_loss=0.083 kappa_mae=0.413 (4s)
+2026-09-16 03:07:36 INFO === eprocess + degree ===
+2026-09-16 03:07:37 INFO RESULT highschool2013 eprocess+degree: FA=0.013 det=0.970 delay=2.763 harm@alarm=30.687 harm_final=254.473 (cf 272.503) saved=0.0662 benign_loss=0.083 kappa_mae=0.413 (1s)
+2026-09-16 03:07:37 INFO === immediate + adaptive ===
+2026-09-16 03:07:49 INFO RESULT highschool2013 immediate+adaptive: FA=1.000 det=1.000 delay=1.0 harm@alarm=10.513 harm_final=255.047 (cf 272.503) saved=0.0641 benign_loss=5.923 kappa_mae=1.524 (12s)
+2026-09-16 03:07:49 INFO run sequential_highschool2013_block_20260916T030431Z_9325 finished in 197.8s

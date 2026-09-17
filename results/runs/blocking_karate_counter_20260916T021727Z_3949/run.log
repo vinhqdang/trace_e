@@ -1,0 +1,58 @@
+2026-09-16 02:17:27 INFO run blocking_karate_counter_20260916T021727Z_3949 started, dir=/home/user/trace_e/results/runs/blocking_karate_counter_20260916T021727Z_3949
+2026-09-16 02:17:27 INFO network karate: {'n_nodes': 34, 'n_edges': 77, 'avg_degree': 4.529411764705882, 'n_components': 1, 'lcc_size': 34}
+2026-09-16 02:17:28 INFO no-intervention spread: mean 4.16 nodes (0.122 of graph) over 20 instances (0.3s)
+2026-09-16 02:17:28 INFO === method random (counter mode) ===
+2026-09-16 02:17:28 INFO [random] 5/20 instances, saved@10=0.406
+2026-09-16 02:17:29 INFO [random] 10/20 instances, saved@10=0.455
+2026-09-16 02:17:30 INFO [random] 15/20 instances, saved@10=0.435
+2026-09-16 02:17:31 INFO [random] 20/20 instances, saved@10=0.466
+2026-09-16 02:17:31 INFO RESULT karate counter random budget=1: saved=0.0896 (se 0.0177) bad_frac=0.1109 bad_count=3.77 select=0.000s
+2026-09-16 02:17:31 INFO RESULT karate counter random budget=2: saved=0.1400 (se 0.0157) bad_frac=0.1042 bad_count=3.54 select=0.000s
+2026-09-16 02:17:31 INFO RESULT karate counter random budget=5: saved=0.3518 (se 0.0286) bad_frac=0.0787 bad_count=2.67 select=0.000s
+2026-09-16 02:17:31 INFO RESULT karate counter random budget=10: saved=0.4661 (se 0.0228) bad_frac=0.0627 bad_count=2.13 select=0.000s
+2026-09-16 02:17:31 INFO === method degree (counter mode) ===
+2026-09-16 02:17:32 INFO [degree] 5/20 instances, saved@10=0.546
+2026-09-16 02:17:33 INFO [degree] 10/20 instances, saved@10=0.561
+2026-09-16 02:17:34 INFO [degree] 15/20 instances, saved@10=0.579
+2026-09-16 02:17:36 INFO [degree] 20/20 instances, saved@10=0.593
+2026-09-16 02:17:36 INFO RESULT karate counter degree budget=1: saved=0.2475 (se 0.0253) bad_frac=0.0938 bad_count=3.19 select=0.000s
+2026-09-16 02:17:36 INFO RESULT karate counter degree budget=2: saved=0.4420 (se 0.0180) bad_frac=0.0688 bad_count=2.34 select=0.000s
+2026-09-16 02:17:36 INFO RESULT karate counter degree budget=5: saved=0.5540 (se 0.0241) bad_frac=0.0537 bad_count=1.83 select=0.000s
+2026-09-16 02:17:36 INFO RESULT karate counter degree budget=10: saved=0.5933 (se 0.0249) bad_frac=0.0468 bad_count=1.59 select=0.000s
+2026-09-16 02:17:36 INFO === method pagerank (counter mode) ===
+2026-09-16 02:17:37 INFO [pagerank] 5/20 instances, saved@10=0.551
+2026-09-16 02:17:38 INFO [pagerank] 10/20 instances, saved@10=0.562
+2026-09-16 02:17:39 INFO [pagerank] 15/20 instances, saved@10=0.580
+2026-09-16 02:17:40 INFO [pagerank] 20/20 instances, saved@10=0.593
+2026-09-16 02:17:40 INFO RESULT karate counter pagerank budget=1: saved=0.2475 (se 0.0253) bad_frac=0.0938 bad_count=3.19 select=0.000s
+2026-09-16 02:17:40 INFO RESULT karate counter pagerank budget=2: saved=0.4420 (se 0.0180) bad_frac=0.0688 bad_count=2.34 select=0.000s
+2026-09-16 02:17:40 INFO RESULT karate counter pagerank budget=5: saved=0.5509 (se 0.0235) bad_frac=0.0544 bad_count=1.85 select=0.000s
+2026-09-16 02:17:40 INFO RESULT karate counter pagerank budget=10: saved=0.5934 (se 0.0251) bad_frac=0.0468 bad_count=1.59 select=0.000s
+2026-09-16 02:17:40 INFO === method proximity (counter mode) ===
+2026-09-16 02:17:41 INFO [proximity] 5/20 instances, saved@10=0.666
+2026-09-16 02:17:42 INFO [proximity] 10/20 instances, saved@10=0.683
+2026-09-16 02:17:43 INFO [proximity] 15/20 instances, saved@10=0.667
+2026-09-16 02:17:44 INFO [proximity] 20/20 instances, saved@10=0.668
+2026-09-16 02:17:44 INFO RESULT karate counter proximity budget=1: saved=0.3546 (se 0.0177) bad_frac=0.0803 bad_count=2.73 select=0.000s
+2026-09-16 02:17:44 INFO RESULT karate counter proximity budget=2: saved=0.5221 (se 0.0131) bad_frac=0.0615 bad_count=2.09 select=0.000s
+2026-09-16 02:17:44 INFO RESULT karate counter proximity budget=5: saved=0.6217 (se 0.0187) bad_frac=0.0470 bad_count=1.60 select=0.000s
+2026-09-16 02:17:44 INFO RESULT karate counter proximity budget=10: saved=0.6679 (se 0.0225) bad_frac=0.0364 bad_count=1.24 select=0.000s
+2026-09-16 02:17:44 INFO === method reach (counter mode) ===
+2026-09-16 02:17:44 INFO [reach] 5/20 instances, saved@10=0.684
+2026-09-16 02:17:45 INFO [reach] 10/20 instances, saved@10=0.701
+2026-09-16 02:17:46 INFO [reach] 15/20 instances, saved@10=0.679
+2026-09-16 02:17:47 INFO [reach] 20/20 instances, saved@10=0.676
+2026-09-16 02:17:47 INFO RESULT karate counter reach budget=1: saved=0.3660 (se 0.0144) bad_frac=0.0784 bad_count=2.67 select=0.002s
+2026-09-16 02:17:47 INFO RESULT karate counter reach budget=2: saved=0.5054 (se 0.0147) bad_frac=0.0636 bad_count=2.16 select=0.002s
+2026-09-16 02:17:47 INFO RESULT karate counter reach budget=5: saved=0.6375 (se 0.0180) bad_frac=0.0433 bad_count=1.47 select=0.002s
+2026-09-16 02:17:47 INFO RESULT karate counter reach budget=10: saved=0.6758 (se 0.0237) bad_frac=0.0343 bad_count=1.17 select=0.002s
+2026-09-16 02:17:47 INFO === method greedy (counter mode) ===
+2026-09-16 02:17:52 INFO [greedy] 5/20 instances, saved@10=0.689
+2026-09-16 02:17:57 INFO [greedy] 10/20 instances, saved@10=0.706
+2026-09-16 02:18:01 INFO [greedy] 15/20 instances, saved@10=0.682
+2026-09-16 02:18:06 INFO [greedy] 20/20 instances, saved@10=0.685
+2026-09-16 02:18:06 INFO RESULT karate counter greedy budget=1: saved=0.3609 (se 0.0155) bad_frac=0.0789 bad_count=2.68 select=0.089s
+2026-09-16 02:18:06 INFO RESULT karate counter greedy budget=2: saved=0.5290 (se 0.0112) bad_frac=0.0596 bad_count=2.03 select=0.108s
+2026-09-16 02:18:06 INFO RESULT karate counter greedy budget=5: saved=0.6442 (se 0.0176) bad_frac=0.0416 bad_count=1.42 select=0.253s
+2026-09-16 02:18:06 INFO RESULT karate counter greedy budget=10: saved=0.6846 (se 0.0258) bad_frac=0.0320 bad_count=1.09 select=0.327s
+2026-09-16 02:18:06 INFO run blocking_karate_counter_20260916T021727Z_3949 finished in 39.1s

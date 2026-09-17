@@ -1,0 +1,42 @@
+Using device: cpu
+============================
+Number of nodes: 34
+Number of edges: 77
+Average degree: 4.529411764705882
+Diameter (LCC): 5
+Average time per sim.: 0.000002 seconds
+============================
+Avg. outbreak size: 13.7035
+Avg. R0: 1.87941
+Avg. sampled infection rate: 1.3
+Number of sim. with only one inf. node: 3617
+============================
+Training examples: 11900
+Validation examples: 5100
+============================
+MLP(
+  (layers): ModuleList(
+    (0): Linear(in_features=3, out_features=128, bias=True)
+    (1-4): 4 x Linear(in_features=128, out_features=128, bias=True)
+  )
+  (activ): ModuleList(
+    (0-4): 5 x ReLU()
+  )
+  (final): Linear(in_features=128, out_features=1, bias=True)
+)
+============================
+Epoch: 001, Train Acc: 0.3055, Train Loss: 2.0464, Val. Acc: 0.3118, Val. Loss: 2.0309
+Epoch: 002, Train Acc: 0.3055, Train Loss: 2.0453, Val. Acc: 0.3118, Val. Loss: 2.0302
+Epoch: 003, Train Acc: 0.3055, Train Loss: 2.0541, Val. Acc: 0.3118, Val. Loss: 2.0381
+Epoch: 004, Train Acc: 0.3055, Train Loss: 2.0452, Val. Acc: 0.3118, Val. Loss: 2.0299
+Epoch: 005, Train Acc: 0.3055, Train Loss: 2.0453, Val. Acc: 0.3118, Val. Loss: 2.0302
+Epoch: 006, Train Acc: 0.3055, Train Loss: 2.0455, Val. Acc: 0.3118, Val. Loss: 2.0300
+Epoch: 007, Train Acc: 0.3055, Train Loss: 2.0451, Val. Acc: 0.3118, Val. Loss: 2.0299
+Epoch: 008, Train Acc: 0.3055, Train Loss: 2.0457, Val. Acc: 0.3118, Val. Loss: 2.0302
+Epoch: 009, Train Acc: 0.3055, Train Loss: 2.0452, Val. Acc: 0.3118, Val. Loss: 2.0300
+Epoch: 010, Train Acc: 0.3055, Train Loss: 2.0452, Val. Acc: 0.3118, Val. Loss: 2.0299
+Epoch: 011, Train Acc: 0.3055, Train Loss: 2.0461, Val. Acc: 0.3118, Val. Loss: 2.0306
+Epoch: 012, Train Acc: 0.3055, Train Loss: 2.0474, Val. Acc: 0.3118, Val. Loss: 2.0318
+============================
+Saving model that yielded validation loss of 2.0299.
+Average batch time: 0.071086 seconds (SEM:  0.004319)

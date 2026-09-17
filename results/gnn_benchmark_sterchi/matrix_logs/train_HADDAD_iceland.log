@@ -1,0 +1,44 @@
+Using device: cuda
+============================
+Number of nodes: 75
+Number of edges: 114
+Average degree: 3.04
+Diameter (LCC): 6
+Average time per sim.: 0.000004 seconds
+============================
+Avg. outbreak size: 29.8945
+Avg. R0: 1.85515
+Avg. sampled infection rate: 5.1
+Number of sim. with only one inf. node: 6484
+============================
+Training examples: 26250
+Validation examples: 11250
+============================
+HADDAD(
+  (convs): ModuleList(
+    (0): SAGEConv(3, 128, aggr=max)
+    (1-3): 3 x SAGEConv(128, 128, aggr=max)
+    (4): SAGEConv(128, 1, aggr=max)
+  )
+  (activ): ModuleList(
+    (0-4): 5 x ReLU()
+  )
+)
+============================
+/usr/local/lib/python3.13/dist-packages/torch_geometric/utils/_scatter.py:91: UserWarning: The usage of `scatter(reduce='max')` can be accelerated via the 'torch-scatter' package, but it was not found
+  warnings.warn(
+Epoch: 001, Train Acc: 0.3033, Train Loss: 2.4609, Val. Acc: 0.3044, Val. Loss: 2.4517
+Epoch: 002, Train Acc: 0.3059, Train Loss: 2.4484, Val. Acc: 0.3072, Val. Loss: 2.4376
+Epoch: 003, Train Acc: 0.3080, Train Loss: 2.4277, Val. Acc: 0.3093, Val. Loss: 2.4201
+Epoch: 004, Train Acc: 0.3055, Train Loss: 2.4366, Val. Acc: 0.3074, Val. Loss: 2.4280
+Epoch: 005, Train Acc: 0.3090, Train Loss: 2.4281, Val. Acc: 0.3103, Val. Loss: 2.4189
+Epoch: 006, Train Acc: 0.3071, Train Loss: 2.4619, Val. Acc: 0.3105, Val. Loss: 2.4581
+Epoch: 007, Train Acc: 0.3110, Train Loss: 2.4118, Val. Acc: 0.3125, Val. Loss: 2.4074
+Epoch: 008, Train Acc: 0.3102, Train Loss: 2.4214, Val. Acc: 0.3086, Val. Loss: 2.4174
+Epoch: 009, Train Acc: 0.3081, Train Loss: 2.4309, Val. Acc: 0.3076, Val. Loss: 2.4310
+Epoch: 010, Train Acc: 0.3080, Train Loss: 2.4530, Val. Acc: 0.3054, Val. Loss: 2.4517
+Epoch: 011, Train Acc: 0.3097, Train Loss: 2.4194, Val. Acc: 0.3096, Val. Loss: 2.4157
+Epoch: 012, Train Acc: 0.3109, Train Loss: 2.4291, Val. Acc: 0.3109, Val. Loss: 2.4270
+============================
+Saving model that yielded validation loss of 2.4074.
+Average batch time: 0.011725 seconds (SEM:  0.000135)

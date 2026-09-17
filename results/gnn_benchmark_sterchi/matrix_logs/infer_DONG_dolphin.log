@@ -1,0 +1,18 @@
+Using training beta=0.9
+Using device: cuda
+============================
+Avg. outbreak size: 25.1337
+Avg. R0: 1.99468
+Avg. sampled infection rate: 0.9
+Number of sim. with only one inf. node: 1471
+============================
+DONG RESULTS
+Top-1 Acc.: 0.3285
+Top-3 Acc.: 0.4892
+Top-5 Acc.: 0.5753
+Avg. error dist.: 1.2421
+Avg. reciprocal rank: 0.4539
+Avg. credible set size: 18.6502
+Avg. scoring rule (Brier): 0.7311
+Avg. scoring rule (Resistance): 0.2284
+Average time per inference run: 0.003250 seconds

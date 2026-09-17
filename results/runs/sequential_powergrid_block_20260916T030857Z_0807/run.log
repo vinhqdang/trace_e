@@ -1,0 +1,3 @@
+2026-09-16 03:08:57 INFO run sequential_powergrid_block_20260916T030857Z_0807 started, dir=/home/user/trace_e/results/runs/sequential_powergrid_block_20260916T030857Z_0807
+2026-09-16 03:08:57 INFO network powergrid: {'n_nodes': 4941, 'n_edges': 6594, 'avg_degree': 2.66909532483303, 'n_components': 1, 'lcc_size': 4941}
+2026-09-16 03:08:57 INFO === eprocess + adaptive ===

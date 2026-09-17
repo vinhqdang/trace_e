@@ -1,0 +1,3 @@
+2026-09-16 04:40:21 INFO run adaptive_cagrqc_const_20260916T044021Z_7843 started, dir=/home/user/trace_e/results/runs/adaptive_cagrqc_const_20260916T044021Z_7843
+2026-09-16 04:40:21 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-09-16 04:40:27 INFO plans ready for instance 1/10

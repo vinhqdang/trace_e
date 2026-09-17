@@ -1,0 +1,6 @@
+2026-09-16 04:28:50 INFO run adaptive_epinions_degree_20260916T042850Z_6932 started, dir=/home/user/trace_e/results/runs/adaptive_epinions_degree_20260916T042850Z_6932
+2026-09-16 04:28:51 INFO network socepinions1: {'n_nodes': 75879, 'n_edges': 405740, 'avg_degree': 10.694395023656083, 'n_components': 2, 'lcc_size': 75877}
+2026-09-16 04:31:10 INFO plans ready for instance 1/5
+2026-09-16 04:33:29 INFO plans ready for instance 2/5
+2026-09-16 04:35:47 INFO plans ready for instance 3/5
+2026-09-16 04:38:05 INFO plans ready for instance 4/5

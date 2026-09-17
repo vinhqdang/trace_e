@@ -1,0 +1,58 @@
+2026-09-16 02:30:52 INFO run blocking_powergrid_block_20260916T023052Z_5430 started, dir=/home/user/trace_e/results/runs/blocking_powergrid_block_20260916T023052Z_5430
+2026-09-16 02:30:52 INFO network powergrid: {'n_nodes': 4941, 'n_edges': 6594, 'avg_degree': 2.66909532483303, 'n_components': 1, 'lcc_size': 4941}
+2026-09-16 02:30:52 INFO no-intervention spread: mean 3.00 nodes (0.001 of graph) over 20 instances (0.2s)
+2026-09-16 02:30:52 INFO === method random (block mode) ===
+2026-09-16 02:30:52 INFO [random] 5/20 instances, saved@10=0.000
+2026-09-16 02:30:52 INFO [random] 10/20 instances, saved@10=0.003
+2026-09-16 02:30:53 INFO [random] 15/20 instances, saved@10=0.002
+2026-09-16 02:30:53 INFO [random] 20/20 instances, saved@10=0.002
+2026-09-16 02:30:53 INFO RESULT powergrid block random budget=1: saved=0.0009 (se 0.0009) bad_frac=0.0006 bad_count=2.99 select=0.000s
+2026-09-16 02:30:53 INFO RESULT powergrid block random budget=2: saved=0.0009 (se 0.0009) bad_frac=0.0006 bad_count=2.99 select=0.000s
+2026-09-16 02:30:53 INFO RESULT powergrid block random budget=5: saved=0.0009 (se 0.0009) bad_frac=0.0006 bad_count=2.99 select=0.000s
+2026-09-16 02:30:53 INFO RESULT powergrid block random budget=10: saved=0.0015 (se 0.0010) bad_frac=0.0006 bad_count=2.99 select=0.000s
+2026-09-16 02:30:53 INFO === method degree (block mode) ===
+2026-09-16 02:30:53 INFO [degree] 5/20 instances, saved@10=0.028
+2026-09-16 02:30:53 INFO [degree] 10/20 instances, saved@10=0.014
+2026-09-16 02:30:53 INFO [degree] 15/20 instances, saved@10=0.040
+2026-09-16 02:30:54 INFO [degree] 20/20 instances, saved@10=0.052
+2026-09-16 02:30:54 INFO RESULT powergrid block degree budget=1: saved=0.0193 (se 0.0193) bad_frac=0.0006 bad_count=2.95 select=0.000s
+2026-09-16 02:30:54 INFO RESULT powergrid block degree budget=2: saved=0.0193 (se 0.0193) bad_frac=0.0006 bad_count=2.95 select=0.000s
+2026-09-16 02:30:54 INFO RESULT powergrid block degree budget=5: saved=0.0193 (se 0.0193) bad_frac=0.0006 bad_count=2.95 select=0.000s
+2026-09-16 02:30:54 INFO RESULT powergrid block degree budget=10: saved=0.0520 (se 0.0293) bad_frac=0.0006 bad_count=2.87 select=0.000s
+2026-09-16 02:30:54 INFO === method pagerank (block mode) ===
+2026-09-16 02:30:54 INFO [pagerank] 5/20 instances, saved@10=0.000
+2026-09-16 02:30:54 INFO [pagerank] 10/20 instances, saved@10=0.000
+2026-09-16 02:30:54 INFO [pagerank] 15/20 instances, saved@10=0.030
+2026-09-16 02:30:55 INFO [pagerank] 20/20 instances, saved@10=0.045
+2026-09-16 02:30:55 INFO RESULT powergrid block pagerank budget=1: saved=0.0000 (se 0.0000) bad_frac=0.0006 bad_count=3.00 select=0.000s
+2026-09-16 02:30:55 INFO RESULT powergrid block pagerank budget=2: saved=0.0000 (se 0.0000) bad_frac=0.0006 bad_count=3.00 select=0.000s
+2026-09-16 02:30:55 INFO RESULT powergrid block pagerank budget=5: saved=0.0194 (se 0.0193) bad_frac=0.0006 bad_count=2.95 select=0.000s
+2026-09-16 02:30:55 INFO RESULT powergrid block pagerank budget=10: saved=0.0455 (se 0.0293) bad_frac=0.0006 bad_count=2.89 select=0.000s
+2026-09-16 02:30:55 INFO === method proximity (block mode) ===
+2026-09-16 02:30:55 INFO [proximity] 5/20 instances, saved@10=0.574
+2026-09-16 02:30:55 INFO [proximity] 10/20 instances, saved@10=0.556
+2026-09-16 02:30:55 INFO [proximity] 15/20 instances, saved@10=0.588
+2026-09-16 02:30:55 INFO [proximity] 20/20 instances, saved@10=0.622
+2026-09-16 02:30:55 INFO RESULT powergrid block proximity budget=1: saved=0.3662 (se 0.0245) bad_frac=0.0004 bad_count=2.01 select=0.007s
+2026-09-16 02:30:55 INFO RESULT powergrid block proximity budget=2: saved=0.5226 (se 0.0185) bad_frac=0.0003 bad_count=1.45 select=0.007s
+2026-09-16 02:30:55 INFO RESULT powergrid block proximity budget=5: saved=0.6218 (se 0.0286) bad_frac=0.0002 bad_count=1.00 select=0.007s
+2026-09-16 02:30:55 INFO RESULT powergrid block proximity budget=10: saved=0.6218 (se 0.0286) bad_frac=0.0002 bad_count=1.00 select=0.007s
+2026-09-16 02:30:55 INFO === method reach (block mode) ===
+2026-09-16 02:30:56 INFO [reach] 5/20 instances, saved@10=0.574
+2026-09-16 02:30:56 INFO [reach] 10/20 instances, saved@10=0.556
+2026-09-16 02:30:56 INFO [reach] 15/20 instances, saved@10=0.588
+2026-09-16 02:30:56 INFO [reach] 20/20 instances, saved@10=0.622
+2026-09-16 02:30:56 INFO RESULT powergrid block reach budget=1: saved=0.3693 (se 0.0237) bad_frac=0.0004 bad_count=2.00 select=0.002s
+2026-09-16 02:30:56 INFO RESULT powergrid block reach budget=2: saved=0.5220 (se 0.0182) bad_frac=0.0003 bad_count=1.45 select=0.002s
+2026-09-16 02:30:56 INFO RESULT powergrid block reach budget=5: saved=0.6218 (se 0.0286) bad_frac=0.0002 bad_count=1.00 select=0.002s
+2026-09-16 02:30:56 INFO RESULT powergrid block reach budget=10: saved=0.6218 (se 0.0286) bad_frac=0.0002 bad_count=1.00 select=0.002s
+2026-09-16 02:30:56 INFO === method greedy (block mode) ===
+2026-09-16 02:30:57 INFO [greedy] 5/20 instances, saved@10=0.574
+2026-09-16 02:30:57 INFO [greedy] 10/20 instances, saved@10=0.556
+2026-09-16 02:30:58 INFO [greedy] 15/20 instances, saved@10=0.588
+2026-09-16 02:30:59 INFO [greedy] 20/20 instances, saved@10=0.622
+2026-09-16 02:30:59 INFO RESULT powergrid block greedy budget=1: saved=0.3658 (se 0.0241) bad_frac=0.0004 bad_count=2.01 select=0.100s
+2026-09-16 02:30:59 INFO RESULT powergrid block greedy budget=2: saved=0.5240 (se 0.0193) bad_frac=0.0003 bad_count=1.45 select=0.100s
+2026-09-16 02:30:59 INFO RESULT powergrid block greedy budget=5: saved=0.6218 (se 0.0286) bad_frac=0.0002 bad_count=1.00 select=0.100s
+2026-09-16 02:30:59 INFO RESULT powergrid block greedy budget=10: saved=0.6218 (se 0.0286) bad_frac=0.0002 bad_count=1.00 select=0.100s
+2026-09-16 02:30:59 INFO run blocking_powergrid_block_20260916T023052Z_5430 finished in 7.0s

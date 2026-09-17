@@ -1,0 +1,15 @@
+2026-09-16 03:04:46 INFO run sequential_cagrqc_contain_20260916T030446Z_9393 started, dir=/home/user/trace_e/results/runs/sequential_cagrqc_contain_20260916T030446Z_9393
+2026-09-16 03:04:46 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-09-16 03:04:46 INFO === eprocess + adaptive ===
+2026-09-16 03:05:20 INFO RESULT cagrqc eprocess+adaptive: FA=0.007 det=0.790 delay=2.143 harm@alarm=17.684 harm_final=948.627 (cf 1819.347) saved=0.4786 benign_loss=0.043 kappa_mae=0.446 (34s)
+2026-09-16 03:05:20 INFO === eprocess + greedy ===
+2026-09-16 03:05:50 INFO RESULT cagrqc eprocess+greedy: FA=0.007 det=0.790 delay=2.143 harm@alarm=17.684 harm_final=948.72 (cf 1819.347) saved=0.4785 benign_loss=0.043 kappa_mae=0.446 (30s)
+2026-09-16 03:05:50 INFO === eprocess + proximity ===
+2026-09-16 03:06:04 INFO RESULT cagrqc eprocess+proximity: FA=0.007 det=0.790 delay=2.143 harm@alarm=17.684 harm_final=1041.593 (cf 1819.347) saved=0.4275 benign_loss=0.057 kappa_mae=0.446 (14s)
+2026-09-16 03:06:04 INFO === eprocess + degree ===
+2026-09-16 03:06:06 INFO RESULT cagrqc eprocess+degree: FA=0.007 det=0.790 delay=2.143 harm@alarm=17.684 harm_final=1749.02 (cf 1819.347) saved=0.0387 benign_loss=0.0 kappa_mae=0.446 (2s)
+2026-09-16 03:06:06 INFO === immediate + adaptive ===
+2026-09-16 03:06:18 INFO RESULT cagrqc immediate+adaptive: FA=1.000 det=1.000 delay=1.0 harm@alarm=8.86 harm_final=1073.21 (cf 1819.347) saved=0.4101 benign_loss=3.237 kappa_mae=1.524 (12s)
+2026-09-16 03:06:18 INFO === immediate + greedy ===
+2026-09-16 03:06:31 INFO RESULT cagrqc immediate+greedy: FA=1.000 det=1.000 delay=1.0 harm@alarm=8.86 harm_final=1093.847 (cf 1819.347) saved=0.3988 benign_loss=3.21 kappa_mae=1.524 (13s)
+2026-09-16 03:06:31 INFO run sequential_cagrqc_contain_20260916T030446Z_9393 finished in 105.1s

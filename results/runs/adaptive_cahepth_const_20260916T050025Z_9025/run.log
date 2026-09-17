@@ -1,0 +1,48 @@
+2026-09-16 05:00:25 INFO run adaptive_cahepth_const_20260916T050025Z_9025 started, dir=/home/user/trace_e/results/runs/adaptive_cahepth_const_20260916T050025Z_9025
+2026-09-16 05:00:25 INFO network cahepth: {'n_nodes': 9875, 'n_edges': 25973, 'avg_degree': 5.2603544303797465, 'n_components': 427, 'lcc_size': 8638}
+2026-09-16 05:01:03 INFO plans ready for instance 1/10
+2026-09-16 05:01:48 INFO plans ready for instance 2/10
+2026-09-16 05:02:27 INFO plans ready for instance 3/10
+2026-09-16 05:03:09 INFO plans ready for instance 4/10
+2026-09-16 05:03:53 INFO plans ready for instance 5/10
+2026-09-16 05:04:35 INFO plans ready for instance 6/10
+2026-09-16 05:05:16 INFO plans ready for instance 7/10
+2026-09-16 05:05:57 INFO plans ready for instance 8/10
+2026-09-16 05:06:39 INFO plans ready for instance 9/10
+2026-09-16 05:07:21 INFO plans ready for instance 10/10
+2026-09-16 05:07:21 INFO running 1650 episodes
+2026-09-16 05:15:24 INFO episodes done in 483s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=10 none       spread=778.60 (se 13.42) saved=0.0000 used=0.0 time=0.00s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=10 ag         spread=684.34 (se 12.77) saved=0.1211 used=10.0 time=0.40s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=10 gr         spread=685.78 (se 12.84) saved=0.1192 used=10.0 time=0.52s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=10 lsbm       spread=686.28 (se 12.41) saved=0.1186 used=10.0 time=0.15s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=10 isocut     spread=684.34 (se 12.77) saved=0.1211 used=10.0 time=0.40s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=10 proximity  spread=685.02 (se 13.19) saved=0.1202 used=10.0 time=0.06s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=10 defer      spread=684.42 (se 12.82) saved=0.1210 used=10.0 time=1.54s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=10 defer_nopush spread=684.42 (se 12.82) saved=0.1210 used=10.0 time=1.52s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=10 defer_gr   spread=684.42 (se 12.75) saved=0.1210 used=10.0 time=1.98s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=10 defer_cut  spread=682.96 (se 12.69) saved=0.1228 used=10.0 time=1.01s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=10 commit     spread=683.66 (se 13.16) saved=0.1219 used=10.0 time=2.75s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=20 none       spread=778.60 (se 13.42) saved=0.0000 used=0.0 time=0.00s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=20 ag         spread=600.18 (se 12.73) saved=0.2292 used=20.0 time=0.69s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=20 gr         spread=597.08 (se 13.20) saved=0.2331 used=20.0 time=0.85s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=20 lsbm       spread=602.22 (se 13.13) saved=0.2265 used=20.0 time=0.20s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=20 isocut     spread=600.18 (se 12.73) saved=0.2292 used=20.0 time=0.70s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=20 proximity  spread=602.84 (se 14.11) saved=0.2257 used=20.0 time=0.06s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=20 defer      spread=598.98 (se 12.77) saved=0.2307 used=20.0 time=1.87s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=20 defer_nopush spread=598.98 (se 12.77) saved=0.2307 used=20.0 time=1.84s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=20 defer_gr   spread=597.64 (se 12.98) saved=0.2324 used=20.0 time=2.38s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=20 defer_cut  spread=598.26 (se 13.19) saved=0.2316 used=20.0 time=1.27s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=20 commit     spread=594.10 (se 13.33) saved=0.2370 used=20.0 time=5.00s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=50 none       spread=778.60 (se 13.42) saved=0.0000 used=0.0 time=0.00s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=50 ag         spread=411.36 (se 11.61) saved=0.4717 used=50.0 time=1.25s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=50 gr         spread=415.88 (se 11.43) saved=0.4659 used=50.0 time=1.39s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=50 lsbm       spread=418.68 (se 10.41) saved=0.4623 used=50.0 time=0.34s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=50 isocut     spread=411.36 (se 11.61) saved=0.4717 used=50.0 time=1.26s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=50 proximity  spread=440.08 (se 12.85) saved=0.4348 used=50.0 time=0.06s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=50 defer      spread=420.04 (se 12.02) saved=0.4605 used=50.0 time=2.03s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=50 defer_nopush spread=420.04 (se 12.02) saved=0.4605 used=50.0 time=2.07s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=50 defer_gr   spread=414.84 (se 11.66) saved=0.4672 used=50.0 time=2.35s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=50 defer_cut  spread=418.42 (se 11.88) saved=0.4626 used=50.0 time=1.83s
+2026-09-16 05:15:24 INFO RESULT cahepth budget=50 commit     spread=417.48 (se 11.63) saved=0.4638 used=50.0 time=8.81s
+2026-09-16 05:15:24 INFO run adaptive_cahepth_const_20260916T050025Z_9025 finished in 899.4s

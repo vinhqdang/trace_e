@@ -1,0 +1,58 @@
+2026-09-16 02:17:15 INFO run blocking_karate_block_20260916T021715Z_3805 started, dir=/home/user/trace_e/results/runs/blocking_karate_block_20260916T021715Z_3805
+2026-09-16 02:17:15 INFO network karate: {'n_nodes': 34, 'n_edges': 77, 'avg_degree': 4.529411764705882, 'n_components': 1, 'lcc_size': 34}
+2026-09-16 02:17:15 INFO no-intervention spread: mean 4.16 nodes (0.122 of graph) over 20 instances (0.2s)
+2026-09-16 02:17:15 INFO === method random (block mode) ===
+2026-09-16 02:17:15 INFO [random] 5/20 instances, saved@10=0.305
+2026-09-16 02:17:16 INFO [random] 10/20 instances, saved@10=0.349
+2026-09-16 02:17:16 INFO [random] 15/20 instances, saved@10=0.324
+2026-09-16 02:17:16 INFO [random] 20/20 instances, saved@10=0.362
+2026-09-16 02:17:16 INFO RESULT karate block random budget=1: saved=0.0510 (se 0.0181) bad_frac=0.1155 bad_count=3.93 select=0.000s
+2026-09-16 02:17:16 INFO RESULT karate block random budget=2: saved=0.0838 (se 0.0165) bad_frac=0.1105 bad_count=3.76 select=0.000s
+2026-09-16 02:17:16 INFO RESULT karate block random budget=5: saved=0.2331 (se 0.0253) bad_frac=0.0939 bad_count=3.19 select=0.000s
+2026-09-16 02:17:16 INFO RESULT karate block random budget=10: saved=0.3620 (se 0.0260) bad_frac=0.0758 bad_count=2.58 select=0.000s
+2026-09-16 02:17:16 INFO === method degree (block mode) ===
+2026-09-16 02:17:16 INFO [degree] 5/20 instances, saved@10=0.447
+2026-09-16 02:17:16 INFO [degree] 10/20 instances, saved@10=0.463
+2026-09-16 02:17:17 INFO [degree] 15/20 instances, saved@10=0.507
+2026-09-16 02:17:17 INFO [degree] 20/20 instances, saved@10=0.526
+2026-09-16 02:17:17 INFO RESULT karate block degree budget=1: saved=0.1601 (se 0.0262) bad_frac=0.1048 bad_count=3.56 select=0.000s
+2026-09-16 02:17:17 INFO RESULT karate block degree budget=2: saved=0.3024 (se 0.0177) bad_frac=0.0882 bad_count=3.00 select=0.000s
+2026-09-16 02:17:17 INFO RESULT karate block degree budget=5: saved=0.4632 (se 0.0319) bad_frac=0.0683 bad_count=2.32 select=0.000s
+2026-09-16 02:17:17 INFO RESULT karate block degree budget=10: saved=0.5260 (se 0.0301) bad_frac=0.0581 bad_count=1.97 select=0.000s
+2026-09-16 02:17:17 INFO === method pagerank (block mode) ===
+2026-09-16 02:17:17 INFO [pagerank] 5/20 instances, saved@10=0.447
+2026-09-16 02:17:17 INFO [pagerank] 10/20 instances, saved@10=0.463
+2026-09-16 02:17:17 INFO [pagerank] 15/20 instances, saved@10=0.507
+2026-09-16 02:17:17 INFO [pagerank] 20/20 instances, saved@10=0.526
+2026-09-16 02:17:17 INFO RESULT karate block pagerank budget=1: saved=0.1601 (se 0.0262) bad_frac=0.1048 bad_count=3.56 select=0.000s
+2026-09-16 02:17:17 INFO RESULT karate block pagerank budget=2: saved=0.3024 (se 0.0177) bad_frac=0.0882 bad_count=3.00 select=0.000s
+2026-09-16 02:17:17 INFO RESULT karate block pagerank budget=5: saved=0.4624 (se 0.0307) bad_frac=0.0683 bad_count=2.32 select=0.000s
+2026-09-16 02:17:17 INFO RESULT karate block pagerank budget=10: saved=0.5260 (se 0.0301) bad_frac=0.0581 bad_count=1.97 select=0.000s
+2026-09-16 02:17:17 INFO === method proximity (block mode) ===
+2026-09-16 02:17:18 INFO [proximity] 5/20 instances, saved@10=0.661
+2026-09-16 02:17:18 INFO [proximity] 10/20 instances, saved@10=0.678
+2026-09-16 02:17:18 INFO [proximity] 15/20 instances, saved@10=0.663
+2026-09-16 02:17:18 INFO [proximity] 20/20 instances, saved@10=0.660
+2026-09-16 02:17:18 INFO RESULT karate block proximity budget=1: saved=0.2604 (se 0.0154) bad_frac=0.0942 bad_count=3.20 select=0.000s
+2026-09-16 02:17:18 INFO RESULT karate block proximity budget=2: saved=0.4312 (se 0.0245) bad_frac=0.0766 bad_count=2.60 select=0.000s
+2026-09-16 02:17:18 INFO RESULT karate block proximity budget=5: saved=0.5882 (se 0.0262) bad_frac=0.0550 bad_count=1.87 select=0.000s
+2026-09-16 02:17:18 INFO RESULT karate block proximity budget=10: saved=0.6599 (se 0.0227) bad_frac=0.0386 bad_count=1.31 select=0.000s
+2026-09-16 02:17:18 INFO === method reach (block mode) ===
+2026-09-16 02:17:18 INFO [reach] 5/20 instances, saved@10=0.675
+2026-09-16 02:17:19 INFO [reach] 10/20 instances, saved@10=0.691
+2026-09-16 02:17:19 INFO [reach] 15/20 instances, saved@10=0.672
+2026-09-16 02:17:19 INFO [reach] 20/20 instances, saved@10=0.664
+2026-09-16 02:17:19 INFO RESULT karate block reach budget=1: saved=0.2577 (se 0.0150) bad_frac=0.0945 bad_count=3.21 select=0.003s
+2026-09-16 02:17:19 INFO RESULT karate block reach budget=2: saved=0.4259 (se 0.0255) bad_frac=0.0776 bad_count=2.64 select=0.003s
+2026-09-16 02:17:19 INFO RESULT karate block reach budget=5: saved=0.5996 (se 0.0232) bad_frac=0.0523 bad_count=1.78 select=0.003s
+2026-09-16 02:17:19 INFO RESULT karate block reach budget=10: saved=0.6636 (se 0.0223) bad_frac=0.0375 bad_count=1.28 select=0.003s
+2026-09-16 02:17:19 INFO === method greedy (block mode) ===
+2026-09-16 02:17:21 INFO [greedy] 5/20 instances, saved@10=0.682
+2026-09-16 02:17:22 INFO [greedy] 10/20 instances, saved@10=0.699
+2026-09-16 02:17:23 INFO [greedy] 15/20 instances, saved@10=0.678
+2026-09-16 02:17:24 INFO [greedy] 20/20 instances, saved@10=0.677
+2026-09-16 02:17:24 INFO RESULT karate block greedy budget=1: saved=0.2495 (se 0.0157) bad_frac=0.0951 bad_count=3.23 select=0.048s
+2026-09-16 02:17:24 INFO RESULT karate block greedy budget=2: saved=0.4327 (se 0.0239) bad_frac=0.0757 bad_count=2.57 select=0.050s
+2026-09-16 02:17:24 INFO RESULT karate block greedy budget=5: saved=0.6061 (se 0.0215) bad_frac=0.0508 bad_count=1.73 select=0.062s
+2026-09-16 02:17:24 INFO RESULT karate block greedy budget=10: saved=0.6768 (se 0.0242) bad_frac=0.0341 bad_count=1.16 select=0.068s
+2026-09-16 02:17:24 INFO run blocking_karate_block_20260916T021715Z_3805 finished in 9.5s

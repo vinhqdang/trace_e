@@ -1,0 +1,26 @@
+2026-09-16 03:00:41 INFO run sequential_cagrqc_block_20260916T030041Z_7802 started, dir=/home/user/trace_e/results/runs/sequential_cagrqc_block_20260916T030041Z_7802
+2026-09-16 03:00:41 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-09-16 03:00:41 INFO calibrated size on 300 benign cascades (seeds=3): threshold=27 (0.1s)
+2026-09-16 03:00:41 INFO calibrated excess on 300 benign cascades (seeds=3): threshold=1.755 (0.1s)
+2026-09-16 03:00:43 INFO calibrated logistic on 150 benign cascades (train acc 0.963): threshold=0.9123 (1.4s)
+2026-09-16 03:00:43 INFO calibrated cusum on 300 benign cascades (seeds=3): threshold=2.229 (0.1s)
+2026-09-16 03:00:43 INFO calibrated growth on 300 benign cascades (seeds=3): threshold=9 (0.1s)
+2026-09-16 03:00:43 INFO === eprocess + none ===
+2026-09-16 03:00:45 INFO RESULT cagrqc eprocess+none: FA=0.007 det=0.790 delay=2.143 harm@alarm=17.684 harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae=0.446 (2s)
+2026-09-16 03:00:45 INFO === sprt + none ===
+2026-09-16 03:00:47 INFO RESULT cagrqc sprt+none: FA=0.013 det=0.773 delay=1.905 harm@alarm=15.668 harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae=0.784 (2s)
+2026-09-16 03:00:47 INFO === cusum + none ===
+2026-09-16 03:00:48 INFO RESULT cagrqc cusum+none: FA=0.050 det=0.827 delay=1.653 harm@alarm=13.246 harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae=0.761 (1s)
+2026-09-16 03:00:48 INFO === size + none ===
+2026-09-16 03:00:50 INFO RESULT cagrqc size+none: FA=0.040 det=0.700 delay=3.733 harm@alarm=38.186 harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae=1.695 (1s)
+2026-09-16 03:00:50 INFO === growth + none ===
+2026-09-16 03:00:51 INFO RESULT cagrqc growth+none: FA=0.027 det=0.667 delay=3.11 harm@alarm=28.09 harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae=1.721 (1s)
+2026-09-16 03:00:51 INFO === excess + none ===
+2026-09-16 03:00:53 INFO RESULT cagrqc excess+none: FA=0.040 det=0.803 delay=1.793 harm@alarm=13.913 harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae=1.664 (1s)
+2026-09-16 03:00:53 INFO === logistic + none ===
+2026-09-16 03:00:54 INFO RESULT cagrqc logistic+none: FA=0.037 det=0.800 delay=1.771 harm@alarm=14.454 harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae=1.671 (2s)
+2026-09-16 03:00:54 INFO === never + none ===
+2026-09-16 03:00:57 INFO RESULT cagrqc never+none: FA=0.000 det=0.000 delay= harm@alarm= harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae= (2s)
+2026-09-16 03:00:57 INFO === immediate + none ===
+2026-09-16 03:00:58 INFO RESULT cagrqc immediate+none: FA=1.000 det=1.000 delay=1.0 harm@alarm=8.86 harm_final=1818.803 (cf 1819.347) saved=0.0003 benign_loss=0.0 kappa_mae=1.524 (1s)
+2026-09-16 03:00:58 INFO run sequential_cagrqc_block_20260916T030041Z_7802 finished in 17.1s
