@@ -315,3 +315,54 @@ Same quality as AdvancedGreedy at 2.5x less time, i.e. AG(theta=1000)
 quality in the time of AG(theta=500); without periodic exact refresh the
 lower-bound gains drift and quality degrades, so the refresh is part of the
 algorithm.
+
+## Problem A: final GNN + classical benchmark table (2026-09-17, closed out)
+
+Full Sterchi et al. (2026) reproduction matrix plus `trace_e`-native classical
+baselines, all on identical test instances per network (same fixed seed and
+sample count as their own `run_inference.py`). Closed out as final with 5/6
+networks complete and `highschool2013`'s GNN sweep abandoned per explicit
+decision, documented below.
+
+**Top-1 / Top-5 accuracy** (higher is better):
+
+| method | karate | iceland | dolphin | fraternity | workplace | highschool2013 |
+|---|---|---|---|---|---|---|
+| Random | .294/.372 | .224/.265 | .291/.337 | .368/.408 | .355/.381 | .372/.380 |
+| Jordan center | .288/.508 | .209/.360 | .290/.422 | .369/.493 | .363/.456 | -/- |
+| Betweenness | .292/.535 | .211/.375 | .296/.438 | .372/.504 | .361/.466 | -/- |
+| SME | .337/.598 | .271/.461 | .315/.462 | .367/.502 | .367/.469 | -/- |
+| MCS mean-field | .370/.653 | .295/.504 | .332/.519 | .383/.533 | .374/.497 | -/- |
+| Rumor centrality | .287/.542 | .208/.373 | .293/.432 | .369/.499 | .361/.464 | .378/.461 |
+| NetSleuth | .340/.609 | .274/.485 | .319/.480 | .384/.515 | .371/.479 | .381/.463 |
+| DMP | .382/.679 | .296/.506 | .341/.531 | .395/.549 | .387/.531 | .391/.483 (reduced-sample, see note) |
+| MLP | .325/.589 | .244/.427 | .299/.450 | .368/.515 | .361/.478 | .375/.457 |
+| DONG (GCNSI) | .331/.671 | .302/.561 | .329/.575 | .118/.320 | .285/.448 | not trained |
+| SHAH (GCN/GAT) | .396/.726 | .316/.579 | .367/.611 | .395/.573 | .400/.558 | not trained |
+| IGCN | .392/.727 | .298/.547 | .352/.594 | .395/.563 | .397/.558 | not trained |
+| HADDAD (GraphSAGE) | .377/.699 | .306/.559 | .357/.601 | .387/.541 | .381/.536 | not trained |
+
+Notes:
+- DMP for `highschool2013` is the honestly-labeled reduced-sample run
+  (15 sims/node instead of 100, n=4905 instead of 32700); the full-sample
+  attempt was left running in the background, died silently without
+  completing, and was not resurrected (see the earlier section above).
+- `highschool2013`'s classical "first-model" sweep (Jordan/Betweenness/
+  SME/MCS) also did not complete: the GNN-matrix session died mid-inference
+  right after MLP training finished, so only Random made it through before
+  the interruption.
+- **`highschool2013`'s GNN rows (DONG/SHAH/IGCN/HADDAD) were not trained
+  and this was a deliberate decision, not an oversight.** Training on this
+  network (the largest of the six) ran at roughly 6 minutes/epoch with no
+  sign of early-stopping by epoch 10, i.e. multiple hours to converge.
+  Colab's free-tier GPU runtimes disconnect after roughly one hour
+  regardless, and the training driver has no mid-run checkpointing, so
+  every disconnection restarted that model's training from epoch 0. This
+  repeated (through two separate Google accounts, ~40 session
+  creation/death cycles total, several of which additionally hit Colab's
+  own session-assignment rate limit) without a single model ever
+  completing. Given the cost of continuing to fight Colab's session
+  lifetime and rate limits for an increasingly marginal addition to an
+  already-decided-secondary benchmark (Problem A is explicitly padding
+  for the paper, not the contribution), the remaining `highschool2013`
+  GNN cells were abandoned rather than pursued further.
