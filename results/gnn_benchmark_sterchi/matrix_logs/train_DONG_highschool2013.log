@@ -4,7 +4,7 @@ Number of nodes: 327
 Number of edges: 5818
 Average degree: 35.584097859327215
 Diameter (LCC): 4
-Average time per sim.: 0.000054 seconds
+Average time per sim.: 0.000056 seconds
 ============================
 Avg. outbreak size: 133.671
 Avg. R0: 2.01293
@@ -27,13 +27,3 @@ DONG(
   )
 )
 ============================
-Epoch: 001, Train Acc: 0.0474, Train Loss: 4.6271, Val. Acc: 0.0466, Val. Loss: 4.6342
-Epoch: 002, Train Acc: 0.0299, Train Loss: 4.7073, Val. Acc: 0.0303, Val. Loss: 4.7138
-Epoch: 003, Train Acc: 0.0526, Train Loss: 4.6034, Val. Acc: 0.0516, Val. Loss: 4.6098
-Epoch: 004, Train Acc: 0.0477, Train Loss: 4.6019, Val. Acc: 0.0466, Val. Loss: 4.6086
-Epoch: 005, Train Acc: 0.0537, Train Loss: 4.6034, Val. Acc: 0.0533, Val. Loss: 4.6101
-Epoch: 006, Train Acc: 0.0562, Train Loss: 4.5943, Val. Acc: 0.0553, Val. Loss: 4.6005
-Epoch: 007, Train Acc: 0.0402, Train Loss: 4.6344, Val. Acc: 0.0399, Val. Loss: 4.6408
-Epoch: 008, Train Acc: 0.0542, Train Loss: 4.5797, Val. Acc: 0.0539, Val. Loss: 4.5867
-Epoch: 009, Train Acc: 0.0586, Train Loss: 4.5620, Val. Acc: 0.0589, Val. Loss: 4.5683
-Epoch: 010, Train Acc: 0.0576, Train Loss: 4.5485, Val. Acc: 0.0575, Val. Loss: 4.5557
