@@ -164,7 +164,7 @@ trivial instances.
   used throughout our broader project.
 \end{enumerate}
 
-\section{Related Work}\label{sec:related}
+\subsection{Related Work}\label{sec:related}
 
 \textbf{Influence minimization.} \citet{xie2023} introduce IMIN, prove
 NP-hardness and inapproximability, and give AdvancedGreedy. \citet{xie2024}
@@ -630,12 +630,48 @@ badly greedy departs from optimal IMIN selection.
 \subsection{DEFER benchmark}\label{sec:defer-experiments}
 
 We benchmark DEFER, wrapping the dominator-tree planner (default), against
-AdvancedGreedy (AG), GreedyReplace (GR), the Sandwich lower bound (LSBM),
-proximity-to-seeds, and the COMMIT ablation, on ca-GrQc, ca-HepTh, a
-power-grid network, and a Barab\'asi--Albert graph ($n=2000$, $m=2$;
-soc-Epinions1 did not finish within the compute budget available and is
-left for future work), under constant activation probability and the
-weighted-cascade (WC) model, seed sets of size 20 (random), and budget 20
+the following baselines and ablations:
+
+\begin{enumerate}
+\item \textbf{AdvancedGreedy (AG)} \citep{xie2024}: the one-shot planner
+  DEFER wraps by default; picks vertices greedily by dominator-tree
+  subtree size on Monte-Carlo live-edge samples, recomputing after each
+  pick.
+\item \textbf{GreedyReplace (GR)} \citep{xie2024}: AG followed by a
+  replacement pass that swaps any picked vertex for a better one if doing
+  so improves the sampled objective; the alternate planner DEFER can wrap
+  (Section~\ref{sec:defer-algo}).
+\item \textbf{Sandwich lower bound (LSBM)} \citep{wang2024sandwich}: a
+  greedy maximum-coverage heuristic over dominator chains that gives a
+  provable lower bound on the optimal one-shot solution.
+\item \textbf{Proximity}: a simple one-shot heuristic that blocks the
+  vertices closest to the seed set by hop distance; included as a
+  na\"ive reference point, not a state-of-the-art baseline.
+\item \textbf{COMMIT}: our own ablation of DEFER that re-plans every round
+  identically to DEFER but commits the entire plan immediately rather than
+  applying the push-down rule (Section~\ref{sec:defer-algo}); isolates the
+  effect of \emph{when} a plan is committed from the effect of re-planning
+  itself.
+\end{enumerate}
+
+\noindent The networks are:
+
+\begin{enumerate}
+\item \textbf{ca-GrQc} and \textbf{ca-HepTh} \citep{leskovec2007}: arXiv
+  co-authorship collaboration networks (General Relativity and High Energy
+  Physics Theory categories respectively), $n=5241$ and $n=9875$.
+\item \textbf{Power-grid} \citep{watts1998}: the topology of the Western
+  US power grid, $n=4941$, previously used for epidemic-source inference
+  by \citet{lokhov2014}.
+\item \textbf{BA(2000)}: a synthetic Barab\'asi--Albert preferential-attachment
+  graph \citep{barabasi1999} with $n=2000$ and attachment parameter $m=2$.
+\end{enumerate}
+
+\noindent We also attempted soc-Epinions1 (a much larger trust network),
+which did not finish within the compute budget available and is left for
+future work. All four networks are evaluated under constant activation
+probability and the weighted-cascade (WC) model, with seed sets of size 20
+chosen uniformly at random and budget 20 as the primary comparison point
 (the full sweep also covers budgets 5--100 and is reported in
 \texttt{results/summary\_adaptive.csv} in the code release). Table
 \ref{tab:defer-results} reports the fraction of the no-intervention spread
@@ -832,15 +868,79 @@ beats plain DEFER only on ca-HepTh and ties it elsewhere.}
 
 \subsection{Auxiliary benchmark: source detection}\label{sec:source-experiments}
 
-As a secondary, apples-to-apples benchmark, we also evaluate classical and
-learned source-detection methods (rumor centrality, NetSleuth, dynamic
-message passing, and the graph neural network architectures of
-\citealp{sterchi2026} and the works it reproduces) on identical,
-seed-fixed test instances across six real contact and collaboration
-networks, calibrated per network to the target infected fraction of
-\citet{sterchi2026}. Table~\ref{tab:source-detection} reports top-1
-accuracy (higher is better; top-5 accuracy and full per-method detail are
-in \texttt{results/gnn\_benchmark\_sterchi/} in the code release).
+As a secondary, apples-to-apples benchmark motivated by the same
+misinformation/epidemic-control setting as DEFER and TWIG (identifying
+where a cascade started, complementing where to block it from spreading
+further), we also evaluate classical and learned source-detection methods
+on identical, seed-fixed test instances, reproducing the methodology of
+\citet{sterchi2026}. The methods are:
+
+\begin{enumerate}
+\item \textbf{Random}: uniformly random ranking of candidate sources; the
+  na\"ive floor every other method is expected to beat.
+\item \textbf{Jordan center} \citep{zhu2016}: ranks vertices by minimum
+  eccentricity within the observed infected subgraph, a sample-path
+  argument for the SIR model.
+\item \textbf{Betweenness} \citep{freeman1977}: ranks vertices by the
+  classical betweenness-centrality measure restricted to the infected
+  subgraph.
+\item \textbf{Soft Margin Estimator (SME)} \citep{antulov2015}: scores
+  candidate sources by the Jaccard similarity between simulated and
+  observed outbreaks.
+\item \textbf{MCS mean-field}: a Monte-Carlo per-node-state likelihood
+  baseline built from simulated outbreaks, reproduced from the simulation
+  baseline of \citet{sterchi2026}.
+\item \textbf{Rumor centrality} \citep{shah2011}: the maximum-likelihood
+  source estimator under a uniform spreading model on the underlying
+  tree/BFS structure.
+\item \textbf{NetSleuth} \citep{prakash2012}: a minimum-description-length
+  criterion that jointly selects the number and identity of sources via
+  Laplacian eigenvector ranking.
+\item \textbf{Dynamic message passing (DMP)} \citep{lokhov2014}: a belief-
+  propagation approximation to the posterior over sources under the SIR
+  model.
+\item \textbf{MLP}: a feature-based multi-layer perceptron baseline,
+  reproduced from \citet{sterchi2026}, that does not use the graph
+  structure directly.
+\item \textbf{GCNSI} \citep{dong2019}: a graph convolutional network
+  trained on simulated cascades to score candidate sources.
+\item \textbf{GCN/GAT} \citep{shah2020}: graph convolutional and
+  attention networks trained on simulated SIR/SEIR cascades.
+\item \textbf{IGCN} \citep{guo2021}: a graph convolutional architecture
+  with state-pair-conditioned aggregation.
+\item \textbf{GraphSAGE} \citep{haddad2023}: an inductive graph neural
+  network architecture applied to source detection.
+\end{enumerate}
+
+\noindent The networks (real contact and collaboration networks with
+known epidemic-relevant structure, distinct from the four SNAP-scale
+networks of Section~\ref{sec:defer-experiments}) are:
+
+\begin{enumerate}
+\item \textbf{Karate} \citep{zachary1977}: Zachary's karate club
+  friendship network, $n=34$.
+\item \textbf{Iceland} \citep{haraldsdottir1992}: a sexual-contact network
+  from an early HIV epidemiological study, $n=75$.
+\item \textbf{Dolphin} \citep{lusseau2003}: a bottlenose dolphin social
+  network, $n=62$.
+\item \textbf{Fraternity} \citep{killworth1976}: a college social network,
+  $n=58$.
+\item \textbf{Workplace} \citep{genois2015}: a static projection of
+  face-to-face contact sensor data in an office building, $n=92$.
+\item \textbf{Highschool2013} \citep{mastrandrea2015}: a static projection
+  of face-to-face contact sensor data in a French high school, $n=327$,
+  the largest of the six.
+\end{enumerate}
+
+\noindent Each network's independent-cascade/SIR parameters are calibrated
+to match \citet{sterchi2026}'s target infected fraction per network, and
+every method within a network is evaluated on the identical, fixed set of
+seeded test instances (same random seed and instance count as
+\citet{sterchi2026}'s own evaluation code), so differences in the table
+below are attributable to method alone. Table~\ref{tab:source-detection}
+reports top-1 accuracy (higher is better; top-5 accuracy and full
+per-method detail are in \texttt{results/gnn\_benchmark\_sterchi/} in the
+code release).
 GNN training for \texttt{highschool2013} (the largest of the six networks)
 did not complete: training ran at roughly six minutes per epoch with no
 sign of early stopping by epoch ten, exceeding the lifetime of a free-tier
@@ -884,7 +984,7 @@ GCNSI weakness, since IGCN and GraphSAGE trained on the identical instance
 do not show the same drop.}
 \end{table}
 
-\section{Discussion}\label{sec:discussion}
+\section{Discussion and Conclusion}\label{sec:discussion}
 
 \subsection{When does DEFER help in practice, and when is it unnecessary?}
 
@@ -964,7 +1064,7 @@ code release belongs to, not as a contribution of this paper; we report it
 in full, including its one incomplete network (\texttt{highschool2013}'s
 untrained GNN cells), for transparency rather than omitting the gap.
 
-\section{Conclusion}\label{sec:conclusion}
+\subsection{Concluding Remarks}\label{sec:conclusion}
 
 We gave the first formal treatment of adaptivity for influence
 minimization: a wrapper, DEFER, that is provably never worse than the
@@ -1318,6 +1418,16 @@ Theorems~\ref{thm:twig-correct} and \ref{thm:twig-collapse}.
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
 
+\bibitem[{Antulov-Fantulin et~al.(2015)}]{antulov2015}
+Antulov-Fantulin N, Lan\v{c}i\'c A, \v{S}muc T, \v{S}tefan\v{c}i\'c H,
+  Sikic M (2015) Identification of patient zero in static and temporal
+  networks: Robustness and limitations. \emph{Phys.\ Rev.\ Lett.}
+  114:248701.
+
+\bibitem[{Barab\'asi and Albert(1999)}]{barabasi1999}
+Barab\'asi AL, Albert R (1999) Emergence of scaling in random networks.
+  \emph{Science} 286(5439):509--512.
+
 \bibitem[{Bodlaender(1988)}]{bodlaender1988}
 Bodlaender HL (1988) Dynamic programming on graphs with bounded treewidth.
   \emph{Proc.\ 15th Internat.\ Colloquium on Automata, Languages and
@@ -1350,6 +1460,16 @@ Farajtabar M, Yang J, Ye X, Xu H, Trivedi R, Khalil E, Li S, Song L, Zha H
   \emph{Proc.\ 34th Internat.\ Conf.\ on Machine Learning (ICML)},
   1097--1106.
 
+\bibitem[{Freeman(1977)}]{freeman1977}
+Freeman LC (1977) A set of measures of centrality based on betweenness.
+  \emph{Sociometry} 40(1):35--41.
+
+\bibitem[{G\'enois et~al.(2015)}]{genois2015}
+G\'enois M, Vestergaard CL, Fournet J, Panisson A, Bonmarin I, Barrat A
+  (2015) Data on face-to-face contacts in an office building suggest a
+  low-cost vaccination strategy based on community linkers. \emph{Network
+  Science} 3(3):326--347.
+
 \bibitem[{Guo et~al.(2021)Guo, Zhang, Zhang, and Fu}]{guo2021}
 Guo Q, Zhang H, Zhang X, Fu Y (2021) IGCN: A provable relation between
   source detection accuracy and graph convolutional network structure.
@@ -1361,6 +1481,11 @@ Haddad LA, Figueiredo DR (2023) Source detection via a GraphSAGE-based
   submission; referenced in this draft for the GraphSAGE baseline
   reproduced by \citealp{sterchi2026}.]
 
+\bibitem[{Haraldsdottir et~al.(1992)}]{haraldsdottir1992}
+Haraldsdottir S, Gupta S, Anderson RM (1992) Preliminary studies of sexual
+  networks in a male homosexual community in Iceland. \emph{J.\ Acquired
+  Immune Deficiency Syndromes} 5(4):374--381.
+
 \bibitem[{He et~al.(2012)}]{he2012}
 He X, Song G, Chen W, Jiang Q (2012) Influence blocking maximization in
   social networks under the competitive linear threshold model.
@@ -1370,6 +1495,31 @@ He X, Song G, Chen W, Jiang Q (2012) Influence blocking maximization in
 Kempe D, Kleinberg J, Tardos {\'E} (2003) Maximizing the spread of influence
   through a social network. \emph{Proc.\ 9th ACM SIGKDD Internat.\ Conf.\ on
   Knowledge Discovery and Data Mining (KDD)}, 137--146.
+
+\bibitem[{Killworth and Bernard(1976)}]{killworth1976}
+Killworth PD, Bernard HR (1976) Informant accuracy in social network data.
+  \emph{Human Organization} 35(3):269--286.
+
+\bibitem[{Leskovec et~al.(2007)}]{leskovec2007}
+Leskovec J, Kleinberg J, Faloutsos C (2007) Graph evolution: Densification
+  and shrinking diameters. \emph{ACM Trans.\ Knowledge Discovery from
+  Data} 1(1):2.
+
+\bibitem[{Lokhov et~al.(2014)}]{lokhov2014}
+Lokhov AY, M\'ezard M, Ohta H, Zdeborov\'a L (2014) Inferring the origin
+  of an epidemic with a dynamic message-passing algorithm. \emph{Phys.\
+  Rev.\ E} 90:012801.
+
+\bibitem[{Lusseau et~al.(2003)}]{lusseau2003}
+Lusseau D, Schneider K, Boisseau OJ, Haase P, Slooten E, Dawson SM (2003)
+  The bottlenose dolphin community of Doubtful Sound features a large
+  proportion of long-lasting associations. \emph{Behavioral Ecology and
+  Sociobiology} 54(4):396--405.
+
+\bibitem[{Mastrandrea et~al.(2015)}]{mastrandrea2015}
+Mastrandrea R, Fournet J, Barrat A (2015) Contact patterns in a high
+  school: A comparison between data collected using wearable sensors,
+  contact diaries and friendship surveys. \emph{PLOS ONE} 10(9):e0136497.
 
 \bibitem[{Nakamura and Nishino(2026)}]{nakamura2026}
 Nakamura K, Nishino M (2026) Linear-time exact computation of influence
@@ -1383,10 +1533,19 @@ Nguyen NP, Yan G, Thai MT, Eidenbenz S (2012) Containment of misinformation
   spread in online social networks. \emph{Proc.\ 4th Annual ACM Web Sci.\
   Conf.\ (WebSci)}, 213--222.
 
+\bibitem[{Prakash et~al.(2012)}]{prakash2012}
+Prakash BA, Vreeken J, Faloutsos C (2012) Spotting culprits in epidemics:
+  How many and which ones? \emph{Proc.\ 12th IEEE Internat.\ Conf.\ on
+  Data Mining (ICDM)}, 11--20.
+
 \bibitem[{Provan and Ball(1983)}]{provan1983}
 Provan JS, Ball MO (1983) The complexity of counting cuts and of computing
   the probability that a graph is connected. \emph{SIAM J.\ Comput.}
   12(4):777--788.
+
+\bibitem[{Shah and Zaman(2011)}]{shah2011}
+Shah D, Zaman T (2011) Rumors in a network: Who's the culprit?
+  \emph{IEEE Trans.\ Information Theory} 57(8):5163--5181.
 
 \bibitem[{Shah et~al.(2020)Shah, Dehmamy, Perra, Chinazzi, Barab\'asi,
   Vespignani, and Yu}]{shah2020}
@@ -1427,6 +1586,10 @@ Wang et~al. (2024) Sandwich approximation algorithms for influence
   submission; referenced in this draft only for the Sandwich lower-bound
   baseline LSBM.]
 
+\bibitem[{Watts and Strogatz(1998)}]{watts1998}
+Watts DJ, Strogatz SH (1998) Collective dynamics of `small-world'
+  networks. \emph{Nature} 393:440--442.
+
 \bibitem[{Xiang et~al.(2024)}]{xiang2024}
 Xiang B, et~al. (2024) RBP: Rumor blocking with pertinence-set constraints
   via hypergraph factorization. \emph{World Wide Web} 27(4). [Placeholder:
@@ -1452,10 +1615,19 @@ Yan R, Li D, Wu W, Du DZ, Wang Y (2020) Minimizing influence of rumors by
   blockers on social networks: Algorithms and analysis. \emph{IEEE Trans.\
   Network Science and Engineering} 7(3):1067--1078.
 
+\bibitem[{Zachary(1977)}]{zachary1977}
+Zachary WW (1977) An information flow model for conflict and fission in
+  small groups. \emph{J.\ Anthropological Research} 33(4):452--473.
+
 \bibitem[{Zareie and Sakellariou(2021)}]{zareie2021}
 Zareie A, Sakellariou R (2021) Minimizing the spread of misinformation in
   online social networks: A survey. \emph{J.\ Network and Computer
   Applications} 186:103094.
+
+\bibitem[{Zhu and Ying(2016)}]{zhu2016}
+Zhu K, Ying L (2016) Information source detection in the SIR model: A
+  sample-path-based approach. \emph{IEEE/ACM Trans.\ Networking}
+  24(1):408--421.
 
 \end{thebibliography}
 
