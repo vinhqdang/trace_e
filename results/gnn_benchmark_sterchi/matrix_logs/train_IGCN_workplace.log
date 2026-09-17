@@ -82,3 +82,7 @@ Epoch: 054, Train Acc: 0.3942, Train Loss: 2.2814, Val. Acc: 0.3988, Val. Loss: 
 Epoch: 055, Train Acc: 0.3945, Train Loss: 2.2808, Val. Acc: 0.3989, Val. Loss: 2.2751
 Epoch: 056, Train Acc: 0.3945, Train Loss: 2.2807, Val. Acc: 0.3990, Val. Loss: 2.2750
 Epoch: 057, Train Acc: 0.3945, Train Loss: 2.2804, Val. Acc: 0.3985, Val. Loss: 2.2744
+Epoch: 058, Train Acc: 0.3947, Train Loss: 2.2804, Val. Acc: 0.3991, Val. Loss: 2.2741
+============================
+Saving model that yielded validation loss of 2.2741.
+Average batch time: 0.085932 seconds (SEM:  0.000086)

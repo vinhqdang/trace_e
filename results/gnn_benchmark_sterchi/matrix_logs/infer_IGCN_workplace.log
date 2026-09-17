@@ -1,0 +1,18 @@
+Using training beta=0.165
+Using device: cuda
+============================
+Avg. outbreak size: 36.8178
+Avg. R0: 2.04837
+Avg. sampled infection rate: 0.165
+Number of sim. with only one inf. node: 2807
+============================
+IGCN RESULTS
+Top-1 Acc.: 0.3973
+Top-3 Acc.: 0.5038
+Top-5 Acc.: 0.5584
+Avg. error dist.: 0.9347
+Avg. reciprocal rank: 0.4854
+Avg. credible set size: 23.7175
+Avg. scoring rule (Brier): 0.6314
+Avg. scoring rule (Resistance): 0.0463
+Average time per inference run: 0.004182 seconds

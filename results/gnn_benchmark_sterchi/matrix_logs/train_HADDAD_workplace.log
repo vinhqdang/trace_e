@@ -1,0 +1,33 @@
+Using device: cuda
+============================
+Number of nodes: 92
+Number of edges: 755
+Average degree: 16.41304347826087
+Diameter (LCC): 3
+Average time per sim.: 0.000010 seconds
+============================
+Avg. outbreak size: 36.5017
+Avg. R0: 2.02435
+Avg. sampled infection rate: 0.165
+Number of sim. with only one inf. node: 14071
+============================
+Training examples: 32200
+Validation examples: 13800
+============================
+HADDAD(
+  (convs): ModuleList(
+    (0): SAGEConv(3, 128, aggr=max)
+    (1-3): 3 x SAGEConv(128, 128, aggr=max)
+    (4): SAGEConv(128, 1, aggr=max)
+  )
+  (activ): ModuleList(
+    (0-4): 5 x ReLU()
+  )
+)
+============================
+/usr/local/lib/python3.13/dist-packages/torch_geometric/utils/_scatter.py:91: UserWarning: The usage of `scatter(reduce='max')` can be accelerated via the 'torch-scatter' package, but it was not found
+  warnings.warn(
+Epoch: 001, Train Acc: 0.3792, Train Loss: 2.3447, Val. Acc: 0.3823, Val. Loss: 2.3436
+Epoch: 002, Train Acc: 0.3807, Train Loss: 2.3353, Val. Acc: 0.3819, Val. Loss: 2.3344
+Epoch: 003, Train Acc: 0.3810, Train Loss: 2.3348, Val. Acc: 0.3849, Val. Loss: 2.3390
+Epoch: 004, Train Acc: 0.3812, Train Loss: 2.3360, Val. Acc: 0.3803, Val. Loss: 2.3365
