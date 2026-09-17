@@ -5,3 +5,14 @@ Avg. outbreak size: 36.8178
 Avg. R0: 2.04837
 Avg. sampled infection rate: 0.165
 Number of sim. with only one inf. node: 2807
+============================
+SHAH RESULTS
+Top-1 Acc.: 0.4002
+Top-3 Acc.: 0.5030
+Top-5 Acc.: 0.5578
+Avg. error dist.: 0.9087
+Avg. reciprocal rank: 0.4877
+Avg. credible set size: 22.7429
+Avg. scoring rule (Brier): 0.6304
+Avg. scoring rule (Resistance): 0.0462
+Average time per inference run: 0.003902 seconds

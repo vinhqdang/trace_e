@@ -1,0 +1,30 @@
+Using device: cuda
+============================
+Number of nodes: 92
+Number of edges: 755
+Average degree: 16.41304347826087
+Diameter (LCC): 3
+Average time per sim.: 0.000012 seconds
+============================
+Avg. outbreak size: 36.5017
+Avg. R0: 2.02435
+Avg. sampled infection rate: 0.165
+Number of sim. with only one inf. node: 14071
+============================
+Training examples: 32200
+Validation examples: 13800
+============================
+IGCN(
+  (initial_gcn): GCNConv(3, 128)
+  (initial_activation): LeakyReLU(negative_slope=0.01)
+  (igcn_layers): ModuleList(
+    (0-4): 5 x IGCNLayer(
+      (activation): LeakyReLU(negative_slope=0.01)
+    )
+  )
+  (final): Linear(in_features=128, out_features=1, bias=True)
+)
+============================
+Epoch: 001, Train Acc: 0.3820, Train Loss: 2.5050, Val. Acc: 0.3847, Val. Loss: 2.5019
+Epoch: 002, Train Acc: 0.3881, Train Loss: 2.3209, Val. Acc: 0.3917, Val. Loss: 2.3172
+Epoch: 003, Train Acc: 0.3883, Train Loss: 2.3108, Val. Acc: 0.3932, Val. Loss: 2.3062
