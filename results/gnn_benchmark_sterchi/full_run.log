@@ -1,9 +1,2 @@
-=== NETWORK=workplace BETA=0.165 T=3.5 (orchestrated resume) ===
----- training IGCN on workplace ----
-  -> dir: IGCN_workplace_17896257559658
----- training HADDAD on workplace ----
-  -> dir: HADDAD_workplace_17896274375782
-NETWORK workplace DONE
 === NETWORK=highschool2013 BETA=0.065 T=7.5 (orchestrated resume) ===
----- training MLP on highschool2013 ----
-  -> dir: MLP_highschool2013_17896277688812
+---- training DONG on highschool2013 ----

@@ -1,0 +1,12 @@
+Using device: cuda
+============================
+Number of nodes: 327
+Number of edges: 5818
+Average degree: 35.584097859327215
+Diameter (LCC): 4
+Average time per sim.: 0.000055 seconds
+============================
+Avg. outbreak size: 133.671
+Avg. R0: 2.01293
+Avg. sampled infection rate: 0.065
+Number of sim. with only one inf. node: 53000
