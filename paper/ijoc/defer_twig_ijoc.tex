@@ -194,9 +194,8 @@ closely related blocking-maximization objective; \citet{farajtabar2017}
 instead model the cascade as a Hawkes process and steer it with
 reinforcement learning rather than one-time vertex removal; \citet{yan2020}
 study blocker placement under a fixed removal budget; \citeauthor{zareie2021}
-survey this pre-2021 line. \citet{xiang2024} and \citet{xie2024pvldb} are
-recent variants (a pertinence-constrained version, and a dual
-vertex-countering formulation) contemporaneous with \citet{xie2024}, the
+survey this pre-2021 line. \citet{xiang2024} is a recent
+pertinence-constrained variant contemporaneous with \citet{xie2024}, the
 direct ancestor of the AG/GR planners DEFER wraps. None of this line
 considers the timing of commitment as a decision variable in its own
 right, which is the gap DEFER's adaptive formulation addresses.
@@ -208,52 +207,42 @@ exact algorithm for expected influence spread on bounded-\emph{pathwidth}
 graphs, a strictly more restrictive parameter than the treewidth TWIG uses
 (every graph of pathwidth $k$ has treewidth at most $k$, but not
 conversely -- e.g., a binary tree has treewidth $1$ and pathwidth
-$\Theta(\log n)$). The genuinely new technical content of TWIG relative to
-their result is the treewidth generalization itself: a tree decomposition
-admits frontier splits and merges that a path decomposition does not, and
-handling those is exactly what Definition~\ref{def:config}'s
-partition-with-pending-counts formalism and the linear-aggregation collapse
-of Theorem~\ref{thm:twig-collapse} are built for. We do not know whether
-their pathwidth algorithm already uses an analogous collapse to reach
-linear time (their proceedings paper does not describe its internals at a
-level we can compare against ours in detail), so we do not claim the
-collapse idea itself is new to the harder treewidth setting, only that
-handling splits and merges under it is; separately, the elimination-order
-direction sensitivity of Proposition~\ref{prop:direction} has no analogue
-on a path decomposition, where there is only one direction to speak of.
-TWIG additionally supports blocking-set selection and greedy verification
-via \texttt{greedy\_exact} and \texttt{brute\_force\_optimal\_block}
-(Section~\ref{sec:twig-complexity}), but these are thin search loops around
-an \texttt{evaluate} oracle and would wrap a pathwidth-restricted evaluator
-just as readily, so we do not count them as a point of technical
-distinction from \citet{nakamura2026}. Our treewidth dynamic program
-follows the classical bounded-treewidth programming paradigm
-\citep{bodlaender1988,cygan2015}.
+$\Theta(\log n)$). TWIG's genuinely new content relative to their result is
+the treewidth generalization: a tree decomposition admits frontier splits
+and merges a path decomposition does not, which is exactly what
+Definition~\ref{def:config}'s partition-with-pending-counts formalism and
+the collapse of Theorem~\ref{thm:twig-collapse} handle, and
+Proposition~\ref{prop:direction}'s direction sensitivity has no
+path-decomposition analogue. We do not know whether their algorithm
+already uses an analogous collapse for the pathwidth case, so we claim
+novelty only for handling splits and merges, not the collapse idea itself.
+TWIG's \texttt{greedy\_exact}/\texttt{brute\_force\_optimal\_block}
+(Section~\ref{sec:twig-complexity}) are thin search loops around an
+\texttt{evaluate} oracle that would wrap a pathwidth-restricted evaluator
+just as readily, so we do not count them as a point of distinction. Our
+treewidth dynamic program follows the classical bounded-treewidth
+programming paradigm \citep{bodlaender1988,cygan2015}.
 
 \textbf{Adaptive submodular and sequential decision problems.} Adaptive
-variants of influence \emph{maximization} and related coverage problems are
-well studied. \citet{golovinkrause2011} give the general framework of
-adaptive submodularity under which many of these results are proved;
-\citet{seemansinger2013} apply a two-stage adaptive-seeding idea
-specifically to social-network influence maximization; and
-\citet{tong2017}, already cited above for its RR-sketch-style approximation
-guarantee, is itself framed as an explicitly \emph{adaptive} influence
-maximization algorithm in dynamic networks, re-planning as the network
-changes in a manner structurally similar to DEFER's round-by-round
-re-planning, but for the maximization rather than the minimization
-objective. For stochastic monotone submodular \emph{maximization}, the
-adaptivity gap -- a term introduced by \citet{deangoemansvondrak2008} for
-the stochastic knapsack problem -- is known to be \emph{bounded} by a
-constant \citep{asadpournazerzadeh2016}; Theorem~\ref{thm:adaptivity-gap}
-shows the opposite for IMIN, an \emph{unbounded} adaptivity gap, which we
-attribute to $\FF(\cdot)$'s lack of supermodularity in $B$
-\citep[already established by][]{xie2023} breaking the adaptive-submodularity
-machinery that yields bounded gaps on the maximization side. To our
-knowledge no prior work formalizes an adaptive variant of IMIN itself, or
-proves a lemma of the shape of Lemma~\ref{lem:defer-free} (that deferred
-commitment of a fixed one-shot plan is loss-free) or an
-unbounded-adaptivity-gap result of the shape of
-Theorem~\ref{thm:adaptivity-gap}, for this minimization problem.
+variants of influence \emph{maximization} are well studied:
+\citet{golovinkrause2011} give the general framework of adaptive
+submodularity under which many such results are proved;
+\citet{seemansinger2013} apply a two-stage adaptive-seeding idea to
+influence maximization; and \citet{tong2017}, cited above for its
+RR-sketch guarantee, is itself an explicitly \emph{adaptive} maximization
+algorithm that re-plans as the network changes, structurally similar to
+DEFER but for the maximization objective. For stochastic monotone
+submodular \emph{maximization}, the adaptivity gap -- a term introduced by
+\citet{deangoemansvondrak2008} for the stochastic knapsack problem -- is
+\emph{bounded} by a constant \citep{asadpournazerzadeh2016};
+Theorem~\ref{thm:adaptivity-gap} shows the opposite for IMIN, an
+\emph{unbounded} gap, attributable to $\FF(\cdot)$'s lack of
+supermodularity in $B$ \citep[established by][]{xie2023} breaking the
+machinery that bounds the maximization side. To our knowledge no prior
+work formalizes an adaptive variant of IMIN, or proves a lemma of the
+shape of Lemma~\ref{lem:defer-free} or an unbounded-adaptivity-gap result
+of the shape of Theorem~\ref{thm:adaptivity-gap}, for this minimization
+problem.
 
 \section{Preliminaries}\label{sec:prelim}
 
@@ -469,11 +458,10 @@ policies' \emph{spreads} themselves is a different quantity,
 $15.3/3.205\approx4.77$ here, and it is not bounded by $3.439$ as $p$
 shrinks: unlike the saving ratio, which depends only on $\Delta$ and $p$,
 the spread ratio needs $L$ to grow along with $1/p$ to reach its own
-$L\to\infty$ limit $2/(\Delta p)$. Taking $\Delta=4$, $p=0.01$, and
-$L=5000$ (rather than $50$) gives one-shot spread $150.03$, DEFER spread
-$3.02$, and a spread ratio of about $49.7$ -- close to the predicted
-$2/(\Delta p)=50$ and already well past the saving-ratio limit of
-$3.439$, which does not move as $p$ shrinks at fixed $\Delta$.
+$L\to\infty$ limit $2/(\Delta p)$, which is unbounded as $p\to0$ at fixed
+$\Delta$ (Theorem~\ref{thm:adaptivity-gap}'s proof verifies this
+numerically at $\Delta=4$, $p=0.01$, $L=5000$: spread ratio $\approx49.7$,
+close to $2/(\Delta p)=50$).
 
 The qualitative point survives far more general instances than this
 symmetric construction: a one-shot policy pays for protection whether or
@@ -513,21 +501,13 @@ one-shot solution $P_0$, up to the residual error of that one-sided test
 
 \begin{remark}[The 1-SE margin bounds, but does not eliminate, selection
 bias]\label{rem:winners-curse}
-Choosing between two noisy sample averages is a textbook source of
-upward-biased apparent improvement (the ``winner's curse''): if $L$ and
-$P'$ were in fact equally good, the test still swaps to $P'$ whenever its
-held-out average happens to exceed $L$'s by more than one standard error,
-which is not a negligible event. Requiring a fresh, held-out draw for the
-comparison (rather than reusing the samples $P'$ was optimized on) removes
-the optimistic bias from optimizing and testing on the same data, and the
-$1$-standard-error margin makes an accidental swap less likely than a bare
-$\arg\max$ would; neither removes the residual chance that a truly
-worse plan clears the margin on a given round's held-out draw. We do not
-prove a bound on the resulting regret here, and Section~\ref{sec:experiments}
-reports this residual honestly (Table~\ref{tab:defer-results}'s and
-Table~\ref{tab:defer-allbudgets}'s footnoted cells are candidate instances
-of it, not violations of the theorem, but also not proof that no bias
-occurred).
+Choosing between two noisy sample averages risks the ``winner's curse'':
+even equally-good $L,P'$ swap whenever $P'$'s held-out average exceeds
+$L$'s by chance. The held-out draw removes same-data optimizing-and-testing
+bias, and the margin makes an accidental swap less likely than a bare
+$\arg\max$, but neither eliminates the residual chance a worse plan clears
+it. We do not bound the resulting regret; Section~\ref{sec:experiments}'s
+footnoted cells are candidate instances, not proof either way.
 \end{remark}
 
 \begin{lemma}[Push-down is the myopic optimum]\label{lem:pushdown}
@@ -961,7 +941,7 @@ COMMIT & 0.591 & 0.448 & 0.290 & 0.562 & 0.321 & 0.310 & 0.344 & 0.329 \\
 \down DEFER & \textbf{0.602} & \textbf{0.471} & \textbf{0.341} & \textbf{0.573} & 0.334 & \textbf{0.339} & 0.394 & 0.424 \\
 \hline
 \end{tabular}}
-{Bold marks DEFER when it is the best or tied-best adaptive/one-shot policy shown. Under the constant-probability model DEFER weakly improves on AG, its own planner, on every network, consistent with Theorem~\ref{thm:defer-dominates}; under the weighted-cascade model it mostly coincides with AG/GR (the push-down rule rarely fires when per-edge activation probabilities are the small, degree-normalized weights of the WC model), and the one apparent shortfall (ca-GrQc, WC) is a candidate instance of the residual selection-bias risk in Remark~\ref{rem:winners-curse} on a 3-draw cell -- consistent with, but not proof of, no violation of the theorem. COMMIT is at or below AG on 3 of 4 networks under the constant model and on all 4 under WC, illustrating that committing a full plan immediately, rather than deferring it, is the harmful ablation.}
+{Bold marks DEFER when it is the best or tied-best adaptive/one-shot policy shown. Under the constant-probability model DEFER weakly improves on AG, its own planner, on every network, consistent with Theorem~\ref{thm:defer-dominates}; under the weighted-cascade model it mostly coincides with AG/GR (the push-down rule rarely fires when per-edge probabilities are the small, degree-normalized WC weights), and the one shortfall (ca-GrQc, WC) is a candidate instance of Remark~\ref{rem:winners-curse}'s residual bias risk on a 3-draw cell, not proof either way. COMMIT is at or below AG on 3 of 4 networks under the constant model and on all 4 under WC, illustrating that committing a full plan immediately, rather than deferring it, is the harmful ablation.}
 \end{table}
 
 Table~\ref{tab:defer-results} fixes budget 20; Figure~\ref{fig:defer-sweep}
@@ -1330,32 +1310,28 @@ which contact transmitted it), but it does rule out settings where even
 activation is only partially observed; extending DEFER's guarantees to
 noisy or delayed observation of $N_t$ is open.
 
-\subsection{When is TWIG the right tool, and when is Monte Carlo unavoidable?}
+\subsection{When is TWIG the right tool, and when is Monte Carlo unavoidable?}\label{sec:discussion-twig}
 
 TWIG is not a substitute for the Monte-Carlo-based evaluation that
 AdvancedGreedy, GreedyReplace, and DEFER itself rely on at the SNAP scale
 of Section~\ref{sec:defer-experiments}: Proposition~\ref{prop:fpt-space}'s
-$B_{w+2}$ state count is exponential in treewidth regardless of the
-$n$-independence Theorem~\ref{thm:twig-collapse} buys, and the real
-networks in Table~\ref{tab:twig-feasibility} already span the practical
-range, from tractable (karate, width 5) to infeasible by memory exhaustion
-(dolphin, width $\sim$10--11) at a network size two orders of magnitude
-below ca-GrQc. TWIG's role is instead as a validation instrument: on
-networks small enough to admit exact computation, it certifies exactly how
-far greedy selection departs from optimal, which is the role it plays in
-Section~\ref{sec:twig-empirical}'s 60-instance study and which no
-Monte-Carlo evaluation, however many samples it draws, can certify (Monte
-Carlo reduces sampling variance but never eliminates it, and greedy
-selection under noisy estimates is itself a source of bias, not merely
-variance, that more sampling does not remove). A practitioner who wants
-confidence that a greedy IMIN implementation is correct, as opposed to
-merely fast, should validate it against TWIG on graphs up to the treewidth
-frontier in Table~\ref{tab:twig-feasibility} before trusting it at scale;
-this is analogous to unit-testing a large numerical solver against small
-closed-form instances, and Section~\ref{sec:twig-empirical}'s bug history
-(three implementation errors, each caught only by exhaustive brute-force
-comparison) is a concrete illustration of why that step is not optional
-for algorithms in this family.
+$B_{w+2}$ state count is exponential in treewidth regardless of
+$n$-independence, and the real networks in Table~\ref{tab:twig-feasibility}
+already span the practical range, from tractable (karate, width 5) to
+infeasible by memory exhaustion (dolphin, width $\sim$10--11) two orders of
+magnitude below ca-GrQc in size. TWIG's role is instead as a validation
+instrument: on networks small enough for exact computation, it certifies
+exactly how far greedy selection departs from optimal (Section
+\ref{sec:twig-empirical}'s 60-instance study), which no Monte-Carlo
+evaluation can certify -- sampling reduces variance but never eliminates
+it, and greedy selection under noisy estimates is itself a source of bias
+that more sampling does not remove. A practitioner wanting confidence that
+a greedy IMIN implementation is correct, not merely fast, should validate
+it against TWIG up to the treewidth frontier in
+Table~\ref{tab:twig-feasibility} before trusting it at scale, analogous to
+unit-testing a numerical solver against closed-form instances; three
+implementation bugs caught only by exhaustive brute-force comparison
+(Section~\ref{sec:twig-empirical}) show why that step is not optional.
 
 \subsection{Limitations}
 
@@ -1365,31 +1341,27 @@ networks with a handful of live-edge draws per cell (some weighted-cascade
 cells have only one draw), not the large-scale, many-seed evaluation a
 fully mature empirical study would run; the theoretical guarantees do not
 depend on this, but the size of the practical improvement at larger scale
-remains to be measured. Second, TWIG's exact validation, by construction,
-only reaches networks on the order of tens to low hundreds of vertices at
-modest treewidth; the 60-instance optimality-gap study in
-Section~\ref{sec:twig-empirical} is a genuine, sampling-noise-free result
-on tiny instances, not a claim that greedy's behavior on SNAP-scale graphs
-has been directly certified. Third, the source-detection benchmark in
-Section~\ref{sec:source-experiments} is included as an apples-to-apples
-reproduction of a companion problem in the broader project this paper's
-code release belongs to, not as a contribution of this paper; we report it
-in full, including its one incomplete network (\texttt{highschool2013}'s
-untrained GNN cells), for transparency rather than omitting the gap.
+remains to be measured. Second, TWIG's exact-validation scale limit is
+discussed in Section~\ref{sec:discussion-twig} above; the 60-instance
+optimality-gap study is a genuine, sampling-noise-free result on tiny
+instances only. Third, the source-detection benchmark in
+Section~\ref{sec:source-experiments} is an apples-to-apples reproduction of
+a companion problem in the broader project this paper's code release
+belongs to, not a contribution of this paper; we report it in full,
+including its one incomplete network (\texttt{highschool2013}'s untrained
+GNN cells), for transparency rather than omitting the gap.
 
 \subsection{Concluding Remarks}\label{sec:conclusion}
 
 We gave the first formal treatment of adaptivity for influence
-minimization: a wrapper, DEFER, that is provably never worse than the
-one-shot planner it wraps, a myopic-optimal commitment rule, and a proof
-that the benefit of adapting to the unfolding cascade is unbounded rather
-than a modest constant-factor improvement. We complemented this with TWIG,
-an exact, fixed-parameter-tractable dynamic program for verifying any IMIN
-heuristic's optimality gap without the sampling confounds that have affected
-every prior empirical evaluation in this literature, together with a
-provable separation showing that even the direction of processing a fixed
-tree decomposition is algorithmically consequential. Both contributions are
-implemented, tested against brute force, and released with the paper.
+minimization: DEFER, a wrapper provably never worse than the one-shot
+planner it wraps, with a myopic-optimal commitment rule and a proof that
+adapting helps by an unbounded rather than constant-factor amount; and
+TWIG, an exact, fixed-parameter-tractable dynamic program for verifying
+any IMIN heuristic's optimality gap without prior sampling confounds,
+with a provable separation showing that tree-decomposition processing
+direction is itself algorithmically consequential. Both are implemented,
+tested against brute force, and released with the paper.
 
 % Endnotes (none currently used)
 %\begingroup \parindent 0pt \parskip 0.0ex \def\enotesize{\normalsize} \theendnotes \endgroup
@@ -1791,8 +1763,7 @@ Antulov-Fantulin N, Lan\v{c}i\'c A, \v{S}muc T, \v{S}tefan\v{c}i\'c H,
 
 \bibitem[{Asadpour and Nazerzadeh(2016)}]{asadpournazerzadeh2016}
 Asadpour A, Nazerzadeh H (2016) Maximizing stochastic monotone submodular
-  functions. \emph{Management Sci.} 62(8):2374--2391. [Verify exact page
-  range prior to submission.]
+  functions. \emph{Management Sci.} 62(8):2374--2391.
 
 \bibitem[{Barab\'asi and Albert(1999)}]{barabasi1999}
 Barab\'asi AL, Albert R (1999) Emergence of scaling in random networks.
@@ -1817,7 +1788,7 @@ Cygan M, Fomin FV, Kowalik {\L}, Lokshtanov D, Marx D, Pilipczuk M,
 \bibitem[{Dean et~al.(2008)Dean, Goemans, and Vondr\'ak}]{deangoemansvondrak2008}
 Dean BC, Goemans MX, Vondr\'ak J (2008) Approximating the stochastic
   knapsack problem: The benefit of adaptivity. \emph{Math.\ Oper.\ Res.}
-  33(4):945--964. [Verify exact page range prior to submission.]
+  33(4):945--964.
 
 \bibitem[{Dong et~al.(2019)Dong, Zheng, Hung, Su, and Li}]{dong2019}
 Dong M, Zheng B, Hung NQV, Su H, Li G (2019) Multiple rumor source detection
@@ -1856,10 +1827,10 @@ Guo Q, Zhang H, Zhang X, Fu Y (2021) IGCN: A provable relation between
   \emph{Proc.\ IEEE Global Communications Conf.\ (GLOBECOM)}.
 
 \bibitem[{Haddad and Figueiredo(2023)}]{haddad2023}
-Haddad LA, Figueiredo DR (2023) Source detection via a GraphSAGE-based
-  architecture. [Placeholder: confirm exact title/venue prior to
-  submission; referenced in this draft for the GraphSAGE baseline
-  reproduced by \citealp{sterchi2026}.]
+Haddad RG, Figueiredo DR (2023) Detecting multiple epidemic sources in
+  network epidemics using graph neural networks. Naldi MC, Bianchi RAC,
+  eds., \emph{Intelligent Systems (Proc.\ BRACIS 2023)}, Lecture Notes in
+  Computer Science, vol.\ 14197 (Springer, Cham), 331--345.
 
 \bibitem[{Haraldsdottir et~al.(1992)}]{haraldsdottir1992}
 Haraldsdottir S, Gupta S, Anderson RM (1992) Preliminary studies of sexual
@@ -1903,10 +1874,8 @@ Mastrandrea R, Fournet J, Barrat A (2015) Contact patterns in a high
 
 \bibitem[{Nakamura and Nishino(2026)}]{nakamura2026}
 Nakamura K, Nishino M (2026) Linear-time exact computation of influence
-  spread on bounded-pathwidth graphs. \emph{39th Internat.\ Symp.\ on
-  Algorithms and Computation / Scandinavian Symp.\ and Workshops on
-  Algorithm Theory (SWAT)}, Dagstuhl LIPIcs. [Verify final proceedings
-  citation prior to submission.]
+  spread on bounded-pathwidth graphs. \emph{20th Scandinavian Sympos.\ on
+  Algorithm Theory (SWAT)}, LIPIcs vol.\ 370, Article 34.
 
 \bibitem[{Nguyen et~al.(2012)}]{nguyen2012}
 Nguyen NP, Yan G, Thai MT, Eidenbenz S (2012) Containment of misinformation
@@ -1954,46 +1923,40 @@ Tong G, Wu W, Du DZ (2018) Distributed rumor blocking with multiple
 Valiant LG (1979) The complexity of enumeration and reliability problems.
   \emph{SIAM J.\ Comput.} 8(3):410--421.
 
-\bibitem[{Wang et~al.(2013)}]{wang2013blocking}
-Wang et~al. (2013) Negative influence minimizing by blocking nodes in
-  social networks. \emph{Proc.\ AAAI Workshop on Intelligent Techniques for
-  Web Personalization and Recommendation}. [Placeholder: confirm full
-  author list prior to submission.]
+\bibitem[{Wang et~al.(2013)Wang, Zhao, Chen, Li, Zhang, and Xia}]{wang2013blocking}
+Wang S, Zhao X, Chen Y, Li Z, Zhang K, Xia J (2013) Negative influence
+  minimizing by blocking nodes in social networks. \emph{Late-Breaking
+  Developments in the Field of Artificial Intelligence, Papers Presented at
+  the 27th AAAI Conf.\ on Artificial Intelligence}, AAAI Technical Report
+  WS-13-17, 134--136.
 
 \bibitem[{Wang et~al.(2016)}]{wang2016drimux}
 Wang B, Chen G, Fu L, Song L, Wang X (2016) DRIMUX: Dynamic rumor influence
   minimization with user experience in social networks. \emph{Proc.\ 30th
   AAAI Conf.\ on Artificial Intelligence (AAAI)}, 791--797.
 
-\bibitem[{Wang et~al.(2024)}]{wang2024sandwich}
-Wang et~al. (2024) Sandwich approximation algorithms for influence
-  minimization. [Placeholder: confirm full author list and venue prior to
-  submission; referenced in this draft only for the Sandwich lower-bound
-  baseline LSBM.]
+\bibitem[{Wang et~al.(2024)Wang, Wu, Wang, Zhang, Qin, Zhang, and Lin}]{wang2024sandwich}
+Wang J, Wu Y, Wang X, Zhang Y, Qin L, Zhang W, Lin X (2024) Efficient
+  influence minimization via node blocking. \emph{Proc.\ VLDB Endowment}
+  17(10):2501--2513.
 
 \bibitem[{Watts and Strogatz(1998)}]{watts1998}
 Watts DJ, Strogatz SH (1998) Collective dynamics of `small-world'
   networks. \emph{Nature} 393:440--442.
 
-\bibitem[{Xiang et~al.(2024)}]{xiang2024}
-Xiang B, et~al. (2024) RBP: Rumor blocking with pertinence-set constraints
-  via hypergraph factorization. \emph{World Wide Web} 27(4). [Placeholder:
-  confirm full author list and page range prior to submission.]
+\bibitem[{Xiang et~al.(2024)Xiang, Wang, Wu, Wang, Chen, and Zhang}]{xiang2024}
+Xiang F, Wang J, Wu Y, Wang X, Chen C, Zhang Y (2024) Rumor blocking with
+  pertinence set in large graphs. \emph{World Wide Web} 27(1):Article 6.
 
 \bibitem[{Xie et~al.(2023)Xie, Zhang, Wang, Lin, and Zhang}]{xie2023}
 Xie J, Zhang Y, Wang Z, Lin X, Zhang W (2023) Minimizing the influence
   spread over a social network via node blocking. \emph{Proc.\ 39th IEEE
   Internat.\ Conf.\ on Data Engineering (ICDE)}, 3096--3108.
 
-\bibitem[{Xie et~al.(2024{\natexlab{a}})Xie, Zhang, Wang, Liu, Lin, and Zhang}]{xie2024}
+\bibitem[{Xie et~al.(2024)Xie, Zhang, Wang, Liu, Lin, and Zhang}]{xie2024}
 Xie J, Zhang Y, Wang Z, Liu H, Lin X, Zhang W (2024) Influence minimization
   via blocking strategies. \emph{INFORMS J.\ Comput.} 37(6). Code:
   \texttt{github.com/INFORMSJoC/2024.0591}, arXiv:2312.17488.
-
-\bibitem[{Xie et~al.(2024{\natexlab{b}})}]{xie2024pvldb}
-Xie J, et~al. (2024) Influence minimization via vertex countering.
-  \emph{Proc.\ VLDB Endowment} 17(6). [Placeholder: confirm full author
-  list and page range prior to submission.]
 
 \bibitem[{Yan et~al.(2020)}]{yan2020}
 Yan R, Li D, Wu W, Du DZ, Wang Y (2020) Minimizing influence of rumors by
