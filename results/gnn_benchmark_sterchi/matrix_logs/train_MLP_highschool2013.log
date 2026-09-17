@@ -26,3 +26,5 @@ MLP(
 )
 ============================
 Epoch: 001, Train Acc: 0.3743, Train Loss: 3.0778, Val. Acc: 0.3739, Val. Loss: 3.0903
+Epoch: 002, Train Acc: 0.3743, Train Loss: 3.0773, Val. Acc: 0.3739, Val. Loss: 3.0897
+Epoch: 003, Train Acc: 0.3743, Train Loss: 3.0772, Val. Acc: 0.3739, Val. Loss: 3.0897
