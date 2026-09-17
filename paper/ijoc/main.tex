@@ -1,0 +1,893 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Draft submission to INFORMS Journal on Computing (IJOC).
+%% Built from the official INFORMS-IJOC-Template (v. Feb 2026).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[ijoc,sglanonrev]{informs4}
+\usepackage{eqndefns-left}
+\RequirePackage{tgtermes}
+\RequirePackage{newtxtext}
+\RequirePackage{newtxmath}
+\RequirePackage{bm}
+\RequirePackage{endnotes}
+
+\OneAndAHalfSpacedXII
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsfonts}
+
+\usepackage{natbib}
+ \bibpunct[, ]{(}{)}{,}{a}{}{,}%
+ \def\bibfont{\small}%
+ \def\bibsep{\smallskipamount}%
+ \def\bibhang{24pt}%
+ \def\newblock{\ }%
+ \def\BIBand{and}%
+
+\EquationsNumberedThrough
+\TheoremsNumberedThrough
+\ECRepeatTheorems
+
+\MANUSCRIPTNO{}
+
+% Convenience macros
+\newcommand{\Rspread}{R}
+\newcommand{\FF}{F}
+
+\begin{document}
+
+\RUNAUTHOR{Dang}
+
+\RUNTITLE{Adaptive Influence Minimization by Deferred Blocking}
+
+\TITLE{Adaptive Influence Minimization via Deferred Frontier Blocking: Theory, Algorithms, and Exact Validation on Bounded-Treewidth Graphs}
+
+\ARTICLEAUTHORS{%
+\AUTHOR{Quang-Vinh Dang}
+\AFF{British University Vietnam, Hung Yen, Vietnam, \EMAIL{vinh.dq4@buv.edu.vn}}
+}
+
+\ABSTRACT{%
+Influence minimization (IMIN) asks for a small set of vertices whose removal
+most reduces the spread of a fixed, already-seeded cascade -- the natural
+model for blocking misinformation after it has started, rather than
+preventing it before it starts. Existing algorithms are one-shot: the whole
+blocking budget is committed before any part of the cascade is observed. We
+ask whether committing adaptively, as the cascade unfolds, can only help,
+and by how much. We give DEFER, a wrapper that turns any one-shot IMIN
+planner into an adaptive policy by deferring the commitment of each planned
+block until the moment it is actually exposed to the live cascade, and by
+committing early only when waiting is provably not worth it. We prove that
+deferred commitment is free (it never increases the final spread relative to
+the wrapped planner), that the push-down commitment rule is the myopic
+optimum for an exposed node protecting cheaply-replaceable children, and
+that the resulting adaptivity gap is unbounded in the maximum out-degree of
+the graph -- so the benefit of adaptivity is real and not an artifact of a
+particular instance. We complement DEFER with TWIG, an exact
+treewidth-bounded dynamic program that computes the true (not
+Monte-Carlo-sampled) expected spread of any candidate blocking set, together
+with a fixed-parameter-tractable reformulation and a provable separation
+showing that the direction in which a tree decomposition is processed is a
+first-class algorithmic choice, not a tuning detail. TWIG turns greedy IMIN
+into a verifiable procedure on graphs small enough to admit exact
+computation and lets us measure, for the first time free of sampling noise,
+how often and how badly greedy departs from the true optimum. Together the
+two contributions give a rigorously justified adaptive blocking algorithm
+and an exact tool for validating any one-shot blocking heuristic against
+ground truth, closing a verification gap that Monte-Carlo-based influence
+estimation has left open throughout the influence-minimization literature.
+}%
+
+\FUNDING{The author received no external funding for this research.}
+
+\KEYWORDS{influence minimization, adaptive optimization, misinformation blocking, treewidth, dynamic programming, network science}
+
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}\label{sec:intro}
+
+Misinformation and epidemic-style contagions on networks share a common
+downstream control problem once they have already started: given a fixed
+set of active or seeded sources and a limited budget of vertices that can be
+removed (accounts suspended, individuals quarantined, links cut), which
+vertices should be chosen to minimize the eventual spread? This is the
+\emph{influence minimization} (IMIN) problem \citep{xie2023,xie2024}, the
+natural complement of the much more heavily studied influence
+\emph{maximization} problem \citep{kempe2003}: instead of choosing seeds to
+spread a cascade, IMIN chooses a small blocking set to contain one. Unlike
+maximization, the objective is not supermodular in general, so greedy
+selection carries no approximation guarantee, and the problem is NP-hard and
+hard to approximate \citep{xie2023}.
+
+Every published IMIN algorithm -- AdvancedGreedy and GreedyReplace
+\citep{xie2023,xie2024}, and the Sandwich lower/upper-bound family -- is
+\emph{one-shot}: the entire budget is spent before the cascade is observed
+even once. In practice a moderator or public-health authority does not have
+to decide everything up front. They observe who has already been exposed,
+round by round, and can adapt. This raises two questions that, to our
+knowledge, have not been formally answered for IMIN: (i) can adapting to the
+unfolding cascade only help, never hurt, relative to any one-shot plan; and
+(ii) how large can the benefit of adaptivity be, in the worst case? A third,
+orthogonal problem is one of verification: every existing IMIN algorithm is
+evaluated by Monte-Carlo simulation of the cascade, so a reported
+``optimality gap'' of greedy selection is always confounded with sampling
+noise, and no exact ground truth has been available at any scale beyond
+trivial instances.
+
+\subsection*{Contributions}
+\begin{enumerate}
+\item \textbf{DEFER} (Section~\ref{sec:defer}), an adaptive wrapper around
+  any one-shot IMIN planner. At each round it plans on the currently
+  reachable region, protects the previous round's uncommitted plan against
+  being replaced by a worse one, and commits a planned vertex only if a
+  simple push-down inequality shows that waiting is not preferable. We
+  prove: deferred commitment alone is free (Lemma~\ref{lem:defer-free});
+  DEFER weakly dominates the one-shot planner it wraps
+  (Theorem~\ref{thm:defer-dominates}); the push-down rule is the myopic
+  optimum for the local commit-now/wait decision (Lemma~\ref{lem:pushdown});
+  and the adaptivity gap of IMIN is unbounded, growing linearly in the
+  maximum out-degree as the activation probability shrinks
+  (Theorem~\ref{thm:adaptivity-gap}), with a matching, checkable
+  construction.
+\item \textbf{TWIG} (Section~\ref{sec:twig}), an exact dynamic program for
+  the expected spread of a candidate blocking set on graphs of bounded
+  treewidth, proved correct (Theorem~\ref{thm:twig-correct}) and then
+  reformulated, via an exact linear-aggregation collapse
+  (Theorem~\ref{thm:twig-collapse}), into a genuinely fixed-parameter
+  tractable algorithm rather than merely an XP one
+  (Propositions~\ref{prop:xp-space}--\ref{prop:fpt-space}). We further prove
+  that the direction in which an elimination order is processed is not a
+  tuning detail but a first-class algorithmic choice
+  (Proposition~\ref{prop:direction}), with a worst-case family (the star
+  graph) on which the wrong direction forces the frontier to scale with $n$
+  even though the treewidth is $1$.
+\item An exact, sampling-noise-free measurement of the optimality gap of
+  greedy IMIN selection (Section~\ref{sec:twig-empirical}): on graphs small
+  enough for TWIG to enumerate, greedy is exactly optimal in 56 of 60
+  instances and departs from the true optimum by up to 84.6\% in the worst
+  case found -- the first such measurement in the IMIN literature free of
+  Monte-Carlo confounds.
+\item A benchmark of DEFER against AdvancedGreedy, GreedyReplace, and
+  simple heuristics on SNAP-scale contact and collaboration networks
+  (Section~\ref{sec:experiments}), together with an auxiliary,
+  apples-to-apples comparison on the companion source-detection problem
+  used throughout our broader project.
+\end{enumerate}
+
+\section{Related Work}\label{sec:related}
+
+\textbf{Influence minimization.} \citet{xie2023} introduce IMIN, prove
+NP-hardness and inapproximability, and give AdvancedGreedy. \citet{xie2024}
+extend this with GreedyReplace and Sandwich-style bounds and give the
+network-reliability-flavored complexity analysis that our Theorem
+\ref{thm:twig-correct} builds on for exact verification; their own
+Exact-vs-GreedyReplace check (their Table 3) uses a borrowed exact method on
+100-node subgraphs at up to four budget levels, considerably smaller and
+less systematic than the fully proof-verified, 60-instance study we report
+in Section~\ref{sec:twig-empirical}.
+
+\textbf{Exact spread computation.} Computing expected spread exactly is a
+network-reliability problem and is \#P-hard in general
+\citep{valiant1979,provan1983}. \citet{nakamura2026} give a linear-time
+exact algorithm for expected influence spread on bounded-\emph{pathwidth}
+graphs; their result computes spread only and does not address blocking set
+selection, greedy verification, or the adaptive setting, and pathwidth is a
+strictly more restrictive parameter than the treewidth TWIG uses. Our
+treewidth dynamic program follows the classical bounded-treewidth
+programming paradigm \citep{bodlaender1988,cygan2015}.
+
+\textbf{Adaptive submodular and sequential decision problems.} Adaptive
+variants of influence \emph{maximization} and related coverage problems are
+well studied; to our knowledge no prior work formalizes an adaptive variant
+of IMIN or proves a lemma of the shape of Lemma~\ref{lem:defer-free} (that
+deferred commitment of a fixed one-shot plan is loss-free) or an
+unbounded-adaptivity-gap result of the shape of
+Theorem~\ref{thm:adaptivity-gap} for this problem.
+
+\section{Preliminaries}\label{sec:prelim}
+
+\textbf{Independent cascade model.} $G=(V,E)$ is a directed graph,
+$n=|V|$, $m=|E|$, with edge probabilities $p:E\to(0,1]$. A live-edge
+realization $\omega\in\{0,1\}^E$ is drawn with
+$\Pr[\omega]=\prod_{e}p_e^{\omega_e}(1-p_e)^{1-\omega_e}$. For a seed set
+$S\subseteq V$ and blocked set $B\subseteq V\setminus S$, write
+$G_B=G[V\setminus B]$ and let $\Rspread(\omega,B)\subseteq V\setminus B$ be
+the set of vertices reachable from $S$ using only live edges of $G_B$. The
+\emph{expected spread} is
+\begin{equation}\label{eq:spread}
+\FF(B)\;=\;\mathbb E_\omega\bigl[\,|\Rspread(\omega,B)\setminus S|\,\bigr].
+\end{equation}
+
+\textbf{IMIN (one-shot).} Given $G$, $p$, $S$, and budget $b$, choose
+$B\subseteq V\setminus S$, $|B|\le b$, minimizing $\FF(B)$.
+
+\textbf{Adaptive IMIN.} The cascade unfolds in rounds $t=0,1,2,\dots$. In
+round $t$ the controller observes the newly activated set $N_t$
+(full-adoption feedback: activations, not live edges, are observed), may
+block any inactive, unblocked vertex, and the total number of vertices
+blocked over all rounds is at most $b$. The objective is to minimize the
+expected final spread. A one-shot solution is the special case that spends
+the whole budget in round $0$.
+
+\textbf{Treewidth machinery (used only in Section~\ref{sec:twig}).} Fix a
+permutation $\sigma=(\sigma_1,\dots,\sigma_n)$ of $V$ and write
+$\mathrm{pos}(v)$ for $v$'s index. For $v=\sigma_i$, let
+$\mathrm{connect\_to}(v)=\{u\in N(v):\mathrm{pos}(u)<i\}$ and
+$\mathrm{last}(v)=\max_{x\in N[v]}\mathrm{pos}(x)$. The \emph{frontier}
+after step $i$ is $F_i=\{\sigma_j:j\le i,\ \mathrm{last}(\sigma_j)\ge i\}$,
+and the \emph{width} of $\sigma$ is $w=\max_i|F_i|-1$, which upper-bounds
+the treewidth of $G$ when $\sigma$ comes from a min-fill-in / min-degree
+chordal completion \citep{bodlaender1988,cygan2015}.
+
+\section{DEFER: Adaptive Influence Minimization by Deferred Frontier Blocking}\label{sec:defer}
+
+\subsection{Algorithm}\label{sec:defer-algo}
+
+DEFER wraps a one-shot planner $\mathcal P$ (any IMIN algorithm; by default
+a dominator-tree greedy planner with isolation moves). At each round it
+re-plans on the currently reachable region, keeps whichever of the new plan
+and the previous round's uncommitted leftover looks better on freshly drawn
+samples (\emph{plan protection}), and commits only the fraction of the plan
+that is both exposed to the current frontier and passes a push-down test.
+
+\begin{algorithm}[h]
+\caption{DEFER}\label{alg:defer}
+\begin{algorithmic}[1]
+\Require graph $G$, probabilities $p$, seeds $S$, budget $b$, sample size
+  $\theta$, one-shot planner $\mathcal P$
+\State $A_0\gets S$, $B_0\gets\varnothing$, $F_0\gets S$, $L\gets\varnothing$ (uncommitted leftover)
+\For{$t=0,1,2,\dots$ while the cascade is alive and $|B_t|<b$}
+  \State $b_t\gets b-|B_t|$
+  \State draw $\theta$ live-edge subgraphs reachable from $F_t$ avoiding $A_t\cup B_t$
+  \State $P'\gets\mathcal P(\text{seeds}=F_t,\ \text{forbidden}=A_t\cup B_t,\ \text{budget}=b_t)$ on the samples
+  \State $P_t\gets\arg\max\{\text{sample-average saving of } P', L\}$ \Comment{plan protection}
+  \State $X_t\gets$ inactive, unblocked out-neighbors of $F_t$
+  \For{$v\in P_t\cap X_t$}
+    \State $q_v\gets 1-\prod_{u\in F_t}(1-p(u,v))$; $c_v\gets$ inactive unblocked out-degree of $v$
+    \State $\lambda_t\gets$ smallest marginal saving among the picks of $P_t$ (0 if $P_t$ does not exhaust $b_t$)
+    \If{$q_v\,(c_v+1/\lambda_t)\ge 1$} \Comment{push-down rule, Lemma~\ref{lem:pushdown}}
+      \State block $v$ now
+    \EndIf
+  \EndFor
+  \State $L\gets P_t\setminus(\text{blocked this round})$
+  \State observe $N_{t+1}$; update $A_{t+1},F_{t+1}$
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+The push-down rule compares spending one budget unit on an exposed node $v$
+now against waiting one round and, if $v$ activates (probability $q_v$),
+protecting its $c_v$ children instead while losing $v$ itself. When the
+planner is deterministic given the samples and no new information arrives,
+DEFER reduces to lazily committing the one-shot planner's own plan
+(Lemma~\ref{lem:defer-free}); the two ablations used in
+Section~\ref{sec:experiments} are COMMIT (same loop, but the whole plan is
+committed every round) and the one-shot planners run without any wrapper.
+
+\subsection{Theoretical guarantees}\label{sec:defer-theory}
+
+Full proofs of every result in this section are given in
+Online Supplement~\ref{ec:defer-proofs}.
+
+\begin{lemma}[Deferral is free]\label{lem:defer-free}
+Fix a live-edge realization, the seeds, and any set $P$ with $|P|\le b$. Let
+$\pi_P$ be the policy that, in every round, blocks the not-yet-blocked
+vertices of $P$ that are exposed to the current frontier. Then $\pi_P$
+produces exactly the same final active set as blocking $P$ at time $0$, and
+blocks at most as many vertices.
+\end{lemma}
+
+\begin{theorem}[DEFER weakly dominates its planner]\label{thm:defer-dominates}
+Let $P_0$ be $\mathcal P$'s plan at round $0$. If, in every later round, the
+planner returns a plan whose sample-average saving is at least that of the
+leftover $P_{t-1}\setminus C_{t-1}$ -- guaranteed when the leftover is
+offered to the planner as a candidate solution -- then the expected final
+spread of DEFER is at most that of the one-shot solution $P_0$, up to the
+sampling error of the $\theta$ samples.
+\end{theorem}
+
+\begin{lemma}[Push-down is the myopic optimum]\label{lem:pushdown}
+Consider an exposed planned vertex $v$ whose children (inactive
+out-neighbors) jointly protect the same set as $v$ minus $v$ itself, assume
+the children are exposed only through $v$, and value a budget unit at
+$\lambda$ vertices. Among the two policies ``block $v$ now'' and ``block
+$v$'s children if and only if $v$ activates,'' the second has smaller
+expected loss (vertices lost plus $\lambda$ times budget spent) if and only
+if $q_v(c_v+1/\lambda)<1$.
+\end{lemma}
+
+\begin{theorem}[The adaptivity gap of IMIN is unbounded]\label{thm:adaptivity-gap}
+For every $\Delta\ge 2$ and $p\in(0,1)$ there is an instance with maximum
+out-degree $\Delta$ on which the best one-shot solution with budget $1$ has
+expected spread at least $\bigl(1-(1-p)^{\Delta}\bigr)/p$ times that of DEFER
+with budget $1$ (up to an additive constant); this ratio tends to $\Delta$ as
+$p\to 0$.
+\end{theorem}
+
+\begin{theorem}[Complexity of DEFER]\label{thm:defer-complexity}
+Let $n_t,m_t$ be the number of vertices and edges reachable from $F_t$ in
+the union of the $\theta$ samples, $r$ the number of rounds, and $\alpha$
+the inverse Ackermann function. With the dominator planner, round $t$ costs
+$O(\theta\,m_t\,\alpha(m_t,n_t))$ for the dominator trees plus
+$O(b_t\,\theta'\,m_t\,\alpha)$ for the greedy picks ($\theta'\le\theta$);
+the total is $O\bigl(\sum_t(1+b_t)\,\theta\,m_t\,\alpha\bigr)$, which is
+$O(r\,b\,\theta\,m\,\alpha(m,n))$ in the worst case.
+\end{theorem}
+
+An additional ablation, \texttt{isocut}, adds frontier-isolation moves to
+the planner and admits a further worst-case separation
+(Theorem~\ref{thm:isocut-separation}, Online Supplement) from
+AdvancedGreedy, GreedyReplace, and the Sandwich lower bound, though it is
+reported only as an ablation because it is rarely selected on the SNAP
+graphs used in Section~\ref{sec:experiments}.
+
+\begin{theorem}[Isolation-move separation]\label{thm:isocut-separation}
+There is a family of instances on which AdvancedGreedy, GreedyReplace, and
+the Sandwich lower-bound greedy all save $O(b)$ vertices with budget $b$,
+while a planner with frontier-isolation moves saves $\Omega(N)$ for
+arbitrary $N$.
+\end{theorem}
+
+\section{TWIG: Exact Treewidth-Bounded Validation}\label{sec:twig}
+
+Every quantity reported by a one-shot IMIN heuristic -- including the plans
+DEFER wraps -- is normally a Monte-Carlo estimate of Equation
+\eqref{eq:spread}, because computing $\FF(B)$ exactly is a network-reliability
+computation and is \#P-hard in general \citep{valiant1979,provan1983}. TWIG
+computes $\FF(B)$ \emph{exactly} on graphs of bounded treewidth, giving a
+ground-truth oracle that we use to certify how close greedy selection comes
+to the true optimum, free of sampling noise.
+
+\subsection{Algorithm}\label{sec:twig-algo}
+
+\begin{definition}[Configuration]\label{def:config}
+A configuration over a vertex set $F\subseteq V$ is a pair
+$\kappa=(\Pi,\rho)$ where $\Pi$ is a set partition of $F$ with at most one
+distinguished block $\mathrm{SEED}$, and $\rho$ maps each non-$\mathrm{SEED}$
+block to a nonnegative integer (its \emph{pending count}).
+\end{definition}
+
+\texttt{ExactSpread} maintains, after each step $i$ of the schedule defined
+in Section~\ref{sec:prelim}, a probability distribution over configurations
+on the frontier $F_i$, plus a running scalar $\mathrm{acc}_i$, updated by
+three operations: \emph{introduce} a new singleton block for each newly
+processed vertex; \emph{process\_edge} branches on each edge's live/dead
+outcome, merging blocks on the live branch and paying out to $\mathrm{acc}$
+when a merge is into $\mathrm{SEED}$; and \emph{retire} pays out $\mathrm{acc}$
+for a retiring $\mathrm{SEED}$-block vertex (unless it is itself a seed), or
+defers a retiring ordinary vertex into its block's pending count, discarding
+that count once the block empties of active members.
+
+\begin{theorem}[Correctness of \texttt{ExactSpread}]\label{thm:twig-correct}
+For every $B$, \texttt{ExactSpread}$(G,p,S)$.evaluate$(B)=\FF(B)$.
+\end{theorem}
+
+\subsection{Complexity: from XP to FPT in treewidth}\label{sec:twig-complexity}
+
+\begin{proposition}[State space of \texttt{ExactSpread}]\label{prop:xp-space}
+The number of distinct configurations at any step is at most
+$B_{w+1}\cdot(n+1)^{w+1}$, where $B_{w+1}$ is the $(w+1)$-th Bell number.
+\end{proposition}
+
+This makes \texttt{ExactSpread} XP, not FPT, in treewidth: the degree of the
+polynomial in $n$ grows with $w$.
+
+\begin{theorem}[Correctness of the linear-aggregation collapse]\label{thm:twig-collapse}
+Fix a partition shape $s$ and, at some step, let
+$\mathcal K_s=\{(s,\rho):P_{(s,\rho)}>0\}$. Define the aggregates
+$P_s=\sum_{(s,\rho)\in\mathcal K_s}P_{(s,\rho)}$ and
+$W_b=\sum_{(s,\rho)\in\mathcal K_s}P_{(s,\rho)}\cdot\rho(b)$ for each
+non-$\mathrm{SEED}$ block $b$ of $s$. Then $(P_s,\{W_b\})_s$ can be updated
+at every step by the four rules \texttt{ExactSpreadFast} implements, and
+this update yields the identical sequence of $\mathrm{acc}$ increments as
+\texttt{ExactSpread}, for every $B$.
+\end{theorem}
+
+\begin{proposition}[State space of \texttt{ExactSpreadFast}]\label{prop:fpt-space}
+The number of distinct states at any step is at most $B_{w+1}$, independent
+of $n$, giving overall running time $O(n\cdot B_{w+1}\cdot\mathrm{poly}(w))$.
+\end{proposition}
+
+Proposition~\ref{prop:fpt-space} is a genuine change of complexity class
+from Proposition~\ref{prop:xp-space}, not merely a constant-factor speed-up:
+the $n^{w+1}$ factor is eliminated entirely.
+
+\subsection{Processing direction is a first-class algorithmic choice}\label{sec:twig-direction}
+
+\begin{proposition}[Star graphs separate forward and reversed elimination order]\label{prop:direction}
+Let $T_k$ be the star $K_{1,k}$, $n=k+1$. Min-fill-in computes the
+elimination order $\pi=(\ell_1,\dots,\ell_k,c)$, correctly certifying
+treewidth $1$. Running the schedule of Section~\ref{sec:prelim} directly on
+$\pi$ (the centre processed last) produces a frontier of size $k=n-1$
+immediately before the centre's step. Running it on $\mathrm{reverse}(\pi)$
+(the centre processed first) keeps the frontier at size at most $2$
+throughout.
+\end{proposition}
+
+This is a worst-case separation on an exact, checkable family: a
+bounded-treewidth graph (here, treewidth $1$, for any $n$) on which the
+\emph{same} elimination order, run in the wrong direction, forces the true
+state space of the dynamic program to scale with $n$ instead of remaining
+bounded by a function of the width alone. In our implementation the
+elimination order is therefore always reversed before scheduling.
+
+\subsection{Empirical validation}\label{sec:twig-empirical}
+
+Combining the collapse of Theorem~\ref{thm:twig-collapse} with the reversed
+processing order of Proposition~\ref{prop:direction} makes exact evaluation
+tractable on real, non-synthetic small networks:
+
+\begin{table}[h]
+\TABLE
+{Exact evaluation feasibility on real small networks\label{tab:twig-feasibility}}
+{\begin{tabular}{@{}lccc@{}}
+\hline
+\up Network & $n$ & width (min-fill-in) & \texttt{ExactSpreadFast.evaluate()} \\
+\hline
+\up Zachary karate club & 34 & 5 & 2.5 s \\
+Iceland (sexual contact) & 75 & 4 & 51 s \\
+\down Dolphin social network & 62 & $\sim$10--11 & infeasible (memory) \\
+\hline
+\end{tabular}}
+{Before both fixes (Theorem~\ref{thm:twig-collapse} and reversed processing order), karate did not finish in 60 s and Iceland/Dolphin were not attempted.}
+\end{table}
+
+On the karate club network (one seed, random independent-cascade
+probabilities in $[0.05,0.4]$), \texttt{greedy\_exact} -- greedy selection
+using \texttt{ExactSpreadFast} itself as the marginal-gain oracle, with zero
+sampling noise -- selects node 2 at budget 1 (expected spread falls from the
+unblocked value to 7.98) and adds node 1 at budget 2 (expected spread
+5.51). \citet{xie2023} prove $\FF(\cdot)$ is not supermodular in $B$ under
+the independent-cascade model, so greedy carries no $(1-1/e)$-style
+guarantee for IMIN, and \citet{xie2024} further show IMIN is APX-hard;
+consistent with both results, comparing \texttt{greedy\_exact} against
+\texttt{brute\_force\_optimal\_block} on 60 small random instances
+($n=6$--$14$, budget 1--4) finds greedy exactly optimal in 56 of 60 and
+strictly suboptimal in 4, by up to 84.6\% relative excess spread in the
+worst case (mean excess 2.2\% across all 60). This is, to our knowledge, the
+first exact (not Monte-Carlo-confounded) measurement of how often and how
+badly greedy departs from optimal IMIN selection.
+
+\section{Experiments}\label{sec:experiments}
+
+\subsection{DEFER benchmark}\label{sec:defer-experiments}
+
+We benchmark DEFER, wrapping the dominator-tree planner (default) and
+GreedyReplace (alternate planner), against the one-shot planners
+themselves, the COMMIT ablation, and simple heuristics (proximity, degree),
+on ca-GrQc, ca-HepTh, a power-grid network, a Barab\'asi--Albert graph, and
+soc-Epinions1 where feasible, under constant activation probabilities
+$p\in\{0.05,0.1\}$ and the weighted-cascade model, seed sets of size 20 or
+50 (random or highest-degree), and budgets 20, 50, 100. \emph{[Full results
+table pending completion of the benchmark run; see
+\texttt{docs/RESULTS\_NOTES.md} in the accompanying code release for the
+current partial results and Section~\ref{ec:reproducibility} of the Online
+Supplement for the exact protocol.]}
+
+\subsection{Auxiliary benchmark: source detection}\label{sec:source-experiments}
+
+As a secondary, apples-to-apples benchmark, we also evaluate classical and
+learned source-detection methods (rumor centrality, NetSleuth, dynamic
+message passing, and the graph neural network architectures of
+\citealp{sterchi2026} and the works it reproduces) on identical,
+seed-fixed test instances across several real contact and collaboration
+networks, calibrated per network to the target infected fraction of
+\citet{sterchi2026}. \emph{[Full six-network table pending completion of the
+GNN training matrix and the reduced-sample DMP run on the largest network;
+partial results are in \texttt{results/gnn\_benchmark\_sterchi/} in the code
+release.]}
+
+\section{Conclusion}\label{sec:conclusion}
+
+We gave the first formal treatment of adaptivity for influence
+minimization: a wrapper, DEFER, that is provably never worse than the
+one-shot planner it wraps, a myopic-optimal commitment rule, and a proof
+that the benefit of adapting to the unfolding cascade is unbounded rather
+than a modest constant-factor improvement. We complemented this with TWIG,
+an exact, fixed-parameter-tractable dynamic program for verifying any IMIN
+heuristic's optimality gap without the sampling confounds that have affected
+every prior empirical evaluation in this literature, together with a
+provable separation showing that even the direction of processing a fixed
+tree decomposition is algorithmically consequential. Both contributions are
+implemented, tested against brute force, and released with the paper.
+
+% Endnotes (none currently used)
+%\begingroup \parindent 0pt \parskip 0.0ex \def\enotesize{\normalsize} \theendnotes \endgroup
+
+\ACKNOWLEDGMENT{The author thanks no one in particular for this draft; acknowledgments will be added prior to submission.}
+
+\ECSwitch
+\ECDisclaimer
+\ECHead{Online Supplement}
+
+\section{Proofs for Section~\ref{sec:defer} (DEFER)}\label{ec:defer-proofs}
+
+\begin{repeatlemma}[Lemma~\ref{lem:defer-free} (Deferral is free)]
+Fix a live-edge realization, the seeds, and any set $P$ with $|P|\le b$. Let
+$\pi_P$ be the policy that, in every round, blocks the not-yet-blocked
+vertices of $P$ that are exposed to the current frontier. Then $\pi_P$
+produces exactly the same final active set as blocking $P$ at time $0$, and
+blocks at most as many vertices.
+\end{repeatlemma}
+\begin{proof}{Proof}
+On a fixed realization a vertex $v$ becomes active in the first round in
+which a frontier vertex has a live edge into it, i.e.\ the round after it is
+first exposed. $\pi_P$ blocks $v\in P$ in that round, before its trial, so
+$v$ never activates; every vertex outside $P$ faces the same set of blocked
+vertices at each of its trials under both policies, because a vertex of $P$
+that is never exposed never takes part in any trial. Hence the activation
+sequences coincide. Vertices of $P$ that are never exposed are never
+blocked.\Halmos
+\end{proof}
+
+\begin{repeattheorem}[Theorem~\ref{thm:defer-dominates} (DEFER weakly dominates its planner)]
+Let $P_0$ be the plan of $\mathcal P$ at round $0$. If, in every later
+round, the planner returns a plan whose sample-average saving is at least
+that of the leftover $P_{t-1}\setminus C_{t-1}$ -- guaranteed when the
+leftover is offered to the planner as a candidate solution -- then the
+expected final spread of DEFER is at most that of the one-shot solution
+$P_0$, up to the sampling error of the $\theta$ samples.
+\end{repeattheorem}
+\begin{proof}{Proof}
+By Lemma~\ref{lem:defer-free} the policy that keeps $P_0$ and commits
+lazily has the same spread as blocking $P_0$ at time $0$. DEFER differs
+from it only by replacing, at each round, the uncommitted leftover by a
+plan that is no worse on the samples for the remaining budget; the
+committed prefix is identical. Induction over rounds gives the claim on the
+samples; concentration of the sample average (\citealp{xie2024}, applied
+per candidate plan) gives the expectation statement.\Halmos
+\end{proof}
+
+\begin{repeatlemma}[Lemma~\ref{lem:pushdown} (Push-down is the myopic optimum)]
+Consider an exposed planned vertex $v$ whose children (its inactive
+out-neighbors) jointly protect the same set as $v$ minus $v$ itself, assume
+the children are exposed only through $v$, and value a budget unit at
+$\lambda$ vertices. Among the two policies ``block $v$ now'' and ``block
+$v$'s children if and only if $v$ activates,'' the second has smaller
+expected loss (vertices lost plus $\lambda$ times budget spent) if and only
+if $q_v(c_v+1/\lambda)<1$.
+\end{repeatlemma}
+\begin{proof}{Proof}
+Blocking now costs $\lambda$ and loses nothing of $v$'s set. Waiting loses
+$v$ (one vertex) and spends $c_v$ units with probability $q_v$, and nothing
+otherwise, while the protected set is the same in both branches by
+assumption: expected loss $q_v+\lambda q_v c_v$. Comparing $\lambda$ against
+$q_v+\lambda q_v c_v$ gives the stated condition.\Halmos
+\end{proof}
+
+\begin{repeattheorem}[Theorem~\ref{thm:adaptivity-gap} (The adaptivity gap of IMIN is unbounded)]
+For every $\Delta\ge 2$ and $p\in(0,1)$ there is an instance with maximum
+out-degree $\Delta$ on which the best one-shot solution with budget $1$ has
+expected spread at least $\bigl(1-(1-p)^{\Delta}\bigr)/p$ times that of
+DEFER with budget $1$ (up to an additive constant); this ratio tends to
+$\Delta$ as $p\to 0$.
+\end{repeattheorem}
+\begin{proof}{Proof}
+Seed $s$ has out-neighbors $a_1,\dots,a_\Delta$ with $p(s,a_i)=p$; each
+$a_i$ starts a private directed path of length $L$ with edge probability
+$1$. Any one-shot solution with budget $1$ blocks one vertex; blocking
+$a_i$ (or a vertex on its path) saves at most $L+1$ vertices and only if
+$a_i$ is activated, which happens with probability $p$: expected spread
+$\ge(\Delta p-p)L$. DEFER observes $N_1=\{a_i:(s,a_i)\text{ live}\}$ and
+blocks the first path vertex of one activated branch; if $k$ branches are
+active the spread is $(k-1)L+k$. Its expected spread is
+$\mathbb E[(k-1)^+]L+\Delta p\le(\Delta p-1+(1-p)^\Delta)L+\Delta p$ (DEFER's
+plan at round $0$ is a branch head $a_i$ with $q=p$, $c=1$, and
+$\lambda\approx pL$, so the push-down rule $p(1+1/(pL))<1$ defers it). The
+ratio of one-shot to DEFER is at least
+$\frac{(\Delta-1)p}{\Delta p-1+(1-p)^\Delta}$, which for $p\to0$ with
+$\Delta p=c$ fixed tends to $c/(c-1+e^{-c})$ and, for fixed $\Delta$ as
+$p\to0$, behaves like $\frac{(\Delta-1)p}{\binom{\Delta}{2}p^2}=
+\frac{2}{\Delta p}\to\infty$; the stated bound
+$(1-(1-p)^\Delta)/p$ follows from comparing the saving $Lp$ of the best
+one-shot vertex with the saving $L\Pr[k\ge1]=L(1-(1-p)^\Delta)$ of
+DEFER.\Halmos
+\end{proof}
+
+\begin{repeattheorem}[Theorem~\ref{thm:defer-complexity} (Complexity of DEFER)]
+Let $n_t,m_t$ be the number of vertices and edges reachable from $F_t$ in
+the union of the $\theta$ samples, $r$ the number of rounds, and $\alpha$
+the inverse Ackermann function. With the dominator planner, round $t$
+costs $O(\theta\,m_t\,\alpha(m_t,n_t))$ for the dominator trees plus
+$O(b_t\,\theta'\,m_t\,\alpha)$ for the greedy picks; the total is
+$O\bigl(\sum_t(1+b_t)\,\theta\,m_t\,\alpha\bigr)$, which is
+$O(r\,b\,\theta\,m\,\alpha(m,n))$ in the worst case.
+\end{repeattheorem}
+\begin{proof}{Proof}
+Each dominator tree is computed by the Cooper--Harvey--Kennedy iteration
+on the reachable subgraph (near-linear; the Lengauer--Tarjan analysis gives
+the $\alpha$ bound). Step 2 of Algorithm~\ref{alg:defer} is a breadth-first
+search per sample. Recomputation after a pick is restricted to samples
+whose cached reach set contains the picked vertex, which is exactly the
+set of samples whose dominator tree can change. Summing over picks and
+rounds gives the bound.\Halmos
+\end{proof}
+
+\begin{repeattheorem}[Theorem~\ref{thm:isocut-separation} (Isolation-move separation)]
+There is a family of instances on which AdvancedGreedy, GreedyReplace, and
+the Sandwich lower-bound greedy all save $O(b)$ vertices with budget $b$,
+while a planner with frontier-isolation moves saves $\Omega(N)$ for
+arbitrary $N$.
+\end{repeattheorem}
+\begin{proof}{Proof}
+Construction: a decoy seed with $b+1$ out-neighbors, each with one private
+leaf (single-vertex saving 2); a real seed with $c\le b$ out-neighbors, all
+of which point to every vertex of a region $R$ of $N$ vertices whose
+vertices have no private successors. Every single vertex in $R$ or among
+the real seed's out-neighbors saves at most 1, so all three published
+rules spend the budget on decoy neighbors (saving $2b$; GreedyReplace's
+replacement pass replaces a decoy blocker by itself and stops), whereas
+isolating the real seed saves $N+c$ at cost $c$.\Halmos
+\end{proof}
+
+\section{Proofs for Section~\ref{sec:twig} (TWIG)}\label{ec:twig-proofs}
+
+\begin{repeatlemma}[Invariant maintained by \texttt{ExactSpread}]\label{ec:lem:invariant}
+Fix $B$ and a step $i$. For every configuration $\kappa=(\Pi,\rho)$ with
+$P_\kappa>0$ after step $i$,
+\begin{align*}
+P_\kappa=\Pr\nolimits_\omega\Bigl[\;&\Pi\text{ is the partition of }F_i\text{
+by connectivity in }\bigl(F_i^{\ge},\,\omega|_{E_i}\bigr)\text{, seed-
+containing part collapsed to SEED};\\
+&\text{and }\forall\text{ non-SEED block }b,\ \rho(b)=\bigl|
+\{u:\mathrm{last}(u)\le i,\ u\text{ retired non-seed},\ u\sim_\omega b\}
+\bigr|\;\Bigr],
+\end{align*}
+where $E_i$ is the set of edges processed by step $i$ (both endpoints
+introduced, neither endpoint in $B$), $F_i^{\ge}=\{x\notin B:\mathrm{pos}(x)
+\le i\}$ is every vertex introduced so far (active or already retired), and
+$u\sim_\omega b$ means $u$ is connected, via live edges of $E_i$ within
+$F_i^{\ge}$, to the current representative of block $b$. Moreover
+$$\mathrm{acc}_i=\sum_{v\in V\setminus S\setminus B\,:\,\mathrm{last}(v)\le
+i}\Pr\nolimits_\omega\bigl[v\sim_\omega\text{ some seed, using only edges of
+}E_i\bigr].$$
+\end{repeatlemma}
+\begin{proof}{Proof}
+By induction on $i$. \emph{Base case} $i=-1$ (before any step): $F_{-1}
+=\varnothing$, the unique configuration is the empty partition with $P=1$,
+$\mathrm{acc}=0$, and both sides of the claimed identities are vacuously
+true ($E_{-1}=\varnothing$, no vertex has retired).
+
+\emph{Introduce.} Adding $v$ as a new singleton block changes nothing about
+already-active vertices' connectivity (no new edge is realized), and
+correctly starts $v$'s own block (SEED if $v\in S$, pending $0$ otherwise,
+since $v$ is trivially connected to itself and, being newly introduced, to
+nothing else yet). The invariant is preserved for $\Pi$ and, since no new
+edges enter $E_i$, for $\mathrm{acc}$.
+
+\emph{Process\_edge$(u,v)$.} This is the only place a new edge $(u,v)$
+enters $E_i$. Conditioning on its two outcomes (independent of every other
+edge's realization, by the independent-cascade model's edge independence)
+exactly reproduces the two branches: tails leaves $\Pi$, $\rho$,
+$\mathrm{acc}$ untouched, matching that $(u,v)\notin\omega$ leaves
+connectivity and every retired vertex's membership unchanged. Heads merges
+$u$'s and $v$'s blocks, which is exactly the effect of adding a live edge to
+a union-find-style connectivity structure. If the merge is into SEED: every
+already-retired vertex $u'$ counted in the merging block's $\rho(b)$ is, by
+the outer induction hypothesis, connected (via $E_i\setminus\{(u,v)\}$) to
+$b$'s current representative, hence now (with $(u,v)$ live) transitively
+connected to a seed for the first time in this history -- exactly one unit
+each is owed to $\mathrm{acc}$, contributing $p(u,v)\cdot\rho(b)$ in
+expectation over this branch, matching the update; $\rho(b)$ is then
+correctly discharged (those vertices will never need to be paid for again,
+since a vertex is reached at most once). If the merge is between two
+ordinary blocks, no vertex's fate is decided yet (neither is connected to a
+seed), so $\mathrm{acc}$ is untouched and the two blocks' pending vertex
+sets simply become one, i.e.\ $\rho(b_1)+\rho(b_2)$, matching the update.
+
+\emph{Retire$(u)$.} $u$ retiring means $\mathrm{last}(u)=i$: every edge
+incident to $u$ is already in $E_i$, so $u$'s connectivity to everything
+else active or retired is already fully determined and will never change.
+If $u$'s block is already SEED: $u$ is reached with probability $P_\kappa$
+in this history, contributed to $\mathrm{acc}$ unless $u$ itself is a seed
+(seeds are excluded from ``reached,'' matching the definition of
+$\FF(B)$). Otherwise $u$'s fate is not yet decided; deferring it into
+$\rho(b)$ is exactly the claimed count (one more retired vertex now
+connected to $b$), \emph{unless} $b$ has no other active member, in which
+case $b$ can never merge with anything else in the future (its only
+remaining edges were already all processed, by definition of retirement
+having emptied it of active representatives) -- correctly discharging
+vertices that are provably never reached. Removing $u$ from $\Pi$ matches
+$F_i\setminus\{u\}$.\Halmos
+\end{proof}
+
+\begin{repeattheorem}[Theorem~\ref{thm:twig-correct} (Correctness of \texttt{ExactSpread})]
+For every $B$, \texttt{ExactSpread}$(G,p,S)$.evaluate$(B)=\FF(B)$.
+\end{repeattheorem}
+\begin{proof}{Proof}
+Apply Lemma~\ref{ec:lem:invariant} at $i=n-1$ (the last step): $F_{n-1}
+=\varnothing$ (every vertex has retired by the time all its neighbors,
+which include itself, have been introduced), $E_{n-1}=E\setminus(B$-incident
+edges$)$, i.e.\ all of $G_B$'s edges, and every non-seed, non-blocked
+vertex has $\mathrm{last}(v)\le n-1$. The second identity of
+Lemma~\ref{ec:lem:invariant} then reads $\mathrm{acc}_{n-1}=
+\sum_{v\in V\setminus S\setminus B}\Pr_\omega[v\sim_\omega\text{ some seed
+in }G_B]=\FF(B)$, which is exactly what \texttt{evaluate}$(B)$
+returns.\Halmos
+\end{proof}
+
+\begin{repeatproposition}[Proposition~\ref{prop:xp-space} (State space of \texttt{ExactSpread})]
+The number of partition shapes of a frontier of size at most $w+1$ is
+$B_{w+1}$, the $(w+1)$-th Bell number, independent of $n$. But each shape's
+pending vector has up to $w+1$ components, each ranging over
+$\{0,\dots,n\}$, so the number of distinct configurations at any step is at
+most $B_{w+1}\cdot(n+1)^{w+1}$.
+\end{repeatproposition}
+
+\begin{repeattheorem}[Theorem~\ref{thm:twig-collapse} (Correctness of the linear-aggregation collapse)]
+Fix a partition shape $s$ and, at some step, let
+$\mathcal K_s=\{(s,\rho):P_{(s,\rho)}>0\}$. Define the aggregates
+$P_s=\sum_{(s,\rho)\in\mathcal K_s}P_{(s,\rho)}$ and
+$W_b=\sum_{(s,\rho)\in\mathcal K_s}P_{(s,\rho)}\cdot\rho(b)$ for each
+non-SEED block $b$ of $s$. Then $(P_s,\{W_b\})_s$ can be updated, at every
+step, by the same four rules \texttt{ExactSpreadFast} implements, and this
+update yields the identical sequence of \texttt{acc} increments as
+\texttt{ExactSpread}, for every $B$.
+\end{repeattheorem}
+\begin{proof}{Proof}
+We check each of the (at most) four ways a step transforms a configuration
+$(s,\rho)\mapsto(s',\rho')$ within a fixed edge-outcome branch (shape
+transitions never depend on $\rho$, only on $s$ and, for
+\texttt{process\_edge}, the branch); linearity of each in $\rho$ is then
+all that is needed.
+
+\emph{Introduce a new non-seed block $b_0$.} $\rho'(b_0)=0$,
+$\rho'(b)=\rho(b)$ otherwise, $s'=s\cup\{b_0\}$ is independent of $\rho$.
+Then $W'_{b_0}=\sum_\rho P_\rho\cdot 0=0$ and $W'_b=W_b$ for $b\ne b_0$: no
+update needed for existing entries, new entry is (implicitly) $0$.
+
+\emph{Process\_edge, tails.} $s'=s$, $\rho'=\rho$, but the whole branch
+carries probability weight $(1-p_e)$: $P'_s=(1-p_e)P_s$ and
+$W'_b=(1-p_e)W_b$ for every entry.
+
+\emph{Process\_edge, heads, merge into SEED.} The payout added to
+$\mathrm{acc}$ in this branch is
+$p_e\sum_{(s,\rho)}P_\rho\cdot\rho(b)=p_e\cdot W_b$ exactly (a direct
+algebraic identity, not a mean-field substitution). Block $b$ is then
+dropped ($\rho'$ has no entry for it).
+
+\emph{Process\_edge, heads, merge two ordinary blocks $b_1,b_2\to b$.}
+$\rho'(b)=\rho(b_1)+\rho(b_2)$, so
+$W'_b=\sum_\rho P_\rho(\rho(b_1)+\rho(b_2))=W_{b_1}+W_{b_2}$.
+
+\emph{Retire, block still active.} $\rho'(b)=\rho(b)+1$ for the retiring
+block, others unchanged: $W'_b=\sum_\rho P_\rho(\rho(b)+1)=W_b+P_s$ (using
+the aggregate $P_s$, not a per-history increment).
+
+\emph{Retire, block emptied.} $b$'s entry is dropped for every history in
+$\mathcal K_s$ simultaneously (the condition ``no other active member''
+depends only on $s$, not $\rho$), so $W'_b$ is simply omitted.
+
+\emph{Retire, block is SEED, $u\notin S$.} $\mathrm{acc}$ gains
+$\sum_\rho P_\rho=P_s$ in this branch.
+
+Each case is an exact algebraic identity between the aggregate before and
+the aggregate after, with no term dropped or approximated; by induction
+over the sequence of steps, $(P_s,\{W_b\})$ computed by
+\texttt{ExactSpreadFast} therefore equals the shape-lumped aggregate of
+\texttt{ExactSpread}'s full distribution at every step, and in particular
+produces the identical sequence of contributions to $\mathrm{acc}$.\Halmos
+\end{proof}
+
+\begin{repeatproposition}[Proposition~\ref{prop:fpt-space} (State space of \texttt{ExactSpreadFast})]
+The number of distinct states at any step is at most $B_{w+1}$ (one
+$(P_s,\{W_b\})$ tuple per shape), independent of $n$.
+\end{repeatproposition}
+
+\begin{repeatproposition}[Proposition~\ref{prop:direction} (Star graphs separate forward and reversed elimination order)]
+Let $T_k$ be the star $K_{1,k}$, $n=k+1$. Min-fill-in computes the
+elimination order $\pi=(\ell_1,\dots,\ell_k,c)$, correctly certifying
+treewidth $1$. Running the schedule of Section~\ref{sec:prelim} directly on
+$\pi$ (the centre processed last) produces a frontier of size $k=n-1$
+immediately before the centre's step. Running it on $\mathrm{reverse}(\pi)$
+(the centre processed first) keeps the frontier at size at most $2$
+throughout.
+\end{repeatproposition}
+\begin{proof}{Proof}
+Immediate from the definitions of Section~\ref{sec:prelim}: under $\pi$,
+$\mathrm{last}(\ell_i)=\mathrm{pos}(c)=k$ for every leaf (its only neighbor
+$c$ is introduced last), so no leaf retires before step $k$, giving
+$F_{k-1}=\{\ell_1,\dots,\ell_k\}$; under $\mathrm{reverse}(\pi)$,
+$\mathrm{last}(\ell_i)=\mathrm{pos}(\ell_i)$ (once $c$ is already active,
+$\ell_i$'s only edge is processed the instant $\ell_i$ is introduced, and
+$c$ is not $\ell_i$'s own last neighbor to be introduced -- it already was),
+so every leaf retires the step after it is introduced, and $c$ itself
+retires only at the final step (its own $\mathrm{last}$ is the position of
+the last-introduced leaf), giving $|F_i|\le 2$ for all $i$.\Halmos
+\end{proof}
+
+\section{Experimental Protocol}\label{ec:reproducibility}
+
+\subsection{DEFER benchmark}
+Graphs: ca-GrQc, ca-HepTh, a power-grid network, a Barab\'asi--Albert
+random graph with 2000 vertices, and soc-Epinions1 where feasible.
+Probabilities: constant $p\in\{0.05,0.1\}$ and the weighted-cascade model.
+Seeds: 20 or 50, drawn uniformly at random or as the highest-degree
+vertices. Budgets: 20, 50, 100. For each instance and each of 5 independent
+live-edge realizations, every policy runs on the same realization with the
+same total budget (common random numbers), so differences are attributable
+to policy alone. Policies compared: none, AdvancedGreedy, GreedyReplace,
+the Sandwich lower bound, proximity-to-seeds, degree (all one-shot); DEFER
+with the dominator planner, DEFER with GreedyReplace as planner, COMMIT,
+and DEFER restricted to a 4-round planning horizon. Reported: final spread
+beyond the seeds (mean and standard error), fraction of spread saved,
+budget used, and wall-clock time per episode including planning.
+
+\subsection{TWIG optimality-gap study}
+Random small graphs, $n=6$--$14$, edge density such that treewidth stays at
+most 5--6, budget 1--4, one to four seeds. For each instance,
+\texttt{greedy\_exact} and \texttt{brute\_force\_optimal\_block} are both
+run with the identical exact oracle \texttt{ExactSpreadFast.evaluate}, so
+any discrepancy between the two is a true optimality gap rather than
+sampling noise. 60 instances were drawn; correctness of the oracle itself
+was independently established by exhaustive summation over all $2^{|E|}$
+live-edge subsets on graphs up to $n=9$ (2000+ configurations for
+\texttt{ExactSpread}, 1000+ for \texttt{ExactSpreadFast}), matching
+Theorems~\ref{thm:twig-correct} and \ref{thm:twig-collapse}.
+
+\begin{thebibliography}{99}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+
+\bibitem[{Bodlaender(1988)}]{bodlaender1988}
+Bodlaender HL (1988) Dynamic programming on graphs with bounded treewidth.
+  \emph{Proc.\ 15th Internat.\ Colloquium on Automata, Languages and
+  Programming (ICALP)}, 105--118.
+
+\bibitem[{Budak et~al.(2011)Budak, Agrawal, and El~Abbadi}]{budak2011}
+Budak C, Agrawal D, El~Abbadi A (2011) Limiting the spread of misinformation
+  in social networks. \emph{Proc.\ 20th Internat.\ Conf.\ on World Wide Web
+  (WWW)}, 665--674.
+
+\bibitem[{Cygan et~al.(2015)Cygan, Fomin, Kowalik, Lokshtanov, Marx,
+  Pilipczuk, Pilipczuk, and Saurabh}]{cygan2015}
+Cygan M, Fomin FV, Kowalik {\L}, Lokshtanov D, Marx D, Pilipczuk M,
+  Pilipczuk M, Saurabh S (2015) \emph{Parameterized Algorithms} (Springer,
+  Cham).
+
+\bibitem[{Kempe et~al.(2003)Kempe, Kleinberg, and Tardos}]{kempe2003}
+Kempe D, Kleinberg J, Tardos {\'E} (2003) Maximizing the spread of influence
+  through a social network. \emph{Proc.\ 9th ACM SIGKDD Internat.\ Conf.\ on
+  Knowledge Discovery and Data Mining (KDD)}, 137--146.
+
+\bibitem[{Nakamura and Nishino(2026)}]{nakamura2026}
+Nakamura K, Nishino M (2026) Linear-time exact computation of influence
+  spread on bounded-pathwidth graphs. \emph{39th Internat.\ Symp.\ on
+  Algorithms and Computation / Scandinavian Symp.\ and Workshops on
+  Algorithm Theory (SWAT)}, Dagstuhl LIPIcs. [Verify final proceedings
+  citation prior to submission.]
+
+\bibitem[{Provan and Ball(1983)}]{provan1983}
+Provan JS, Ball MO (1983) The complexity of counting cuts and of computing
+  the probability that a graph is connected. \emph{SIAM J.\ Comput.}
+  12(4):777--788.
+
+\bibitem[{Sterchi et~al.(2026)Sterchi, Brack, and Hilfiker}]{sterchi2026}
+Sterchi M, Brack F, Hilfiker R (2026) A systematic benchmark of graph
+  neural networks for epidemic source detection. \emph{arXiv:2512.20657}.
+
+\bibitem[{Valiant(1979)}]{valiant1979}
+Valiant LG (1979) The complexity of enumeration and reliability problems.
+  \emph{SIAM J.\ Comput.} 8(3):410--421.
+
+\bibitem[{Wang et~al.(2024)}]{wang2024sandwich}
+Wang et~al. (2024) Sandwich approximation algorithms for influence
+  minimization. [Placeholder: confirm full author list and venue prior to
+  submission; referenced in this draft only for the Sandwich lower-bound
+  baseline LSBM.]
+
+\bibitem[{Xie et~al.(2023)Xie, Zhang, Wang, Lin, and Zhang}]{xie2023}
+Xie J, Zhang Y, Wang Z, Lin X, Zhang W (2023) Minimizing the influence
+  spread over a social network via node blocking. \emph{Proc.\ 39th IEEE
+  Internat.\ Conf.\ on Data Engineering (ICDE)}, 3096--3108.
+
+\bibitem[{Xie et~al.(2024)Xie, Zhang, Wang, Liu, Lin, and Zhang}]{xie2024}
+Xie J, Zhang Y, Wang Z, Liu H, Lin X, Zhang W (2024) Influence minimization
+  via blocking strategies. \emph{INFORMS J.\ Comput.} 37(6). Code:
+  \texttt{github.com/INFORMSJoC/2024.0591}, arXiv:2312.17488.
+
+\end{thebibliography}
+
+\end{document}
