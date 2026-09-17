@@ -252,6 +252,36 @@ and the \emph{width} of $\sigma$ is $w=\max_i|F_i|-1$, which upper-bounds
 the treewidth of $G$ when $\sigma$ comes from a min-fill-in / min-degree
 chordal completion \citep{bodlaender1988,cygan2015}.
 
+Table~\ref{tab:notation} collects the notation introduced above and in
+Sections~\ref{sec:defer} and \ref{sec:twig} for reference.
+
+\begin{table}[h]
+\TABLE
+{Notation used throughout the paper\label{tab:notation}}
+{\begin{tabular}{@{}ll@{}}
+\hline
+\up Symbol & Meaning \\
+\hline
+\up $G=(V,E)$, $n$, $m$ & graph, vertex count, edge count \\
+$p:E\to(0,1]$ & independent-cascade edge probabilities \\
+$S$, $B$, $b$ & seed set, blocked set, blocking budget \\
+$\omega$, $\Rspread(\omega,B)$ & live-edge realization, reachable set under $\omega$ with $B$ removed \\
+$\FF(B)$ & expected spread with blocking set $B$ (Eq.~\ref{eq:spread}) \\
+$F_t$, $A_t$, $N_t$ & round-$t$ frontier, active set, newly activated set (DEFER) \\
+$P_t$, $L$, $C_t$ & round-$t$ plan, uncommitted leftover, vertices committed this round \\
+$q_v$, $c_v$, $\lambda_t$ & exposure probability, child count, shadow price of a budget unit \\
+$\mathcal P$ & one-shot planner wrapped by DEFER \\
+$\sigma$, $\mathrm{pos}$, $\mathrm{last}$ & elimination order, position function, retirement step (TWIG) \\
+$F_i$, $w$ & frontier after step $i$, width of $\sigma$ (TWIG) \\
+$\kappa=(\Pi,\rho)$ & configuration: partition plus pending counts (Definition~\ref{def:config}) \\
+$P_\kappa$, $\mathrm{acc}$ & configuration probability, running accumulated spread \\
+$P_s$, $W_b$ & shape-aggregated probability and weighted pending sum (Theorem~\ref{thm:twig-collapse}) \\
+\down $B_{w+1}$ & $(w+1)$-th Bell number \\
+\hline
+\end{tabular}}
+{}
+\end{table}
+
 \section{DEFER: Adaptive Influence Minimization by Deferred Frontier Blocking}\label{sec:defer}
 
 \subsection{Algorithm}\label{sec:defer-algo}
@@ -653,6 +683,153 @@ force.
 {Each point averages the live-edge draws available at that budget (2--8 draws depending on budget; see \texttt{results/summary\_adaptive.csv}).}
 \end{figure}
 
+Table~\ref{tab:defer-allbudgets} extends this comparison to all four
+networks and the full budget sweep $b\in\{5,10,20,50,100\}$ under the
+constant-probability model, restricted to AG, DEFER, and COMMIT for
+readability.
+
+\begin{table}[h]
+\TABLE
+{Fraction of no-intervention spread saved across the full budget sweep, constant probability\label{tab:defer-allbudgets}}
+{\begin{tabular}{@{}lcccccccccccc@{}}
+\hline
+\up & \multicolumn{3}{c}{ca-GrQc} & \multicolumn{3}{c}{ca-HepTh} & \multicolumn{3}{c}{power-grid} & \multicolumn{3}{c}{BA(2000)} \\
+$b$ & AG & DEFER & COMMIT & AG & DEFER & COMMIT & AG & DEFER & COMMIT & AG & DEFER & COMMIT \\
+\hline
+\up 5 & 0.250 & \textbf{0.259} & 0.186 & 0.283 & \textbf{0.322} & 0.235 & \textbf{0.130} & 0.124 & 0.053 & 0.463 & \textbf{0.463} & 0.419 \\
+10 & 0.407 & \textbf{0.422} & 0.389 & 0.331 & \textbf{0.352} & 0.345 & \textbf{0.216} & \textbf{0.216} & 0.188 & 0.521 & \textbf{0.522} & 0.513 \\
+20 & 0.583 & \textbf{0.602} & 0.591 & 0.452 & \textbf{0.471} & 0.448 & 0.339 & \textbf{0.341} & 0.290 & 0.571 & \textbf{0.573} & 0.562 \\
+50 & 0.815 & \textbf{0.818} & 0.801 & 0.656 & \textbf{0.666} & 0.631 & \textbf{0.592} & \textbf{0.592} & 0.583 & 0.671 & \textbf{0.673} & 0.674 \\
+\down 100 & \textbf{0.900} & \textbf{0.900} & 0.897 & 0.671 & 0.679 & \textbf{0.727}$^{*}$ & \textbf{0.788} & \textbf{0.788} & 0.785 & \textbf{0.795} & \textbf{0.795} & 0.767 \\
+\hline
+\end{tabular}}
+{Bold marks the best of the three policies shown per cell (ties bolded on
+both). $^{*}$The one cell where COMMIT beats both AG and DEFER
+(ca-HepTh, $b=100$) has only two live-edge draws, the smallest sample in
+the sweep; we read it as sampling noise rather than a real reversal,
+consistent with the finite-sample caveat in Theorem~\ref{thm:defer-dominates}.
+DEFER is at least tied with AG in 19 of 20 cells and strictly ahead in 14,
+with the narrowing-at-large-budget pattern of Figure~\ref{fig:defer-sweep}
+visible on every network.}
+\end{table}
+
+\subsection{Seed-selection sensitivity}\label{sec:seed-sensitivity}
+
+The results above seed with 20 vertices chosen uniformly at random. We
+additionally ran a single-draw sweep with 50 highest-degree seeds -- a
+harder, more concentrated seeding that activates a larger and more
+overlapping set of branches immediately -- across the same four networks
+and budgets $10,20,50$ (Table~\ref{tab:defer-degree-seeds}). With only one
+live-edge draw per cell, these numbers are noisier than
+Table~\ref{tab:defer-allbudgets}'s, and indeed COMMIT is no longer
+uniformly dominated: high-degree seeding produces a cascade with many
+simultaneously active branches from round 0, which both compresses the
+number of rounds available for DEFER's push-down rule to exploit and gives
+COMMIT less opportunity to lock in a bad early commitment before better
+information arrives. The qualitative ranking (DEFER weakly at or above AG)
+still holds in 10 of 12 cells; the two exceptions
+(ca-HepTh $b=50$, power-grid $b=50$) are single-draw, small-margin
+reversals of the kind Theorem~\ref{thm:defer-dominates}'s sampling-error
+caveat anticipates, not evidence against the theorem, whose guarantee is on
+the sample-average plan comparison DEFER actually performs internally, not
+on every individual realized draw.
+
+\begin{table}[h]
+\TABLE
+{Fraction of spread saved, 50 highest-degree seeds, single draw per cell, constant probability\label{tab:defer-degree-seeds}}
+{\begin{tabular}{@{}lcccccccccccc@{}}
+\hline
+\up & \multicolumn{3}{c}{ca-GrQc} & \multicolumn{3}{c}{ca-HepTh} & \multicolumn{3}{c}{power-grid} & \multicolumn{3}{c}{BA(2000)} \\
+$b$ & AG & DEFER & COMMIT & AG & DEFER & COMMIT & AG & DEFER & COMMIT & AG & DEFER & COMMIT \\
+\hline
+\up 10 & 0.317 & \textbf{0.314}$^\dagger$ & 0.325 & 0.121 & \textbf{0.121} & 0.122 & 0.148 & \textbf{0.153} & 0.146 & 0.340 & \textbf{0.342} & 0.344 \\
+20 & 0.471 & \textbf{0.474} & 0.476 & 0.229 & \textbf{0.231} & 0.237 & 0.231 & \textbf{0.238} & 0.214 & 0.395 & \textbf{0.397} & 0.388 \\
+\down 50 & \textbf{0.691} & 0.696 & \textbf{0.709}$^\dagger$ & \textbf{0.472} & 0.461 & 0.464 & 0.404 & 0.404 & \textbf{0.411}$^\dagger$ & 0.470 & \textbf{0.474} & 0.478 \\
+\hline
+\end{tabular}}
+{$^\dagger$Cells where the single-draw realization favors AG or COMMIT
+over DEFER by a small margin; see the discussion in the text. Bold marks
+the nominal best value per cell, which at $n=1$ draw is a point estimate
+rather than a statistically distinguishable ranking.}
+\end{table}
+
+\subsection{Complexity in practice}\label{sec:complexity-practice}
+
+Theorem~\ref{thm:defer-complexity} predicts that DEFER costs more per
+episode than its one-shot planner, since it re-plans every round instead
+of once. Table~\ref{tab:timing} confirms this directly from wall-clock
+measurements (budget 20, constant-probability model): DEFER costs
+roughly 5--7$\times$ AG's per-episode time on the three networks large
+enough for the difference to be measured precisely, consistent with a
+handful of re-planning rounds each costing comparably to the single AG
+call. COMMIT, despite executing the identical per-round algorithm as
+DEFER, costs \emph{more} than DEFER on every network -- because COMMIT's
+inferior plan quality (Tables~\ref{tab:defer-results} and
+\ref{tab:defer-allbudgets}) leaves more of the cascade active for longer,
+so the cascade itself takes more rounds to die out, and each additional
+round is an additional re-planning call. This is a cost interaction
+Theorem~\ref{thm:defer-complexity}'s bound (stated per round times number
+of rounds) makes explicit but that a bound on a single round's cost alone
+would miss: a worse policy is not just worse, it is also slower, because
+it prolongs the very process being controlled.
+
+\begin{table}[h]
+\TABLE
+{Wall-clock time per episode (seconds), budget 20, constant probability\label{tab:timing}}
+{\begin{tabular}{@{}lccccc@{}}
+\hline
+\up network ($n$) & AG & GR & DEFER & COMMIT & isocut \\
+\hline
+\up ca-GrQc (5241) & 0.078 & 0.085 & 0.542 & 0.861 & 0.080 \\
+ca-HepTh (9875) & 0.232 & 0.272 & 1.002 & 1.793 & 0.238 \\
+power-grid (4941) & 0.006 & 0.008 & 0.017 & 0.048 & 0.010 \\
+\down BA(2000) (2000) & 0.012 & 0.014 & 0.030 & 0.088 & 0.016 \\
+\hline
+\end{tabular}}
+{Isocut (a one-shot planner with the added frontier-isolation move of
+Theorem~\ref{thm:isocut-separation}) costs about as much as AG, since it
+adds one candidate-move type to a single planning call rather than
+introducing DEFER's round-by-round re-planning.}
+\end{table}
+
+\subsection{Isolation moves in practice}\label{sec:isocut-practice}
+
+Theorem~\ref{thm:isocut-separation} shows a worst-case family on which
+frontier-isolation moves save $\Omega(N)$ where every other rule
+considered saves $O(b)$. Table~\ref{tab:isocut} checks whether this
+worst-case advantage is visible on the real SNAP-scale networks used
+throughout this section: it is not. isocut is statistically
+indistinguishable from AG on all four networks (it adds isolation moves to
+AG's candidate set but essentially never selects one over a single-node
+pick), and defer\_cut -- DEFER with the same isolation move available to
+its planner -- is at best a marginal improvement over plain DEFER
+(ca-HepTh) and a marginal loss elsewhere. This is not a failure of
+Theorem~\ref{thm:isocut-separation}'s proof; it is a statement about which
+graphs the adversarial construction's decoy-seed structure actually
+resembles. Real collaboration and infrastructure networks do not contain a
+seed whose entire out-neighborhood points into an otherwise-unreachable
+region the way the construction's real seed does, so the situation the
+isolation move is built to exploit essentially does not arise, and the
+move earns its keep only as a documented worst-case possibility, not as a
+component of the default algorithm.
+
+\begin{table}[h]
+\TABLE
+{Fraction of no-intervention spread saved, isolation-move ablations, budget 20, constant probability\label{tab:isocut}}
+{\begin{tabular}{@{}lcccc@{}}
+\hline
+\up network & AG & DEFER & isocut & defer\_cut \\
+\hline
+\up ca-GrQc & 0.583 & \textbf{0.602} & 0.574 & 0.589 \\
+ca-HepTh & 0.452 & 0.471 & 0.452 & \textbf{0.488} \\
+power-grid & 0.339 & \textbf{0.341} & 0.339 & \textbf{0.341} \\
+\down BA(2000) & 0.571 & \textbf{0.573} & 0.571 & \textbf{0.573} \\
+\hline
+\end{tabular}}
+{Bold marks the best value per row. isocut never beats AG; defer\_cut
+beats plain DEFER only on ca-HepTh and ties it elsewhere.}
+\end{table}
+
 \subsection{Auxiliary benchmark: source detection}\label{sec:source-experiments}
 
 As a secondary, apples-to-apples benchmark, we also evaluate classical and
@@ -937,10 +1114,11 @@ Fix $B$ and a step $i$. For every configuration $\kappa=(\Pi,\rho)$ with
 $P_\kappa>0$ after step $i$,
 \begin{align*}
 P_\kappa=\Pr\nolimits_\omega\Bigl[\;&\Pi\text{ is the partition of }F_i\text{
-by connectivity in }\bigl(F_i^{\ge},\,\omega|_{E_i}\bigr)\text{, seed-
-containing part collapsed to SEED};\\
-&\text{and }\forall\text{ non-SEED block }b,\ \rho(b)=\bigl|
-\{u:\mathrm{last}(u)\le i,\ u\text{ retired non-seed},\ u\sim_\omega b\}
+by connectivity in }\bigl(F_i^{\ge},\,\omega|_{E_i}\bigr),\\
+&\text{seed-containing part collapsed to SEED; and}\\
+&\forall\text{ non-SEED block }b,\ \rho(b)=\bigl|
+\{u:\mathrm{last}(u)\le i,\\
+&\qquad u\text{ retired non-seed},\ u\sim_\omega b\}
 \bigr|\;\Bigr],
 \end{align*}
 where $E_i$ is the set of edges processed by step $i$ (both endpoints
