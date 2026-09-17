@@ -28,3 +28,8 @@ IGCN(
 Epoch: 001, Train Acc: 0.3820, Train Loss: 2.5050, Val. Acc: 0.3847, Val. Loss: 2.5019
 Epoch: 002, Train Acc: 0.3881, Train Loss: 2.3209, Val. Acc: 0.3917, Val. Loss: 2.3172
 Epoch: 003, Train Acc: 0.3883, Train Loss: 2.3108, Val. Acc: 0.3932, Val. Loss: 2.3062
+Epoch: 004, Train Acc: 0.3889, Train Loss: 2.3062, Val. Acc: 0.3938, Val. Loss: 2.3019
+Epoch: 005, Train Acc: 0.3889, Train Loss: 2.3041, Val. Acc: 0.3939, Val. Loss: 2.2996
+Epoch: 006, Train Acc: 0.3891, Train Loss: 2.3018, Val. Acc: 0.3943, Val. Loss: 2.2977
+Epoch: 007, Train Acc: 0.3889, Train Loss: 2.3009, Val. Acc: 0.3946, Val. Loss: 2.2961
+Epoch: 008, Train Acc: 0.3889, Train Loss: 2.3000, Val. Acc: 0.3941, Val. Loss: 2.2952
