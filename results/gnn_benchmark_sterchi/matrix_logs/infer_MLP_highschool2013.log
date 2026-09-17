@@ -16,3 +16,10 @@ Avg. credible set size: 111.5624
 Avg. scoring rule (Brier): 0.6260
 Avg. scoring rule (Resistance): 0.0203
 Average time per inference run: 0.008475 seconds
+============================
+RANDOM RESULTS
+Top-1 Acc.: 0.3721
+Top-3 Acc.: 0.3755
+Top-5 Acc.: 0.3798
+Avg. error dist.: 1.2306
+Avg. reciprocal rank: 0.3759
