@@ -10,3 +10,20 @@ Avg. outbreak size: 133.671
 Avg. R0: 2.01293
 Avg. sampled infection rate: 0.065
 Number of sim. with only one inf. node: 53000
+============================
+Training examples: 114450
+Validation examples: 49050
+============================
+DONG(
+  (convs): ModuleList(
+    (0): GCNConv(3, 128)
+    (1-4): 4 x GCNConv(128, 128)
+  )
+  (activ): ModuleList(
+    (0-4): 5 x ReLU()
+  )
+  (final): Sequential(
+    (0): Linear(in_features=128, out_features=1, bias=True)
+  )
+)
+============================
