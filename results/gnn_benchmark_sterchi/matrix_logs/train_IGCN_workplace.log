@@ -35,3 +35,8 @@ Epoch: 007, Train Acc: 0.3889, Train Loss: 2.3012, Val. Acc: 0.3938, Val. Loss: 
 Epoch: 008, Train Acc: 0.3893, Train Loss: 2.3000, Val. Acc: 0.3943, Val. Loss: 2.2957
 Epoch: 009, Train Acc: 0.3895, Train Loss: 2.2993, Val. Acc: 0.3943, Val. Loss: 2.2948
 Epoch: 010, Train Acc: 0.3895, Train Loss: 2.2980, Val. Acc: 0.3949, Val. Loss: 2.2936
+Epoch: 011, Train Acc: 0.3895, Train Loss: 2.2975, Val. Acc: 0.3951, Val. Loss: 2.2931
+Epoch: 012, Train Acc: 0.3895, Train Loss: 2.2969, Val. Acc: 0.3954, Val. Loss: 2.2924
+Epoch: 013, Train Acc: 0.3899, Train Loss: 2.2961, Val. Acc: 0.3955, Val. Loss: 2.2919
+Epoch: 014, Train Acc: 0.3901, Train Loss: 2.2963, Val. Acc: 0.3957, Val. Loss: 2.2919
+Epoch: 015, Train Acc: 0.3898, Train Loss: 2.2957, Val. Acc: 0.3957, Val. Loss: 2.2911
