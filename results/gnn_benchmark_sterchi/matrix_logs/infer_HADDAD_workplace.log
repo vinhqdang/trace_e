@@ -1,0 +1,18 @@
+Using training beta=0.165
+Using device: cuda
+============================
+Avg. outbreak size: 36.8178
+Avg. R0: 2.04837
+Avg. sampled infection rate: 0.165
+Number of sim. with only one inf. node: 2807
+============================
+HADDAD RESULTS
+Top-1 Acc.: 0.3810
+Top-3 Acc.: 0.4867
+Top-5 Acc.: 0.5358
+Avg. error dist.: 1.1096
+Avg. reciprocal rank: 0.4650
+Avg. credible set size: 24.8496
+Avg. scoring rule (Brier): 0.6367
+Avg. scoring rule (Resistance): 0.0468
+Average time per inference run: 0.004027 seconds
