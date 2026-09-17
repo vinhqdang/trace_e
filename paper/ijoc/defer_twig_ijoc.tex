@@ -135,10 +135,12 @@ trivial instances.
   DEFER weakly dominates the one-shot planner it wraps
   (Theorem~\ref{thm:defer-dominates}); the push-down rule is the myopic
   optimum for the local commit-now/wait decision (Lemma~\ref{lem:pushdown});
-  and the adaptivity gap of IMIN is unbounded, growing linearly in the
-  maximum out-degree as the activation probability shrinks
-  (Theorem~\ref{thm:adaptivity-gap}), with a matching, checkable
-  construction.
+  and the adaptivity gap of IMIN is unbounded: the ratio of DEFER's saving
+  over no intervention to the best one-shot's saving grows linearly in the
+  maximum out-degree as the activation probability shrinks, and the ratio
+  of the two policies' expected spreads is unbounded already at a fixed,
+  minimal out-degree of two (Theorem~\ref{thm:adaptivity-gap}), with a
+  matching, checkable construction.
 \item \textbf{TWIG} (Section~\ref{sec:twig}), an exact dynamic program for
   the expected spread of a candidate blocking set on graphs of bounded
   treewidth, proved correct (Theorem~\ref{thm:twig-correct}) and then
@@ -203,19 +205,55 @@ right, which is the gap DEFER's adaptive formulation addresses.
 network-reliability problem and is \#P-hard in general
 \citep{valiant1979,provan1983}. \citet{nakamura2026} give a linear-time
 exact algorithm for expected influence spread on bounded-\emph{pathwidth}
-graphs; their result computes spread only and does not address blocking set
-selection, greedy verification, or the adaptive setting, and pathwidth is a
-strictly more restrictive parameter than the treewidth TWIG uses. Our
-treewidth dynamic program follows the classical bounded-treewidth
-programming paradigm \citep{bodlaender1988,cygan2015}.
+graphs, a strictly more restrictive parameter than the treewidth TWIG uses
+(every graph of pathwidth $k$ has treewidth at most $k$, but not
+conversely -- e.g., a binary tree has treewidth $1$ and pathwidth
+$\Theta(\log n)$). The genuinely new technical content of TWIG relative to
+their result is the treewidth generalization itself: a tree decomposition
+admits frontier splits and merges that a path decomposition does not, and
+handling those is exactly what Definition~\ref{def:config}'s
+partition-with-pending-counts formalism and the linear-aggregation collapse
+of Theorem~\ref{thm:twig-collapse} are built for. We do not know whether
+their pathwidth algorithm already uses an analogous collapse to reach
+linear time (their proceedings paper does not describe its internals at a
+level we can compare against ours in detail), so we do not claim the
+collapse idea itself is new to the harder treewidth setting, only that
+handling splits and merges under it is; separately, the elimination-order
+direction sensitivity of Proposition~\ref{prop:direction} has no analogue
+on a path decomposition, where there is only one direction to speak of.
+TWIG additionally supports blocking-set selection and greedy verification
+via \texttt{greedy\_exact} and \texttt{brute\_force\_optimal\_block}
+(Section~\ref{sec:twig-complexity}), but these are thin search loops around
+an \texttt{evaluate} oracle and would wrap a pathwidth-restricted evaluator
+just as readily, so we do not count them as a point of technical
+distinction from \citet{nakamura2026}. Our treewidth dynamic program
+follows the classical bounded-treewidth programming paradigm
+\citep{bodlaender1988,cygan2015}.
 
 \textbf{Adaptive submodular and sequential decision problems.} Adaptive
 variants of influence \emph{maximization} and related coverage problems are
-well studied; to our knowledge no prior work formalizes an adaptive variant
-of IMIN or proves a lemma of the shape of Lemma~\ref{lem:defer-free} (that
-deferred commitment of a fixed one-shot plan is loss-free) or an
+well studied. \citet{golovinkrause2011} give the general framework of
+adaptive submodularity under which many of these results are proved;
+\citet{seemansinger2013} apply a two-stage adaptive-seeding idea
+specifically to social-network influence maximization; and
+\citet{tong2017}, already cited above for its RR-sketch-style approximation
+guarantee, is itself framed as an explicitly \emph{adaptive} influence
+maximization algorithm in dynamic networks, re-planning as the network
+changes in a manner structurally similar to DEFER's round-by-round
+re-planning, but for the maximization rather than the minimization
+objective. For stochastic monotone submodular \emph{maximization}, the
+adaptivity gap -- a term introduced by \citet{deangoemansvondrak2008} for
+the stochastic knapsack problem -- is known to be \emph{bounded} by a
+constant \citep{asadpournazerzadeh2016}; Theorem~\ref{thm:adaptivity-gap}
+shows the opposite for IMIN, an \emph{unbounded} adaptivity gap, which we
+attribute to $\FF(\cdot)$'s lack of supermodularity in $B$
+\citep[already established by][]{xie2023} breaking the adaptive-submodularity
+machinery that yields bounded gaps on the maximization side. To our
+knowledge no prior work formalizes an adaptive variant of IMIN itself, or
+proves a lemma of the shape of Lemma~\ref{lem:defer-free} (that deferred
+commitment of a fixed one-shot plan is loss-free) or an
 unbounded-adaptivity-gap result of the shape of
-Theorem~\ref{thm:adaptivity-gap} for this problem.
+Theorem~\ref{thm:adaptivity-gap}, for this minimization problem.
 
 \section{Preliminaries}\label{sec:prelim}
 
@@ -333,7 +371,7 @@ $F_i$, $w$ & frontier after step $i$, width of $\sigma$ (TWIG) \\
 $\kappa=(\Pi,\rho)$ & configuration: partition plus pending counts (Definition~\ref{def:config}) \\
 $P_\kappa$, $\mathrm{acc}$ & configuration probability, running accumulated spread \\
 $P_s$, $W_b$ & shape-aggregated probability and weighted pending sum (Theorem~\ref{thm:twig-collapse}) \\
-\down $B_{w+1}$ & $(w+1)$-th Bell number \\
+\down $B_{w+2}$ & $(w+2)$-th Bell number \\
 \hline
 \end{tabular}}
 {}
@@ -360,7 +398,13 @@ that is both exposed to the current frontier and passes a push-down test.
   \State $b_t\gets b-|B_t|$
   \State draw $\theta$ live-edge subgraphs reachable from $F_t$ avoiding $A_t\cup B_t$
   \State $P'\gets\mathcal P(\text{seeds}=F_t,\ \text{forbidden}=A_t\cup B_t,\ \text{budget}=b_t)$ on the samples
-  \State $P_t\gets\arg\max\{\text{sample-average saving of } P', L\}$ \Comment{plan protection}
+  \State draw a fresh, held-out set of $\theta$ live-edge subgraphs (disjoint from those used to compute $P'$)
+  \State $\hat d\gets$ sample-average saving of $P'$ minus sample-average saving of $L$ on the held-out draws; $\widehat{\mathrm{se}}\gets$ their standard error
+  \If{$\hat d>\widehat{\mathrm{se}}$} \Comment{plan protection: swap only if the improvement exceeds one held-out standard error}
+    \State $P_t\gets P'$
+  \Else
+    \State $P_t\gets L$
+  \EndIf
   \State $X_t\gets$ inactive, unblocked out-neighbors of $F_t$
   \For{$v\in P_t\cap X_t$}
     \State $q_v\gets 1-\prod_{u\in F_t}(1-p(u,v))$; $c_v\gets$ inactive unblocked out-degree of $v$
@@ -411,16 +455,25 @@ itself is no longer possible once it has activated). This seals that one
 branch's continuation at a cost of only the vertex $a_i$ already reached,
 while $k-1$ other active branches, if any, still propagate their full
 length-$L$ path. DEFER's expected spread is
-$\Delta p+L\cdot\mathbb E[(k-1)^+]=0.4+50(0.056)=3.205$, using
-$\mathbb E[(k-1)^+]=\sum_{k\ge1}(k-1)\Pr[k]=0.056$ computed from the
-binomial probabilities above. The realized ratio of one-shot to DEFER
-expected spread on this instance is $15.3/3.205\approx4.77$, comfortably
-above the headline asymptotic bound of
-$(1-(1-p)^\Delta)/p=(1-0.9^4)/0.1\approx3.44$ that
-Theorem~\ref{thm:adaptivity-gap} guarantees in the limit; the gap between
-the exact ratio and the stated bound is the ``up to an additive constant''
-slack in the theorem's proof, which drops lower-order-in-$L$ terms to keep
-the bound's statement independent of $L$.
+$\Delta p+L\cdot\mathbb E[(k-1)^+]=0.4+50(0.0561)=3.205$, using
+$\mathbb E[(k-1)^+]=\sum_{k\ge1}(k-1)\Pr[k]=0.0561$ computed from the
+binomial probabilities above. Theorem~\ref{thm:adaptivity-gap} makes two
+separate claims about this instance, and it is worth checking both
+numerically. The \emph{saving} each policy achieves relative to no
+intervention is $p(L+1)=0.1(51)=5.1$ for one-shot and
+$L(1-(1-p)^\Delta)=50(1-0.9^4)=17.195$ for DEFER, a ratio of
+$17.195/5.1\approx3.372$ -- below the limiting bound
+$(1-(1-p)^\Delta)/p\approx3.439$ by exactly the factor $L/(L+1)=50/51$ the
+theorem predicts, and approaching it as $L$ grows. The ratio of the two
+policies' \emph{spreads} themselves is a different quantity,
+$15.3/3.205\approx4.77$ here, and it is not bounded by $3.439$ as $p$
+shrinks: unlike the saving ratio, which depends only on $\Delta$ and $p$,
+the spread ratio needs $L$ to grow along with $1/p$ to reach its own
+$L\to\infty$ limit $2/(\Delta p)$. Taking $\Delta=4$, $p=0.01$, and
+$L=5000$ (rather than $50$) gives one-shot spread $150.03$, DEFER spread
+$3.02$, and a spread ratio of about $49.7$ -- close to the predicted
+$2/(\Delta p)=50$ and already well past the saving-ratio limit of
+$3.439$, which does not move as $p$ shrinks at fixed $\Delta$.
 
 The qualitative point survives far more general instances than this
 symmetric construction: a one-shot policy pays for protection whether or
@@ -450,12 +503,32 @@ blocks at most as many vertices.
 
 \begin{theorem}[DEFER weakly dominates its planner]\label{thm:defer-dominates}
 Let $P_0$ be $\mathcal P$'s plan at round $0$. If, in every later round, the
-planner returns a plan whose sample-average saving is at least that of the
-leftover $P_{t-1}\setminus C_{t-1}$ -- guaranteed when the leftover is
-offered to the planner as a candidate solution -- then the expected final
-spread of DEFER is at most that of the one-shot solution $P_0$, up to the
-sampling error of the $\theta$ samples.
+plan-protection test of Algorithm~\ref{alg:defer} only ever replaces the
+leftover $L=P_{t-1}\setminus C_{t-1}$ by a new plan $P'$ whose held-out
+sample-average saving exceeds $L$'s by more than one held-out standard
+error, then the expected final spread of DEFER is at most that of the
+one-shot solution $P_0$, up to the residual error of that one-sided test
+(Remark~\ref{rem:winners-curse}).
 \end{theorem}
+
+\begin{remark}[The 1-SE margin bounds, but does not eliminate, selection
+bias]\label{rem:winners-curse}
+Choosing between two noisy sample averages is a textbook source of
+upward-biased apparent improvement (the ``winner's curse''): if $L$ and
+$P'$ were in fact equally good, the test still swaps to $P'$ whenever its
+held-out average happens to exceed $L$'s by more than one standard error,
+which is not a negligible event. Requiring a fresh, held-out draw for the
+comparison (rather than reusing the samples $P'$ was optimized on) removes
+the optimistic bias from optimizing and testing on the same data, and the
+$1$-standard-error margin makes an accidental swap less likely than a bare
+$\arg\max$ would; neither removes the residual chance that a truly
+worse plan clears the margin on a given round's held-out draw. We do not
+prove a bound on the resulting regret here, and Section~\ref{sec:experiments}
+reports this residual honestly (Table~\ref{tab:defer-results}'s and
+Table~\ref{tab:defer-allbudgets}'s footnoted cells are candidate instances
+of it, not violations of the theorem, but also not proof that no bias
+occurred).
+\end{remark}
 
 \begin{lemma}[Push-down is the myopic optimum]\label{lem:pushdown}
 Consider an exposed planned vertex $v$ whose children (inactive
@@ -468,11 +541,19 @@ if $q_v(c_v+1/\lambda)<1$.
 \end{lemma}
 
 \begin{theorem}[The adaptivity gap of IMIN is unbounded]\label{thm:adaptivity-gap}
-For every $\Delta\ge 2$ and $p\in(0,1)$ there is an instance with maximum
-out-degree $\Delta$ on which the best one-shot solution with budget $1$ has
-expected spread at least $\bigl(1-(1-p)^{\Delta}\bigr)/p$ times that of DEFER
-with budget $1$ (up to an additive constant); this ratio tends to $\Delta$ as
-$p\to 0$.
+For every $\Delta\ge 2$, $p\in(0,1)$, and path length $L\ge0$ there is an
+instance with maximum out-degree $\Delta$, budget $1$, on which the best
+one-shot solution and DEFER have expected \emph{savings} (spread reduction
+relative to no intervention) $p(L+1)$ and $L\bigl(1-(1-p)^\Delta\bigr)$
+respectively, so DEFER's saving is
+$\frac{L}{L+1}\cdot\frac{1-(1-p)^\Delta}{p}$ times the one-shot saving -- a
+factor increasing in $L$ to the limit $\bigl(1-(1-p)^\Delta\bigr)/p$, which
+in turn tends to $\Delta$ as $p\to0$; hence this saving ratio is unbounded as
+$\Delta\to\infty$. The ratio of the two policies' expected \emph{spreads}
+themselves is a different, generally smaller quantity: it is at least
+$\frac{(\Delta-1)p}{\Delta p-1+(1-p)^\Delta}$, which already diverges for
+\emph{fixed} $\Delta\ge2$ as $p\to0$ (at rate $2/(\Delta p)$), so the spread
+ratio, too, is unbounded, without needing $\Delta\to\infty$.
 \end{theorem}
 
 \begin{theorem}[Complexity of DEFER]\label{thm:defer-complexity}
@@ -597,14 +678,17 @@ configurations rather than enumerating them.}
 \end{table}
 
 \begin{theorem}[Correctness of \texttt{ExactSpread}]\label{thm:twig-correct}
-For every $B$, \texttt{ExactSpread}$(G,p,S)$.evaluate$(B)=\FF(B)$.
+\texttt{ExactSpread}$(G,p,S)$.evaluate$(B)=\FF(B)$ for every $B$.
 \end{theorem}
 
 \subsection{Complexity: from XP to FPT in treewidth}\label{sec:twig-complexity}
 
 \begin{proposition}[State space of \texttt{ExactSpread}]\label{prop:xp-space}
 The number of distinct configurations at any step is at most
-$B_{w+1}\cdot(n+1)^{w+1}$, where $B_{w+1}$ is the $(w+1)$-th Bell number.
+$B_{w+2}\cdot(n+1)^{w+1}$, where $B_{w+2}$ is the $(w+2)$-th Bell number: a
+frontier of size $m\le w+1$ has $B_m$ partitions, and marking one block as
+$\mathrm{SEED}$ (or none) turns each into $\mathrm{blocks}(\Pi)+1$
+configurations, summing over all partitions to $B_{m+1}\le B_{w+2}$.
 \end{proposition}
 
 This makes \texttt{ExactSpread} XP, not FPT, in treewidth: the degree of the
@@ -622,8 +706,8 @@ this update yields the identical sequence of $\mathrm{acc}$ increments as
 \end{theorem}
 
 \begin{proposition}[State space of \texttt{ExactSpreadFast}]\label{prop:fpt-space}
-The number of distinct states at any step is at most $B_{w+1}$, independent
-of $n$, giving overall running time $O(n\cdot B_{w+1}\cdot\mathrm{poly}(w))$.
+The number of distinct states at any step is at most $B_{w+2}$, independent
+of $n$, giving overall running time $O(n\cdot B_{w+2}\cdot\mathrm{poly}(w))$.
 \end{proposition}
 
 Proposition~\ref{prop:fpt-space} is a genuine change of complexity class
@@ -702,7 +786,7 @@ replacements for the sampling-based planners at the graph sizes those
 planners target; Proposition~\ref{prop:fpt-space}'s
 $n$-independence is what makes \texttt{ExactSpreadFast} usable at all
 compared to the brute-force alternative of enumerating all $2^m$ live-edge
-realizations, but $B_{w+1}$ still grows very quickly in the treewidth $w$
+realizations, but $B_{w+2}$ still grows very quickly in the treewidth $w$
 (Table~\ref{tab:bell-numbers}). Third, \texttt{brute\_force\_optimal\_block}
 compounds TWIG's per-evaluation cost with an outer search over all
 size-$\le b$ subsets, which is what confines
@@ -718,8 +802,8 @@ Section~\ref{sec:twig-empirical}'s optimality-gap study to $n\le14$.
 \up AG \citep{xie2024} & $O(b\,\theta\,m\,\alpha(m,n))$ \\
 GR \citep{xie2024} & $O(\min\{d^{out}_S,b\}\,\theta\,m\,\alpha(m,n))$ plus a replacement pass \\
 DEFER (Theorem~\ref{thm:defer-complexity}) & $O(r\,b\,\theta\,m\,\alpha(m,n))$ ($r$ = number of rounds) \\
-\texttt{ExactSpread} (Proposition~\ref{prop:xp-space}) & one \texttt{evaluate}: $O(n\cdot B_{w+1}\cdot(n+1)^{w+1})$ (XP in $w$) \\
-\texttt{ExactSpreadFast} (Proposition~\ref{prop:fpt-space}) & one \texttt{evaluate}: $O(n\cdot B_{w+1}\cdot\mathrm{poly}(w))$ (FPT in $w$) \\
+\texttt{ExactSpread} (Proposition~\ref{prop:xp-space}) & one \texttt{evaluate}: $O(n\cdot B_{w+2}\cdot(n+1)^{w+1})$ (XP in $w$) \\
+\texttt{ExactSpreadFast} (Proposition~\ref{prop:fpt-space}) & one \texttt{evaluate}: $O(n\cdot B_{w+2}\cdot\mathrm{poly}(w))$ (FPT in $w$) \\
 \texttt{greedy\_exact} & $O(b)$ \texttt{evaluate} calls, each as above \\
 \down \texttt{brute\_force\_optimal\_block} & $O(n^b)$ \texttt{evaluate} calls, each as above \\
 \hline
@@ -727,8 +811,8 @@ DEFER (Theorem~\ref{thm:defer-complexity}) & $O(r\,b\,\theta\,m\,\alpha(m,n))$ (
 {$\theta$: sample size used by the Monte-Carlo planners; $m$, $n$:
 edges/vertices of the reachable region a planner actually processes;
 $\alpha$: inverse Ackermann function (dominator-tree construction);
-$d^{out}_S$: out-degree of the seed set; $w$: treewidth; $B_{w+1}$: the
-$(w+1)$-th Bell number. AG/GR/DEFER estimate $\FF(B)$ by sampling;
+$d^{out}_S$: out-degree of the seed set; $w$: treewidth; $B_{w+2}$: the
+$(w+2)$-th Bell number. AG/GR/DEFER estimate $\FF(B)$ by sampling;
 \texttt{ExactSpread}/\texttt{ExactSpreadFast}/\texttt{greedy\_exact}/
 \texttt{brute\_force\_optimal\_block} compute or search using $\FF(B)$
 exactly, a strictly harder guarantee at a correspondingly higher cost. We
@@ -772,12 +856,12 @@ $\ll$ \texttt{brute\_force\_optimal\_block}.
 
 \begin{table}[h]
 \TABLE
-{Bell numbers $B_{w+1}$, illustrating why treewidth (not just $n$) bounds \texttt{ExactSpreadFast}\label{tab:bell-numbers}}
+{Bell numbers $B_{w+2}$, illustrating why treewidth (not just $n$) bounds \texttt{ExactSpreadFast}\label{tab:bell-numbers}}
 {\begin{tabular}{@{}lccccccc@{}}
 \hline
 \up $w$ & 1 & 2 & 3 & 4 & 5 & 8 & 10 \\
 \hline
-\down $B_{w+1}$ & 2 & 5 & 15 & 52 & 203 & 21{,}147 & 678{,}570 \\
+\down $B_{w+2}$ & 5 & 15 & 52 & 203 & 877 & 115{,}975 & 4{,}213{,}597 \\
 \hline
 \end{tabular}}
 {$w+1$ ranges over the widths measured in Table~\ref{tab:twig-feasibility} (karate: 5, iceland: 4, dolphin: $\sim$10--11); the jump from $w=5$ to $w=10$-ish is the entire empirical gap between ``tractable in seconds'' and ``infeasible by memory.''}
@@ -877,7 +961,7 @@ COMMIT & 0.591 & 0.448 & 0.290 & 0.562 & 0.321 & 0.310 & 0.344 & 0.329 \\
 \down DEFER & \textbf{0.602} & \textbf{0.471} & \textbf{0.341} & \textbf{0.573} & 0.334 & \textbf{0.339} & 0.394 & 0.424 \\
 \hline
 \end{tabular}}
-{Bold marks DEFER when it is the best or tied-best adaptive/one-shot policy shown. Under the constant-probability model DEFER weakly improves on AG, its own planner, on every network, consistent with Theorem~\ref{thm:defer-dominates}; under the weighted-cascade model it mostly coincides with AG/GR (the push-down rule rarely fires when per-edge activation probabilities are the small, degree-normalized weights of the WC model), and the one apparent shortfall (ca-GrQc, WC) is within the sampling error of a 3-draw cell, not a violation of the theorem. COMMIT is at or below AG on 3 of 4 networks under the constant model and on all 4 under WC, illustrating that committing a full plan immediately, rather than deferring it, is the harmful ablation.}
+{Bold marks DEFER when it is the best or tied-best adaptive/one-shot policy shown. Under the constant-probability model DEFER weakly improves on AG, its own planner, on every network, consistent with Theorem~\ref{thm:defer-dominates}; under the weighted-cascade model it mostly coincides with AG/GR (the push-down rule rarely fires when per-edge activation probabilities are the small, degree-normalized weights of the WC model), and the one apparent shortfall (ca-GrQc, WC) is a candidate instance of the residual selection-bias risk in Remark~\ref{rem:winners-curse} on a 3-draw cell -- consistent with, but not proof of, no violation of the theorem. COMMIT is at or below AG on 3 of 4 networks under the constant model and on all 4 under WC, illustrating that committing a full plan immediately, rather than deferring it, is the harmful ablation.}
 \end{table}
 
 Table~\ref{tab:defer-results} fixes budget 20; Figure~\ref{fig:defer-sweep}
@@ -922,11 +1006,14 @@ $b$ & AG & DEFER & COMMIT & AG & DEFER & COMMIT & AG & DEFER & COMMIT & AG & DEF
 {Bold marks the best of the three policies shown per cell (ties bolded on
 both). $^{*}$The one cell where COMMIT beats both AG and DEFER
 (ca-HepTh, $b=100$) has only two live-edge draws, the smallest sample in
-the sweep; we read it as sampling noise rather than a real reversal,
-consistent with the finite-sample caveat in Theorem~\ref{thm:defer-dominates}.
-DEFER is at least tied with AG in 19 of 20 cells and strictly ahead in 14,
-with the narrowing-at-large-budget pattern of Figure~\ref{fig:defer-sweep}
-visible on every network.}
+the sweep; we read it as more likely to be sampling noise than a real
+reversal, but this is a judgment call, not something the two draws can
+establish -- see \texttt{results/summary\_adaptive.csv} for the per-cell
+standard errors omitted from the table for space. DEFER is at least tied
+with AG in 19 of 20 cells and strictly ahead in 14, a tally that treats
+every cell as equally informative regardless of its draw count (2--8 draws
+depending on budget and network); the narrowing-at-large-budget pattern of
+Figure~\ref{fig:defer-sweep} is nonetheless visible on every network.}
 \end{table}
 
 \subsection{Seed-selection sensitivity}\label{sec:seed-sensitivity}
@@ -1248,7 +1335,7 @@ noisy or delayed observation of $N_t$ is open.
 TWIG is not a substitute for the Monte-Carlo-based evaluation that
 AdvancedGreedy, GreedyReplace, and DEFER itself rely on at the SNAP scale
 of Section~\ref{sec:defer-experiments}: Proposition~\ref{prop:fpt-space}'s
-$B_{w+1}$ state count is exponential in treewidth regardless of the
+$B_{w+2}$ state count is exponential in treewidth regardless of the
 $n$-independence Theorem~\ref{thm:twig-collapse} buys, and the real
 networks in Table~\ref{tab:twig-feasibility} already span the practical
 range, from tractable (karate, width 5) to infeasible by memory exhaustion
@@ -1335,21 +1422,46 @@ blocked.\Halmos
 
 \begin{repeattheorem}[Theorem~\ref{thm:defer-dominates} (DEFER weakly dominates its planner)]
 Let $P_0$ be the plan of $\mathcal P$ at round $0$. If, in every later
-round, the planner returns a plan whose sample-average saving is at least
-that of the leftover $P_{t-1}\setminus C_{t-1}$ -- guaranteed when the
-leftover is offered to the planner as a candidate solution -- then the
-expected final spread of DEFER is at most that of the one-shot solution
-$P_0$, up to the sampling error of the $\theta$ samples.
+round, the plan-protection test only ever replaces the leftover
+$L=P_{t-1}\setminus C_{t-1}$ by a new plan $P'$ whose held-out
+sample-average saving exceeds $L$'s by more than one held-out standard
+error, then the expected final spread of DEFER is at most that of the
+one-shot solution $P_0$, up to the residual error of that one-sided test
+(Remark~\ref{rem:winners-curse}).
 \end{repeattheorem}
 \begin{proof}{Proof}
 By Lemma~\ref{lem:defer-free} the policy that keeps $P_0$ and commits
 lazily has the same spread as blocking $P_0$ at time $0$. DEFER differs
 from it only by replacing, at each round, the uncommitted leftover by a
-plan that is no worse on the samples for the remaining budget; the
-committed prefix is identical. Induction over rounds gives the claim on the
-samples; concentration of the sample average (\citealp{xie2024}, applied
-per candidate plan) gives the expectation statement.\Halmos
+plan that clears the plan-protection test for the remaining budget; the
+committed prefix is identical. If every swap were only ever made when $P'$
+is truly at least as good as $L$, induction over rounds would give the
+claim exactly. The test instead accepts $P'$ whenever its held-out
+sample-average saving exceeds $L$'s by more than one held-out standard
+error -- a one-sided test against equally-good alternatives, using
+concentration of the sample average (\citealp{xie2024}, applied per
+candidate plan) on data disjoint from whatever $P'$ was optimized on, so
+the comparison itself is not confounded by having been optimized and
+tested on the same draws. This rules out the most severe form of
+optimizer's-curse bias (comparing a plan against the very data used to
+select it) but not the residual chance that a $P'$ that is not truly
+better than $L$ still clears the $1$-SE margin on a given round's held-out
+draw; Remark~\ref{rem:winners-curse} discusses this residual, which we do
+not bound here.\Halmos
 \end{proof}
+
+\begin{repeatremark}[Remark~\ref{rem:winners-curse} (The 1-SE margin bounds, but does not eliminate, selection bias)]
+Choosing between two noisy sample averages is a textbook source of
+upward-biased apparent improvement (the ``winner's curse''): if $L$ and
+$P'$ were in fact equally good, the test still swaps to $P'$ whenever its
+held-out average happens to exceed $L$'s by more than one standard error,
+which is not a negligible event. Requiring a fresh, held-out draw for the
+comparison removes the optimistic bias of optimizing and testing on the
+same data, and the $1$-standard-error margin makes an accidental swap less
+likely than a bare $\arg\max$ would; neither removes the residual chance
+that a truly worse plan clears the margin on a given round's held-out
+draw. We do not prove a bound on the resulting regret here.
+\end{repeatremark}
 
 \begin{repeatlemma}[Lemma~\ref{lem:pushdown} (Push-down is the myopic optimum)]
 Consider an exposed planned vertex $v$ whose children (its inactive
@@ -1369,32 +1481,50 @@ $q_v+\lambda q_v c_v$ gives the stated condition.\Halmos
 \end{proof}
 
 \begin{repeattheorem}[Theorem~\ref{thm:adaptivity-gap} (The adaptivity gap of IMIN is unbounded)]
-For every $\Delta\ge 2$ and $p\in(0,1)$ there is an instance with maximum
-out-degree $\Delta$ on which the best one-shot solution with budget $1$ has
-expected spread at least $\bigl(1-(1-p)^{\Delta}\bigr)/p$ times that of
-DEFER with budget $1$ (up to an additive constant); this ratio tends to
-$\Delta$ as $p\to 0$.
+For every $\Delta\ge 2$, $p\in(0,1)$, and path length $L\ge0$ there is an
+instance with maximum out-degree $\Delta$, budget $1$, on which the best
+one-shot solution and DEFER have expected savings $p(L+1)$ and
+$L(1-(1-p)^\Delta)$ respectively, so DEFER's saving is
+$\frac{L}{L+1}\cdot\frac{1-(1-p)^\Delta}{p}$ times the one-shot saving, a
+factor tending to $(1-(1-p)^\Delta)/p$ (which itself tends to $\Delta$ as
+$p\to0$) as $L\to\infty$; the ratio of the two policies' expected spreads is
+at least $\frac{(\Delta-1)p}{\Delta p-1+(1-p)^\Delta}$, which diverges for
+fixed $\Delta$ as $p\to0$.
 \end{repeattheorem}
 \begin{proof}{Proof}
 Seed $s$ has out-neighbors $a_1,\dots,a_\Delta$ with $p(s,a_i)=p$; each
 $a_i$ starts a private directed path of length $L$ with edge probability
 $1$. Any one-shot solution with budget $1$ blocks one vertex; blocking
-$a_i$ (or a vertex on its path) saves at most $L+1$ vertices and only if
-$a_i$ is activated, which happens with probability $p$: expected spread
-$\ge(\Delta p-p)L$. DEFER observes $N_1=\{a_i:(s,a_i)\text{ live}\}$ and
-blocks the first path vertex of one activated branch; if $k$ branches are
-active the spread is $(k-1)L+k$. Its expected spread is
-$\mathbb E[(k-1)^+]L+\Delta p\le(\Delta p-1+(1-p)^\Delta)L+\Delta p$ (DEFER's
-plan at round $0$ is a branch head $a_i$ with $q=p$, $c=1$, and
-$\lambda\approx pL$, so the push-down rule $p(1+1/(pL))<1$ defers it). The
-ratio of one-shot to DEFER is at least
-$\frac{(\Delta-1)p}{\Delta p-1+(1-p)^\Delta}$, which for $p\to0$ with
-$\Delta p=c$ fixed tends to $c/(c-1+e^{-c})$ and, for fixed $\Delta$ as
-$p\to0$, behaves like $\frac{(\Delta-1)p}{\binom{\Delta}{2}p^2}=
-\frac{2}{\Delta p}\to\infty$; the stated bound
-$(1-(1-p)^\Delta)/p$ follows from comparing the saving $Lp$ of the best
-one-shot vertex with the saving $L\Pr[k\ge1]=L(1-(1-p)^\Delta)$ of
-DEFER.\Halmos
+$a_i$ (or a vertex on its path) saves exactly $L+1$ vertices if $a_i$ is
+activated, which happens with probability $p$, and nothing otherwise, so
+its expected saving is $p(L+1)$ and its expected spread is
+$(\Delta-1)p(L+1)$ (the other $\Delta-1$ branches are unprotected). DEFER
+observes $N_1=\{a_i:(s,a_i)\text{ live}\}$ and blocks the first path vertex
+of one activated branch (its plan at round $0$ is a branch head $a_i$ with
+$q=p$, $c=1$, and $\lambda\approx pL$, so the push-down rule
+$p(1+1/(pL))<1$ defers it); if $k$ branches are active the spread is
+$(k-1)^+L+k$. Its expected saving is $L\Pr[k\ge1]=L(1-(1-p)^\Delta)$ (one
+branch's continuation is sealed for the cost of the vertex already reached,
+regardless of $k$) and its expected spread is
+$\mathbb E[(k-1)^+]L+\Delta p=(\Delta p-1+(1-p)^\Delta)L+\Delta p$, using
+$\mathbb E[(k-1)^+]=\mathbb E[k]-\Pr[k\ge1]=\Delta p-(1-(1-p)^\Delta)$.
+
+Two distinct ratios follow from these exact expressions. The \emph{saving}
+ratio is $\frac{L(1-(1-p)^\Delta)}{p(L+1)}=\frac{L}{L+1}\cdot
+\frac{1-(1-p)^\Delta}{p}$, increasing in $L$ to the limit
+$(1-(1-p)^\Delta)/p$, which tends to $\Delta$ as $p\to0$ (since
+$1-(1-p)^\Delta=\Delta p-\binom\Delta2p^2+O(p^3)$). The \emph{spread} ratio
+is $\frac{(\Delta-1)p(L+1)}{(\Delta p-1+(1-p)^\Delta)L+\Delta p}$, whose
+$L\to\infty$ limit is $\frac{(\Delta-1)p}{\Delta p-1+(1-p)^\Delta}$; for
+fixed $\Delta$ as $p\to0$ the denominator behaves like
+$\binom\Delta2p^2$ (the $O(p)$ terms cancel), so this limit behaves like
+$\frac{(\Delta-1)p}{\binom\Delta2p^2}=\frac{2}{\Delta p}\to\infty$ --
+already unbounded at $\Delta=2$, independently of the saving ratio's
+$\Delta\to\infty$ argument. The two ratios are genuinely different
+quantities -- the savings' ratio bound does not apply to the spreads'
+ratio -- and both statements above are established directly from the same
+exact closed forms, with no approximation beyond the stated $L\to\infty$
+and $p\to0$ limits.\Halmos
 \end{proof}
 
 \begin{repeattheorem}[Theorem~\ref{thm:defer-complexity} (Complexity of DEFER)]
@@ -1506,7 +1636,7 @@ $F_i\setminus\{u\}$.\Halmos
 \end{proof}
 
 \begin{repeattheorem}[Theorem~\ref{thm:twig-correct} (Correctness of \texttt{ExactSpread})]
-For every $B$, \texttt{ExactSpread}$(G,p,S)$.evaluate$(B)=\FF(B)$.
+\texttt{ExactSpread}$(G,p,S)$.evaluate$(B)=\FF(B)$ for every $B$.
 \end{repeattheorem}
 \begin{proof}{Proof}
 Apply Lemma~\ref{ec:lem:invariant} at $i=n-1$ (the last step): $F_{n-1}
@@ -1521,11 +1651,20 @@ returns.\Halmos
 \end{proof}
 
 \begin{repeatproposition}[Proposition~\ref{prop:xp-space} (State space of \texttt{ExactSpread})]
-The number of partition shapes of a frontier of size at most $w+1$ is
-$B_{w+1}$, the $(w+1)$-th Bell number, independent of $n$. But each shape's
+A configuration's partition-plus-optional-SEED-designation component,
+for a frontier of size $m\le w+1$, ranges over $B_{m+1}\le B_{w+2}$
+possibilities, the $(w+2)$-th Bell number, independent of $n$: an
+$m$-element set has $B_m$ (unmarked) partitions, and marking one block of a
+given partition $\Pi$ as $\mathrm{SEED}$ -- or marking none -- gives
+$\mathrm{blocks}(\Pi)+1$ distinct configurations from that one partition, so
+summing over all partitions of the $m$-element frontier gives
+$\sum_\Pi(\mathrm{blocks}(\Pi)+1)=B_{m+1}$ in total (the worked example of
+Section~\ref{sec:twig-example} exhibits this directly: at $m=1$, the single
+partition $\{\{2\}\}$ yields the two configurations ``$\{2\}$ ordinary'' and
+``$\{2\}\equiv\mathrm{SEED}$,'' matching $B_2=2$). But each configuration's
 pending vector has up to $w+1$ components, each ranging over
 $\{0,\dots,n\}$, so the number of distinct configurations at any step is at
-most $B_{w+1}\cdot(n+1)^{w+1}$.
+most $B_{w+2}\cdot(n+1)^{w+1}$.
 \end{repeatproposition}
 
 \begin{repeattheorem}[Theorem~\ref{thm:twig-collapse} (Correctness of the linear-aggregation collapse)]
@@ -1584,7 +1723,7 @@ produces the identical sequence of contributions to $\mathrm{acc}$.\Halmos
 \end{proof}
 
 \begin{repeatproposition}[Proposition~\ref{prop:fpt-space} (State space of \texttt{ExactSpreadFast})]
-The number of distinct states at any step is at most $B_{w+1}$ (one
+The number of distinct states at any step is at most $B_{w+2}$ (one
 $(P_s,\{W_b\})$ tuple per shape), independent of $n$.
 \end{repeatproposition}
 
@@ -1650,6 +1789,11 @@ Antulov-Fantulin N, Lan\v{c}i\'c A, \v{S}muc T, \v{S}tefan\v{c}i\'c H,
   networks: Robustness and limitations. \emph{Phys.\ Rev.\ Lett.}
   114:248701.
 
+\bibitem[{Asadpour and Nazerzadeh(2016)}]{asadpournazerzadeh2016}
+Asadpour A, Nazerzadeh H (2016) Maximizing stochastic monotone submodular
+  functions. \emph{Management Sci.} 62(8):2374--2391. [Verify exact page
+  range prior to submission.]
+
 \bibitem[{Barab\'asi and Albert(1999)}]{barabasi1999}
 Barab\'asi AL, Albert R (1999) Emergence of scaling in random networks.
   \emph{Science} 286(5439):509--512.
@@ -1669,6 +1813,11 @@ Budak C, Agrawal D, El~Abbadi A (2011) Limiting the spread of misinformation
 Cygan M, Fomin FV, Kowalik {\L}, Lokshtanov D, Marx D, Pilipczuk M,
   Pilipczuk M, Saurabh S (2015) \emph{Parameterized Algorithms} (Springer,
   Cham).
+
+\bibitem[{Dean et~al.(2008)Dean, Goemans, and Vondr\'ak}]{deangoemansvondrak2008}
+Dean BC, Goemans MX, Vondr\'ak J (2008) Approximating the stochastic
+  knapsack problem: The benefit of adaptivity. \emph{Math.\ Oper.\ Res.}
+  33(4):945--964. [Verify exact page range prior to submission.]
 
 \bibitem[{Dong et~al.(2019)Dong, Zheng, Hung, Su, and Li}]{dong2019}
 Dong M, Zheng B, Hung NQV, Su H, Li G (2019) Multiple rumor source detection
@@ -1695,6 +1844,11 @@ G\'enois M, Vestergaard CL, Fournet J, Panisson A, Bonmarin I, Barrat A
   (2015) Data on face-to-face contacts in an office building suggest a
   low-cost vaccination strategy based on community linkers. \emph{Network
   Science} 3(3):326--347.
+
+\bibitem[{Golovin and Krause(2011)}]{golovinkrause2011}
+Golovin D, Krause A (2011) Adaptive submodularity: Theory and applications
+  in active learning and stochastic optimization. \emph{J.\ Artificial
+  Intelligence Res.} 42:427--486.
 
 \bibitem[{Guo et~al.(2021)Guo, Zhang, Zhang, and Fu}]{guo2021}
 Guo Q, Zhang H, Zhang X, Fu Y (2021) IGCN: A provable relation between
@@ -1768,6 +1922,11 @@ Prakash BA, Vreeken J, Faloutsos C (2012) Spotting culprits in epidemics:
 Provan JS, Ball MO (1983) The complexity of counting cuts and of computing
   the probability that a graph is connected. \emph{SIAM J.\ Comput.}
   12(4):777--788.
+
+\bibitem[{Seeman and Singer(2013)}]{seemansinger2013}
+Seeman L, Singer Y (2013) Adaptive seeding in social networks.
+  \emph{Proc.\ 54th Annual IEEE Sympos.\ on Foundations of Computer Sci.\
+  (FOCS)}, 459--468.
 
 \bibitem[{Shah and Zaman(2011)}]{shah2011}
 Shah D, Zaman T (2011) Rumors in a network: Who's the culprit?
