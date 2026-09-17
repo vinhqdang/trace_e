@@ -29,3 +29,4 @@ DONG(
 ============================
 Epoch: 001, Train Acc: 0.0408, Train Loss: 4.6329, Val. Acc: 0.0400, Val. Loss: 4.6399
 Epoch: 002, Train Acc: 0.0532, Train Loss: 4.6270, Val. Acc: 0.0520, Val. Loss: 4.6334
+Epoch: 003, Train Acc: 0.0524, Train Loss: 4.6160, Val. Acc: 0.0518, Val. Loss: 4.6226
