@@ -1,0 +1,33 @@
+\documentclass[11pt]{letter}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor=blue, linkcolor=blue}
+
+\signature{Quang-Vinh Dang}
+\address{British University Vietnam \\ Hung Yen, Vietnam \\ vinh.dq4@buv.edu.vn \\ ORCID: 0000-0002-3877-8024}
+
+\begin{document}
+
+\begin{letter}{Editor-in-Chief \\ INFORMS Journal on Computing}
+
+\opening{Dear Editor,}
+
+I am pleased to submit my manuscript, ``\textit{Adaptive Influence Minimization via Deferred Frontier Blocking: Theory, Algorithms, and Exact Validation on Bounded-Pathwidth Graphs},'' for consideration for publication in \textit{INFORMS Journal on Computing}.
+
+The manuscript studies influence minimization (IMIN): given a seeded rumor or epidemic on a network and a fixed budget of vertices that can be removed, which vertices should be chosen to minimize the eventual spread. Every published IMIN algorithm to date is one-shot, committing the entire budget before the cascade is observed even once. This paper makes two contributions that address gaps this raises:
+
+\begin{itemize}
+\item \textbf{DEFER}, a general adaptive wrapper that upgrades any one-shot IMIN planner into a round-by-round adaptive one. I prove that the pure-deferral variant is never worse than the one-shot plan it wraps; that the natural push-down commitment rule is the local myopic optimum but, by a closed-form counterexample, does not extend this domination guarantee to the full algorithm; and that the adaptivity gap of IMIN is unbounded, in contrast to the bounded adaptivity gap known for the complementary influence maximization problem.
+\item \textbf{TWIG}, an exact dynamic program that computes the true expected spread of a candidate blocking set rather than estimating it by Monte Carlo simulation, on graphs of bounded pathwidth. I use TWIG to give the first simulation-noise-free measurement of how often and how badly greedy IMIN selection departs from the true optimum.
+\end{itemize}
+
+Both algorithms are implemented, empirically validated on real networks, and released in full at \url{https://github.com/vinhqdang/trace_e}, together with all data and benchmark scripts used in the paper.
+
+This manuscript is original, has not been published previously, and is not under consideration at any other journal. I have no conflicts of interest to disclose. I believe the paper's combination of new theoretical guarantees for adaptive network intervention with an exact validation tool for the simulation-based evaluations the literature relies on is a good fit for the journal's scope in algorithms, optimization, and computational methods for networked systems.
+
+Thank you for considering my manuscript. I look forward to your response.
+
+\closing{Sincerely,}
+
+\end{letter}
+\end{document}
