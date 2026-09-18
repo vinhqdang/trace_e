@@ -70,19 +70,18 @@ into a gradual one, and we prove three things about it: the pure-deferral
 variant never leaves the decision maker worse off than committing
 everything immediately; a simple additional rule for deciding when to
 commit an exposed target versus wait is the best possible such rule under
-local conditions, though (as we show with a closed-form counterexample) it
-does not inherit the same never-worse guarantee once several deferred
-targets compete for the same budget; and the advantage of committing
-gradually over committing all at once can be made arbitrarily large,
-growing with the maximum number of people any single infected individual
-can pass the outbreak to. We answer the second question with TWIG, a
-method that computes the exact effect of any proposed blocking choice,
-rather than estimating it by simulation, on networks small enough for
-exact computation, and we use it to measure -- systematically and without
-simulation noise clouding the measurement -- how often and how badly the
-commonly used greedy blocking heuristic misses the truly best choice
-(exactly optimal in 56 of 60 test instances, with a mean excess of $2.2\%$
-and a worst case of $84.6\%$).
+local conditions, though (a closed-form counterexample shows) it does not
+inherit the same never-worse guarantee once several deferred targets
+compete for the same budget; and gradual commitment's advantage over
+committing all at once can be made arbitrarily large, growing with the
+maximum number of people any single infected individual can pass the
+outbreak to. We answer the second question with TWIG, which computes the
+exact effect of any proposed blocking choice instead of estimating it by
+simulation, on networks small enough for exact computation, and use it to
+measure -- without simulation noise clouding the measurement -- how often
+and how badly greedy blocking misses the truly best choice (exactly
+optimal in 56 of 60 test instances, mean excess $2.2\%$, worst case
+$84.6\%$).
 
 \textit{Importance and Implications.} Public-health authorities and
 platform moderators rarely have to decide everything about an intervention
@@ -119,55 +118,47 @@ hard to approximate \citep{xie2023}.
 
 Every published IMIN algorithm -- AdvancedGreedy and GreedyReplace
 \citep{xie2023,xie2024}, and the Sandwich lower/upper-bound family
-\citep{wang2024sandwich} -- is \emph{one-shot}: the entire budget is spent before the cascade is observed
-even once. In practice a moderator or public-health authority does not have
-to decide everything up front. They observe who has already been exposed,
-round by round, and can adapt. This raises two questions that, to our
-knowledge, have not been formally answered for IMIN: (i) can adapting to the
-unfolding cascade only help, never hurt, relative to any one-shot plan; and
-(ii) how large can the benefit of adaptivity be, in the worst case? A third,
-orthogonal problem is one of verification: every existing IMIN algorithm is
-evaluated by Monte-Carlo simulation of the cascade, so a reported
-``optimality gap'' of greedy selection is always confounded with sampling
-noise, and no exact ground truth has been available at any scale beyond
-trivial instances.
+\citep{wang2024sandwich} -- is \emph{one-shot}: the entire budget is spent
+before the cascade is observed even once. In practice a moderator or
+public-health authority observes who has already been exposed, round by
+round, and can adapt. This raises two questions not, to our knowledge,
+formally answered for IMIN: (i) can adapting to the unfolding cascade only
+help, never hurt, relative to any one-shot plan; and (ii) how large can
+adaptivity's benefit be, in the worst case? A third, orthogonal problem is
+verification: every existing IMIN algorithm is evaluated by Monte-Carlo
+simulation, so a reported ``optimality gap'' of greedy selection is
+always confounded with sampling noise, with no exact ground truth
+available beyond trivial instances.
 
 \subsection*{Contributions}
 \begin{enumerate}
 \item \textbf{DEFER} (Section~\ref{sec:defer}), an adaptive wrapper around
-  any one-shot IMIN planner. At each round it plans on the currently
-  reachable region, protects the previous round's uncommitted plan against
-  being replaced by a worse one, and (optionally) commits a planned vertex
-  early only if a push-down inequality shows that waiting is not
-  preferable. We prove: deferred commitment alone is free
-  (Lemma~\ref{lem:defer-free}); the pure-deferral variant,
-  \texttt{DEFER-nopush}, weakly dominates the one-shot planner it wraps
-  (Theorem~\ref{thm:defer-dominates}); the push-down rule is the myopic
-  optimum for the local, single-vertex commit-now/wait decision
-  (Lemma~\ref{lem:pushdown}), but -- shown by a closed-form counterexample
-  -- does not inherit this domination guarantee once several deferred
-  targets can compete for the same budget
-  (Remark~\ref{rem:pushdown-counterexample}); and the adaptivity gap of
-  IMIN is unbounded: the ratio of DEFER's saving over no intervention to
-  the best one-shot's saving grows linearly in the maximum out-degree as
-  the activation probability shrinks, and the ratio of the two policies'
-  expected spreads is unbounded already at a fixed, minimal out-degree of
-  two (Theorem~\ref{thm:adaptivity-gap}), with a matching, checkable
+  any one-shot IMIN planner that re-plans each round, protects the
+  previous round's uncommitted plan against replacement by a worse one,
+  and (optionally) commits a planned vertex early only if a push-down
+  inequality shows waiting is not preferable. We prove: deferred
+  commitment alone is free (Lemma~\ref{lem:defer-free}); the pure-deferral
+  variant, \texttt{DEFER-nopush}, weakly dominates the planner it wraps
+  (Theorem~\ref{thm:defer-dominates}); push-down is the myopic optimum for
+  the local, single-vertex commit-now/wait decision
+  (Lemma~\ref{lem:pushdown}) but, by a closed-form counterexample, does
+  not inherit this guarantee once several deferred targets compete for
+  the same budget (Remark~\ref{rem:pushdown-counterexample}); and the
+  adaptivity gap of IMIN is unbounded, in two distinct senses
+  (Theorem~\ref{thm:adaptivity-gap}), with a matching, checkable
   construction.
 \item \textbf{TWIG} (Section~\ref{sec:twig}), an exact dynamic program for
   the expected spread of a candidate blocking set, correct on any
-  elimination order (Theorem~\ref{thm:twig-correct}) and, for a given
-  order, exponential in the width $w$ it realizes -- a pathwidth-type
-  parameter (Section~\ref{sec:treewidth-prelim}), not the graph's
-  treewidth -- then reformulated via an exact linear-aggregation collapse
-  (Theorem~\ref{thm:twig-collapse}) into a fixed-parameter tractable
-  algorithm in $w$ rather than merely an XP one
+  elimination order (Theorem~\ref{thm:twig-correct}) and exponential, for
+  a given order, in the width $w$ it realizes -- a pathwidth-type
+  parameter, not the graph's treewidth (Section~\ref{sec:treewidth-prelim}) --
+  then reformulated via an exact collapse (Theorem~\ref{thm:twig-collapse})
+  into a fixed-parameter tractable algorithm in $w$
   (Propositions~\ref{prop:xp-space}--\ref{prop:fpt-space}). We further show
-  processing \emph{direction} is a first-class algorithmic choice
-  (Proposition~\ref{prop:direction}, star-graph worst case), and that no
-  elimination order keeps $w$ bounded on trees (complete binary trees),
-  since TWIG's linear schedule has no join operation -- so TWIG is a
-  bounded-pathwidth algorithm, not a bounded-treewidth one
+  processing \emph{direction} is a first-class choice
+  (Proposition~\ref{prop:direction}), and that no order keeps $w$ bounded
+  on trees, since TWIG's linear schedule has no join operation -- so TWIG
+  is bounded-pathwidth, not bounded-treewidth
   (Section~\ref{sec:twig-complexity}).
 \item An exact, sampling-noise-free measurement of the optimality gap of
   greedy IMIN selection (Section~\ref{sec:twig-empirical}): on graphs small
@@ -194,26 +185,24 @@ systematic than the fully proof-verified, 60-instance study of
 Section~\ref{sec:twig-empirical}. The Sandwich lower/upper-bound family we
 use as the LSBM baseline is instead due to \citet{wang2024sandwich}.
 
-\textbf{Rumor and misinformation blocking before IMIN.} The idea of
-limiting an already-spreading process's damage by removing or countering
-a small set of vertices predates IMIN's formal NP-hardness treatment by
-over a decade. \citet{budak2011} counter-seed a rival campaign under
-independent cascade; \citet{he2012} extend this to competitive linear
-threshold; \citet{nguyen2012} and \citet{wang2013blocking} study node/edge
-removal directly (essentially one-shot IMIN, without \citet{xie2023}'s
-later hardness/inapproximability results); \citet{fan2013} add an
-explicit removal-cost budget; \citet{wang2016drimux} and \citet{tong2018}
-generalize to dynamic and multi-campaign environments (\citet{tong2017},
-discussed below, is a maximization rather than blocking algorithm and is
-not part of this line); \citet{farajtabar2017} model
-the cascade as a Hawkes process steered by reinforcement learning;
-\citet{yan2020} study blocker placement under a fixed budget;
+\textbf{Rumor and misinformation blocking before IMIN.} Limiting an
+already-spreading process's damage by removing or countering a small
+vertex set predates IMIN's formal NP-hardness treatment by over a decade:
+\citet{budak2011} counter-seed a rival campaign under independent
+cascade; \citet{he2012} extend this to competitive linear threshold;
+\citet{nguyen2012} and \citet{wang2013blocking} study node/edge removal
+directly, essentially one-shot IMIN without \citet{xie2023}'s later
+hardness results; \citet{fan2013} add a removal-cost budget;
+\citet{wang2016drimux} and \citet{tong2018} generalize to dynamic and
+multi-campaign settings (\citet{tong2017}, below, is a maximization
+algorithm and not part of this line); \citet{farajtabar2017} model the
+cascade as a Hawkes process steered by reinforcement learning;
+\citet{yan2020} study blocker placement under a fixed budget; and
 \citet{zareie2021} survey this pre-2021 line. \citet{xiang2024} is a
 recent pertinence-constrained variant contemporaneous with
 \citet{xie2024}, the direct ancestor of the AG/GR planners DEFER wraps.
-None of this line considers the timing of commitment as a decision
-variable in its own
-right, which is the gap DEFER's adaptive formulation addresses.
+None of this line treats commitment timing as a decision variable, the
+gap DEFER's adaptive formulation addresses.
 
 \textbf{Exact spread computation.} Computing expected spread exactly is a
 network-reliability problem and is \#P-hard in general
@@ -243,20 +232,18 @@ programming paradigm \citep{bodlaender1988,cygan2015}.
 
 \textbf{Adaptive submodular and sequential decision problems.} Adaptive
 variants of influence \emph{maximization} are well studied:
-\citet{golovinkrause2011} give the general framework of adaptive
-submodularity under which many such results are proved;
-\citet{seemansinger2013} apply a two-stage adaptive-seeding idea to
-influence maximization; and \citet{tong2017}, cited above for its
-RR-sketch guarantee, is itself an explicitly \emph{adaptive} maximization
-algorithm that re-plans as the network changes, structurally similar to
-DEFER but for the maximization objective. For stochastic monotone
-submodular \emph{maximization}, the adaptivity gap -- a term introduced by
-\citet{deangoemansvondrak2008} for the stochastic knapsack problem -- is
-\emph{bounded} by a constant \citep{asadpournazerzadeh2016};
-Theorem~\ref{thm:adaptivity-gap} shows the opposite for IMIN, an
-\emph{unbounded} gap, attributable to $\FF(\cdot)$'s lack of
-supermodularity in $B$ \citep[established by][]{xie2023} breaking the
-machinery that bounds the maximization side. To our knowledge no prior
+\citet{golovinkrause2011} give the general adaptive-submodularity
+framework; \citet{seemansinger2013} apply two-stage adaptive seeding to
+influence maximization; and \citet{tong2017} is itself an explicitly
+adaptive maximization algorithm that re-plans as the network changes,
+structurally similar to DEFER but for the maximization objective. For
+stochastic monotone submodular \emph{maximization}, the adaptivity gap --
+introduced by \citet{deangoemansvondrak2008} for the stochastic knapsack
+problem -- is \emph{bounded} by a constant
+\citep{asadpournazerzadeh2016}; Theorem~\ref{thm:adaptivity-gap} shows the
+opposite for IMIN, an \emph{unbounded} gap, attributable to
+$\FF(\cdot)$'s lack of supermodularity in $B$
+\citep[established by][]{xie2023}. To our knowledge no prior
 work formalizes an adaptive variant of IMIN, or proves a lemma of the
 shape of Lemma~\ref{lem:defer-free} or an unbounded-adaptivity-gap result
 of the shape of Theorem~\ref{thm:adaptivity-gap}, for this minimization
@@ -572,18 +559,15 @@ $\Delta$ (Theorem~\ref{thm:adaptivity-gap}'s proof verifies this
 numerically at $\Delta=4$, $p=0.01$, $L=5000$: spread ratio $\approx49.7$,
 close to $2/(\Delta p)=50$).
 
-The qualitative point survives far more general instances than this
-symmetric construction: a one-shot policy pays for protection whether or
-not the threat it is protecting against ever materializes, while DEFER
-pays only for the branches that are actually observed to be live. The
-push-down rule (Lemma~\ref{lem:pushdown}) is what tells DEFER \emph{when}
-this is worth doing -- here, with $c_v=1$ child per branch vertex and
-$q_v=p=0.1$ small relative to the branch's shadow price
-$\lambda\approx pL/1\approx5$, the condition $q_v(c_v+1/\lambda)<1$ holds
-comfortably, so every exposed branch vertex is deferred rather than
-committed immediately; on a graph where $q_v$ is close to 1 (a near-certain
-threat) the same rule would instead commit right away, recovering one-shot
-behavior exactly where deferring would not help.
+The qualitative point survives far more general instances: a one-shot
+policy pays for protection whether or not the threat it protects against
+ever materializes, while DEFER pays only for branches actually observed
+live. Push-down (Lemma~\ref{lem:pushdown}) tells DEFER \emph{when} this is
+worth it -- here, $c_v=1$, $q_v=p=0.1$ is small relative to the shadow
+price $\lambda\approx pL\approx5$, so $q_v(c_v+1/\lambda)<1$ holds and
+every exposed branch vertex is deferred; with $q_v$ near $1$ (a
+near-certain threat) the same rule commits right away instead, recovering
+one-shot behavior exactly where deferring would not help.
 
 \subsection{Theoretical guarantees}\label{sec:defer-theory}
 
@@ -702,8 +686,8 @@ one vertex at a time -- and prove it admits a worst-case separation
 one-shot planners: AdvancedGreedy, GreedyReplace, and the Sandwich lower
 bound. \texttt{isocut} is not itself a competing baseline from the
 literature; it is reported only as an ablation, in
-Section~\ref{sec:isocut-practice}, because it is rarely selected on the
-SNAP graphs used there.
+Online Supplement~\ref{sec:isocut-practice}, because it is rarely selected
+on the SNAP graphs used there.
 
 \begin{theorem}[Isolation-move separation]\label{thm:isocut-separation}
 There is a family of instances on which AdvancedGreedy, GreedyReplace, and
@@ -1164,11 +1148,11 @@ methods):}
   a whole seed's out-neighborhood at once
   (Section~\ref{sec:complexity-comparison}, Theorem~\ref{thm:isocut-separation});
   a one-shot planner, not a DEFER variant, used only in
-  Section~\ref{sec:isocut-practice}.
+  Online Supplement~\ref{sec:isocut-practice}.
 \item \textbf{defer\_cut}: DEFER wrapping \texttt{isocut} instead of plain
-  AG, used only in Section~\ref{sec:isocut-practice} to check whether
-  isocut's worst-case advantage survives once DEFER's adaptivity is
-  layered on top.
+  AG, used only in Online Supplement~\ref{sec:isocut-practice} to check
+  whether isocut's worst-case advantage survives once DEFER's adaptivity
+  is layered on top.
 \end{enumerate}
 
 \noindent The networks are:
@@ -1267,117 +1251,14 @@ depending on budget and network); the narrowing-at-large-budget pattern of
 Figure~\ref{fig:defer-sweep} is nonetheless visible on every network.}
 \end{table}
 
-\subsection{Seed-selection sensitivity}\label{sec:seed-sensitivity}
-
-The results above seed with 20 vertices chosen uniformly at random. We
-additionally ran a single-draw sweep with 50 highest-degree seeds -- a
-harder, more concentrated seeding that activates a larger, more
-overlapping set of branches immediately -- across the same networks and
-budgets $10,20,50$ (Table~\ref{tab:defer-degree-seeds}). These numbers are
-noisier (one draw per cell), and COMMIT is no longer uniformly dominated:
-high-degree seeding compresses the rounds available for push-down to
-exploit and gives COMMIT less opportunity to lock in a bad early
-commitment. The qualitative ranking (DEFER weakly at or above AG) still
-holds in 10 of 12 cells; the two exceptions where DEFER is strictly below
-AG (ca-GrQc $b=10$, ca-HepTh $b=50$) are single-draw, small-margin
-reversals of the kind Remark~\ref{rem:winners-curse} anticipates, not
-evidence against Theorem~\ref{thm:defer-dominates}. (Power-grid $b=50$ is
-a tie between AG and DEFER, not a reversal; on that and several other
-cells COMMIT, not AG, is the single-draw winner, a separate effect of the
-same high-degree seeding discussed above.)
-
-\begin{table}[h]
-\TABLE
-{Fraction of spread saved, 50 highest-degree seeds, single draw per cell, constant probability\label{tab:defer-degree-seeds}}
-{\begin{tabular}{@{}lcccccccccccc@{}}
-\hline
-\up & \multicolumn{3}{c}{ca-GrQc} & \multicolumn{3}{c}{ca-HepTh} & \multicolumn{3}{c}{power-grid} & \multicolumn{3}{c}{BA(2000)} \\
-$b$ & AG & DEFER & COMMIT & AG & DEFER & COMMIT & AG & DEFER & COMMIT & AG & DEFER & COMMIT \\
-\hline
-\up 10 & 0.317 & 0.314 & \textbf{0.325}$^\dagger$ & 0.121 & 0.121 & \textbf{0.122}$^\dagger$ & 0.148 & \textbf{0.153} & 0.146 & 0.340 & 0.342 & \textbf{0.344}$^\dagger$ \\
-20 & 0.471 & 0.474 & \textbf{0.476}$^\dagger$ & 0.229 & 0.231 & \textbf{0.237}$^\dagger$ & 0.231 & \textbf{0.238} & 0.214 & 0.395 & \textbf{0.397} & 0.388 \\
-\down 50 & 0.691 & 0.696 & \textbf{0.709}$^\dagger$ & \textbf{0.472} & 0.461 & 0.464 & 0.404 & 0.404 & \textbf{0.411}$^\dagger$ & 0.470 & 0.474 & \textbf{0.478}$^\dagger$ \\
-\hline
-\end{tabular}}
-{$^\dagger$Cells where the single-draw realization favors AG or COMMIT
-over DEFER by a small margin; see the discussion in the text. Bold marks
-the nominal best value per cell, which at $n=1$ draw is a point estimate
-rather than a statistically distinguishable ranking.}
-\end{table}
-
-\subsection{Complexity in practice}\label{sec:complexity-practice}
-
-Theorem~\ref{thm:defer-complexity} predicts that DEFER costs more per
-episode than its one-shot planner, since it re-plans every round instead
-of once. Table~\ref{tab:timing} confirms this directly: DEFER costs
-roughly 2.5--7$\times$ AG's per-episode time, depending on the network
-(2.5$\times$ on BA(2000) up to 6.9$\times$ on ca-GrQc), consistent with a
-handful of re-planning rounds each costing comparably to the single AG
-call. COMMIT, despite
-executing the identical per-round algorithm as DEFER, costs \emph{more}
-than DEFER on every network: its inferior plan quality
-(Tables~\ref{tab:defer-results}, \ref{tab:defer-allbudgets}) leaves more
-of the cascade active for longer, so it takes more rounds to die out, and
-each round is an additional re-planning call -- a cost interaction
-Theorem~\ref{thm:defer-complexity}'s per-round-times-rounds bound makes
-explicit but a single-round bound would miss: a worse policy is also
-slower, because it prolongs the process being controlled.
-
-\begin{table}[h]
-\TABLE
-{Wall-clock time per episode (seconds), budget 20, constant probability\label{tab:timing}}
-{\begin{tabular}{@{}lccccc@{}}
-\hline
-\up network ($n$) & AG & GR & DEFER & COMMIT & isocut \\
-\hline
-\up ca-GrQc (5241) & 0.078 & 0.085 & 0.542 & 0.861 & 0.080 \\
-ca-HepTh (9875) & 0.232 & 0.272 & 1.002 & 1.793 & 0.238 \\
-power-grid (4941) & 0.006 & 0.008 & 0.017 & 0.048 & 0.010 \\
-\down BA(2000) (2000) & 0.012 & 0.014 & 0.030 & 0.088 & 0.016 \\
-\hline
-\end{tabular}}
-{Isocut (a one-shot planner with the added frontier-isolation move of
-Theorem~\ref{thm:isocut-separation}) costs about as much as AG, since it
-adds one candidate-move type to a single planning call rather than
-introducing DEFER's round-by-round re-planning.}
-\end{table}
-
-\subsection{Isolation moves in practice}\label{sec:isocut-practice}
-
-This subsection is entirely about our own constructions: \texttt{isocut}
-(a one-shot planner we built by extending AG) and \texttt{defer\_cut}
-(DEFER wrapping \texttt{isocut} instead of AG); neither is a baseline from
-prior literature. Theorem~\ref{thm:isocut-separation} shows a worst-case
-family on which frontier-isolation moves save $\Omega(N)$ where every
-other rule saves $O(b)$. Table~\ref{tab:isocut} checks whether this
-advantage is visible on the real SNAP-scale networks used throughout this
-section: it is not. isocut is statistically indistinguishable from AG on
-all four networks (it essentially never selects an isolation move over a
-single-node pick), and defer\_cut is at best a marginal improvement over
-plain DEFER (ca-HepTh) and a marginal loss elsewhere. This is not a
-failure of the proof but a statement about which graphs the adversarial
-construction's decoy-seed structure resembles: real collaboration and
-infrastructure networks rarely contain a seed whose entire out-neighborhood
-points into an otherwise-unreachable region, so the move earns its keep
-only as a documented worst-case possibility, not a default-algorithm
-component.
-
-\begin{table}[h]
-\TABLE
-{Fraction of no-intervention spread saved, isolation-move ablations, budget 20, constant probability\label{tab:isocut}}
-{\begin{tabular}{@{}lcccc@{}}
-\hline
-\up network & AG & DEFER & isocut & defer\_cut \\
-\hline
-\up ca-GrQc & 0.583 & \textbf{0.602} & 0.574 & 0.589 \\
-ca-HepTh & 0.452 & 0.471 & 0.452 & \textbf{0.488} \\
-power-grid & 0.339 & \textbf{0.341} & 0.339 & \textbf{0.341} \\
-\down BA(2000) & 0.571 & \textbf{0.573} & 0.571 & \textbf{0.573} \\
-\hline
-\end{tabular}}
-{Bold marks the best value per row. isocut never beats AG; defer\_cut
-beats plain DEFER only on ca-HepTh and ties it elsewhere.}
-\end{table}
+Two further robustness checks are reported in
+Online Supplement~\ref{ec:seed-sensitivity}: a single-draw sweep with 50
+highest-degree seeds (a harder, more concentrated seeding), where the
+qualitative ranking DEFER $\ge$ AG still holds in 10 of 12 cells; and
+\texttt{isocut}/\texttt{defer\_cut}, two constructions of our own
+(Theorem~\ref{thm:isocut-separation}'s worst-case separation does not
+materialize on these real networks, where \texttt{isocut} is
+statistically indistinguishable from AG).
 
 \subsection{Auxiliary benchmark: source detection}\label{sec:source-experiments}
 
@@ -1418,68 +1299,56 @@ there. A practitioner should ask whether the intervention has this shape
 -- occasional high-fan-out gatekeepers, individually unlikely but
 consequential -- rather than treat adaptivity as free and always better.
 \texttt{DEFER-nopush} is never worse than its planner
-(Theorem~\ref{thm:defer-dominates}); full DEFER, with push-down enabled,
-is not (Remark~\ref{rem:pushdown-counterexample}), though
+(Theorem~\ref{thm:defer-dominates}); full DEFER is not
+(Remark~\ref{rem:pushdown-counterexample}), though
 Table~\ref{tab:defer-nopush-parity} in the Online Supplement shows the two
-agree to within $0.0075$ of saved fraction on every benchmark cell we ran
--- push-down's theoretical gap from the proven guarantee does not show up
-empirically here. DEFER also assumes full-adoption
-feedback observed with negligible latency: the controller observes
-\emph{which} vertices activate each round and can act before the next
-round's propagation -- realistic for platform moderation (who reposted,
-not which link) and epidemic containment (who is infected, not who
-transmitted it) when suspensions or quarantines are fast relative to the
-cascade's own timescale, but not otherwise; extending to noisy, delayed,
-or partially-observed feedback is open.
+agree to within $0.0075$ of saved fraction on every benchmark cell we ran.
+DEFER also assumes full-adoption feedback with negligible latency: the
+controller must observe each round's activations before the next round's
+propagation, realistic when suspensions or quarantines are fast relative
+to the cascade's own timescale, but not otherwise; noisy, delayed, or
+partially-observed feedback is open.
 
 \subsection{When is TWIG the right tool?}\label{sec:discussion-twig}
 
-TWIG is not a substitute for the Monte-Carlo-based evaluation that AG,
-GR, and DEFER rely on at SNAP scale
-(Section~\ref{sec:defer-experiments}): Proposition~\ref{prop:fpt-space}'s
-$B_{w+2}$ state count is exponential in the width $w$ regardless of
-$n$-independence, and Table~\ref{tab:twig-feasibility}'s real networks
-already span tractable (karate, $w=10$) to infeasible by memory (dolphin,
-$w=19$), two orders of magnitude below ca-GrQc in $n$ alone. TWIG's role is
-instead as a validation instrument: it certifies exactly how far greedy
-departs from optimal (Section~\ref{sec:twig-empirical}'s 60-instance
-study), which no Monte-Carlo evaluation can -- greedy under noisy
-estimates is a source of bias more sampling does not remove. Validating
-greedy IMIN against TWIG before trusting it at scale is analogous to
-unit-testing a numerical solver against closed-form instances; three
-implementation bugs caught only by exhaustive brute-force comparison show
-why that step is not optional.
+TWIG is not a substitute for the Monte-Carlo-based evaluation AG, GR, and
+DEFER rely on at SNAP scale (Section~\ref{sec:defer-experiments}):
+Proposition~\ref{prop:fpt-space}'s $B_{w+2}$ state count is exponential in
+the width $w$ regardless of $n$-independence, and
+Table~\ref{tab:twig-feasibility}'s real networks already span tractable
+(karate, $w=10$) to infeasible by memory (dolphin, $w=19$), two orders of
+magnitude below ca-GrQc in $n$ alone. TWIG's role is instead as a
+validation instrument, certifying exactly how far greedy departs from
+optimal (Section~\ref{sec:twig-empirical}'s 60-instance study) -- greedy
+under noisy estimates is a source of bias more sampling does not remove.
+Validating greedy IMIN against TWIG before trusting it at scale is
+analogous to unit-testing a numerical solver against closed-form
+instances; three implementation bugs caught only by exhaustive
+brute-force comparison show why that step is not optional.
 
 \subsection{Limitations and Concluding Remarks}\label{sec:conclusion}
 
-Two limitations bound the scope honestly, beyond TWIG's scale limit
-already discussed (Section~\ref{sec:discussion-twig}). First,
-Section~\ref{sec:defer-experiments}'s benchmark covers four SNAP-scale
-networks with few live-edge draws per cell, not a mature large-scale
-evaluation, though the theory does not depend on this. Second,
-Section~\ref{sec:source-experiments}'s benchmark reproduces a companion
-project problem, not a contribution of this paper.
-
-We gave the first formal treatment of adaptivity for influence
-minimization -- DEFER (\texttt{DEFER-nopush} never worse than its wrapped
-planner, a myopic-optimal but not globally guaranteed push-down
-commitment rule, an unbounded adaptivity gap) and TWIG (an exact FPT
-dynamic program for IMIN's optimality gap in the width $w$, with a
-provable elimination-order separation) -- both implemented and released.
+Two further limitations, beyond TWIG's scale limit already discussed
+(Section~\ref{sec:discussion-twig}): Section~\ref{sec:defer-experiments}'s
+benchmark covers four SNAP-scale networks with few live-edge draws per
+cell, not a mature large-scale evaluation, though the theory does not
+depend on this; and Section~\ref{sec:source-experiments}'s benchmark
+reproduces a companion project problem, not a contribution of this paper.
 
 \textbf{Code and data availability.} DEFER, TWIG, and every baseline and
-benchmark script used in this paper are released at
-\url{https://github.com/vinhqdang/trace_e}. All networks used are either
+benchmark script are released at
+\url{https://github.com/vinhqdang/trace_e}. Networks used are either
 generated by the released code (Barab\'asi--Albert, Erd\H{o}s--R\'enyi) or
-the small public empirical datasets cited in
+the small public datasets cited in
 Section~\ref{sec:defer-experiments}; \texttt{results/summary\_adaptive.csv}
-and the other \texttt{results/*.csv} files referenced throughout the paper
-are the raw per-instance logs produced by the released benchmark scripts,
+and the other \texttt{results/*.csv} files referenced throughout are the
+raw per-instance logs the released benchmark scripts produce,
 included in the same repository.
 
 % Endnotes (none currently used)
 %\begingroup \parindent 0pt \parskip 0.0ex \def\enotesize{\normalsize} \theendnotes \endgroup
 
+\setlength{\bibsep}{0pt}
 \begin{thebibliography}{99}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
@@ -2279,6 +2148,120 @@ averaged away). Restricted to karate, the only network where our
 calibration exactly matches theirs; the other five networks' calibrated
 $\beta,T$ target the same $\sim$40\% infected fraction but were not
 verified against a second published number.}
+\end{table}
+
+\section{Seed-Selection Sensitivity and Isolation-Move Ablations}\label{ec:seed-sensitivity}
+
+\subsection{Seed-selection sensitivity}
+
+The results above seed with 20 vertices chosen uniformly at random. We
+additionally ran a single-draw sweep with 50 highest-degree seeds -- a
+harder, more concentrated seeding that activates a larger, more
+overlapping set of branches immediately -- across the same networks and
+budgets $10,20,50$ (Table~\ref{tab:defer-degree-seeds}). These numbers are
+noisier (one draw per cell), and COMMIT is no longer uniformly dominated:
+high-degree seeding compresses the rounds available for push-down to
+exploit and gives COMMIT less opportunity to lock in a bad early
+commitment. The qualitative ranking (DEFER weakly at or above AG) still
+holds in 10 of 12 cells; the two exceptions where DEFER is strictly below
+AG (ca-GrQc $b=10$, ca-HepTh $b=50$) are single-draw, small-margin
+reversals of the kind Remark~\ref{rem:winners-curse} anticipates, not
+evidence against Theorem~\ref{thm:defer-dominates}. (Power-grid $b=50$ is
+a tie between AG and DEFER, not a reversal; on that and several other
+cells COMMIT, not AG, is the single-draw winner, a separate effect of the
+same high-degree seeding discussed above.)
+
+\begin{table}[h]
+\TABLE
+{Fraction of spread saved, 50 highest-degree seeds, single draw per cell, constant probability\label{tab:defer-degree-seeds}}
+{\begin{tabular}{@{}lcccccccccccc@{}}
+\hline
+\up & \multicolumn{3}{c}{ca-GrQc} & \multicolumn{3}{c}{ca-HepTh} & \multicolumn{3}{c}{power-grid} & \multicolumn{3}{c}{BA(2000)} \\
+$b$ & AG & DEFER & COMMIT & AG & DEFER & COMMIT & AG & DEFER & COMMIT & AG & DEFER & COMMIT \\
+\hline
+\up 10 & 0.317 & 0.314 & \textbf{0.325}$^\dagger$ & 0.121 & 0.121 & \textbf{0.122}$^\dagger$ & 0.148 & \textbf{0.153} & 0.146 & 0.340 & 0.342 & \textbf{0.344}$^\dagger$ \\
+20 & 0.471 & 0.474 & \textbf{0.476}$^\dagger$ & 0.229 & 0.231 & \textbf{0.237}$^\dagger$ & 0.231 & \textbf{0.238} & 0.214 & 0.395 & \textbf{0.397} & 0.388 \\
+\down 50 & 0.691 & 0.696 & \textbf{0.709}$^\dagger$ & \textbf{0.472} & 0.461 & 0.464 & 0.404 & 0.404 & \textbf{0.411}$^\dagger$ & 0.470 & 0.474 & \textbf{0.478}$^\dagger$ \\
+\hline
+\end{tabular}}
+{$^\dagger$Cells where the single-draw realization favors AG or COMMIT
+over DEFER by a small margin; see the discussion in the text. Bold marks
+the nominal best value per cell, which at $n=1$ draw is a point estimate
+rather than a statistically distinguishable ranking.}
+\end{table}
+
+\subsection{Complexity in practice}\label{sec:complexity-practice}
+
+Theorem~\ref{thm:defer-complexity} predicts that DEFER costs more per
+episode than its one-shot planner, since it re-plans every round instead
+of once. Table~\ref{tab:timing} confirms this directly: DEFER costs
+roughly 2.5--7$\times$ AG's per-episode time, depending on the network
+(2.5$\times$ on BA(2000) up to 6.9$\times$ on ca-GrQc), consistent with a
+handful of re-planning rounds each costing comparably to the single AG
+call. COMMIT, despite
+executing the identical per-round algorithm as DEFER, costs \emph{more}
+than DEFER on every network: its inferior plan quality
+(Tables~\ref{tab:defer-results}, \ref{tab:defer-allbudgets}) leaves more
+of the cascade active for longer, so it takes more rounds to die out, and
+each round is an additional re-planning call -- a cost interaction
+Theorem~\ref{thm:defer-complexity}'s per-round-times-rounds bound makes
+explicit but a single-round bound would miss: a worse policy is also
+slower, because it prolongs the process being controlled.
+
+\begin{table}[h]
+\TABLE
+{Wall-clock time per episode (seconds), budget 20, constant probability\label{tab:timing}}
+{\begin{tabular}{@{}lccccc@{}}
+\hline
+\up network ($n$) & AG & GR & DEFER & COMMIT & isocut \\
+\hline
+\up ca-GrQc (5241) & 0.078 & 0.085 & 0.542 & 0.861 & 0.080 \\
+ca-HepTh (9875) & 0.232 & 0.272 & 1.002 & 1.793 & 0.238 \\
+power-grid (4941) & 0.006 & 0.008 & 0.017 & 0.048 & 0.010 \\
+\down BA(2000) (2000) & 0.012 & 0.014 & 0.030 & 0.088 & 0.016 \\
+\hline
+\end{tabular}}
+{Isocut (a one-shot planner with the added frontier-isolation move of
+Theorem~\ref{thm:isocut-separation}) costs about as much as AG, since it
+adds one candidate-move type to a single planning call rather than
+introducing DEFER's round-by-round re-planning.}
+\end{table}
+
+\subsection{Isolation moves in practice}\label{sec:isocut-practice}
+
+This subsection is entirely about our own constructions: \texttt{isocut}
+(a one-shot planner we built by extending AG) and \texttt{defer\_cut}
+(DEFER wrapping \texttt{isocut} instead of AG); neither is a baseline from
+prior literature. Theorem~\ref{thm:isocut-separation} shows a worst-case
+family on which frontier-isolation moves save $\Omega(N)$ where every
+other rule saves $O(b)$. Table~\ref{tab:isocut} checks whether this
+advantage is visible on the real SNAP-scale networks used throughout this
+section: it is not. isocut is statistically indistinguishable from AG on
+all four networks (it essentially never selects an isolation move over a
+single-node pick), and defer\_cut is at best a marginal improvement over
+plain DEFER (ca-HepTh) and a marginal loss elsewhere. This is not a
+failure of the proof but a statement about which graphs the adversarial
+construction's decoy-seed structure resembles: real collaboration and
+infrastructure networks rarely contain a seed whose entire out-neighborhood
+points into an otherwise-unreachable region, so the move earns its keep
+only as a documented worst-case possibility, not a default-algorithm
+component.
+
+\begin{table}[h]
+\TABLE
+{Fraction of no-intervention spread saved, isolation-move ablations, budget 20, constant probability\label{tab:isocut}}
+{\begin{tabular}{@{}lcccc@{}}
+\hline
+\up network & AG & DEFER & isocut & defer\_cut \\
+\hline
+\up ca-GrQc & 0.583 & \textbf{0.602} & 0.574 & 0.589 \\
+ca-HepTh & 0.452 & 0.471 & 0.452 & \textbf{0.488} \\
+power-grid & 0.339 & \textbf{0.341} & 0.339 & \textbf{0.341} \\
+\down BA(2000) & 0.571 & \textbf{0.573} & 0.571 & \textbf{0.573} \\
+\hline
+\end{tabular}}
+{Bold marks the best value per row. isocut never beats AG; defer\_cut
+beats plain DEFER only on ca-HepTh and ties it elsewhere.}
 \end{table}
 
 \section{Experimental Protocol}\label{ec:reproducibility}
