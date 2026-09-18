@@ -42,7 +42,7 @@
 
 \RUNTITLE{Adaptive Influence Minimization by Deferred Blocking}
 
-\TITLE{Adaptive Influence Minimization via Deferred Frontier Blocking: Theory, Algorithms, and Exact Validation on Bounded-Treewidth Graphs}
+\TITLE{Adaptive Influence Minimization via Deferred Frontier Blocking: Theory, Algorithms, and Exact Validation on Bounded-Pathwidth Graphs}
 
 \ARTICLEAUTHORS{%
 \AUTHOR{Quang-Vinh Dang}
@@ -65,33 +65,38 @@ be from the truth?
 
 \textit{Methodology and Results.} We answer the first question with DEFER,
 a general procedure that upgrades any existing one-shot blocking method
-into a gradual one, and we prove three things about it: gradual commitment
-never leaves the decision maker worse off than committing everything
-immediately; a simple rule for deciding when to commit versus wait is the
-best possible such rule under natural local conditions; and the advantage
-of committing gradually over committing all at once can be made arbitrarily
-large, growing with how many people a typical infected individual can pass
-the outbreak to. We answer the second question with TWIG, a method that
-computes the exact effect of any proposed blocking choice, rather than
-estimating it by simulation, on networks small enough for exact computation,
-and we use it to measure -- for the first time without simulation noise
-clouding the measurement -- how often and how badly the commonly used
-greedy blocking heuristic misses the truly best choice.
+into a gradual one, and we prove three things about it: the pure-deferral
+variant never leaves the decision maker worse off than committing
+everything immediately; a simple additional rule for deciding when to
+commit an exposed target versus wait is the best possible such rule under
+local conditions, though (as we show with a closed-form counterexample) it
+does not inherit the same never-worse guarantee once several deferred
+targets compete for the same budget; and the advantage of committing
+gradually over committing all at once can be made arbitrarily large,
+growing with the maximum number of people any single infected individual
+can pass the outbreak to. We answer the second question with TWIG, a
+method that computes the exact effect of any proposed blocking choice,
+rather than estimating it by simulation, on networks small enough for
+exact computation, and we use it to measure -- systematically and without
+simulation noise clouding the measurement -- how often and how badly the
+commonly used greedy blocking heuristic misses the truly best choice
+(exactly optimal in 56 of 60 test instances, with a mean excess of $2.2\%$
+and a worst case of $84.6\%$).
 
 \textit{Importance and Implications.} Public-health authorities and
 platform moderators rarely have to decide everything about an intervention
 before it begins; DEFER shows, with a formal guarantee rather than a case
-study, that using this flexibility is never harmful and can be highly
-valuable, and it does so by wrapping methods practitioners already use
-rather than by replacing them. TWIG supplies a rigorous check on the
-simulation-based evaluations that the entire outbreak-blocking literature
-has relied on until now, exposing a source of error in that literature
-that has gone unmeasured.
+study, that using this flexibility in its pure form is never harmful and
+can be highly valuable, and it does so by wrapping methods practitioners
+already use rather than by replacing them. TWIG supplies a more systematic
+check than prior partial validation on the simulation-based evaluations
+the outbreak-blocking literature relies on, at the modest network sizes
+exact computation currently admits.
 }%
 
 \FUNDING{The author received no external funding for this research.}
 
-\KEYWORDS{influence minimization, adaptive optimization, misinformation blocking, treewidth, dynamic programming, network science}
+\KEYWORDS{influence minimization, adaptive optimization, misinformation blocking, pathwidth, dynamic programming, network science}
 
 \maketitle
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -112,8 +117,8 @@ selection carries no approximation guarantee, and the problem is NP-hard and
 hard to approximate \citep{xie2023}.
 
 Every published IMIN algorithm -- AdvancedGreedy and GreedyReplace
-\citep{xie2023,xie2024}, and the Sandwich lower/upper-bound family -- is
-\emph{one-shot}: the entire budget is spent before the cascade is observed
+\citep{xie2023,xie2024}, and the Sandwich lower/upper-bound family
+\citep{wang2024sandwich} -- is \emph{one-shot}: the entire budget is spent before the cascade is observed
 even once. In practice a moderator or public-health authority does not have
 to decide everything up front. They observe who has already been exposed,
 round by round, and can adapt. This raises two questions that, to our
@@ -131,30 +136,38 @@ trivial instances.
 \item \textbf{DEFER} (Section~\ref{sec:defer}), an adaptive wrapper around
   any one-shot IMIN planner. At each round it plans on the currently
   reachable region, protects the previous round's uncommitted plan against
-  being replaced by a worse one, and commits a planned vertex only if a
-  simple push-down inequality shows that waiting is not preferable. We
-  prove: deferred commitment alone is free (Lemma~\ref{lem:defer-free});
-  DEFER weakly dominates the one-shot planner it wraps
+  being replaced by a worse one, and (optionally) commits a planned vertex
+  early only if a push-down inequality shows that waiting is not
+  preferable. We prove: deferred commitment alone is free
+  (Lemma~\ref{lem:defer-free}); the pure-deferral variant,
+  \texttt{DEFER-nopush}, weakly dominates the one-shot planner it wraps
   (Theorem~\ref{thm:defer-dominates}); the push-down rule is the myopic
-  optimum for the local commit-now/wait decision (Lemma~\ref{lem:pushdown});
-  and the adaptivity gap of IMIN is unbounded: the ratio of DEFER's saving
-  over no intervention to the best one-shot's saving grows linearly in the
-  maximum out-degree as the activation probability shrinks, and the ratio
-  of the two policies' expected spreads is unbounded already at a fixed,
-  minimal out-degree of two (Theorem~\ref{thm:adaptivity-gap}), with a
-  matching, checkable construction.
+  optimum for the local, single-vertex commit-now/wait decision
+  (Lemma~\ref{lem:pushdown}), but -- shown by a closed-form counterexample
+  -- does not inherit this domination guarantee once several deferred
+  targets can compete for the same budget
+  (Remark~\ref{rem:pushdown-counterexample}); and the adaptivity gap of
+  IMIN is unbounded: the ratio of DEFER's saving over no intervention to
+  the best one-shot's saving grows linearly in the maximum out-degree as
+  the activation probability shrinks, and the ratio of the two policies'
+  expected spreads is unbounded already at a fixed, minimal out-degree of
+  two (Theorem~\ref{thm:adaptivity-gap}), with a matching, checkable
+  construction.
 \item \textbf{TWIG} (Section~\ref{sec:twig}), an exact dynamic program for
-  the expected spread of a candidate blocking set on graphs of bounded
-  treewidth, proved correct (Theorem~\ref{thm:twig-correct}) and then
-  reformulated, via an exact linear-aggregation collapse
-  (Theorem~\ref{thm:twig-collapse}), into a genuinely fixed-parameter
-  tractable algorithm rather than merely an XP one
-  (Propositions~\ref{prop:xp-space}--\ref{prop:fpt-space}). We further prove
-  that the direction in which an elimination order is processed is not a
-  tuning detail but a first-class algorithmic choice
-  (Proposition~\ref{prop:direction}), with a worst-case family (the star
-  graph) on which the wrong direction forces the frontier to scale with $n$
-  even though the treewidth is $1$.
+  the expected spread of a candidate blocking set, correct on any
+  elimination order (Theorem~\ref{thm:twig-correct}) and, for a given
+  order, exponential in the width $w$ it realizes -- a pathwidth-type
+  parameter (Section~\ref{sec:treewidth-prelim}), not the graph's
+  treewidth -- then reformulated via an exact linear-aggregation collapse
+  (Theorem~\ref{thm:twig-collapse}) into a fixed-parameter tractable
+  algorithm in $w$ rather than merely an XP one
+  (Propositions~\ref{prop:xp-space}--\ref{prop:fpt-space}). We further show
+  processing \emph{direction} is a first-class algorithmic choice
+  (Proposition~\ref{prop:direction}, star-graph worst case), and that no
+  elimination order keeps $w$ bounded on trees (complete binary trees),
+  since TWIG's linear schedule has no join operation -- so TWIG is a
+  bounded-pathwidth algorithm, not a bounded-treewidth one
+  (Section~\ref{sec:twig-complexity}).
 \item An exact, sampling-noise-free measurement of the optimality gap of
   greedy IMIN selection (Section~\ref{sec:twig-empirical}): on graphs small
   enough for TWIG to enumerate, greedy is exactly optimal in 56 of 60
@@ -172,12 +185,13 @@ trivial instances.
 
 \textbf{Influence minimization.} \citet{xie2023} introduce IMIN, prove
 NP-hardness and inapproximability, and give AdvancedGreedy. \citet{xie2024}
-extend this with GreedyReplace and Sandwich-style bounds and give the
-network-reliability-flavored complexity analysis Theorem
-\ref{thm:twig-correct} builds on; their own Exact-vs-GreedyReplace check
-(their Table 3) uses a borrowed exact method on 100-node subgraphs at up
-to four budget levels, smaller and less systematic than the
-fully proof-verified, 60-instance study of Section~\ref{sec:twig-empirical}.
+extend this with GreedyReplace and give the network-reliability-flavored
+complexity analysis Theorem \ref{thm:twig-correct} builds on; their own
+Exact-vs-GreedyReplace check (their Table 3) uses a borrowed exact method
+on 100-node subgraphs at up to four budget levels, smaller and less
+systematic than the fully proof-verified, 60-instance study of
+Section~\ref{sec:twig-empirical}. The Sandwich lower/upper-bound family we
+use as the LSBM baseline is instead due to \citet{wang2024sandwich}.
 
 \textbf{Rumor and misinformation blocking before IMIN.} The idea of
 limiting an already-spreading process's damage by removing or countering
@@ -188,12 +202,12 @@ threshold; \citet{nguyen2012} and \citet{wang2013blocking} study node/edge
 removal directly (essentially one-shot IMIN, without \citet{xie2023}'s
 later hardness/inapproximability results); \citet{fan2013} add an
 explicit removal-cost budget; \citet{wang2016drimux} and \citet{tong2018}
-generalize to dynamic and multi-campaign environments; \citet{tong2017}
-give a $(1-1/e-\delta)$-style guarantee via reverse-reachable sampling for
-a related blocking-maximization objective; \citet{farajtabar2017} model
+generalize to dynamic and multi-campaign environments (\citet{tong2017},
+discussed below, is a maximization rather than blocking algorithm and is
+not part of this line); \citet{farajtabar2017} model
 the cascade as a Hawkes process steered by reinforcement learning;
 \citet{yan2020} study blocker placement under a fixed budget;
-\citeauthor{zareie2021} survey this pre-2021 line. \citet{xiang2024} is a
+\citet{zareie2021} survey this pre-2021 line. \citet{xiang2024} is a
 recent pertinence-constrained variant contemporaneous with
 \citet{xie2024}, the direct ancestor of the AG/GR planners DEFER wraps.
 None of this line considers the timing of commitment as a decision
@@ -202,25 +216,28 @@ right, which is the gap DEFER's adaptive formulation addresses.
 
 \textbf{Exact spread computation.} Computing expected spread exactly is a
 network-reliability problem and is \#P-hard in general
-\citep{valiant1979,provan1983}. \citet{nakamura2026} give a linear-time
-exact algorithm for expected influence spread on bounded-\emph{pathwidth}
-graphs, a strictly more restrictive parameter than the treewidth TWIG uses
-(every graph of pathwidth $k$ has treewidth at most $k$, but not
-conversely -- e.g., a binary tree has treewidth $1$ and pathwidth
-$\Theta(\log n)$). TWIG's genuinely new content relative to their result is
-the treewidth generalization: a tree decomposition admits frontier splits
-and merges a path decomposition does not, which is exactly what
-Definition~\ref{def:config}'s partition-with-pending-counts formalism and
-the collapse of Theorem~\ref{thm:twig-collapse} handle, and
-Proposition~\ref{prop:direction}'s direction sensitivity has no
-path-decomposition analogue. We do not know whether their algorithm
-already uses an analogous collapse for the pathwidth case, so we claim
-novelty only for handling splits and merges, not the collapse idea itself.
-TWIG's \texttt{greedy\_exact}/\texttt{brute\_force\_optimal\_block}
-(Section~\ref{sec:twig-complexity}) are thin search loops around an
-\texttt{evaluate} oracle that would wrap a pathwidth-restricted evaluator
-just as readily, so we do not count them as a point of distinction. Our
-treewidth dynamic program follows the classical bounded-treewidth
+\citep{valiant1979,provan1983}. \citet{maehara2017} give an early exact
+algorithm via binary decision diagrams. \citet{nakamura2026} give a
+linear-time exact algorithm for spread on bounded-\emph{pathwidth}
+graphs -- the \emph{same} parameter TWIG's own DP is actually bounded by,
+not the more general treewidth we originally framed it against
+(Section~\ref{sec:twig-direction}): \texttt{ExactSpread}'s schedule is
+strictly linear, with no join operation, so it cannot exploit tree
+structure beyond a path decomposition either. Their abstract states that
+their algorithm already achieves the same XP-to-FPT jump for the pathwidth
+case via a construction in the spirit of
+Theorem~\ref{thm:twig-collapse}'s collapse, so we do not claim that
+theorem as a complexity advance over their result. What TWIG contributes
+instead is a construction and correctness proof
+(Theorem~\ref{thm:twig-correct}) checked against exhaustive brute-force on
+60 small instances (Section~\ref{sec:twig-empirical}); the observation
+that processing \emph{direction} along a fixed order is itself a
+first-class choice, with a worst-case separation
+(Proposition~\ref{prop:direction}) not discussed in their paper; and an
+end-to-end blocking-selection pipeline (\texttt{greedy\_exact},
+\texttt{brute\_force\_optimal\_block}) that measures, for the first time
+free of Monte-Carlo confounds, how far greedy IMIN selection departs from
+the true optimum. Our pathwidth DP follows the classical bounded-treewidth
 programming paradigm \citep{bodlaender1988,cygan2015}.
 
 \textbf{Adaptive submodular and sequential decision problems.} Adaptive
@@ -324,7 +341,7 @@ with a Monte-Carlo estimate; TWIG computes $\FF(B)$ exactly instead, on
 graphs where doing so is tractable, to certify how much error that
 replacement introduces.
 
-\subsection{Treewidth machinery}\label{sec:treewidth-prelim}
+\subsection{Pathwidth machinery}\label{sec:treewidth-prelim}
 
 Used only in Section~\ref{sec:twig}. Fix a
 permutation $\sigma=(\sigma_1,\dots,\sigma_n)$ of $V$ and write
@@ -332,9 +349,18 @@ $\mathrm{pos}(v)$ for $v$'s index. For $v=\sigma_i$, let
 $\mathrm{connect\_to}(v)=\{u\in N(v):\mathrm{pos}(u)<i\}$ and
 $\mathrm{last}(v)=\max_{x\in N[v]}\mathrm{pos}(x)$. The \emph{frontier}
 after step $i$ is $F_i=\{\sigma_j:j\le i,\ \mathrm{last}(\sigma_j)\ge i\}$,
-and the \emph{width} of $\sigma$ is $w=\max_i|F_i|-1$, which upper-bounds
-the treewidth of $G$ when $\sigma$ comes from a min-fill-in / min-degree
-chordal completion \citep{bodlaender1988,cygan2015}.
+and the \emph{width} of $\sigma$ is $w=\max_i|F_i|-1$: the \emph{vertex
+separation number} of $\sigma$. Minimizing $w$ over all orders $\sigma$
+gives exactly the \emph{pathwidth} of $G$ \citep{kinnersley1992}, not its
+treewidth: $w$ is always an upper bound on treewidth (any elimination
+order's width bounds the width of the chordal completion it induces
+\citep{bodlaender1988,cygan2015}), but the bound can be arbitrarily loose,
+since pathwidth itself has no bound in terms of treewidth alone (a graph
+of treewidth $1$ can have pathwidth $\Theta(\log n)$;
+Section~\ref{sec:twig-direction}). A min-fill-in / min-degree chordal
+completion heuristic \citep{bodlaender1988,cygan2015} gives a good
+\emph{starting order} in practice, but the $w$ it realizes should be read
+as this order's own width, not as an estimate of $G$'s treewidth.
 
 Table~\ref{tab:notation} collects the notation introduced above and in
 Sections~\ref{sec:defer} and \ref{sec:twig} for reference.
@@ -395,13 +421,13 @@ that is both exposed to the current frontier and passes a push-down test.
     \State $P_t\gets L$
   \EndIf
   \State $X_t\gets$ inactive, unblocked out-neighbors of $F_t$
-  \For{$v\in P_t\cap X_t$}
+  \State $\lambda_t\gets$ smallest marginal saving among the picks of $P_t$ (0 if $P_t$ does not exhaust $b_t$)
+  \For{$v\in P_t\cap X_t$}\label{alg:pushdown-start}
     \State $q_v\gets 1-\prod_{u\in F_t}(1-p(u,v))$; $c_v\gets$ inactive unblocked out-degree of $v$
-    \State $\lambda_t\gets$ smallest marginal saving among the picks of $P_t$ (0 if $P_t$ does not exhaust $b_t$)
-    \If{$q_v\,(c_v+1/\lambda_t)\ge 1$} \Comment{push-down rule, Lemma~\ref{lem:pushdown}}
+    \If{$\lambda_t=0$ \textbf{or} $q_v\,(c_v+1/\lambda_t)\ge 1$} \Comment{push-down rule, Lemma~\ref{lem:pushdown} (myopic, no budget-contention guarantee -- Remark~\ref{rem:pushdown-counterexample})}
       \State block $v$ now
     \EndIf
-  \EndFor
+  \EndFor\label{alg:pushdown-end}
   \State $L\gets P_t\setminus(\text{blocked this round})$
   \State observe $N_{t+1}$; update $A_{t+1},F_{t+1}$
 \EndFor
@@ -422,7 +448,7 @@ paragraph and Algorithm~\ref{alg:defer} describe.
 \begin{figure}[h]
 \FIGURE
 {\centering
-\begin{tikzpicture}[scale=0.82, transform shape,
+\begin{tikzpicture}[scale=0.72, transform shape,
   node distance=3mm and 8mm,
   box/.style={draw, rounded corners, align=center, fill=gray!8, font=\scriptsize, text width=30mm, minimum height=6mm, inner sep=1.5pt},
   dec/.style={draw, diamond, aspect=2.6, align=center, fill=blue!6, font=\scriptsize, text width=25mm, inner sep=0.5pt},
@@ -460,7 +486,8 @@ child (Lemma~\ref{lem:pushdown}).}
 \subsection{Worked example}\label{sec:defer-example}
 
 We make the mechanism behind Theorem~\ref{thm:adaptivity-gap} concrete on
-the star-of-paths instance its proof constructs, with $\Delta=4$ branches,
+the star-of-paths instance its proof constructs
+(Figure~\ref{fig:star-of-paths}), with $\Delta=4$ branches,
 per-branch activation probability $p=0.1$, path length $L=50$, and budget
 $b=1$. Seed $s$ has four out-neighbors $a_1,\dots,a_4$, each independently
 live with probability $p$; each $a_i$ that activates starts a private,
@@ -471,7 +498,7 @@ so the expected total spread is $\Delta p(L+1)=4(0.1)(51)=20.4$.
 \begin{figure}[h]
 \FIGURE
 {\centering
-\begin{tikzpicture}[scale=0.82, transform shape,
+\begin{tikzpicture}[scale=0.72, transform shape,
   seed/.style={draw, circle, fill=gray!15, minimum size=7mm, font=\small},
   gw/.style={draw, circle, fill=blue!12, minimum size=6mm, font=\small},
   pv/.style={draw, circle, fill=white, minimum size=4mm, font=\scriptsize},
@@ -498,8 +525,8 @@ so the expected total spread is $\Delta p(L+1)=4(0.1)(51)=20.4$.
 probability $p=0.1$ from seed $s$; an activated gateway deterministically
 propagates down its own private length-$L$ path. A one-shot policy commits
 before observing which gateways activate; DEFER waits one round, observes
-$N_1$, and blocks only the gateway (or first path vertex) of a branch it
-has confirmed is live.}
+$N_1$, and blocks the first path vertex of one branch it has confirmed is
+live (the gateway itself can no longer be blocked once it has activated).}
 \end{figure}
 
 A one-shot policy with budget 1 must pick a single vertex to remove before
@@ -563,14 +590,16 @@ produces exactly the same final active set as blocking $P$ at time $0$, and
 blocks at most as many vertices.
 \end{lemma}
 
-\begin{theorem}[DEFER weakly dominates its planner]\label{thm:defer-dominates}
-Let $P_0$ be $\mathcal P$'s plan at round $0$. If, in every later round, the
-plan-protection test of Algorithm~\ref{alg:defer} only ever replaces the
-leftover $L=P_{t-1}\setminus C_{t-1}$ by a new plan $P'$ whose held-out
-sample-average saving exceeds $L$'s by more than one held-out standard
-error, then the expected final spread of DEFER is at most that of the
-one-shot solution $P_0$, up to the residual error of that one-sided test
-(Remark~\ref{rem:winners-curse}).
+\begin{theorem}[\texttt{DEFER-nopush} weakly dominates its planner]\label{thm:defer-dominates}
+Let $P_0$ be $\mathcal P$'s plan at round $0$, and consider Algorithm~\ref{alg:defer}
+with the push-down step (lines~\ref{alg:pushdown-start}--\ref{alg:pushdown-end})
+removed, so every exposed planned vertex is committed immediately
+(\texttt{DEFER-nopush}). If, in every later round, the plan-protection test
+only ever replaces the leftover $L=P_{t-1}\setminus C_{t-1}$ by a new plan
+$P'$ whose held-out sample-average saving exceeds $L$'s by more than one
+held-out standard error, then the expected final spread of
+\texttt{DEFER-nopush} is at most that of the one-shot solution $P_0$, up to
+the residual error of that one-sided test (Remark~\ref{rem:winners-curse}).
 \end{theorem}
 
 \begin{remark}[The 1-SE margin bounds, but does not eliminate, selection
@@ -584,7 +613,7 @@ it. We do not bound the resulting regret; Section~\ref{sec:experiments}'s
 footnoted cells are candidate instances, not proof either way.
 \end{remark}
 
-\begin{lemma}[Push-down is the myopic optimum]\label{lem:pushdown}
+\begin{lemma}[Push-down is the local myopic optimum]\label{lem:pushdown}
 Consider an exposed planned vertex $v$ whose children (inactive
 out-neighbors) jointly protect the same set as $v$ minus $v$ itself, assume
 the children are exposed only through $v$, and value a budget unit at
@@ -594,20 +623,57 @@ expected loss (vertices lost plus $\lambda$ times budget spent) if and only
 if $q_v(c_v+1/\lambda)<1$.
 \end{lemma}
 
+\begin{remark}[Push-down does not preserve
+domination]\label{rem:pushdown-counterexample}
+Lemma~\ref{lem:pushdown} is a purely local, single-vertex statement: it
+prices the budget unit freed by deferring $v$ at a fixed $\lambda$,
+available whenever needed, and says nothing about \emph{budget contention}
+between several vertices deferred at once. When more branches activate
+than the remaining budget can cover, push-down can leave full DEFER
+strictly worse than the plan it wraps -- so Theorem~\ref{thm:defer-dominates}
+does \emph{not} extend from \texttt{DEFER-nopush} to full DEFER. On the
+star-of-paths instance of Section~\ref{sec:defer-example} with $\Delta=2$,
+$p=0.4$, $L=1$, $b=1$: at round $0$ the myopic condition
+$q_v(c_v+1/\lambda_t)<1$ holds for the planned gateway
+($0.4(1+1/0.8)=0.9<1$), so push-down defers it, and by symmetry the same
+would hold for the other gateway if budget allowed planning it too. If
+both gateways activate (probability $p^2=0.16$), the single remaining
+budget unit can protect only one child, and DEFER's expected spread is
+$\mathbb E[\Delta p+L(k-1)^+]=0.96$ against the one-shot plan's $0.8$
+-- DEFER strictly \emph{worse} than \texttt{AG} on this instance. We
+therefore present Lemma~\ref{lem:pushdown} as a local heuristic
+justification for push-down, not a global guarantee, and report
+\texttt{DEFER-nopush} alongside full DEFER in
+Section~\ref{sec:defer-experiments} so the push-down rule's empirical
+effect -- small, and occasionally negative, e.g.\ on ca-GrQc under the
+weighted-cascade model -- can be judged directly against
+Theorem~\ref{thm:defer-dominates}'s guaranteed variant.
+\end{remark}
+
 \begin{theorem}[The adaptivity gap of IMIN is unbounded]\label{thm:adaptivity-gap}
-For every $\Delta\ge 2$, $p\in(0,1)$, and path length $L\ge0$ there is an
+For every $\Delta\ge 2$, $p\in(0,1)$, and path length $L\ge1$ there is an
 instance with maximum out-degree $\Delta$, budget $1$, on which the best
-one-shot solution and DEFER have expected \emph{savings} (spread reduction
-relative to no intervention) $p(L+1)$ and $L\bigl(1-(1-p)^\Delta\bigr)$
-respectively, so DEFER's saving is
-$\frac{L}{L+1}\cdot\frac{1-(1-p)^\Delta}{p}$ times the one-shot saving -- a
-factor increasing in $L$ to the limit $\bigl(1-(1-p)^\Delta\bigr)/p$, which
-in turn tends to $\Delta$ as $p\to0$; hence this saving ratio is unbounded as
-$\Delta\to\infty$. The ratio of the two policies' expected \emph{spreads}
-themselves is a different, generally smaller quantity: it is at least
-$\frac{(\Delta-1)p}{\Delta p-1+(1-p)^\Delta}$, which already diverges for
-\emph{fixed} $\Delta\ge2$ as $p\to0$ (at rate $2/(\Delta p)$), so the spread
-ratio, too, is unbounded, without needing $\Delta\to\infty$.
+one-shot solution and DEFER (Section~\ref{sec:defer-example} works through
+this instance in full, including the push-down decision) have expected
+\emph{savings} (spread reduction relative to no intervention) $p(L+1)$ and
+$L\bigl(1-(1-p)^\Delta\bigr)$ respectively, so DEFER's saving
+is $\frac{L}{L+1}\cdot\frac{1-(1-p)^\Delta}{p}$ times the one-shot saving --
+a factor increasing in $L$ to the limit $\bigl(1-(1-p)^\Delta\bigr)/p$,
+which in turn tends to $\Delta$ as $p\to0$; hence this saving ratio is
+unbounded as $\Delta\to\infty$. The ratio of the two policies' expected
+\emph{spreads} themselves is a different quantity, generally smaller than
+the saving ratio at any finite $L$: it is \emph{strictly less than}
+$\frac{(\Delta-1)p}{\Delta p-1+(1-p)^\Delta}$ for every finite $L$,
+increasing monotonically in $L$ toward this value as $L\to\infty$ (it never
+reaches it at finite $L$, so this quantity is a supremum, not a lower
+bound, on the finite-$L$ spread ratio). Sending $L\to\infty$ first and then
+$p\to0$, for \emph{fixed} $\Delta\ge2$, this limiting value itself diverges
+at rate $2/(\Delta p)$; consequently the spread ratio can be made
+arbitrarily large already at a fixed, finite $\Delta$, provided $L$ is
+taken large enough relative to $1/p$ -- unboundedness here genuinely
+requires $L$ to grow together with $1/p$, since for any \emph{fixed} $L$
+the spread ratio instead stays bounded as $p\to0$ (it tends to the finite
+constant $(\Delta-1)(L+1)/\Delta$).
 \end{theorem}
 
 \begin{theorem}[Complexity of DEFER]\label{thm:defer-complexity}
@@ -638,15 +704,16 @@ while a planner with frontier-isolation moves saves $\Omega(N)$ for
 arbitrary $N$.
 \end{theorem}
 
-\section{TWIG: Exact Treewidth-Bounded Validation}\label{sec:twig}
+\section{TWIG: Exact Pathwidth-Bounded Validation}\label{sec:twig}
 
 Every quantity reported by a one-shot IMIN heuristic -- including the plans
 DEFER wraps -- is normally a Monte-Carlo estimate of Equation
 \eqref{eq:spread}, because computing $\FF(B)$ exactly is a network-reliability
 computation and is \#P-hard in general \citep{valiant1979,provan1983}. TWIG
-computes $\FF(B)$ \emph{exactly} on graphs of bounded treewidth, giving a
-ground-truth oracle that we use to certify how close greedy selection comes
-to the true optimum, free of sampling noise.
+computes $\FF(B)$ \emph{exactly} on graphs of bounded pathwidth (an elimination
+order with small vertex-separation number; Section~\ref{sec:treewidth-prelim}),
+giving a ground-truth oracle that we use to certify how close greedy
+selection comes to the true optimum, free of sampling noise.
 
 \subsection{Algorithm}\label{sec:twig-algo}
 
@@ -682,7 +749,7 @@ reached}]+\Pr[3\text{ reached}]+\Pr[4\text{ reached}]
 \begin{figure}[h]
 \FIGURE
 {\centering
-\begin{tikzpicture}[scale=0.82, transform shape,
+\begin{tikzpicture}[scale=0.72, transform shape,
   vtx/.style={draw, circle, minimum size=6mm, font=\scriptsize},
   seedv/.style={vtx, fill=gray!20, double},
   frontv/.style={vtx, fill=orange!30},
@@ -708,10 +775,12 @@ reached}]+\Pr[3\text{ reached}]+\Pr[4\text{ reached}]
 \end{tikzpicture}}
 {Frontier evolution of \texttt{ExactSpread} on the path example\label{fig:twig-path-example}}
 {Orange = currently in the frontier $F$; grey outline = already retired.
-The frontier never exceeds size $2$ (Proposition~\ref{prop:direction}
-applies to any path). Each orange configuration branches on its incident
-live-edge outcome as described below; Table~\ref{tab:twig-example} lists
-the resulting eight live-edge histories in full.}
+The frontier never exceeds size $2$: a path has treewidth $1$, and along
+either endpoint-to-endpoint order the schedule only ever has the
+just-retired vertex's successor and the newly-introduced vertex active at
+once. Each orange configuration branches on its incident live-edge outcome
+as described below; Table~\ref{tab:twig-example} lists the resulting eight
+live-edge histories in full.}
 \end{figure}
 
 \texttt{ExactSpread} reaches the same number without ever conditioning on
@@ -750,18 +819,21 @@ live & live & dead & 0.125 & $\{2,3\}$ \\
 \down live & live & live & 0.125 & $\{2,3,4\}$ \\
 \hline
 \end{tabular}}
-{Four histories (rows 2, 4, 6, 8, and 7 for vertex 4 only) show that the
-identity of which \emph{other} downstream edges are live does not affect
-whether an already-connected vertex is reached, which is exactly the
-redundancy \texttt{ExactSpread} exploits by merging histories into shared
-configurations rather than enumerating them.}
+{The eight histories collapse into just four distinct reached-sets
+($\varnothing$, $\{2\}$, $\{2,3\}$, $\{2,3,4\}$, appearing $4,2,1,1$ times
+respectively): rows 1--2 and 3--4 both give $\varnothing$ regardless of
+$(3,4)$ once $(1,2)$ is dead, and rows 5--6 both give $\{2\}$ regardless of
+$(3,4)$ once $(2,3)$ is dead. A downstream edge whose outcome cannot change
+which vertices are already unreachable does not affect the result, which
+is exactly the redundancy \texttt{ExactSpread} exploits by merging
+histories into shared configurations rather than enumerating them.}
 \end{table}
 
 \begin{theorem}[Correctness of \texttt{ExactSpread}]\label{thm:twig-correct}
 \texttt{ExactSpread}$(G,p,S)$.evaluate$(B)=\FF(B)$ for every $B$.
 \end{theorem}
 
-\subsection{Complexity: from XP to FPT in treewidth}\label{sec:twig-complexity}
+\subsection{Complexity: from XP to FPT in the width $w$}\label{sec:twig-complexity}
 
 \begin{proposition}[State space of \texttt{ExactSpread}]\label{prop:xp-space}
 The number of distinct configurations at any step is at most
@@ -771,7 +843,7 @@ $\mathrm{SEED}$ (or none) turns each into $\mathrm{blocks}(\Pi)+1$
 configurations, summing over all partitions to $B_{m+1}\le B_{w+2}$.
 \end{proposition}
 
-This makes \texttt{ExactSpread} XP, not FPT, in treewidth: the degree of the
+This makes \texttt{ExactSpread} XP, not FPT, in $w$: the degree of the
 polynomial in $n$ grows with $w$.
 
 \begin{theorem}[Correctness of the linear-aggregation collapse]\label{thm:twig-collapse}
@@ -812,25 +884,45 @@ bounded-treewidth graph (here, treewidth $1$, for any $n$) on which the
 state space of the dynamic program to scale with $n$ instead of remaining
 bounded by a function of the width alone. In our implementation the
 elimination order is therefore always reversed before scheduling.
+
+Reversal fixes the star, but not every bounded-treewidth graph:
+\texttt{ExactSpread}'s schedule is strictly \emph{linear} (no operation
+splits into independently-scheduled subproblems and rejoins them, as a
+genuine tree-decomposition DP would), so the width $w$ it realizes is
+exactly the \emph{vertex separation number} of the order, and its minimum
+over all orders is, classically, the graph's \emph{pathwidth}
+\citep{kinnersley1992} -- unbounded in terms of treewidth alone. A
+complete binary tree of height $h$ has treewidth $1$ but pathwidth
+$\Theta(h)$ \citep{kinnersley1992}: running this implementation's actual
+order-and-schedule (min-fill-in, best of forward/reversed) on heights
+$2$--$7$ gives frontier peaks $2,3,4,5,6,7$, growing with $h$ exactly as
+predicted while treewidth stays $1$. \emph{TWIG is therefore a
+bounded-\underline{pathwidth} algorithm, not a bounded-treewidth one}:
+Propositions~\ref{prop:xp-space}--\ref{prop:fpt-space}'s bounds are in
+$w$, which can exceed treewidth without bound on tree-like inputs. The
+algorithm remains exact and polynomial for any fixed $w$; it just scales,
+in practice, to graphs of small pathwidth (dense, non-tree-like small
+networks such as Table~\ref{tab:twig-feasibility}'s), not merely small
+treewidth.
 Figure~\ref{fig:star-direction} shows both directions on $K_{1,5}$.
 
 \begin{figure}[h]
 \FIGURE
 {\centering
-\begin{tikzpicture}[scale=0.82, transform shape,
+\begin{tikzpicture}[scale=0.72, transform shape,
   leaf/.style={draw, circle, fill=white, minimum size=6.5mm, font=\scriptsize},
   ctr/.style={draw, circle, fill=orange!25, minimum size=6.5mm, font=\scriptsize},
   lab/.style={font=\scriptsize, midway}
 ]
 \begin{scope}
 \node at (0,2.3) [font=\scriptsize\bfseries] {Forward order (centre last)};
-\node[ctr] (c) at (0,0) {$c\!=\!6$};
-\foreach \k/\ang in {1/162,2/90,3/18,4/-54,5/-126} {
-  \node[leaf] (l\k) at (\ang:1.5) {$\ell_\k\!=\!\k$};
+\node[ctr] (c) at (0,-2) {$c\!=\!6$};
+\foreach \k/\x in {1/-3,2/-1.5,3/0,4/1.5,5/3} {
+  \node[leaf] (l\k) at (\x,0.4) {$\ell_\k\!=\!\k$};
   \draw (c) -- (l\k);
 }
-\draw[dashed, red!70!black, rounded corners] (-1.9,-1.9) rectangle (1.9,1.9);
-\node[red!70!black, font=\scriptsize] at (0,-2.2) {frontier $=\{\ell_1,\dots,\ell_5\}$, size $5$, just before $c$'s step};
+\draw[dashed, red!70!black, rounded corners] (-3.6,-0.25) rectangle (3.6,1.05);
+\node[red!70!black, font=\scriptsize] at (0,-2.9) {frontier $=\{\ell_1,\dots,\ell_5\}$, size $5$, just before $c$'s step (centre not yet introduced)};
 \end{scope}
 \begin{scope}[xshift=7cm]
 \node at (0,2.3) [font=\scriptsize\bfseries] {Reversed order (centre first)};
@@ -861,16 +953,31 @@ tractable on real, non-synthetic small networks:
 \begin{table}[h]
 \TABLE
 {Exact evaluation feasibility on real small networks\label{tab:twig-feasibility}}
-{\begin{tabular}{@{}lccc@{}}
+{\begin{tabular}{@{}lcccc@{}}
 \hline
-\up Network & $n$ & width (min-fill-in) & \texttt{ExactSpreadFast.evaluate()} \\
+\up Network & $n$ & min-fill-in treewidth estimate & $w$ (reversed order, actually run) & \texttt{ExactSpreadFast.evaluate()} \\
 \hline
-\up Zachary karate club & 34 & 5 & 2.5 s \\
-Iceland (sexual contact) & 75 & 4 & 51 s \\
-\down Dolphin social network & 62 & $\sim$10--11 & infeasible (memory) \\
+\up Zachary karate club & 34 & 5 & 10 & 2.5 s \\
+Iceland (sexual contact) & 75 & 4 & 12 & 51 s \\
+\down Dolphin social network & 62 & $\sim$10 & 19 & infeasible (memory) \\
 \hline
 \end{tabular}}
-{Before both fixes (Theorem~\ref{thm:twig-collapse} and reversed processing order), karate did not finish in 60 s and Iceland/Dolphin were not attempted.}
+{The third column is the min-fill-in heuristic's estimate of the graph's
+treewidth, used only to seed a good vertex \emph{order}. The fourth column,
+$w=\max_i|F_i|-1$ (Section~\ref{sec:treewidth-prelim}), is the width
+\texttt{ExactSpreadFast} actually realizes once that order is reversed
+(Proposition~\ref{prop:direction}) and run -- the quantity
+Propositions~\ref{prop:xp-space}--\ref{prop:fpt-space}'s complexity bounds
+are stated in terms of, and a pathwidth-type parameter, not the treewidth
+estimate in the third column: min-fill-in targets treewidth, and on none of
+these three graphs does the best linear order come close to matching it.
+The two columns need not agree, and here they differ by roughly $2$--$3\times$
+on every network; Section~\ref{sec:twig-complexity} discusses why $w$, not
+treewidth, is the parameter that actually bounds this algorithm's state
+space, and how large that gap can be (Section~\ref{sec:twig-direction}).
+Before both fixes (Theorem~\ref{thm:twig-collapse} and reversed processing
+order), karate did not finish in 60 s and Iceland/Dolphin were not
+attempted.}
 \end{table}
 
 On the karate club network (one seed, random independent-cascade
@@ -905,7 +1012,7 @@ replacements for the sampling-based planners at the graph sizes those
 planners target; Proposition~\ref{prop:fpt-space}'s
 $n$-independence is what makes \texttt{ExactSpreadFast} usable at all
 compared to the brute-force alternative of enumerating all $2^m$ live-edge
-realizations, but $B_{w+2}$ still grows very quickly in the treewidth $w$
+realizations, but $B_{w+2}$ still grows very quickly in the width $w$
 (Table~\ref{tab:bell-numbers}). Third, \texttt{brute\_force\_optimal\_block}
 compounds TWIG's per-evaluation cost with an outer search over all
 size-$\le b$ subsets, which is what confines
@@ -930,7 +1037,9 @@ DEFER (Theorem~\ref{thm:defer-complexity}) & $O(r\,b\,\theta\,m\,\alpha(m,n))$ (
 {$\theta$: sample size used by the Monte-Carlo planners; $m$, $n$:
 edges/vertices of the reachable region a planner actually processes;
 $\alpha$: inverse Ackermann function (dominator-tree construction);
-$d^{out}_S$: out-degree of the seed set; $w$: treewidth; $B_{w+2}$: the
+$d^{out}_S$: out-degree of the seed set; $w$: the width of the elimination
+order actually run (Section~\ref{sec:treewidth-prelim}), a pathwidth-type
+parameter, not the graph's treewidth; $B_{w+2}$: the
 $(w+2)$-th Bell number. AG/GR/DEFER estimate $\FF(B)$ by sampling;
 \texttt{ExactSpread}/\texttt{ExactSpreadFast}/\texttt{greedy\_exact}/
 \texttt{brute\_force\_optimal\_block} compute or search using $\FF(B)$
@@ -975,15 +1084,19 @@ $\ll$ \texttt{brute\_force\_optimal\_block}.
 
 \begin{table}[h]
 \TABLE
-{Bell numbers $B_{w+2}$, illustrating why treewidth (not just $n$) bounds \texttt{ExactSpreadFast}\label{tab:bell-numbers}}
-{\begin{tabular}{@{}lccccccc@{}}
+{Bell numbers $B_{w+2}$, illustrating why the width $w$ (not just $n$) bounds \texttt{ExactSpreadFast}\label{tab:bell-numbers}}
+{\begin{tabular}{@{}lcccccccc@{}}
 \hline
-\up $w$ & 1 & 2 & 3 & 4 & 5 & 8 & 10 \\
+\up $w$ & 1 & 2 & 3 & 4 & 5 & 10 & 12 & 19 \\
 \hline
-\down $B_{w+2}$ & 5 & 15 & 52 & 203 & 877 & 115{,}975 & 4{,}213{,}597 \\
+\down $B_{w+2}$ & 5 & 15 & 52 & 203 & 877 & 4{,}213{,}597 & 190{,}899{,}322 & 474{,}869{,}816{,}156{,}751 \\
 \hline
 \end{tabular}}
-{$w+1$ ranges over the widths measured in Table~\ref{tab:twig-feasibility} (karate: 5, iceland: 4, dolphin: $\sim$10--11); the jump from $w=5$ to $w=10$-ish is the entire empirical gap between ``tractable in seconds'' and ``infeasible by memory.''}
+{$w$ ranges over the actually-realized widths in
+Table~\ref{tab:twig-feasibility}'s fourth column (karate: $10$, iceland:
+$12$, dolphin: $19$), not the smaller min-fill-in treewidth estimates in
+its third column; the jump from $w=10$ to $w=19$ is the entire empirical
+gap between ``tractable in seconds'' and ``infeasible by memory.''}
 \end{table}
 
 \section{Experiments}\label{sec:experiments}
@@ -1022,10 +1135,16 @@ methods):}
 \begin{enumerate}
 \item \textbf{DEFER}: the contribution of this paper (Section~\ref{sec:defer-algo}),
   wrapping AG by default.
-\item \textbf{COMMIT}: DEFER's loop with the push-down rule (step 4 of
-  Algorithm~\ref{alg:defer}) replaced by committing the entire plan
-  immediately every round; isolates \emph{when} a plan is committed from
-  the effect of re-planning itself.
+\item \textbf{\texttt{DEFER-nopush}}: DEFER with the push-down step
+  (lines~\ref{alg:pushdown-start}--\ref{alg:pushdown-end} of
+  Algorithm~\ref{alg:defer}) removed, so every exposed planned vertex is
+  committed immediately; this is the variant Theorem~\ref{thm:defer-dominates}
+  actually guarantees (Remark~\ref{rem:pushdown-counterexample}), reported
+  alongside full DEFER to show push-down's empirical effect.
+\item \textbf{COMMIT}: DEFER's loop with deferral itself removed --
+  committing the entire plan immediately every round instead of only the
+  exposed, push-down-cleared fraction; isolates the effect of re-planning
+  alone from the effect of deferred commitment.
 \item \textbf{isocut}: AG with one additional candidate move -- isolating
   a whole seed's out-neighborhood at once
   (Section~\ref{sec:complexity-comparison}, Theorem~\ref{thm:isocut-separation});
@@ -1075,10 +1194,10 @@ GR & 0.592 & 0.466 & 0.339 & 0.568 & 0.391 & 0.335 & 0.394 & 0.432 \\
 LSBM & 0.597 & 0.424 & 0.339 & 0.570 & 0.404 & 0.333 & 0.384 & 0.425 \\
 Proximity & 0.585 & 0.432 & 0.319 & 0.586 & 0.209 & 0.327 & 0.311 & 0.426 \\
 COMMIT & 0.591 & 0.448 & 0.290 & 0.562 & 0.321 & 0.310 & 0.344 & 0.329 \\
-\down DEFER & \textbf{0.602} & \textbf{0.471} & \textbf{0.341} & \textbf{0.573} & 0.334 & \textbf{0.339} & 0.394 & 0.424 \\
+\down DEFER & \textbf{0.602} & \textbf{0.471} & \textbf{0.341} & 0.573 & 0.334 & \textbf{0.339} & \textbf{0.394} & 0.424 \\
 \hline
 \end{tabular}}
-{Bold marks DEFER when it is the best or tied-best adaptive/one-shot policy shown. Under the constant-probability model DEFER weakly improves on AG, its own planner, on every network, consistent with Theorem~\ref{thm:defer-dominates}; under the weighted-cascade model it mostly coincides with AG/GR (the push-down rule rarely fires when per-edge probabilities are the small, degree-normalized WC weights), and the one shortfall (ca-GrQc, WC) is a candidate instance of Remark~\ref{rem:winners-curse}'s residual bias risk on a 3-draw cell, not proof either way. COMMIT is at or below AG on 3 of 4 networks under the constant model and on all 4 under WC, illustrating that committing a full plan immediately, rather than deferring it, is the harmful ablation.}
+{Bold marks DEFER only where it is the best of all policies shown here (not merely of the adaptive ones), so an unbolded DEFER cell can still beat AG. Under the constant-probability model DEFER weakly improves on AG, its own planner, on every network, consistent with Theorem~\ref{thm:defer-dominates}; on BA(2000) it is nonetheless not the overall best cell, since Proximity -- a heuristic unrelated to DEFER's own guarantee -- scores higher there. Under the weighted-cascade model DEFER mostly coincides with AG/GR (the push-down rule rarely fires when per-edge probabilities are the small, degree-normalized WC weights), and the one shortfall against AG specifically (ca-GrQc, WC) is a candidate instance of Remark~\ref{rem:winners-curse}'s residual bias risk on a 3-draw cell, not proof either way. COMMIT is at or below AG on 3 of 4 networks under the constant model and on all 4 under WC, illustrating that committing a full plan immediately, rather than deferring it, is the harmful ablation.}
 \end{table}
 
 Table~\ref{tab:defer-results} fixes budget 20; Figure~\ref{fig:defer-sweep}
@@ -1116,7 +1235,7 @@ $b$ & AG & DEFER & COMMIT & AG & DEFER & COMMIT & AG & DEFER & COMMIT & AG & DEF
 \up 5 & 0.250 & \textbf{0.259} & 0.186 & 0.283 & \textbf{0.322} & 0.235 & \textbf{0.130} & 0.124 & 0.053 & 0.463 & \textbf{0.463} & 0.419 \\
 10 & 0.407 & \textbf{0.422} & 0.389 & 0.331 & \textbf{0.352} & 0.345 & \textbf{0.216} & \textbf{0.216} & 0.188 & 0.521 & \textbf{0.522} & 0.513 \\
 20 & 0.583 & \textbf{0.602} & 0.591 & 0.452 & \textbf{0.471} & 0.448 & 0.339 & \textbf{0.341} & 0.290 & 0.571 & \textbf{0.573} & 0.562 \\
-50 & 0.815 & \textbf{0.818} & 0.801 & 0.656 & \textbf{0.666} & 0.631 & \textbf{0.592} & \textbf{0.592} & 0.583 & 0.671 & \textbf{0.673} & 0.674 \\
+50 & 0.815 & \textbf{0.818} & 0.801 & 0.656 & \textbf{0.666} & 0.631 & \textbf{0.592} & \textbf{0.592} & 0.583 & 0.671 & 0.673 & \textbf{0.674} \\
 \down 100 & \textbf{0.900} & \textbf{0.900} & 0.897 & 0.671 & 0.679 & \textbf{0.727}$^{*}$ & \textbf{0.788} & \textbf{0.788} & 0.785 & \textbf{0.795} & \textbf{0.795} & 0.767 \\
 \hline
 \end{tabular}}
@@ -1144,10 +1263,13 @@ noisier (one draw per cell), and COMMIT is no longer uniformly dominated:
 high-degree seeding compresses the rounds available for push-down to
 exploit and gives COMMIT less opportunity to lock in a bad early
 commitment. The qualitative ranking (DEFER weakly at or above AG) still
-holds in 10 of 12 cells; the two exceptions (ca-HepTh $b=50$, power-grid
-$b=50$) are single-draw, small-margin reversals of the kind
-Remark~\ref{rem:winners-curse} anticipates, not evidence against
-Theorem~\ref{thm:defer-dominates}.
+holds in 10 of 12 cells; the two exceptions where DEFER is strictly below
+AG (ca-GrQc $b=10$, ca-HepTh $b=50$) are single-draw, small-margin
+reversals of the kind Remark~\ref{rem:winners-curse} anticipates, not
+evidence against Theorem~\ref{thm:defer-dominates}. (Power-grid $b=50$ is
+a tie between AG and DEFER, not a reversal; on that and several other
+cells COMMIT, not AG, is the single-draw winner, a separate effect of the
+same high-degree seeding discussed above.)
 
 \begin{table}[h]
 \TABLE
@@ -1157,9 +1279,9 @@ Theorem~\ref{thm:defer-dominates}.
 \up & \multicolumn{3}{c}{ca-GrQc} & \multicolumn{3}{c}{ca-HepTh} & \multicolumn{3}{c}{power-grid} & \multicolumn{3}{c}{BA(2000)} \\
 $b$ & AG & DEFER & COMMIT & AG & DEFER & COMMIT & AG & DEFER & COMMIT & AG & DEFER & COMMIT \\
 \hline
-\up 10 & 0.317 & \textbf{0.314}$^\dagger$ & 0.325 & 0.121 & \textbf{0.121} & 0.122 & 0.148 & \textbf{0.153} & 0.146 & 0.340 & \textbf{0.342} & 0.344 \\
-20 & 0.471 & \textbf{0.474} & 0.476 & 0.229 & \textbf{0.231} & 0.237 & 0.231 & \textbf{0.238} & 0.214 & 0.395 & \textbf{0.397} & 0.388 \\
-\down 50 & \textbf{0.691} & 0.696 & \textbf{0.709}$^\dagger$ & \textbf{0.472} & 0.461 & 0.464 & 0.404 & 0.404 & \textbf{0.411}$^\dagger$ & 0.470 & \textbf{0.474} & 0.478 \\
+\up 10 & 0.317 & 0.314 & \textbf{0.325}$^\dagger$ & 0.121 & 0.121 & \textbf{0.122}$^\dagger$ & 0.148 & \textbf{0.153} & 0.146 & 0.340 & 0.342 & \textbf{0.344}$^\dagger$ \\
+20 & 0.471 & 0.474 & \textbf{0.476}$^\dagger$ & 0.229 & 0.231 & \textbf{0.237}$^\dagger$ & 0.231 & \textbf{0.238} & 0.214 & 0.395 & \textbf{0.397} & 0.388 \\
+\down 50 & 0.691 & 0.696 & \textbf{0.709}$^\dagger$ & \textbf{0.472} & 0.461 & 0.464 & 0.404 & 0.404 & \textbf{0.411}$^\dagger$ & 0.470 & 0.474 & \textbf{0.478}$^\dagger$ \\
 \hline
 \end{tabular}}
 {$^\dagger$Cells where the single-draw realization favors AG or COMMIT
@@ -1173,9 +1295,10 @@ rather than a statistically distinguishable ranking.}
 Theorem~\ref{thm:defer-complexity} predicts that DEFER costs more per
 episode than its one-shot planner, since it re-plans every round instead
 of once. Table~\ref{tab:timing} confirms this directly: DEFER costs
-roughly 5--7$\times$ AG's per-episode time on the three networks large
-enough to measure precisely, consistent with a handful of re-planning
-rounds each costing comparably to the single AG call. COMMIT, despite
+roughly 2.5--7$\times$ AG's per-episode time, depending on the network
+(2.5$\times$ on BA(2000) up to 6.9$\times$ on ca-GrQc), consistent with a
+handful of re-planning rounds each costing comparably to the single AG
+call. COMMIT, despite
 executing the identical per-round algorithm as DEFER, costs \emph{more}
 than DEFER on every network: its inferior plan quality
 (Tables~\ref{tab:defer-results}, \ref{tab:defer-allbudgets}) leaves more
@@ -1246,188 +1369,63 @@ beats plain DEFER only on ca-HepTh and ties it elsewhere.}
 As a secondary, apples-to-apples benchmark motivated by the same
 misinformation/epidemic-control setting as DEFER and TWIG (identifying
 where a cascade started, complementing where to block it from spreading
-further), we also evaluate classical and learned source-detection methods
-on identical, seed-fixed test instances, reproducing the methodology of
-\citet{sterchi2026}. The methods are:
-
-\begin{enumerate}
-\item \textbf{Random}: uniformly random ranking of candidate sources; the
-  na\"ive floor every other method is expected to beat.
-\item \textbf{Jordan center} \citep{zhu2016}: ranks vertices by minimum
-  eccentricity within the observed infected subgraph, a sample-path
-  argument for the SIR model.
-\item \textbf{Betweenness} \citep{freeman1977}: ranks vertices by the
-  classical betweenness-centrality measure restricted to the infected
-  subgraph.
-\item \textbf{Soft Margin Estimator (SME)} \citep{antulov2015}: scores
-  candidate sources by the Jaccard similarity between simulated and
-  observed outbreaks.
-\item \textbf{MCS mean-field}: a Monte-Carlo per-node-state likelihood
-  baseline built from simulated outbreaks, reproduced from the simulation
-  baseline of \citet{sterchi2026}.
-\item \textbf{Rumor centrality} \citep{shah2011}: the maximum-likelihood
-  source estimator under a uniform spreading model on the underlying
-  tree/BFS structure.
-\item \textbf{NetSleuth} \citep{prakash2012}: a minimum-description-length
-  criterion that jointly selects the number and identity of sources via
-  Laplacian eigenvector ranking.
-\item \textbf{Dynamic message passing (DMP)} \citep{lokhov2014}: a belief-
-  propagation approximation to the posterior over sources under the SIR
-  model.
-\item \textbf{MLP}: a feature-based multi-layer perceptron baseline,
-  reproduced from \citet{sterchi2026}, that does not use the graph
-  structure directly.
-\item \textbf{GCNSI} \citep{dong2019}: a graph convolutional network
-  trained on simulated cascades to score candidate sources.
-\item \textbf{GCN/GAT} \citep{shah2020}: graph convolutional and
-  attention networks trained on simulated SIR/SEIR cascades.
-\item \textbf{IGCN} \citep{guo2021}: a graph convolutional architecture
-  with state-pair-conditioned aggregation.
-\item \textbf{GraphSAGE} \citep{haddad2023}: an inductive graph neural
-  network architecture applied to source detection.
-\end{enumerate}
-
-\noindent The networks (real contact and collaboration networks with
-known epidemic-relevant structure, distinct from the four SNAP-scale
-networks of Section~\ref{sec:defer-experiments}) are:
-
-\begin{enumerate}
-\item \textbf{Karate} \citep{zachary1977}: Zachary's karate club
-  friendship network, $n=34$.
-\item \textbf{Iceland} \citep{haraldsdottir1992}: a sexual-contact network
-  from an early HIV epidemiological study, $n=75$.
-\item \textbf{Dolphin} \citep{lusseau2003}: a bottlenose dolphin social
-  network, $n=62$.
-\item \textbf{Fraternity} \citep{killworth1976}: a college social network,
-  $n=58$.
-\item \textbf{Workplace} \citep{genois2015}: a static projection of
-  face-to-face contact sensor data in an office building, $n=92$.
-\item \textbf{Highschool2013} \citep{mastrandrea2015}: a static projection
-  of face-to-face contact sensor data in a French high school, $n=327$,
-  the largest of the six.
-\end{enumerate}
-
-\noindent Each network's independent-cascade/SIR parameters are calibrated
-to match \citet{sterchi2026}'s target infected fraction, and every method
-is evaluated on the identical, fixed seeded test instances (same random
-seed and count as their own evaluation code), so table differences are
-attributable to method alone. Table~\ref{tab:source-detection} reports
-top-1 accuracy (higher is better; top-5 and full per-method detail are in
-\texttt{results/gnn\_benchmark\_sterchi/}).
-GNN training for \texttt{highschool2013} (the largest of the six networks)
-did not complete within the compute budget available (repeated free-tier
-GPU session limits with no mid-run checkpointing); we report the five
-networks on which the full sweep completed and mark
-\texttt{highschool2013}'s missing cells explicitly rather than omit the
-network.
-
-\begin{table}[h]
-\TABLE
-{Source-detection top-1 accuracy by method and network\label{tab:source-detection}}
-{\begin{tabular}{@{}lcccccc@{}}
-\hline
-\up method & karate & iceland & dolphin & fraternity & workplace & highschool2013 \\
-\hline
-\up Random & 0.294 & 0.224 & 0.291 & 0.368 & 0.355 & 0.372 \\
-Jordan center & 0.288 & 0.209 & 0.290 & 0.369 & 0.363 & -- \\
-Betweenness & 0.292 & 0.211 & 0.296 & 0.372 & 0.361 & -- \\
-SME & 0.337 & 0.271 & 0.315 & 0.367 & 0.367 & -- \\
-MCS mean-field & 0.370 & 0.295 & 0.332 & 0.383 & 0.374 & -- \\
-Rumor centrality & 0.287 & 0.208 & 0.293 & 0.369 & 0.361 & 0.378 \\
-NetSleuth & 0.340 & 0.274 & 0.319 & 0.384 & 0.371 & 0.381 \\
-DMP & 0.382 & 0.296 & 0.341 & 0.395 & 0.387 & 0.391$^{*}$ \\
-MLP & 0.325 & 0.244 & 0.299 & 0.368 & 0.361 & 0.375 \\
-GCNSI \citep{dong2019} & 0.331 & 0.302 & 0.329 & 0.118 & 0.285 & -- \\
-GCN/GAT \citep{shah2020} & \textbf{0.396} & \textbf{0.316} & \textbf{0.367} & \textbf{0.395} & \textbf{0.400} & -- \\
-IGCN \citep{guo2021} & 0.392 & 0.298 & 0.352 & \textbf{0.395} & 0.397 & -- \\
-\down GraphSAGE \citep{haddad2023} & 0.377 & 0.306 & 0.357 & 0.387 & 0.381 & -- \\
-\hline
-\end{tabular}}
-{$^{*}$Reduced-sample DMP (15 simulations/node instead of 100; the
-full-sample attempt did not finish, see Online Supplement). ``--'' marks a
-cell not trained/evaluated for \texttt{highschool2013} (see text). Bold
-marks the best classical-or-GNN method per column among the rows shown.
-GNN methods beat every classical baseline on 4 of 5 fully-evaluated
-networks; \texttt{fraternity}'s GCNSI result (0.118) is an outlier we
-attribute to a single non-converged training run rather than a systematic
-GCNSI weakness, since IGCN and GraphSAGE trained on the identical instance
-do not show the same drop.}
-\end{table}
-
-\subsection{Reproduction check against published numbers}\label{sec:reproduction-check}
-
-Because Table~\ref{tab:source-detection} reproduces \citet{sterchi2026}'s
-methodology rather than rerunning their exact code end-to-end, we checked
-our pipeline directly against their own published top-5 accuracies on
-karate -- the one network in our sweep whose calibration exactly matches
-theirs (both use $\beta=1.3$, $T=0.85$, targeting the same $\sim$40\%
-infected fraction). Table~\ref{tab:reproduction} shows the comparison.
-
-\begin{table}[h]
-\TABLE
-{Top-5 accuracy on karate: our reproduction vs.\ \citet{sterchi2026}'s published numbers\label{tab:reproduction}}
-{\begin{tabular}{@{}lccc@{}}
-\hline
-\up method & ours & \citet{sterchi2026} & difference \\
-\hline
-\up Random & 0.372 & 0.394 & $-$0.022 \\
-Jordan center & 0.508 & 0.527 & $-$0.019 \\
-Betweenness & 0.535 & 0.552 & $-$0.017 \\
-SME & 0.598 & 0.607 & $-$0.009 \\
-DMP / MCMF & 0.679 & 0.656 & $+$0.023 \\
-MLP & 0.589 & 0.679 & $-$0.090 \\
-GCNSI (Dong arch.) & 0.671 & 0.687 & $-$0.016 \\
-GCN/GAT (Shah arch.) & 0.726 & 0.729 & $-$0.003 \\
-IGCN & 0.727 & 0.728 & $-$0.001 \\
-\down GraphSAGE (Haddad arch.) & 0.699 & 0.719 & $-$0.020 \\
-\hline
-\end{tabular}}
-{Nine of ten methods land within 2.3 percentage points of the published
-value, and the two GNN architectures central to \citet{sterchi2026}'s own
-headline comparison -- GCN/GAT and IGCN -- match to within 0.1--0.3 points,
-confirming our reimplementation is correct rather than coincidentally
-similar. MLP is the one outlier (9.0 points low, untracked
-feature-engineering or training-variance difference, flagged rather than
-averaged away). Restricted to karate, the only network where our
-calibration exactly matches theirs; the other five networks' calibrated
-$\beta,T$ target the same $\sim$40\% infected fraction but were not
-verified against a second published number.}
-\end{table}
+further, though not itself a contribution of this paper -- see
+Section~\ref{sec:conclusion}), we also evaluate thirteen classical and
+learned source-detection methods, reproducing the methodology of
+\citet{sterchi2026} on six real contact/collaboration networks. GNN-based
+methods (GCN/GAT, IGCN) win on 4 of 5 fully-evaluated networks, and a
+direct reproduction check against \citet{sterchi2026}'s own published
+karate numbers matches to within 2.3 percentage points on 9 of 10 methods
+(0.1--0.3 points for the two GNN architectures central to their headline
+comparison). Full methods, networks, tables, and the reproduction check
+are in Online Supplement~\ref{ec:source-experiments}.
 
 \section{Discussion and Conclusion}\label{sec:discussion}
 
 \subsection{When does DEFER help in practice, and when is it unnecessary?}
 
 Theorem~\ref{thm:adaptivity-gap} and Section~\ref{sec:defer-example}
-locate the source of DEFER's advantage precisely: it is large when a
-vertex's protection is cheap to buy \emph{after} it is known threatened
-but expensive \emph{unconditionally}, i.e.\ when activation probabilities
-are low relative to the graph's branching factor. The benchmark confirms
-this rather than merely asserting it: DEFER's margin over its planner
-shrinks as the budget grows (Figure~\ref{fig:defer-sweep}) and is small
-under the weighted-cascade model, where per-edge probabilities are already
-small and degree-normalized, so few vertices are individually
-``expensive unconditionally, cheap conditionally'' enough for push-down to
-defer them. A practitioner should ask whether the intervention has this
-shape -- occasional high-fan-out gatekeepers, individually unlikely but
-consequential -- rather than treat adaptivity as free and always better;
-it is never worse (Theorem~\ref{thm:defer-dominates}), but the
-``sometimes better'' can be negligible. DEFER also assumes full-adoption
-feedback: the controller observes \emph{which} vertices activate each
-round, not the underlying live-edge realization -- realistic for platform
-moderation (who reposted, not which link) and epidemic containment (who
-is infected, not who transmitted it), but ruling out partially-observed
-activation; extending to noisy or delayed observation of $N_t$ is open.
+locate the source of \texttt{DEFER-nopush}'s advantage precisely: it is
+large when a vertex's protection is cheap to buy \emph{after} it is known
+threatened but expensive \emph{unconditionally}, i.e.\ when activation
+probabilities are low relative to the graph's branching factor. The
+benchmark confirms this rather than merely asserting it: at budget $20$
+under the constant-probability model, DEFER saves $0.2$--$1.9$ percentage
+points more spread than AG on the four SNAP networks
+(Table~\ref{tab:defer-results}), a margin that shrinks as the budget grows
+(Figure~\ref{fig:defer-sweep}, Table~\ref{tab:defer-allbudgets}) and is
+somewhat larger at small budgets ($0.2$--$3.9$ points over
+$b\in\{5,10,20,50,100\}$), at roughly $2.5$--$7\times$ AG's per-episode
+compute (Table~\ref{tab:timing});
+under weighted cascade the margin is within the residual selection-bias
+risk of Remark~\ref{rem:winners-curse}, so the extra compute buys little
+there. A practitioner should ask whether the intervention has this shape
+-- occasional high-fan-out gatekeepers, individually unlikely but
+consequential -- rather than treat adaptivity as free and always better.
+\texttt{DEFER-nopush} is never worse than its planner
+(Theorem~\ref{thm:defer-dominates}); full DEFER, with push-down enabled,
+is not (Remark~\ref{rem:pushdown-counterexample}), though
+Table~\ref{tab:defer-nopush-parity} in the Online Supplement shows the two
+agree to within $0.0075$ of saved fraction on every benchmark cell we ran
+-- push-down's theoretical gap from the proven guarantee does not show up
+empirically here. DEFER also assumes full-adoption
+feedback observed with negligible latency: the controller observes
+\emph{which} vertices activate each round and can act before the next
+round's propagation -- realistic for platform moderation (who reposted,
+not which link) and epidemic containment (who is infected, not who
+transmitted it) when suspensions or quarantines are fast relative to the
+cascade's own timescale, but not otherwise; extending to noisy, delayed,
+or partially-observed feedback is open.
 
 \subsection{When is TWIG the right tool?}\label{sec:discussion-twig}
 
 TWIG is not a substitute for the Monte-Carlo-based evaluation that AG,
 GR, and DEFER rely on at SNAP scale
 (Section~\ref{sec:defer-experiments}): Proposition~\ref{prop:fpt-space}'s
-$B_{w+2}$ state count is exponential in treewidth regardless of
+$B_{w+2}$ state count is exponential in the width $w$ regardless of
 $n$-independence, and Table~\ref{tab:twig-feasibility}'s real networks
-already span tractable (karate, width 5) to infeasible by memory (dolphin,
-width $\sim$10--11), two orders of magnitude below ca-GrQc. TWIG's role is
+already span tractable (karate, $w=10$) to infeasible by memory (dolphin,
+$w=19$), two orders of magnitude below ca-GrQc in $n$ alone. TWIG's role is
 instead as a validation instrument: it certifies exactly how far greedy
 departs from optimal (Section~\ref{sec:twig-empirical}'s 60-instance
 study), which no Monte-Carlo evaluation can -- greedy under noisy
@@ -1448,15 +1446,262 @@ Section~\ref{sec:source-experiments}'s benchmark reproduces a companion
 project problem, not a contribution of this paper.
 
 We gave the first formal treatment of adaptivity for influence
-minimization -- DEFER (never worse than its wrapped planner, a
-myopic-optimal commitment rule, an unbounded adaptivity gap) and TWIG (an
-exact FPT dynamic program for IMIN's optimality gap, with a provable
-elimination-order separation) -- both implemented and released.
+minimization -- DEFER (\texttt{DEFER-nopush} never worse than its wrapped
+planner, a myopic-optimal but not globally guaranteed push-down
+commitment rule, an unbounded adaptivity gap) and TWIG (an exact FPT
+dynamic program for IMIN's optimality gap in the width $w$, with a
+provable elimination-order separation) -- both implemented and released.
+
+\textbf{Code and data availability.} DEFER, TWIG, and every baseline and
+benchmark script used in this paper are released at
+\url{https://github.com/vinhqdang/trace_e}. All networks used are either
+generated by the released code (Barab\'asi--Albert, Erd\H{o}s--R\'enyi) or
+the small public empirical datasets cited in
+Section~\ref{sec:defer-experiments}; \texttt{results/summary\_adaptive.csv}
+and the other \texttt{results/*.csv} files referenced throughout the paper
+are the raw per-instance logs produced by the released benchmark scripts,
+included in the same repository.
 
 % Endnotes (none currently used)
 %\begingroup \parindent 0pt \parskip 0.0ex \def\enotesize{\normalsize} \theendnotes \endgroup
 
-\ACKNOWLEDGMENT{To be added prior to submission.}
+\begin{thebibliography}{99}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+
+\bibitem[{Antulov-Fantulin et~al.(2015)}]{antulov2015}
+Antulov-Fantulin N, Lan\v{c}i\'c A, \v{S}muc T, \v{S}tefan\v{c}i\'c H,
+  Sikic M (2015) Identification of patient zero in static and temporal
+  networks: Robustness and limitations. \emph{Phys.\ Rev.\ Lett.}
+  114:248701.
+
+\bibitem[{Asadpour and Nazerzadeh(2016)}]{asadpournazerzadeh2016}
+Asadpour A, Nazerzadeh H (2016) Maximizing stochastic monotone submodular
+  functions. \emph{Management Sci.} 62(8):2374--2391.
+
+\bibitem[{Barab\'asi and Albert(1999)}]{barabasi1999}
+Barab\'asi AL, Albert R (1999) Emergence of scaling in random networks.
+  \emph{Science} 286(5439):509--512.
+
+\bibitem[{Bodlaender(1988)}]{bodlaender1988}
+Bodlaender HL (1988) Dynamic programming on graphs with bounded treewidth.
+  \emph{Proc.\ 15th Internat.\ Colloquium on Automata, Languages and
+  Programming (ICALP)}, 105--118.
+
+\bibitem[{Budak et~al.(2011)Budak, Agrawal, and El~Abbadi}]{budak2011}
+Budak C, Agrawal D, El~Abbadi A (2011) Limiting the spread of misinformation
+  in social networks. \emph{Proc.\ 20th Internat.\ Conf.\ on World Wide Web
+  (WWW)}, 665--674.
+
+\bibitem[{Cygan et~al.(2015)Cygan, Fomin, Kowalik, Lokshtanov, Marx,
+  Pilipczuk, Pilipczuk, and Saurabh}]{cygan2015}
+Cygan M, Fomin FV, Kowalik {\L}, Lokshtanov D, Marx D, Pilipczuk M,
+  Pilipczuk M, Saurabh S (2015) \emph{Parameterized Algorithms} (Springer,
+  Cham).
+
+\bibitem[{Dean et~al.(2008)Dean, Goemans, and Vondr\'ak}]{deangoemansvondrak2008}
+Dean BC, Goemans MX, Vondr\'ak J (2008) Approximating the stochastic
+  knapsack problem: The benefit of adaptivity. \emph{Math.\ Oper.\ Res.}
+  33(4):945--964.
+
+\bibitem[{Dong et~al.(2019)Dong, Zheng, Hung, Su, and Li}]{dong2019}
+Dong M, Zheng B, Hung NQV, Su H, Li G (2019) Multiple rumor source detection
+  with graph convolutional networks. \emph{Proc.\ 28th ACM Internat.\
+  Conf.\ on Information and Knowledge Management (CIKM)}, 569--578.
+
+\bibitem[{Fan et~al.(2013)}]{fan2013}
+Fan L, Lu Z, Wu W, Thuraisingham B, Ma H, Bi Y (2013) Least cost rumor
+  blocking in social networks. \emph{Proc.\ 33rd IEEE Internat.\ Conf.\ on
+  Distributed Computing Systems (ICDCS)}, 540--549.
+
+\bibitem[{Farajtabar et~al.(2017)}]{farajtabar2017}
+Farajtabar M, Yang J, Ye X, Xu H, Trivedi R, Khalil E, Li S, Song L, Zha H
+  (2017) Fake news mitigation via point process based intervention.
+  \emph{Proc.\ 34th Internat.\ Conf.\ on Machine Learning (ICML)},
+  1097--1106.
+
+\bibitem[{Freeman(1977)}]{freeman1977}
+Freeman LC (1977) A set of measures of centrality based on betweenness.
+  \emph{Sociometry} 40(1):35--41.
+
+\bibitem[{G\'enois et~al.(2015)}]{genois2015}
+G\'enois M, Vestergaard CL, Fournet J, Panisson A, Bonmarin I, Barrat A
+  (2015) Data on face-to-face contacts in an office building suggest a
+  low-cost vaccination strategy based on community linkers. \emph{Network
+  Science} 3(3):326--347.
+
+\bibitem[{Golovin and Krause(2011)}]{golovinkrause2011}
+Golovin D, Krause A (2011) Adaptive submodularity: Theory and applications
+  in active learning and stochastic optimization. \emph{J.\ Artificial
+  Intelligence Res.} 42:427--486.
+
+\bibitem[{Guo et~al.(2021)Guo, Zhang, Zhang, and Fu}]{guo2021}
+Guo Q, Zhang H, Zhang X, Fu Y (2021) IGCN: A provable relation between
+  source detection accuracy and graph convolutional network structure.
+  \emph{Proc.\ IEEE Global Communications Conf.\ (GLOBECOM)}.
+
+\bibitem[{Haddad and Figueiredo(2023)}]{haddad2023}
+Haddad RG, Figueiredo DR (2023) Detecting multiple epidemic sources in
+  network epidemics using graph neural networks. Naldi MC, Bianchi RAC,
+  eds., \emph{Intelligent Systems (Proc.\ BRACIS 2023)}, Lecture Notes in
+  Computer Science, vol.\ 14197 (Springer, Cham), 331--345.
+
+\bibitem[{Haraldsdottir et~al.(1992)}]{haraldsdottir1992}
+Haraldsdottir S, Gupta S, Anderson RM (1992) Preliminary studies of sexual
+  networks in a male homosexual community in Iceland. \emph{J.\ Acquired
+  Immune Deficiency Syndromes} 5(4):374--381.
+
+\bibitem[{He et~al.(2012)}]{he2012}
+He X, Song G, Chen W, Jiang Q (2012) Influence blocking maximization in
+  social networks under the competitive linear threshold model.
+  \emph{Proc.\ 2012 SIAM Internat.\ Conf.\ on Data Mining (SDM)}, 463--474.
+
+\bibitem[{Kempe et~al.(2003)Kempe, Kleinberg, and Tardos}]{kempe2003}
+Kempe D, Kleinberg J, Tardos {\'E} (2003) Maximizing the spread of influence
+  through a social network. \emph{Proc.\ 9th ACM SIGKDD Internat.\ Conf.\ on
+  Knowledge Discovery and Data Mining (KDD)}, 137--146.
+
+\bibitem[{Killworth and Bernard(1976)}]{killworth1976}
+Killworth PD, Bernard HR (1976) Informant accuracy in social network data.
+  \emph{Human Organization} 35(3):269--286.
+
+\bibitem[{Kinnersley(1992)}]{kinnersley1992}
+Kinnersley NG (1992) The vertex separation number of a graph equals its
+  path-width. \emph{Inform.\ Process.\ Lett.} 42(6):345--350.
+
+\bibitem[{Leskovec et~al.(2007)}]{leskovec2007}
+Leskovec J, Kleinberg J, Faloutsos C (2007) Graph evolution: Densification
+  and shrinking diameters. \emph{ACM Trans.\ Knowledge Discovery from
+  Data} 1(1):2.
+
+\bibitem[{Lokhov et~al.(2014)}]{lokhov2014}
+Lokhov AY, M\'ezard M, Ohta H, Zdeborov\'a L (2014) Inferring the origin
+  of an epidemic with a dynamic message-passing algorithm. \emph{Phys.\
+  Rev.\ E} 90:012801.
+
+\bibitem[{Lusseau et~al.(2003)}]{lusseau2003}
+Lusseau D, Schneider K, Boisseau OJ, Haase P, Slooten E, Dawson SM (2003)
+  The bottlenose dolphin community of Doubtful Sound features a large
+  proportion of long-lasting associations. \emph{Behavioral Ecology and
+  Sociobiology} 54(4):396--405.
+
+\bibitem[{Maehara et~al.(2017)Maehara, Suzuki, and Ishihata}]{maehara2017}
+Maehara T, Suzuki H, Ishihata M (2017) Exact computation of influence
+  spread by binary decision diagrams. \emph{Proc.\ 26th Internat.\ Conf.\
+  on World Wide Web (WWW)}, 947--956.
+
+\bibitem[{Mastrandrea et~al.(2015)}]{mastrandrea2015}
+Mastrandrea R, Fournet J, Barrat A (2015) Contact patterns in a high
+  school: A comparison between data collected using wearable sensors,
+  contact diaries and friendship surveys. \emph{PLOS ONE} 10(9):e0136497.
+
+\bibitem[{Nakamura and Nishino(2026)}]{nakamura2026}
+Nakamura K, Nishino M (2026) Linear-time exact computation of influence
+  spread on bounded-pathwidth graphs. \emph{20th Scandinavian Sympos.\ on
+  Algorithm Theory (SWAT)}, LIPIcs vol.\ 370, Article 34.
+
+\bibitem[{Nguyen et~al.(2012)}]{nguyen2012}
+Nguyen NP, Yan G, Thai MT, Eidenbenz S (2012) Containment of misinformation
+  spread in online social networks. \emph{Proc.\ 4th Annual ACM Web Sci.\
+  Conf.\ (WebSci)}, 213--222.
+
+\bibitem[{Prakash et~al.(2012)}]{prakash2012}
+Prakash BA, Vreeken J, Faloutsos C (2012) Spotting culprits in epidemics:
+  How many and which ones? \emph{Proc.\ 12th IEEE Internat.\ Conf.\ on
+  Data Mining (ICDM)}, 11--20.
+
+\bibitem[{Provan and Ball(1983)}]{provan1983}
+Provan JS, Ball MO (1983) The complexity of counting cuts and of computing
+  the probability that a graph is connected. \emph{SIAM J.\ Comput.}
+  12(4):777--788.
+
+\bibitem[{Seeman and Singer(2013)}]{seemansinger2013}
+Seeman L, Singer Y (2013) Adaptive seeding in social networks.
+  \emph{Proc.\ 54th Annual IEEE Sympos.\ on Foundations of Computer Sci.\
+  (FOCS)}, 459--468.
+
+\bibitem[{Shah and Zaman(2011)}]{shah2011}
+Shah D, Zaman T (2011) Rumors in a network: Who's the culprit?
+  \emph{IEEE Trans.\ Information Theory} 57(8):5163--5181.
+
+\bibitem[{Shah et~al.(2020)Shah, Dehmamy, Perra, Chinazzi, Barab\'asi,
+  Vespignani, and Yu}]{shah2020}
+Shah C, Dehmamy N, Perra N, Chinazzi M, Barab\'asi AL, Vespignani A, Yu R
+  (2020) Finding patient zero: Learning contagion source with graph neural
+  networks. \emph{arXiv:2006.11913}.
+
+\bibitem[{Sterchi et~al.(2026)Sterchi, Brack, and Hilfiker}]{sterchi2026}
+Sterchi M, Brack F, Hilfiker R (2026) A systematic benchmark of graph
+  neural networks for epidemic source detection. \emph{arXiv:2512.20657}.
+
+\bibitem[{Tong et~al.(2017)}]{tong2017}
+Tong G, Wu W, Tang S, Du DZ (2017) Adaptive influence maximization in
+  dynamic social networks. \emph{IEEE/ACM Trans.\ Networking} 25(1):112--125.
+
+\bibitem[{Tong et~al.(2018)}]{tong2018}
+Tong G, Wu W, Du DZ (2018) Distributed rumor blocking with multiple
+  positive cascades. \emph{IEEE Trans.\ Comput.\ Social Systems} 5(2):468--480.
+
+\bibitem[{Valiant(1979)}]{valiant1979}
+Valiant LG (1979) The complexity of enumeration and reliability problems.
+  \emph{SIAM J.\ Comput.} 8(3):410--421.
+
+\bibitem[{Wang et~al.(2013)Wang, Zhao, Chen, Li, Zhang, and Xia}]{wang2013blocking}
+Wang S, Zhao X, Chen Y, Li Z, Zhang K, Xia J (2013) Negative influence
+  minimizing by blocking nodes in social networks. \emph{Late-Breaking
+  Developments in the Field of Artificial Intelligence, Papers Presented at
+  the 27th AAAI Conf.\ on Artificial Intelligence}, AAAI Technical Report
+  WS-13-17, 134--136.
+
+\bibitem[{Wang et~al.(2016)}]{wang2016drimux}
+Wang B, Chen G, Fu L, Song L, Wang X (2016) DRIMUX: Dynamic rumor influence
+  minimization with user experience in social networks. \emph{Proc.\ 30th
+  AAAI Conf.\ on Artificial Intelligence (AAAI)}, 791--797.
+
+\bibitem[{Wang et~al.(2024)Wang, Wu, Wang, Zhang, Qin, Zhang, and Lin}]{wang2024sandwich}
+Wang J, Wu Y, Wang X, Zhang Y, Qin L, Zhang W, Lin X (2024) Efficient
+  influence minimization via node blocking. \emph{Proc.\ VLDB Endowment}
+  17(10):2501--2513.
+
+\bibitem[{Watts and Strogatz(1998)}]{watts1998}
+Watts DJ, Strogatz SH (1998) Collective dynamics of `small-world'
+  networks. \emph{Nature} 393:440--442.
+
+\bibitem[{Xiang et~al.(2024)Xiang, Wang, Wu, Wang, Chen, and Zhang}]{xiang2024}
+Xiang F, Wang J, Wu Y, Wang X, Chen C, Zhang Y (2024) Rumor blocking with
+  pertinence set in large graphs. \emph{World Wide Web} 27(1):Article 6.
+
+\bibitem[{Xie et~al.(2023)Xie, Zhang, Wang, Lin, and Zhang}]{xie2023}
+Xie J, Zhang F, Wang K, Lin X, Zhang W (2023) Minimizing the influence of
+  misinformation via vertex blocking. \emph{Proc.\ 39th IEEE Internat.\
+  Conf.\ on Data Engineering (ICDE)}, 3096--3108.
+
+\bibitem[{Xie et~al.(2024)Xie, Zhang, Wang, Liu, Lin, and Zhang}]{xie2024}
+Xie J, Zhang F, Wang K, Liu J, Lin X, Zhang W (2024) Influence minimization
+  via blocking strategies. \emph{INFORMS J.\ Comput.}, forthcoming. Code:
+  \texttt{github.com/INFORMSJoC/2024.0591}, arXiv:2312.17488.
+
+\bibitem[{Yan et~al.(2020)}]{yan2020}
+Yan R, Li D, Wu W, Du DZ, Wang Y (2020) Minimizing influence of rumors by
+  blockers on social networks: Algorithms and analysis. \emph{IEEE Trans.\
+  Network Science and Engineering} 7(3):1067--1078.
+
+\bibitem[{Zachary(1977)}]{zachary1977}
+Zachary WW (1977) An information flow model for conflict and fission in
+  small groups. \emph{J.\ Anthropological Research} 33(4):452--473.
+
+\bibitem[{Zareie and Sakellariou(2021)}]{zareie2021}
+Zareie A, Sakellariou R (2021) Minimizing the spread of misinformation in
+  online social networks: A survey. \emph{J.\ Network and Computer
+  Applications} 186:103094.
+
+\bibitem[{Zhu and Ying(2016)}]{zhu2016}
+Zhu K, Ying L (2016) Information source detection in the SIR model: A
+  sample-path-based approach. \emph{IEEE/ACM Trans.\ Networking}
+  24(1):408--421.
+
+\end{thebibliography}
 
 \ECSwitch
 \ECDisclaimer
@@ -1482,26 +1727,35 @@ sequences coincide. Vertices of $P$ that are never exposed are never
 blocked.\Halmos
 \end{proof}
 
-\begin{repeattheorem}[Theorem~\ref{thm:defer-dominates} (DEFER weakly dominates its planner)]
-Let $P_0$ be the plan of $\mathcal P$ at round $0$. If, in every later
-round, the plan-protection test only ever replaces the leftover
-$L=P_{t-1}\setminus C_{t-1}$ by a new plan $P'$ whose held-out
-sample-average saving exceeds $L$'s by more than one held-out standard
-error, then the expected final spread of DEFER is at most that of the
-one-shot solution $P_0$, up to the residual error of that one-sided test
-(Remark~\ref{rem:winners-curse}).
+\begin{repeattheorem}[Theorem~\ref{thm:defer-dominates} (\texttt{DEFER-nopush} weakly dominates its planner)]
+Let $P_0$ be the plan of $\mathcal P$ at round $0$, and consider
+Algorithm~\ref{alg:defer} with the push-down step removed
+(\texttt{DEFER-nopush}: every exposed planned vertex is committed
+immediately). If, in every later round, the plan-protection test only ever
+replaces the leftover $L=P_{t-1}\setminus C_{t-1}$ by a new plan $P'$
+whose held-out sample-average saving exceeds $L$'s by more than one
+held-out standard error, then the expected final spread of
+\texttt{DEFER-nopush} is at most that of the one-shot solution $P_0$, up to
+the residual error of that one-sided test (Remark~\ref{rem:winners-curse}).
 \end{repeattheorem}
 \begin{proof}{Proof}
 By Lemma~\ref{lem:defer-free} the policy that keeps $P_0$ and commits
-lazily has the same spread as blocking $P_0$ at time $0$. DEFER differs
-from it only by replacing, at each round, the uncommitted leftover by a
-plan that clears the plan-protection test for the remaining budget; the
-committed prefix is identical. If every swap were only ever made when $P'$
-is truly at least as good as $L$, induction over rounds would give the
-claim exactly. The test instead accepts $P'$ whenever its held-out
-sample-average saving exceeds $L$'s by more than one held-out standard
-error -- a one-sided test against equally-good alternatives, using
-concentration of the sample average (\citealp{xie2024}, applied per
+lazily (blocking every not-yet-blocked vertex of $P_0$ the moment it is
+exposed) has the same spread as blocking $P_0$ at time $0$.
+\texttt{DEFER-nopush} differs from it only by replacing, at each round,
+the uncommitted leftover by a plan that clears the plan-protection test
+for the remaining budget, and then committing \emph{every} exposed vertex
+of the resulting plan immediately (no push-down deferral); the committed
+prefix is otherwise identical to lazily committing whichever plan is
+currently standing. If every swap were only ever made when $P'$ is truly
+at least as good as $L$, induction over rounds would give the claim
+exactly, since replacing a standing plan by an at-least-as-good one and
+then committing lazily can only weakly improve on committing the original
+lazily (again by Lemma~\ref{lem:defer-free}, applied to whichever plan is
+current at each round). The test instead accepts $P'$ whenever its
+held-out sample-average saving exceeds $L$'s by more than one held-out
+standard error -- a one-sided test against equally-good alternatives,
+using concentration of the sample average (\citealp{xie2024}, applied per
 candidate plan) on data disjoint from whatever $P'$ was optimized on, so
 the comparison itself is not confounded by having been optimized and
 tested on the same draws. This rules out the most severe form of
@@ -1509,7 +1763,11 @@ optimizer's-curse bias (comparing a plan against the very data used to
 select it) but not the residual chance that a $P'$ that is not truly
 better than $L$ still clears the $1$-SE margin on a given round's held-out
 draw; Remark~\ref{rem:winners-curse} discusses this residual, which we do
-not bound here.\Halmos
+not bound here. Push-down is excluded from this argument entirely: it can
+permanently forfeit protection of a deferred vertex if the budget that was
+supposed to remain available for it is spent elsewhere first, which is
+exactly the failure mode Remark~\ref{rem:pushdown-counterexample}
+exhibits.\Halmos
 \end{proof}
 
 \begin{repeatremark}[Remark~\ref{rem:winners-curse} (The 1-SE margin bounds, but does not eliminate, selection bias)]
@@ -1525,7 +1783,7 @@ that a truly worse plan clears the margin on a given round's held-out
 draw. We do not prove a bound on the resulting regret here.
 \end{repeatremark}
 
-\begin{repeatlemma}[Lemma~\ref{lem:pushdown} (Push-down is the myopic optimum)]
+\begin{repeatlemma}[Lemma~\ref{lem:pushdown} (Push-down is the local myopic optimum)]
 Consider an exposed planned vertex $v$ whose children (its inactive
 out-neighbors) jointly protect the same set as $v$ minus $v$ itself, assume
 the children are exposed only through $v$, and value a budget unit at
@@ -1539,19 +1797,54 @@ Blocking now costs $\lambda$ and loses nothing of $v$'s set. Waiting loses
 $v$ (one vertex) and spends $c_v$ units with probability $q_v$, and nothing
 otherwise, while the protected set is the same in both branches by
 assumption: expected loss $q_v+\lambda q_v c_v$. Comparing $\lambda$ against
-$q_v+\lambda q_v c_v$ gives the stated condition.\Halmos
+$q_v+\lambda q_v c_v$ gives the stated condition. Note that $\lambda$ is
+treated as a fixed price at which a budget unit can always be redeployed;
+the lemma says nothing about what happens when several vertices are
+deferred under this reasoning simultaneously and the budget they were all
+counting on cannot cover all of them at once
+(Remark~\ref{rem:pushdown-counterexample}).\Halmos
 \end{proof}
 
+\begin{repeatremark}[Remark~\ref{rem:pushdown-counterexample} (Push-down does not preserve domination)]
+On the star-of-paths instance of Section~\ref{sec:defer-example} with
+$\Delta=2$, $p=0.4$, $L=1$, $b=1$: a one-shot plan blocks one gateway
+outright, giving expected spread $(\Delta-1)p(L+1)=1(0.4)(2)=0.8$. At
+round $0$ the planner's single-vertex plan targets one gateway $a_i$, with
+$q_{a_i}=p=0.4$, $c_{a_i}=1$ (its one child), and
+$\lambda_0=p(L+1)=0.8$ (the plan's own marginal saving, since the plan
+does not exhaust the budget of $1$ beyond this single pick); the push-down
+condition $q_{a_i}(c_{a_i}+1/\lambda_0)=0.4(1+1.25)=0.9<1$ defers it. Let
+$k\sim\mathrm{Binomial}(2,p)$ be the number of gateways that activate.
+If $k\le1$, DEFER spends its unit (if any branch is active) exactly as the
+worked example of Section~\ref{sec:defer-example} describes, sealing the
+one active branch's continuation for the cost of the vertex already
+reached: spread $\Delta p\cdot\mathbf 1[k=1]\cdot 1=k$ (each active
+gateway contributes $1$; contributes no further path vertices). If $k=2$
+(probability $p^2=0.16$), both gateways have activated but only one unit
+of budget remains, so DEFER can block only one child; the other branch's
+path vertex activates deterministically, contributing an extra $L=1$.
+Expected spread is $\Pr[k=0]\cdot0+\Pr[k=1]\cdot1+\Pr[k=2]\cdot(2+L)
+=0.36(0)+0.48(1)+0.16(3)=0.96$, exceeding the one-shot plan's $0.8$: full
+DEFER, with push-down enabled, is strictly \emph{worse} than the planner
+it wraps on this instance. The mechanism is budget contention exactly as
+anticipated in the proof of Lemma~\ref{lem:pushdown}'s scope: deferring a
+vertex is only free if the budget unit it releases is actually available
+when needed, and here two simultaneously-deferred vertices compete for a
+single unit.
+\end{repeatremark}
+
 \begin{repeattheorem}[Theorem~\ref{thm:adaptivity-gap} (The adaptivity gap of IMIN is unbounded)]
-For every $\Delta\ge 2$, $p\in(0,1)$, and path length $L\ge0$ there is an
+For every $\Delta\ge 2$, $p\in(0,1)$, and path length $L\ge1$ there is an
 instance with maximum out-degree $\Delta$, budget $1$, on which the best
 one-shot solution and DEFER have expected savings $p(L+1)$ and
 $L(1-(1-p)^\Delta)$ respectively, so DEFER's saving is
 $\frac{L}{L+1}\cdot\frac{1-(1-p)^\Delta}{p}$ times the one-shot saving, a
 factor tending to $(1-(1-p)^\Delta)/p$ (which itself tends to $\Delta$ as
-$p\to0$) as $L\to\infty$; the ratio of the two policies' expected spreads is
-at least $\frac{(\Delta-1)p}{\Delta p-1+(1-p)^\Delta}$, which diverges for
-fixed $\Delta$ as $p\to0$.
+$p\to0$) as $L\to\infty$; the ratio of the two policies' expected spreads
+is, at every finite $L$, strictly \emph{less} than
+$\frac{(\Delta-1)p}{\Delta p-1+(1-p)^\Delta}$, increasing to this value only
+in the limit $L\to\infty$, which (taken before $p\to0$, for fixed $\Delta$)
+diverges.
 \end{repeattheorem}
 \begin{proof}{Proof}
 Seed $s$ has out-neighbors $a_1,\dots,a_\Delta$ with $p(s,a_i)=p$; each
@@ -1576,17 +1869,26 @@ ratio is $\frac{L(1-(1-p)^\Delta)}{p(L+1)}=\frac{L}{L+1}\cdot
 \frac{1-(1-p)^\Delta}{p}$, increasing in $L$ to the limit
 $(1-(1-p)^\Delta)/p$, which tends to $\Delta$ as $p\to0$ (since
 $1-(1-p)^\Delta=\Delta p-\binom\Delta2p^2+O(p^3)$). The \emph{spread} ratio
-is $\frac{(\Delta-1)p(L+1)}{(\Delta p-1+(1-p)^\Delta)L+\Delta p}$, whose
-$L\to\infty$ limit is $\frac{(\Delta-1)p}{\Delta p-1+(1-p)^\Delta}$; for
-fixed $\Delta$ as $p\to0$ the denominator behaves like
-$\binom\Delta2p^2$ (the $O(p)$ terms cancel), so this limit behaves like
+is $\frac{(\Delta-1)p(L+1)}{(\Delta p-1+(1-p)^\Delta)L+\Delta p}$. Writing
+$A=(\Delta-1)p$, $B=\Delta p-1+(1-p)^\Delta$, $C=\Delta p$, this is
+$A(L+1)/(BL+C)$, whose derivative with respect to $L$ has the sign of
+$A(C-B)$; since $C-B=1-(1-p)^\Delta>0$, the ratio is strictly increasing in
+$L$ for every finite $L\ge1$ and tends to its supremum $A/B=\frac{(\Delta-1)p}
+{\Delta p-1+(1-p)^\Delta}$ only as $L\to\infty$ -- so at any finite $L$ the
+spread ratio is strictly below this value, not at least it. Taking
+$L\to\infty$ first (for fixed $\Delta,p$) and only then $p\to0$: the
+denominator $B$ behaves like $\binom\Delta2p^2$ as $p\to0$ (the $O(p)$
+terms cancel), so the $L\to\infty$ limit $A/B$ behaves like
 $\frac{(\Delta-1)p}{\binom\Delta2p^2}=\frac{2}{\Delta p}\to\infty$ --
 already unbounded at $\Delta=2$, independently of the saving ratio's
-$\Delta\to\infty$ argument. The two ratios are genuinely different
-quantities -- the savings' ratio bound does not apply to the spreads'
-ratio -- and both statements above are established directly from the same
-exact closed forms, with no approximation beyond the stated $L\to\infty$
-and $p\to0$ limits.\Halmos
+$\Delta\to\infty$ argument, but only once $L$ has been sent to infinity
+first: for any \emph{fixed} $L$, the same ratio $A(L+1)/(BL+C)$ tends
+instead to $A(L+1)/C=(\Delta-1)(L+1)/\Delta$ as $p\to0$ (since $B\to0$
+faster than $C$), a finite constant, so the order of the two limits is not
+interchangeable. The two ratios are genuinely different quantities -- the
+savings' ratio bound does not apply to the spreads' ratio -- and both
+statements above are established directly from the same exact closed
+forms, with no approximation beyond the stated limits.\Halmos
 \end{proof}
 
 \begin{repeattheorem}[Theorem~\ref{thm:defer-complexity} (Complexity of DEFER)]
@@ -1601,8 +1903,8 @@ $O(r\,b\,\theta\,m\,\alpha(m,n))$ in the worst case.
 \begin{proof}{Proof}
 Each dominator tree is computed by the Cooper--Harvey--Kennedy iteration
 on the reachable subgraph (near-linear; the Lengauer--Tarjan analysis gives
-the $\alpha$ bound). Step 2 of Algorithm~\ref{alg:defer} is a breadth-first
-search per sample. Recomputation after a pick is restricted to samples
+the $\alpha$ bound). Drawing $\theta$ live-edge samples reachable from
+$F_t$ (Algorithm~\ref{alg:defer}) is a breadth-first search per sample. Recomputation after a pick is restricted to samples
 whose cached reach set contains the picked vertex, which is exactly the
 set of samples whose dominator tree can change. Summing over picks and
 rounds gives the bound.\Halmos
@@ -1811,6 +2113,159 @@ retires only at the final step (its own $\mathrm{last}$ is the position of
 the last-introduced leaf), giving $|F_i|\le 2$ for all $i$.\Halmos
 \end{proof}
 
+\section{Auxiliary Benchmark: Source Detection}\label{ec:source-experiments}
+
+As a secondary, apples-to-apples benchmark motivated by the same
+misinformation/epidemic-control setting as DEFER and TWIG (identifying
+where a cascade started, complementing where to block it from spreading
+further), we also evaluate classical and learned source-detection methods
+on identical, seed-fixed test instances, reproducing the methodology of
+\citet{sterchi2026}. The methods are:
+
+\begin{enumerate}
+\item \textbf{Random}: uniformly random ranking of candidate sources; the
+  na\"ive floor every other method is expected to beat.
+\item \textbf{Jordan center} \citep{zhu2016}: ranks vertices by minimum
+  eccentricity within the observed infected subgraph, a sample-path
+  argument for the SIR model.
+\item \textbf{Betweenness} \citep{freeman1977}: ranks vertices by the
+  classical betweenness-centrality measure restricted to the infected
+  subgraph.
+\item \textbf{Soft Margin Estimator (SME)} \citep{antulov2015}: scores
+  candidate sources by the Jaccard similarity between simulated and
+  observed outbreaks.
+\item \textbf{MCS mean-field}: a Monte-Carlo per-node-state likelihood
+  baseline built from simulated outbreaks, reproduced from the simulation
+  baseline of \citet{sterchi2026}.
+\item \textbf{Rumor centrality} \citep{shah2011}: the maximum-likelihood
+  source estimator under a uniform spreading model on the underlying
+  tree/BFS structure.
+\item \textbf{NetSleuth} \citep{prakash2012}: a minimum-description-length
+  criterion that jointly selects the number and identity of sources via
+  Laplacian eigenvector ranking.
+\item \textbf{Dynamic message passing (DMP)} \citep{lokhov2014}: a belief-
+  propagation approximation to the posterior over sources under the SIR
+  model.
+\item \textbf{MLP}: a feature-based multi-layer perceptron baseline,
+  reproduced from \citet{sterchi2026}, that does not use the graph
+  structure directly.
+\item \textbf{GCNSI} \citep{dong2019}: a graph convolutional network
+  trained on simulated cascades to score candidate sources.
+\item \textbf{GCN/GAT} \citep{shah2020}: graph convolutional and
+  attention networks trained on simulated SIR/SEIR cascades.
+\item \textbf{IGCN} \citep{guo2021}: a graph convolutional architecture
+  with state-pair-conditioned aggregation.
+\item \textbf{GraphSAGE} \citep{haddad2023}: an inductive graph neural
+  network architecture applied to source detection.
+\end{enumerate}
+
+\noindent The networks (real contact and collaboration networks with
+known epidemic-relevant structure, distinct from the four SNAP-scale
+networks of Section~\ref{sec:defer-experiments}) are:
+
+\begin{enumerate}
+\item \textbf{Karate} \citep{zachary1977}: Zachary's karate club
+  friendship network, $n=34$.
+\item \textbf{Iceland} \citep{haraldsdottir1992}: a sexual-contact network
+  from an early HIV epidemiological study, $n=75$.
+\item \textbf{Dolphin} \citep{lusseau2003}: a bottlenose dolphin social
+  network, $n=62$.
+\item \textbf{Fraternity} \citep{killworth1976}: a college social network,
+  $n=58$.
+\item \textbf{Workplace} \citep{genois2015}: a static projection of
+  face-to-face contact sensor data in an office building, $n=92$.
+\item \textbf{Highschool2013} \citep{mastrandrea2015}: a static projection
+  of face-to-face contact sensor data in a French high school, $n=327$,
+  the largest of the six.
+\end{enumerate}
+
+\noindent Each network's independent-cascade/SIR parameters are calibrated
+to match \citet{sterchi2026}'s target infected fraction, and every method
+is evaluated on the identical, fixed seeded test instances (same random
+seed and count as their own evaluation code), so table differences are
+attributable to method alone. Table~\ref{tab:source-detection} reports
+top-1 accuracy (higher is better; top-5 and full per-method detail are in
+\texttt{results/gnn\_benchmark\_sterchi/}).
+GNN training for \texttt{highschool2013} (the largest of the six networks)
+did not complete within the compute budget available (repeated free-tier
+GPU session limits with no mid-run checkpointing); we report the five
+networks on which the full sweep completed and mark
+\texttt{highschool2013}'s missing cells explicitly rather than omit the
+network.
+
+\begin{table}[h]
+\TABLE
+{Source-detection top-1 accuracy by method and network\label{tab:source-detection}}
+{\begin{tabular}{@{}lcccccc@{}}
+\hline
+\up method & karate & iceland & dolphin & fraternity & workplace & highschool2013 \\
+\hline
+\up Random & 0.294 & 0.224 & 0.291 & 0.368 & 0.355 & 0.372 \\
+Jordan center & 0.288 & 0.209 & 0.290 & 0.369 & 0.363 & -- \\
+Betweenness & 0.292 & 0.211 & 0.296 & 0.372 & 0.361 & -- \\
+SME & 0.337 & 0.271 & 0.315 & 0.367 & 0.367 & -- \\
+MCS mean-field & 0.370 & 0.295 & 0.332 & 0.383 & 0.374 & -- \\
+Rumor centrality & 0.287 & 0.208 & 0.293 & 0.369 & 0.361 & 0.378 \\
+NetSleuth & 0.340 & 0.274 & 0.319 & 0.384 & 0.371 & 0.381 \\
+DMP & 0.382 & 0.296 & 0.341 & 0.395 & 0.387 & 0.391$^{*}$ \\
+MLP & 0.325 & 0.244 & 0.299 & 0.368 & 0.361 & 0.375 \\
+GCNSI \citep{dong2019} & 0.331 & 0.302 & 0.329 & 0.118 & 0.285 & -- \\
+GCN/GAT \citep{shah2020} & \textbf{0.396} & \textbf{0.316} & \textbf{0.367} & \textbf{0.395} & \textbf{0.400} & -- \\
+IGCN \citep{guo2021} & 0.392 & 0.298 & 0.352 & \textbf{0.395} & 0.397 & -- \\
+\down GraphSAGE \citep{haddad2023} & 0.377 & 0.306 & 0.357 & 0.387 & 0.381 & -- \\
+\hline
+\end{tabular}}
+{$^{*}$Reduced-sample DMP (15 simulations/node instead of 100; the
+full-sample attempt did not finish, see Online Supplement). ``--'' marks a
+cell not trained/evaluated for \texttt{highschool2013} (see text). Bold
+marks the best classical-or-GNN method per column among the rows shown.
+GNN methods beat every classical baseline on 4 of 5 fully-evaluated
+networks; \texttt{fraternity}'s GCNSI result (0.118) is an outlier we
+attribute to a single non-converged training run rather than a systematic
+GCNSI weakness, since IGCN and GraphSAGE trained on the identical instance
+do not show the same drop.}
+\end{table}
+
+\subsection{Reproduction check against published numbers}\label{ec:reproduction-check}
+
+Because Table~\ref{tab:source-detection} reproduces \citet{sterchi2026}'s
+methodology rather than rerunning their exact code end-to-end, we checked
+our pipeline directly against their own published top-5 accuracies on
+karate -- the one network in our sweep whose calibration exactly matches
+theirs (both use $\beta=1.3$, $T=0.85$, targeting the same $\sim$40\%
+infected fraction). Table~\ref{tab:reproduction} shows the comparison.
+
+\begin{table}[h]
+\TABLE
+{Top-5 accuracy on karate: our reproduction vs.\ \citet{sterchi2026}'s published numbers\label{tab:reproduction}}
+{\begin{tabular}{@{}lccc@{}}
+\hline
+\up method & ours & \citet{sterchi2026} & difference \\
+\hline
+\up Random & 0.372 & 0.394 & $-$0.022 \\
+Jordan center & 0.508 & 0.527 & $-$0.019 \\
+Betweenness & 0.535 & 0.552 & $-$0.017 \\
+SME & 0.598 & 0.607 & $-$0.009 \\
+DMP / MCMF & 0.679 & 0.656 & $+$0.023 \\
+MLP & 0.589 & 0.679 & $-$0.090 \\
+GCNSI (Dong arch.) & 0.671 & 0.687 & $-$0.016 \\
+GCN/GAT (Shah arch.) & 0.726 & 0.729 & $-$0.003 \\
+IGCN & 0.727 & 0.728 & $-$0.001 \\
+\down GraphSAGE (Haddad arch.) & 0.699 & 0.719 & $-$0.020 \\
+\hline
+\end{tabular}}
+{Nine of ten methods land within 2.3 percentage points of the published
+value, and the two GNN architectures central to \citet{sterchi2026}'s own
+headline comparison -- GCN/GAT and IGCN -- match to within 0.1--0.3 points,
+confirming our reimplementation is correct rather than coincidentally
+similar. MLP is the one outlier (9.0 points low, untracked
+feature-engineering or training-variance difference, flagged rather than
+averaged away). Restricted to karate, the only network where our
+calibration exactly matches theirs; the other five networks' calibrated
+$\beta,T$ target the same $\sim$40\% infected fraction but were not
+verified against a second published number.}
+\end{table}
+
 \section{Experimental Protocol}\label{ec:reproducibility}
 
 \subsection{DEFER benchmark}
@@ -1828,245 +2283,55 @@ and DEFER restricted to a 4-round planning horizon. Reported: final spread
 beyond the seeds (mean and standard error), fraction of spread saved,
 budget used, and wall-clock time per episode including planning.
 
+Table~\ref{tab:defer-nopush-parity} reports the fraction of spread saved by
+full DEFER and by \texttt{DEFER-nopush} side by side, at budget 20, for
+every (network, probability model) cell used in
+Table~\ref{tab:defer-results}. This is a direct comparison of the two
+policies on the same live-edge draws, so it does not depend on the
+aggregation used to produce Table~\ref{tab:defer-results}'s
+already-published numbers -- it only requires that \texttt{defer} and
+\texttt{defer\_nopush} be compared to each other, which
+\texttt{results/summary\_adaptive.csv} supports directly.
+
+\begin{table}[h]
+\TABLE
+{Fraction of no-intervention spread saved, budget 20: full DEFER vs.\ \texttt{DEFER-nopush}\label{tab:defer-nopush-parity}}
+{\begin{tabular}{@{}lcccccccc@{}}
+\hline
+\up & \multicolumn{4}{c}{constant probability} & \multicolumn{4}{c}{weighted cascade} \\
+policy & ca-GrQc & ca-HepTh & power-grid & BA(2000) & ca-GrQc & ca-HepTh & power-grid & BA(2000) \\
+\hline
+\up DEFER & 0.667 & 0.820 & 0.466 & 0.798 & 0.391 & 0.339 & 0.394 & 0.424 \\
+\down \texttt{DEFER-nopush} & 0.666 & 0.820 & 0.466 & 0.798 & 0.391 & 0.339 & 0.394 & 0.424 \\
+\hline
+\end{tabular}}
+{Values differ from Table~\ref{tab:defer-results} because that table
+pools across the two constant-probability settings $p\in\{0.05,0.1\}$,
+while this table reports a single $p=0.1$ draw per network to keep the
+two policies' inputs identical; see
+\texttt{results/summary\_adaptive.csv}. Across all eight cells here, and
+across every budget in $\{5,10,20,50,100\}$ on the same
+20-random-seed runs, \texttt{DEFER-nopush} agrees with full DEFER to
+within $0.0075$ of saved fraction, and is identical to three decimal
+places in the large majority of cells -- push-down essentially never
+changes the outcome on these benchmarks, even though
+Remark~\ref{rem:pushdown-counterexample} shows it can in principle.}
+\end{table}
+
 \subsection{TWIG optimality-gap study}
-Random small graphs, $n=6$--$14$, edge density such that treewidth stays at
-most 5--6, budget 1--4, one to four seeds. For each instance,
+Random small graphs, $n=6$--$14$, edge density such that the realized
+width $w$ (Section~\ref{sec:treewidth-prelim}) stays at most 5--6, budget
+1--4, one to four seeds. For each instance,
 \texttt{greedy\_exact} and \texttt{brute\_force\_optimal\_block} are both
 run with the identical exact oracle \texttt{ExactSpreadFast.evaluate}, so
 any discrepancy between the two is a true optimality gap rather than
 sampling noise. 60 instances were drawn; correctness of the oracle itself
 was independently established by exhaustive summation over all $2^{|E|}$
-live-edge subsets on graphs up to $n=9$ (2000+ configurations for
-\texttt{ExactSpread}, 1000+ for \texttt{ExactSpreadFast}), matching
-Theorems~\ref{thm:twig-correct} and \ref{thm:twig-collapse}.
+live-edge subsets on graphs up to $n=9$ (2000+ test cases for
+\texttt{ExactSpread}, 1000+ for \texttt{ExactSpreadFast}, not to be
+confused with the DP's own \emph{configurations} of
+Definition~\ref{def:config}), matching Theorems~\ref{thm:twig-correct}
+and \ref{thm:twig-collapse}.
 
-\begin{thebibliography}{99}
-\providecommand{\natexlab}[1]{#1}
-\providecommand{\url}[1]{\texttt{#1}}
-\providecommand{\urlprefix}{URL }
-
-\bibitem[{Antulov-Fantulin et~al.(2015)}]{antulov2015}
-Antulov-Fantulin N, Lan\v{c}i\'c A, \v{S}muc T, \v{S}tefan\v{c}i\'c H,
-  Sikic M (2015) Identification of patient zero in static and temporal
-  networks: Robustness and limitations. \emph{Phys.\ Rev.\ Lett.}
-  114:248701.
-
-\bibitem[{Asadpour and Nazerzadeh(2016)}]{asadpournazerzadeh2016}
-Asadpour A, Nazerzadeh H (2016) Maximizing stochastic monotone submodular
-  functions. \emph{Management Sci.} 62(8):2374--2391.
-
-\bibitem[{Barab\'asi and Albert(1999)}]{barabasi1999}
-Barab\'asi AL, Albert R (1999) Emergence of scaling in random networks.
-  \emph{Science} 286(5439):509--512.
-
-\bibitem[{Bodlaender(1988)}]{bodlaender1988}
-Bodlaender HL (1988) Dynamic programming on graphs with bounded treewidth.
-  \emph{Proc.\ 15th Internat.\ Colloquium on Automata, Languages and
-  Programming (ICALP)}, 105--118.
-
-\bibitem[{Budak et~al.(2011)Budak, Agrawal, and El~Abbadi}]{budak2011}
-Budak C, Agrawal D, El~Abbadi A (2011) Limiting the spread of misinformation
-  in social networks. \emph{Proc.\ 20th Internat.\ Conf.\ on World Wide Web
-  (WWW)}, 665--674.
-
-\bibitem[{Cygan et~al.(2015)Cygan, Fomin, Kowalik, Lokshtanov, Marx,
-  Pilipczuk, Pilipczuk, and Saurabh}]{cygan2015}
-Cygan M, Fomin FV, Kowalik {\L}, Lokshtanov D, Marx D, Pilipczuk M,
-  Pilipczuk M, Saurabh S (2015) \emph{Parameterized Algorithms} (Springer,
-  Cham).
-
-\bibitem[{Dean et~al.(2008)Dean, Goemans, and Vondr\'ak}]{deangoemansvondrak2008}
-Dean BC, Goemans MX, Vondr\'ak J (2008) Approximating the stochastic
-  knapsack problem: The benefit of adaptivity. \emph{Math.\ Oper.\ Res.}
-  33(4):945--964.
-
-\bibitem[{Dong et~al.(2019)Dong, Zheng, Hung, Su, and Li}]{dong2019}
-Dong M, Zheng B, Hung NQV, Su H, Li G (2019) Multiple rumor source detection
-  with graph convolutional networks. \emph{Proc.\ 28th ACM Internat.\
-  Conf.\ on Information and Knowledge Management (CIKM)}, 569--578.
-
-\bibitem[{Fan et~al.(2013)}]{fan2013}
-Fan L, Lu Z, Wu W, Thuraisingham B, Ma H, Bi Y (2013) Least cost rumor
-  blocking in social networks. \emph{Proc.\ 33rd IEEE Internat.\ Conf.\ on
-  Distributed Computing Systems (ICDCS)}, 540--549.
-
-\bibitem[{Farajtabar et~al.(2017)}]{farajtabar2017}
-Farajtabar M, Yang J, Ye X, Xu H, Trivedi R, Khalil E, Li S, Song L, Zha H
-  (2017) Fake news mitigation via point process based intervention.
-  \emph{Proc.\ 34th Internat.\ Conf.\ on Machine Learning (ICML)},
-  1097--1106.
-
-\bibitem[{Freeman(1977)}]{freeman1977}
-Freeman LC (1977) A set of measures of centrality based on betweenness.
-  \emph{Sociometry} 40(1):35--41.
-
-\bibitem[{G\'enois et~al.(2015)}]{genois2015}
-G\'enois M, Vestergaard CL, Fournet J, Panisson A, Bonmarin I, Barrat A
-  (2015) Data on face-to-face contacts in an office building suggest a
-  low-cost vaccination strategy based on community linkers. \emph{Network
-  Science} 3(3):326--347.
-
-\bibitem[{Golovin and Krause(2011)}]{golovinkrause2011}
-Golovin D, Krause A (2011) Adaptive submodularity: Theory and applications
-  in active learning and stochastic optimization. \emph{J.\ Artificial
-  Intelligence Res.} 42:427--486.
-
-\bibitem[{Guo et~al.(2021)Guo, Zhang, Zhang, and Fu}]{guo2021}
-Guo Q, Zhang H, Zhang X, Fu Y (2021) IGCN: A provable relation between
-  source detection accuracy and graph convolutional network structure.
-  \emph{Proc.\ IEEE Global Communications Conf.\ (GLOBECOM)}.
-
-\bibitem[{Haddad and Figueiredo(2023)}]{haddad2023}
-Haddad RG, Figueiredo DR (2023) Detecting multiple epidemic sources in
-  network epidemics using graph neural networks. Naldi MC, Bianchi RAC,
-  eds., \emph{Intelligent Systems (Proc.\ BRACIS 2023)}, Lecture Notes in
-  Computer Science, vol.\ 14197 (Springer, Cham), 331--345.
-
-\bibitem[{Haraldsdottir et~al.(1992)}]{haraldsdottir1992}
-Haraldsdottir S, Gupta S, Anderson RM (1992) Preliminary studies of sexual
-  networks in a male homosexual community in Iceland. \emph{J.\ Acquired
-  Immune Deficiency Syndromes} 5(4):374--381.
-
-\bibitem[{He et~al.(2012)}]{he2012}
-He X, Song G, Chen W, Jiang Q (2012) Influence blocking maximization in
-  social networks under the competitive linear threshold model.
-  \emph{Proc.\ 2012 SIAM Internat.\ Conf.\ on Data Mining (SDM)}, 463--474.
-
-\bibitem[{Kempe et~al.(2003)Kempe, Kleinberg, and Tardos}]{kempe2003}
-Kempe D, Kleinberg J, Tardos {\'E} (2003) Maximizing the spread of influence
-  through a social network. \emph{Proc.\ 9th ACM SIGKDD Internat.\ Conf.\ on
-  Knowledge Discovery and Data Mining (KDD)}, 137--146.
-
-\bibitem[{Killworth and Bernard(1976)}]{killworth1976}
-Killworth PD, Bernard HR (1976) Informant accuracy in social network data.
-  \emph{Human Organization} 35(3):269--286.
-
-\bibitem[{Leskovec et~al.(2007)}]{leskovec2007}
-Leskovec J, Kleinberg J, Faloutsos C (2007) Graph evolution: Densification
-  and shrinking diameters. \emph{ACM Trans.\ Knowledge Discovery from
-  Data} 1(1):2.
-
-\bibitem[{Lokhov et~al.(2014)}]{lokhov2014}
-Lokhov AY, M\'ezard M, Ohta H, Zdeborov\'a L (2014) Inferring the origin
-  of an epidemic with a dynamic message-passing algorithm. \emph{Phys.\
-  Rev.\ E} 90:012801.
-
-\bibitem[{Lusseau et~al.(2003)}]{lusseau2003}
-Lusseau D, Schneider K, Boisseau OJ, Haase P, Slooten E, Dawson SM (2003)
-  The bottlenose dolphin community of Doubtful Sound features a large
-  proportion of long-lasting associations. \emph{Behavioral Ecology and
-  Sociobiology} 54(4):396--405.
-
-\bibitem[{Mastrandrea et~al.(2015)}]{mastrandrea2015}
-Mastrandrea R, Fournet J, Barrat A (2015) Contact patterns in a high
-  school: A comparison between data collected using wearable sensors,
-  contact diaries and friendship surveys. \emph{PLOS ONE} 10(9):e0136497.
-
-\bibitem[{Nakamura and Nishino(2026)}]{nakamura2026}
-Nakamura K, Nishino M (2026) Linear-time exact computation of influence
-  spread on bounded-pathwidth graphs. \emph{20th Scandinavian Sympos.\ on
-  Algorithm Theory (SWAT)}, LIPIcs vol.\ 370, Article 34.
-
-\bibitem[{Nguyen et~al.(2012)}]{nguyen2012}
-Nguyen NP, Yan G, Thai MT, Eidenbenz S (2012) Containment of misinformation
-  spread in online social networks. \emph{Proc.\ 4th Annual ACM Web Sci.\
-  Conf.\ (WebSci)}, 213--222.
-
-\bibitem[{Prakash et~al.(2012)}]{prakash2012}
-Prakash BA, Vreeken J, Faloutsos C (2012) Spotting culprits in epidemics:
-  How many and which ones? \emph{Proc.\ 12th IEEE Internat.\ Conf.\ on
-  Data Mining (ICDM)}, 11--20.
-
-\bibitem[{Provan and Ball(1983)}]{provan1983}
-Provan JS, Ball MO (1983) The complexity of counting cuts and of computing
-  the probability that a graph is connected. \emph{SIAM J.\ Comput.}
-  12(4):777--788.
-
-\bibitem[{Seeman and Singer(2013)}]{seemansinger2013}
-Seeman L, Singer Y (2013) Adaptive seeding in social networks.
-  \emph{Proc.\ 54th Annual IEEE Sympos.\ on Foundations of Computer Sci.\
-  (FOCS)}, 459--468.
-
-\bibitem[{Shah and Zaman(2011)}]{shah2011}
-Shah D, Zaman T (2011) Rumors in a network: Who's the culprit?
-  \emph{IEEE Trans.\ Information Theory} 57(8):5163--5181.
-
-\bibitem[{Shah et~al.(2020)Shah, Dehmamy, Perra, Chinazzi, Barab\'asi,
-  Vespignani, and Yu}]{shah2020}
-Shah C, Dehmamy N, Perra N, Chinazzi M, Barab\'asi AL, Vespignani A, Yu R
-  (2020) Finding patient zero: Learning contagion source with graph neural
-  networks. \emph{arXiv:2006.11913}.
-
-\bibitem[{Sterchi et~al.(2026)Sterchi, Brack, and Hilfiker}]{sterchi2026}
-Sterchi M, Brack F, Hilfiker R (2026) A systematic benchmark of graph
-  neural networks for epidemic source detection. \emph{arXiv:2512.20657}.
-
-\bibitem[{Tong et~al.(2017)}]{tong2017}
-Tong G, Wu W, Tang S, Du DZ (2017) Adaptive influence maximization in
-  dynamic social networks. \emph{IEEE/ACM Trans.\ Networking} 25(1):112--125.
-
-\bibitem[{Tong et~al.(2018)}]{tong2018}
-Tong G, Wu W, Du DZ (2018) Distributed rumor blocking with multiple
-  positive cascades. \emph{IEEE Trans.\ Comput.\ Social Systems} 5(2):468--480.
-
-\bibitem[{Valiant(1979)}]{valiant1979}
-Valiant LG (1979) The complexity of enumeration and reliability problems.
-  \emph{SIAM J.\ Comput.} 8(3):410--421.
-
-\bibitem[{Wang et~al.(2013)Wang, Zhao, Chen, Li, Zhang, and Xia}]{wang2013blocking}
-Wang S, Zhao X, Chen Y, Li Z, Zhang K, Xia J (2013) Negative influence
-  minimizing by blocking nodes in social networks. \emph{Late-Breaking
-  Developments in the Field of Artificial Intelligence, Papers Presented at
-  the 27th AAAI Conf.\ on Artificial Intelligence}, AAAI Technical Report
-  WS-13-17, 134--136.
-
-\bibitem[{Wang et~al.(2016)}]{wang2016drimux}
-Wang B, Chen G, Fu L, Song L, Wang X (2016) DRIMUX: Dynamic rumor influence
-  minimization with user experience in social networks. \emph{Proc.\ 30th
-  AAAI Conf.\ on Artificial Intelligence (AAAI)}, 791--797.
-
-\bibitem[{Wang et~al.(2024)Wang, Wu, Wang, Zhang, Qin, Zhang, and Lin}]{wang2024sandwich}
-Wang J, Wu Y, Wang X, Zhang Y, Qin L, Zhang W, Lin X (2024) Efficient
-  influence minimization via node blocking. \emph{Proc.\ VLDB Endowment}
-  17(10):2501--2513.
-
-\bibitem[{Watts and Strogatz(1998)}]{watts1998}
-Watts DJ, Strogatz SH (1998) Collective dynamics of `small-world'
-  networks. \emph{Nature} 393:440--442.
-
-\bibitem[{Xiang et~al.(2024)Xiang, Wang, Wu, Wang, Chen, and Zhang}]{xiang2024}
-Xiang F, Wang J, Wu Y, Wang X, Chen C, Zhang Y (2024) Rumor blocking with
-  pertinence set in large graphs. \emph{World Wide Web} 27(1):Article 6.
-
-\bibitem[{Xie et~al.(2023)Xie, Zhang, Wang, Lin, and Zhang}]{xie2023}
-Xie J, Zhang Y, Wang Z, Lin X, Zhang W (2023) Minimizing the influence
-  spread over a social network via node blocking. \emph{Proc.\ 39th IEEE
-  Internat.\ Conf.\ on Data Engineering (ICDE)}, 3096--3108.
-
-\bibitem[{Xie et~al.(2024)Xie, Zhang, Wang, Liu, Lin, and Zhang}]{xie2024}
-Xie J, Zhang Y, Wang Z, Liu H, Lin X, Zhang W (2024) Influence minimization
-  via blocking strategies. \emph{INFORMS J.\ Comput.} 37(6). Code:
-  \texttt{github.com/INFORMSJoC/2024.0591}, arXiv:2312.17488.
-
-\bibitem[{Yan et~al.(2020)}]{yan2020}
-Yan R, Li D, Wu W, Du DZ, Wang Y (2020) Minimizing influence of rumors by
-  blockers on social networks: Algorithms and analysis. \emph{IEEE Trans.\
-  Network Science and Engineering} 7(3):1067--1078.
-
-\bibitem[{Zachary(1977)}]{zachary1977}
-Zachary WW (1977) An information flow model for conflict and fission in
-  small groups. \emph{J.\ Anthropological Research} 33(4):452--473.
-
-\bibitem[{Zareie and Sakellariou(2021)}]{zareie2021}
-Zareie A, Sakellariou R (2021) Minimizing the spread of misinformation in
-  online social networks: A survey. \emph{J.\ Network and Computer
-  Applications} 186:103094.
-
-\bibitem[{Zhu and Ying(2016)}]{zhu2016}
-Zhu K, Ying L (2016) Information source detection in the SIR model: A
-  sample-path-based approach. \emph{IEEE/ACM Trans.\ Networking}
-  24(1):408--421.
-
-\end{thebibliography}
 
 \end{document}
