@@ -16,6 +16,7 @@
 \usepackage{algpseudocode}
 \usepackage{amsfonts}
 \usepackage{tikz}
+\usepackage{subcaption}
 \usetikzlibrary{arrows.meta,positioning,shapes.geometric,fit,calc,decorations.pathreplacing}
 
 \usepackage{natbib}
@@ -448,7 +449,10 @@ paragraph and Algorithm~\ref{alg:defer} describe.
 \begin{figure}[h]
 \FIGURE
 {\centering
-\begin{tikzpicture}[scale=0.72, transform shape,
+\begin{subfigure}[t]{0.32\textwidth}
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
   node distance=3mm and 8mm,
   box/.style={draw, rounded corners, align=center, fill=gray!8, font=\scriptsize, text width=30mm, minimum height=6mm, inner sep=1.5pt},
   dec/.style={draw, diamond, aspect=2.6, align=center, fill=blue!6, font=\scriptsize, text width=25mm, inner sep=0.5pt},
@@ -475,30 +479,14 @@ paragraph and Algorithm~\ref{alg:defer} describe.
 \draw[arr] (defer) |- (obs);
 \draw[arr] (obs.east) -- ++(14mm,0) |- node[pos=0.25, right, font=\tiny]{next round} (draw.east);
 \end{tikzpicture}}
-{DEFER's per-round control flow\label{fig:defer-flow}}
-{Plan protection (top decision) chooses between the new plan and the
-previous round's uncommitted leftover $L$ using a fresh held-out sample;
-the push-down rule (bottom decision) then decides, for each planned vertex
-exposed to the current frontier, whether to commit it now or defer it to a
-child (Lemma~\ref{lem:pushdown}).}
-\end{figure}
-
-\subsection{Worked example}\label{sec:defer-example}
-
-We make the mechanism behind Theorem~\ref{thm:adaptivity-gap} concrete on
-the star-of-paths instance its proof constructs
-(Figure~\ref{fig:star-of-paths}), with $\Delta=4$ branches,
-per-branch activation probability $p=0.1$, path length $L=50$, and budget
-$b=1$. Seed $s$ has four out-neighbors $a_1,\dots,a_4$, each independently
-live with probability $p$; each $a_i$ that activates starts a private,
-deterministic path of $L=50$ further vertices. With no intervention, each
-branch contributes $L+1=51$ vertices to the spread with probability $p$,
-so the expected total spread is $\Delta p(L+1)=4(0.1)(51)=20.4$.
-
-\begin{figure}[h]
-\FIGURE
-{\centering
-\begin{tikzpicture}[scale=0.72, transform shape,
+\caption{DEFER's per-round control flow}
+\label{fig:defer-flow}
+\end{subfigure}%
+\hfill
+\begin{subfigure}[t]{0.64\textwidth}
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
   seed/.style={draw, circle, fill=gray!15, minimum size=7mm, font=\small},
   gw/.style={draw, circle, fill=blue!12, minimum size=6mm, font=\small},
   pv/.style={draw, circle, fill=white, minimum size=4mm, font=\scriptsize},
@@ -520,14 +508,34 @@ so the expected total spread is $\Delta p(L+1)=4(0.1)(51)=20.4$.
 \draw[decorate, decoration={brace, amplitude=4pt}] (3.5,-2.3) -- (6.6,-2.3)
   node[midway, below=4pt, font=\scriptsize]{path of $L=50$ vertices, edge probability $1$};
 \end{tikzpicture}}
-{The star-of-paths instance behind Theorem~\ref{thm:adaptivity-gap} and this worked example\label{fig:star-of-paths}}
-{Each of the $\Delta=4$ gateways $a_i$ activates independently with
-probability $p=0.1$ from seed $s$; an activated gateway deterministically
-propagates down its own private length-$L$ path. A one-shot policy commits
-before observing which gateways activate; DEFER waits one round, observes
-$N_1$, and blocks the first path vertex of one branch it has confirmed is
-live (the gateway itself can no longer be blocked once it has activated).}
+\caption{The star-of-paths instance behind Theorem~\ref{thm:adaptivity-gap}}
+\label{fig:star-of-paths}
+\end{subfigure}
+}
+{DEFER's control flow, and the star-of-paths worked-example instance}
+{(a) Plan protection (top decision) chooses between the new plan and the
+leftover $L$ using a fresh held-out sample; push-down (bottom decision)
+then decides, for each planned vertex exposed to the frontier, whether to
+commit it now or defer it to a child (Lemma~\ref{lem:pushdown}). (b) Each
+of the $\Delta=4$ gateways $a_i$ activates independently with probability
+$p=0.1$ from seed $s$ and, if live, deterministically propagates down its
+own private length-$L$ path. A one-shot policy commits before observing
+which gateways activate; DEFER waits one round, observes $N_1$, and
+blocks the first path vertex of one confirmed-live branch (the gateway
+itself can no longer be blocked once activated).}
 \end{figure}
+
+\subsection{Worked example}\label{sec:defer-example}
+
+We make the mechanism behind Theorem~\ref{thm:adaptivity-gap} concrete on
+the star-of-paths instance its proof constructs
+(Figure~\ref{fig:star-of-paths}), with $\Delta=4$ branches,
+per-branch activation probability $p=0.1$, path length $L=50$, and budget
+$b=1$. Seed $s$ has four out-neighbors $a_1,\dots,a_4$, each independently
+live with probability $p$; each $a_i$ that activates starts a private,
+deterministic path of $L=50$ further vertices. With no intervention, each
+branch contributes $L+1=51$ vertices to the spread with probability $p$,
+so the expected total spread is $\Delta p(L+1)=4(0.1)(51)=20.4$.
 
 A one-shot policy with budget 1 must pick a single vertex to remove before
 observing anything; by symmetry the best it can do is remove one branch's
@@ -746,43 +754,6 @@ the frontier at size $\le2$). Directly, $F(\varnothing)=\Pr[2\text{
 reached}]+\Pr[3\text{ reached}]+\Pr[4\text{ reached}]
 =p_{12}+p_{12}p_{23}+p_{12}p_{23}p_{34}=0.5+0.25+0.125=0.875$.
 
-\begin{figure}[h]
-\FIGURE
-{\centering
-\begin{tikzpicture}[scale=0.72, transform shape,
-  vtx/.style={draw, circle, minimum size=6mm, font=\scriptsize},
-  seedv/.style={vtx, fill=gray!20, double},
-  frontv/.style={vtx, fill=orange!30},
-  retv/.style={vtx, fill=white, draw=black!30, text=black!40},
-  steplab/.style={font=\scriptsize, align=left, text width=34mm}
-]
-\node[steplab] at (0,3.1) {path graph:};
-\node[seedv] (g1) at (3.4,3.1) {$1$};
-\node[vtx] (g2) at (4.5,3.1) {$2$};
-\node[vtx] (g3) at (5.6,3.1) {$3$};
-\node[vtx] (g4) at (6.7,3.1) {$4$};
-\draw (g1) -- node[above, font=\tiny]{$0.5$} (g2);
-\draw (g2) -- node[above, font=\tiny]{$0.5$} (g3);
-\draw (g3) -- node[above, font=\tiny]{$0.5$} (g4);
-\node[steplab] at (0,1.6) {introduce 1: $F=\{1\}$};
-\node[steplab] at (0,0.9) {introduce 2: $F=\{1,2\}$};
-\node[steplab] at (0,0.1) {retire 1, introduce 3: $F=\{2,3\}$};
-\node[steplab] at (0,-0.8) {retire 2, introduce 4: $F=\{3,4\}$};
-\node[frontv] at (3.4,1.6) {$1$};
-\node[frontv] at (3.4,0.9) {$1$}; \node[frontv] at (4.5,0.9) {$2$};
-\node[retv] at (3.4,0.1) {$1$}; \node[frontv] at (4.5,0.1) {$2$}; \node[frontv] at (5.6,0.1) {$3$};
-\node[retv] at (4.5,-0.8) {$2$}; \node[frontv] at (5.6,-0.8) {$3$}; \node[frontv] at (6.7,-0.8) {$4$};
-\end{tikzpicture}}
-{Frontier evolution of \texttt{ExactSpread} on the path example\label{fig:twig-path-example}}
-{Orange = currently in the frontier $F$; grey outline = already retired.
-The frontier never exceeds size $2$: a path has treewidth $1$, and along
-either endpoint-to-endpoint order the schedule only ever has the
-just-retired vertex's successor and the newly-introduced vertex active at
-once. Each orange configuration branches on its incident live-edge outcome
-as described below; Table~\ref{tab:twig-example} lists the resulting eight
-live-edge histories in full.}
-\end{figure}
-
 \texttt{ExactSpread} reaches the same number without ever conditioning on
 all $2^3=8$ live-edge histories explicitly (Figure~\ref{fig:twig-path-example}).
 After introducing vertices 1 and 2, \emph{process\_edge}(1,2) branches: w.p.\
@@ -904,12 +875,48 @@ algorithm remains exact and polynomial for any fixed $w$; it just scales,
 in practice, to graphs of small pathwidth (dense, non-tree-like small
 networks such as Table~\ref{tab:twig-feasibility}'s), not merely small
 treewidth.
-Figure~\ref{fig:star-direction} shows both directions on $K_{1,5}$.
+Figure~\ref{fig:star-direction} shows both directions on $K_{1,5}$, next
+to the earlier path-example schedule of Figure~\ref{fig:twig-path-example}
+for comparison.
 
 \begin{figure}[h]
 \FIGURE
 {\centering
-\begin{tikzpicture}[scale=0.72, transform shape,
+\begin{subfigure}[t]{0.46\textwidth}
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
+  vtx/.style={draw, circle, minimum size=6mm, font=\scriptsize},
+  seedv/.style={vtx, fill=gray!20, double},
+  frontv/.style={vtx, fill=orange!30},
+  retv/.style={vtx, fill=white, draw=black!30, text=black!40},
+  steplab/.style={font=\scriptsize, align=left, text width=34mm}
+]
+\node[steplab] at (0,3.1) {path graph:};
+\node[seedv] (g1) at (3.4,3.1) {$1$};
+\node[vtx] (g2) at (4.5,3.1) {$2$};
+\node[vtx] (g3) at (5.6,3.1) {$3$};
+\node[vtx] (g4) at (6.7,3.1) {$4$};
+\draw (g1) -- node[above, font=\tiny]{$0.5$} (g2);
+\draw (g2) -- node[above, font=\tiny]{$0.5$} (g3);
+\draw (g3) -- node[above, font=\tiny]{$0.5$} (g4);
+\node[steplab] at (0,1.6) {introduce 1: $F=\{1\}$};
+\node[steplab] at (0,0.9) {introduce 2: $F=\{1,2\}$};
+\node[steplab] at (0,0.1) {retire 1, introduce 3: $F=\{2,3\}$};
+\node[steplab] at (0,-0.8) {retire 2, introduce 4: $F=\{3,4\}$};
+\node[frontv] at (3.4,1.6) {$1$};
+\node[frontv] at (3.4,0.9) {$1$}; \node[frontv] at (4.5,0.9) {$2$};
+\node[retv] at (3.4,0.1) {$1$}; \node[frontv] at (4.5,0.1) {$2$}; \node[frontv] at (5.6,0.1) {$3$};
+\node[retv] at (4.5,-0.8) {$2$}; \node[frontv] at (5.6,-0.8) {$3$}; \node[frontv] at (6.7,-0.8) {$4$};
+\end{tikzpicture}}
+\caption{Frontier evolution of \texttt{ExactSpread} on the path example}
+\label{fig:twig-path-example}
+\end{subfigure}%
+\hfill
+\begin{subfigure}[t]{0.5\textwidth}
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
   leaf/.style={draw, circle, fill=white, minimum size=6.5mm, font=\scriptsize},
   ctr/.style={draw, circle, fill=orange!25, minimum size=6.5mm, font=\scriptsize},
   lab/.style={font=\scriptsize, midway}
@@ -935,13 +942,21 @@ Figure~\ref{fig:star-direction} shows both directions on $K_{1,5}$.
 \node[blue!60!black, font=\scriptsize] at (0,-2.2) {frontier size $\le2$ throughout (e.g.\ $\{c,\text{one leaf}\}$ shown)};
 \end{scope}
 \end{tikzpicture}}
-{Forward vs.\ reversed elimination order on $K_{1,5}$\label{fig:star-direction}}
-{Numbers show each vertex's position in the elimination order. Left: with
-the centre processed last, every leaf is introduced but cannot retire
-until the centre arrives, so the frontier grows to all $5$ leaves. Right:
-with the centre processed first, each leaf's only edge is processed the
-instant it is introduced, so it retires immediately and the frontier never
-exceeds $2$ vertices (Proposition~\ref{prop:direction}).}
+\caption{Forward vs.\ reversed elimination order on $K_{1,5}$}
+\label{fig:star-direction}
+\end{subfigure}
+}
+{Two elimination-order examples from Section~\ref{sec:twig}}
+{(a) Orange = in the frontier $F$; grey outline = retired. The frontier
+never exceeds size $2$: a path has treewidth $1$, and either
+endpoint-to-endpoint order keeps only the just-retired vertex's successor
+and the newly-introduced vertex active at once. Each orange configuration
+branches on its live-edge outcome as in the text; Table~\ref{tab:twig-example}
+lists all eight histories. (b) Left: centre processed last, so every leaf
+is introduced but cannot retire until it arrives, growing the frontier to
+all $5$ leaves. Right: centre processed first, so each leaf retires the
+instant it is introduced and the frontier never exceeds $2$
+(Proposition~\ref{prop:direction}).}
 \end{figure}
 
 \subsection{Empirical validation}\label{sec:twig-empirical}
