@@ -1056,14 +1056,14 @@ planning call. DEFER and COMMIT are the largest, both scaling as
 $O(r\,b\,\theta\,m\,\alpha)$ with the number of rounds $r$ rather than a
 single call; the theory does not rank DEFER against COMMIT a priori,
 because $r$ is realized by the cascade, not fixed by the algorithm.
-Table~\ref{tab:timing}'s wall-clock measurements confirm exactly this
-shape: AG is cheapest on every one of the four networks, GR is a small
-constant factor above AG (roughly 1.1--1.3$\times$), and DEFER and
-COMMIT are both several times to an order of magnitude above both (DEFER/AG
-ranges from about 2.5$\times$ on power-grid and BA(2000) to about
-$4$--$7\times$ on ca-HepTh and ca-GrQc) -- but COMMIT, not
-DEFER, is the most expensive throughout, which the complexity bound alone
-does not predict and which Section~\ref{sec:complexity-practice}'s
+Online Supplement Table~\ref{tab:timing}'s wall-clock measurements confirm
+exactly this shape: AG is cheapest on every one of the four networks, GR
+is a small constant factor above AG (roughly 1.1--1.3$\times$), and DEFER
+and COMMIT are both several times to an order of magnitude above both
+(DEFER/AG ranges from about 2.5$\times$ on power-grid and BA(2000) to
+about $4$--$7\times$ on ca-HepTh and ca-GrQc) -- but COMMIT, not DEFER, is
+the most expensive throughout, which the complexity bound alone does not
+predict and which Online Supplement~\ref{sec:complexity-practice}'s
 explanation (COMMIT's worse plan quality realizes a larger $r$) accounts
 for. On the TWIG side, Proposition~\ref{prop:fpt-space}'s removal of the
 $(n+1)^{w+1}$ factor is not a paper claim left unchecked: Table
@@ -1292,7 +1292,7 @@ points more spread than AG on the four SNAP networks
 (Figure~\ref{fig:defer-sweep}, Table~\ref{tab:defer-allbudgets}) and is
 somewhat larger at small budgets ($0.2$--$3.9$ points over
 $b\in\{5,10,20,50,100\}$), at roughly $2.5$--$7\times$ AG's per-episode
-compute (Table~\ref{tab:timing});
+compute (Online Supplement Table~\ref{tab:timing});
 under weighted cascade the margin is within the residual selection-bias
 risk of Remark~\ref{rem:winners-curse}, so the extra compute buys little
 there. A practitioner should ask whether the intervention has this shape
@@ -1590,6 +1590,7 @@ Zhu K, Ying L (2016) Information source detection in the SIR model: A
 \ECSwitch
 \ECDisclaimer
 \ECHead{Online Supplement}
+\small
 
 \section{Proofs for Section~\ref{sec:defer} (DEFER)}\label{ec:defer-proofs}
 
@@ -1690,31 +1691,16 @@ counting on cannot cover all of them at once
 \end{proof}
 
 \begin{repeatremark}[Remark~\ref{rem:pushdown-counterexample} (Push-down does not preserve domination)]
-On the star-of-paths instance of Section~\ref{sec:defer-example} with
-$\Delta=2$, $p=0.4$, $L=1$, $b=1$: a one-shot plan blocks one gateway
-outright, giving expected spread $(\Delta-1)p(L+1)=1(0.4)(2)=0.8$. At
-round $0$ the planner's single-vertex plan targets one gateway $a_i$, with
-$q_{a_i}=p=0.4$, $c_{a_i}=1$ (its one child), and
-$\lambda_0=p(L+1)=0.8$ (the plan's own marginal saving, since the plan
-does not exhaust the budget of $1$ beyond this single pick); the push-down
-condition $q_{a_i}(c_{a_i}+1/\lambda_0)=0.4(1+1.25)=0.9<1$ defers it. Let
-$k\sim\mathrm{Binomial}(2,p)$ be the number of gateways that activate.
-If $k\le1$, DEFER spends its unit (if any branch is active) exactly as the
-worked example of Section~\ref{sec:defer-example} describes, sealing the
-one active branch's continuation for the cost of the vertex already
-reached: spread $\Delta p\cdot\mathbf 1[k=1]\cdot 1=k$ (each active
-gateway contributes $1$; contributes no further path vertices). If $k=2$
-(probability $p^2=0.16$), both gateways have activated but only one unit
-of budget remains, so DEFER can block only one child; the other branch's
-path vertex activates deterministically, contributing an extra $L=1$.
-Expected spread is $\Pr[k=0]\cdot0+\Pr[k=1]\cdot1+\Pr[k=2]\cdot(2+L)
-=0.36(0)+0.48(1)+0.16(3)=0.96$, exceeding the one-shot plan's $0.8$: full
-DEFER, with push-down enabled, is strictly \emph{worse} than the planner
-it wraps on this instance. The mechanism is budget contention exactly as
-anticipated in the proof of Lemma~\ref{lem:pushdown}'s scope: deferring a
-vertex is only free if the budget unit it releases is actually available
-when needed, and here two simultaneously-deferred vertices compete for a
-single unit.
+On the star-of-paths instance with $\Delta=2$, $p=0.4$, $L=1$, $b=1$
+(Section~\ref{sec:defer-example}, Remark~\ref{rem:pushdown-counterexample}
+give the setup and the headline numbers, $0.96$ vs.\ $0.8$), the
+case-by-case detail behind that expected spread is: with
+$k\sim\mathrm{Binomial}(2,p)$ gateways active, $k\le1$ contributes spread
+$k$ (the one active branch, if any, is sealed at the cost of the vertex
+already reached), while $k=2$ (probability $p^2=0.16$) leaves only one
+budget unit for two simultaneously-deferred children, so one branch's
+path vertex activates unblocked, contributing spread $2+L=3$. Summing,
+$\Pr[k{=}0]\cdot0+\Pr[k{=}1]\cdot1+\Pr[k{=}2]\cdot3=0.36(0)+0.48(1)+0.16(3)=0.96$.
 \end{repeatremark}
 
 \begin{repeattheorem}[Theorem~\ref{thm:adaptivity-gap} (The adaptivity gap of IMIN is unbounded)]
@@ -2004,66 +1990,31 @@ misinformation/epidemic-control setting as DEFER and TWIG (identifying
 where a cascade started, complementing where to block it from spreading
 further), we also evaluate classical and learned source-detection methods
 on identical, seed-fixed test instances, reproducing the methodology of
-\citet{sterchi2026}. The methods are:
+\citet{sterchi2026}. The thirteen methods: Random (na\"ive floor); Jordan
+center \citep{zhu2016} (minimum eccentricity in the infected subgraph);
+Betweenness \citep{freeman1977}; Soft Margin Estimator
+\citep{antulov2015} (Jaccard similarity of simulated vs.\ observed
+outbreaks); MCS mean-field (a Monte-Carlo per-node-state likelihood
+baseline, reproduced from \citet{sterchi2026}'s simulation baseline);
+Rumor centrality \citep{shah2011}; NetSleuth \citep{prakash2012}
+(minimum-description-length source selection via Laplacian eigenvector
+ranking); Dynamic message passing (DMP) \citep{lokhov2014}; MLP (a
+feature-based baseline not using graph structure, reproduced from
+\citet{sterchi2026}); and four GNN architectures -- GCNSI
+\citep{dong2019}, GCN/GAT \citep{shah2020}, IGCN \citep{guo2021}, and
+GraphSAGE \citep{haddad2023} -- all trained on simulated cascades to
+score candidate sources.
 
-\begin{enumerate}
-\item \textbf{Random}: uniformly random ranking of candidate sources; the
-  na\"ive floor every other method is expected to beat.
-\item \textbf{Jordan center} \citep{zhu2016}: ranks vertices by minimum
-  eccentricity within the observed infected subgraph, a sample-path
-  argument for the SIR model.
-\item \textbf{Betweenness} \citep{freeman1977}: ranks vertices by the
-  classical betweenness-centrality measure restricted to the infected
-  subgraph.
-\item \textbf{Soft Margin Estimator (SME)} \citep{antulov2015}: scores
-  candidate sources by the Jaccard similarity between simulated and
-  observed outbreaks.
-\item \textbf{MCS mean-field}: a Monte-Carlo per-node-state likelihood
-  baseline built from simulated outbreaks, reproduced from the simulation
-  baseline of \citet{sterchi2026}.
-\item \textbf{Rumor centrality} \citep{shah2011}: the maximum-likelihood
-  source estimator under a uniform spreading model on the underlying
-  tree/BFS structure.
-\item \textbf{NetSleuth} \citep{prakash2012}: a minimum-description-length
-  criterion that jointly selects the number and identity of sources via
-  Laplacian eigenvector ranking.
-\item \textbf{Dynamic message passing (DMP)} \citep{lokhov2014}: a belief-
-  propagation approximation to the posterior over sources under the SIR
-  model.
-\item \textbf{MLP}: a feature-based multi-layer perceptron baseline,
-  reproduced from \citet{sterchi2026}, that does not use the graph
-  structure directly.
-\item \textbf{GCNSI} \citep{dong2019}: a graph convolutional network
-  trained on simulated cascades to score candidate sources.
-\item \textbf{GCN/GAT} \citep{shah2020}: graph convolutional and
-  attention networks trained on simulated SIR/SEIR cascades.
-\item \textbf{IGCN} \citep{guo2021}: a graph convolutional architecture
-  with state-pair-conditioned aggregation.
-\item \textbf{GraphSAGE} \citep{haddad2023}: an inductive graph neural
-  network architecture applied to source detection.
-\end{enumerate}
+The six networks (real contact/collaboration networks with known
+epidemic-relevant structure, distinct from Section~\ref{sec:defer-experiments}'s
+four SNAP-scale networks): Karate \citep{zachary1977} ($n=34$), Iceland
+\citep{haraldsdottir1992} ($n=75$, sexual-contact), Dolphin
+\citep{lusseau2003} ($n=62$), Fraternity \citep{killworth1976} ($n=58$),
+Workplace \citep{genois2015} ($n=92$, sensor-based face-to-face contact),
+and Highschool2013 \citep{mastrandrea2015} ($n=327$, the largest, also
+sensor-based).
 
-\noindent The networks (real contact and collaboration networks with
-known epidemic-relevant structure, distinct from the four SNAP-scale
-networks of Section~\ref{sec:defer-experiments}) are:
-
-\begin{enumerate}
-\item \textbf{Karate} \citep{zachary1977}: Zachary's karate club
-  friendship network, $n=34$.
-\item \textbf{Iceland} \citep{haraldsdottir1992}: a sexual-contact network
-  from an early HIV epidemiological study, $n=75$.
-\item \textbf{Dolphin} \citep{lusseau2003}: a bottlenose dolphin social
-  network, $n=62$.
-\item \textbf{Fraternity} \citep{killworth1976}: a college social network,
-  $n=58$.
-\item \textbf{Workplace} \citep{genois2015}: a static projection of
-  face-to-face contact sensor data in an office building, $n=92$.
-\item \textbf{Highschool2013} \citep{mastrandrea2015}: a static projection
-  of face-to-face contact sensor data in a French high school, $n=327$,
-  the largest of the six.
-\end{enumerate}
-
-\noindent Each network's independent-cascade/SIR parameters are calibrated
+Each network's independent-cascade/SIR parameters are calibrated
 to match \citet{sterchi2026}'s target infected fraction, and every method
 is evaluated on the identical, fixed seeded test instances (same random
 seed and count as their own evaluation code), so table differences are
@@ -2154,22 +2105,19 @@ verified against a second published number.}
 
 \subsection{Seed-selection sensitivity}
 
-The results above seed with 20 vertices chosen uniformly at random. We
+The main-body results seed with 20 uniformly random vertices. We
 additionally ran a single-draw sweep with 50 highest-degree seeds -- a
-harder, more concentrated seeding that activates a larger, more
-overlapping set of branches immediately -- across the same networks and
-budgets $10,20,50$ (Table~\ref{tab:defer-degree-seeds}). These numbers are
-noisier (one draw per cell), and COMMIT is no longer uniformly dominated:
-high-degree seeding compresses the rounds available for push-down to
-exploit and gives COMMIT less opportunity to lock in a bad early
-commitment. The qualitative ranking (DEFER weakly at or above AG) still
-holds in 10 of 12 cells; the two exceptions where DEFER is strictly below
-AG (ca-GrQc $b=10$, ca-HepTh $b=50$) are single-draw, small-margin
-reversals of the kind Remark~\ref{rem:winners-curse} anticipates, not
-evidence against Theorem~\ref{thm:defer-dominates}. (Power-grid $b=50$ is
-a tie between AG and DEFER, not a reversal; on that and several other
-cells COMMIT, not AG, is the single-draw winner, a separate effect of the
-same high-degree seeding discussed above.)
+harder, more concentrated seeding -- across the same networks and budgets
+$10,20,50$ (Table~\ref{tab:defer-degree-seeds}). These noisier (one draw
+per cell) numbers still show DEFER weakly at or above AG in 10 of 12
+cells; the two exceptions (ca-GrQc $b=10$, ca-HepTh $b=50$) are
+single-draw, small-margin reversals of the kind
+Remark~\ref{rem:winners-curse} anticipates, not evidence against
+Theorem~\ref{thm:defer-dominates}. Power-grid $b=50$ is a tie, not a
+reversal. High-degree seeding also compresses push-down's opportunity and
+gives COMMIT less chance to lock in a bad early commitment, so COMMIT is
+no longer uniformly dominated here (it is the single-draw winner on
+several cells).
 
 \begin{table}[h]
 \TABLE
@@ -2192,21 +2140,12 @@ rather than a statistically distinguishable ranking.}
 
 \subsection{Complexity in practice}\label{sec:complexity-practice}
 
-Theorem~\ref{thm:defer-complexity} predicts that DEFER costs more per
-episode than its one-shot planner, since it re-plans every round instead
-of once. Table~\ref{tab:timing} confirms this directly: DEFER costs
-roughly 2.5--7$\times$ AG's per-episode time, depending on the network
-(2.5$\times$ on BA(2000) up to 6.9$\times$ on ca-GrQc), consistent with a
-handful of re-planning rounds each costing comparably to the single AG
-call. COMMIT, despite
-executing the identical per-round algorithm as DEFER, costs \emph{more}
-than DEFER on every network: its inferior plan quality
-(Tables~\ref{tab:defer-results}, \ref{tab:defer-allbudgets}) leaves more
-of the cascade active for longer, so it takes more rounds to die out, and
-each round is an additional re-planning call -- a cost interaction
-Theorem~\ref{thm:defer-complexity}'s per-round-times-rounds bound makes
-explicit but a single-round bound would miss: a worse policy is also
-slower, because it prolongs the process being controlled.
+The wall-clock measurements behind the main text's timing discussion
+(Section~\ref{sec:complexity-comparison}): COMMIT, despite executing the
+identical per-round algorithm as DEFER, costs \emph{more} than DEFER on
+every network, because its inferior plan quality
+(Tables~\ref{tab:defer-results}, \ref{tab:defer-allbudgets}) leaves the
+cascade active longer, adding re-planning rounds.
 
 \begin{table}[h]
 \TABLE
@@ -2229,22 +2168,19 @@ introducing DEFER's round-by-round re-planning.}
 
 \subsection{Isolation moves in practice}\label{sec:isocut-practice}
 
-This subsection is entirely about our own constructions: \texttt{isocut}
-(a one-shot planner we built by extending AG) and \texttt{defer\_cut}
-(DEFER wrapping \texttt{isocut} instead of AG); neither is a baseline from
-prior literature. Theorem~\ref{thm:isocut-separation} shows a worst-case
-family on which frontier-isolation moves save $\Omega(N)$ where every
-other rule saves $O(b)$. Table~\ref{tab:isocut} checks whether this
-advantage is visible on the real SNAP-scale networks used throughout this
-section: it is not. isocut is statistically indistinguishable from AG on
-all four networks (it essentially never selects an isolation move over a
-single-node pick), and defer\_cut is at best a marginal improvement over
-plain DEFER (ca-HepTh) and a marginal loss elsewhere. This is not a
-failure of the proof but a statement about which graphs the adversarial
-construction's decoy-seed structure resembles: real collaboration and
-infrastructure networks rarely contain a seed whose entire out-neighborhood
-points into an otherwise-unreachable region, so the move earns its keep
-only as a documented worst-case possibility, not a default-algorithm
+\texttt{isocut} (AG extended with a frontier-isolation move) and
+\texttt{defer\_cut} (DEFER wrapping \texttt{isocut}) are our own
+constructions, not literature baselines. Theorem~\ref{thm:isocut-separation}
+shows a worst-case family where isolation moves save $\Omega(N)$ against
+every other rule's $O(b)$; Table~\ref{tab:isocut} checks whether this
+shows up on the real SNAP-scale networks used throughout, and it does
+not -- isocut is statistically indistinguishable from AG, and
+defer\_cut is at best a marginal improvement (ca-HepTh) and a marginal
+loss elsewhere. This reflects which graphs the adversarial construction's
+decoy-seed structure resembles, not a failure of the proof: real
+collaboration/infrastructure networks rarely have a seed whose entire
+out-neighborhood points into an otherwise-unreachable region, so the move
+is a documented worst-case possibility, not a default-algorithm
 component.
 
 \begin{table}[h]
@@ -2281,15 +2217,11 @@ and DEFER restricted to a 4-round planning horizon. Reported: final spread
 beyond the seeds (mean and standard error), fraction of spread saved,
 budget used, and wall-clock time per episode including planning.
 
-Table~\ref{tab:defer-nopush-parity} reports the fraction of spread saved by
-full DEFER and by \texttt{DEFER-nopush} side by side, at budget 20, for
-every (network, probability model) cell used in
-Table~\ref{tab:defer-results}. This is a direct comparison of the two
-policies on the same live-edge draws, so it does not depend on the
-aggregation used to produce Table~\ref{tab:defer-results}'s
-already-published numbers -- it only requires that \texttt{defer} and
-\texttt{defer\_nopush} be compared to each other, which
-\texttt{results/summary\_adaptive.csv} supports directly.
+Table~\ref{tab:defer-nopush-parity} compares full DEFER and
+\texttt{DEFER-nopush} directly on the same live-edge draws, at budget 20,
+for every (network, probability model) cell in
+Table~\ref{tab:defer-results}, independent of that table's own
+aggregation.
 
 \begin{table}[h]
 \TABLE
@@ -2319,17 +2251,14 @@ Remark~\ref{rem:pushdown-counterexample} shows it can in principle.}
 \subsection{TWIG optimality-gap study}
 Random small graphs, $n=6$--$14$, edge density such that the realized
 width $w$ (Section~\ref{sec:treewidth-prelim}) stays at most 5--6, budget
-1--4, one to four seeds. For each instance,
-\texttt{greedy\_exact} and \texttt{brute\_force\_optimal\_block} are both
-run with the identical exact oracle \texttt{ExactSpreadFast.evaluate}, so
-any discrepancy between the two is a true optimality gap rather than
-sampling noise. 60 instances were drawn; correctness of the oracle itself
-was independently established by exhaustive summation over all $2^{|E|}$
-live-edge subsets on graphs up to $n=9$ (2000+ test cases for
-\texttt{ExactSpread}, 1000+ for \texttt{ExactSpreadFast}, not to be
-confused with the DP's own \emph{configurations} of
-Definition~\ref{def:config}), matching Theorems~\ref{thm:twig-correct}
-and \ref{thm:twig-collapse}.
+1--4, one to four seeds. \texttt{greedy\_exact} and
+\texttt{brute\_force\_optimal\_block} both run with the identical exact
+oracle \texttt{ExactSpreadFast.evaluate}, so any discrepancy is a true
+optimality gap, not sampling noise. 60 instances were drawn; the oracle's
+correctness was independently checked by exhaustive summation over all
+$2^{|E|}$ live-edge subsets on graphs up to $n=9$ (2000+ test cases for
+\texttt{ExactSpread}, 1000+ for \texttt{ExactSpreadFast}), matching
+Theorems~\ref{thm:twig-correct} and \ref{thm:twig-collapse}.
 
 
 \end{document}
