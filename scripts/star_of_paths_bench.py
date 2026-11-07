@@ -57,11 +57,20 @@ def run(task):
 
 
 if __name__ == "__main__":
-    reps = int(os.environ.get("REPS", 100))
-    tasks = [(D, 30, p, b, r) for D in (4, 8, 16) for p in (0.05, 0.1, 0.2) for b in (1, 2) for r in range(reps)]
+    # Delta=16 needs far more ILP time than the smaller stars, so it gets fewer repetitions
+    reps = {4: int(os.environ.get("REPS", 100)), 8: int(os.environ.get("REPS8", 50)), 16: int(os.environ.get("REPS16", 20))}
+    tasks = [(D, 30, p, b, r) for D in (4, 8, 16) for p in (0.05, 0.1, 0.2) for b in (1, 2) for r in range(reps[D])]
+    out = os.path.join(RESULTS_DIR, "theory", "star_of_paths_bench.jsonl")
+    os.makedirs(os.path.dirname(out), exist_ok=True)
+    done = set()
+    if os.path.exists(out):  # resumable
+        done = {(d["Delta"], d["L"], d["p"], d["b"], d["r"]) for d in map(json.loads, open(out))}
+    tasks = [t for t in tasks if t not in done]
     t0 = time.time()
-    with mp.get_context("fork").Pool(os.cpu_count()) as pool:
-        rows = pool.map(run, tasks, chunksize=2)
-    os.makedirs(os.path.join(RESULTS_DIR, "theory"), exist_ok=True)
-    json.dump(rows, open(os.path.join(RESULTS_DIR, "theory", "star_of_paths_bench.json"), "w"))
-    print("done", round(time.time() - t0), "s", len(rows))
+    with mp.get_context("fork").Pool(os.cpu_count()) as pool, open(out, "a") as fh:
+        for i, row in enumerate(pool.imap_unordered(run, tasks, chunksize=1), 1):
+            fh.write(json.dumps(row) + "\n")
+            fh.flush()
+            if i % 25 == 0:
+                print(f"{i}/{len(tasks)} {round(time.time() - t0)}s", flush=True)
+    print("done", round(time.time() - t0), "s", len(tasks))
