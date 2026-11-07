@@ -11,3 +11,25 @@
 2026-11-07 05:06:32 INFO plans ready for instance 9/10
 2026-11-07 05:06:32 INFO plans ready for instance 10/10
 2026-11-07 05:06:32 INFO running 800 episodes
+2026-11-07 05:41:50 INFO episodes done in 2118s
+2026-11-07 05:41:50 INFO ILP ilp1: 100 solves, 49 hit the time limit
+2026-11-07 05:41:50 INFO ILP defer_ilp: 85 solves, 20 hit the time limit
+2026-11-07 05:41:50 INFO ILP defer_ilp_nopush: 79 solves, 23 hit the time limit
+2026-11-07 05:41:50 INFO ILP commit_ilp: 102 solves, 80 hit the time limit
+2026-11-07 05:41:50 INFO RESULT highschool2013 budget=4 none       spread=56.46 (se 7.31) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:41:50 INFO RESULT highschool2013 budget=4 ag         spread=44.50 (se 6.24) saved=0.2118 used=4.0 time=0.01s
+2026-11-07 05:41:50 INFO RESULT highschool2013 budget=4 defer      spread=44.40 (se 6.24) saved=0.2136 used=3.9 time=0.07s
+2026-11-07 05:41:50 INFO RESULT highschool2013 budget=4 commit     spread=41.58 (se 5.99) saved=0.2635 used=4.0 time=0.06s
+2026-11-07 05:41:50 INFO RESULT highschool2013 budget=4 ilp1       spread=46.24 (se 6.51) saved=0.1810 used=4.0 time=20.28s
+2026-11-07 05:41:50 INFO RESULT highschool2013 budget=4 defer_ilp  spread=48.04 (se 6.56) saved=0.1491 used=3.7 time=25.36s
+2026-11-07 05:41:50 INFO RESULT highschool2013 budget=4 defer_ilp_nopush spread=48.04 (se 6.56) saved=0.1491 used=3.8 time=25.20s
+2026-11-07 05:41:50 INFO RESULT highschool2013 budget=4 commit_ilp spread=46.72 (se 6.41) saved=0.1725 used=4.0 time=10.02s
+2026-11-07 05:41:50 INFO RESULT highschool2013 budget=8 none       spread=56.46 (se 7.31) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:41:50 INFO RESULT highschool2013 budget=8 ag         spread=32.44 (se 4.90) saved=0.4254 used=8.0 time=0.01s
+2026-11-07 05:41:50 INFO RESULT highschool2013 budget=8 defer      spread=31.60 (se 4.73) saved=0.4403 used=7.8 time=0.09s
+2026-11-07 05:41:50 INFO RESULT highschool2013 budget=8 commit     spread=31.96 (se 4.93) saved=0.4339 used=8.0 time=0.09s
+2026-11-07 05:41:50 INFO RESULT highschool2013 budget=8 ilp1       spread=36.20 (se 5.83) saved=0.3588 used=7.9 time=22.41s
+2026-11-07 05:41:50 INFO RESULT highschool2013 budget=8 defer_ilp  spread=34.06 (se 5.43) saved=0.3967 used=7.7 time=27.64s
+2026-11-07 05:41:50 INFO RESULT highschool2013 budget=8 defer_ilp_nopush spread=36.44 (se 5.87) saved=0.3546 used=7.8 time=27.46s
+2026-11-07 05:41:50 INFO RESULT highschool2013 budget=8 commit_ilp spread=38.06 (se 6.05) saved=0.3259 used=8.0 time=9.41s
+2026-11-07 05:41:50 INFO run adaptive_deferilp_20261107T050631Z_0795 finished in 2119.4s
