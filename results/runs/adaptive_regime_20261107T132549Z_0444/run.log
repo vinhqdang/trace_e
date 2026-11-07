@@ -1,0 +1,13 @@
+2026-11-07 13:25:49 INFO run adaptive_regime_20261107T132549Z_0444 started, dir=/home/user/trace_e/results/runs/adaptive_regime_20261107T132549Z_0444
+2026-11-07 13:25:49 INFO network grid:1024:shortcuts=0.0: {'n_nodes': 1024, 'n_edges': 1984, 'avg_degree': 3.875, 'n_components': 1, 'lcc_size': 1024}
+2026-11-07 13:26:07 INFO plans ready for instance 1/10
+2026-11-07 13:26:29 INFO plans ready for instance 2/10
+2026-11-07 13:26:46 INFO plans ready for instance 3/10
+2026-11-07 13:27:05 INFO plans ready for instance 4/10
+2026-11-07 13:27:23 INFO plans ready for instance 5/10
+2026-11-07 13:27:45 INFO plans ready for instance 6/10
+2026-11-07 13:28:06 INFO plans ready for instance 7/10
+2026-11-07 13:28:26 INFO plans ready for instance 8/10
+2026-11-07 13:28:44 INFO plans ready for instance 9/10
+2026-11-07 13:29:05 INFO plans ready for instance 10/10
+2026-11-07 13:29:05 INFO running 1800 episodes

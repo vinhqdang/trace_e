@@ -1,0 +1,33 @@
+2026-11-07 13:25:12 INFO run adaptive_regime_20261107T132512Z_0341 started, dir=/home/user/trace_e/results/runs/adaptive_regime_20261107T132512Z_0341
+2026-11-07 13:25:12 INFO network tree:1000: {'n_nodes': 1000, 'n_edges': 999, 'avg_degree': 1.998, 'n_components': 1, 'lcc_size': 1000}
+2026-11-07 13:25:13 INFO plans ready for instance 1/10
+2026-11-07 13:25:13 INFO plans ready for instance 2/10
+2026-11-07 13:25:13 INFO plans ready for instance 3/10
+2026-11-07 13:25:13 INFO plans ready for instance 4/10
+2026-11-07 13:25:14 INFO plans ready for instance 5/10
+2026-11-07 13:25:14 INFO plans ready for instance 6/10
+2026-11-07 13:25:14 INFO plans ready for instance 7/10
+2026-11-07 13:25:14 INFO plans ready for instance 8/10
+2026-11-07 13:25:15 INFO plans ready for instance 9/10
+2026-11-07 13:25:15 INFO plans ready for instance 10/10
+2026-11-07 13:25:15 INFO running 1800 episodes
+2026-11-07 13:25:20 INFO episodes done in 5s
+2026-11-07 13:25:20 INFO RESULT tree:1000 budget=5 none       spread=27.50 (se 1.16) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 13:25:20 INFO RESULT tree:1000 budget=5 ag         spread=15.99 (se 0.85) saved=0.4185 used=5.0 time=0.00s
+2026-11-07 13:25:20 INFO RESULT tree:1000 budget=5 gr         spread=15.99 (se 0.85) saved=0.4185 used=5.0 time=0.00s
+2026-11-07 13:25:20 INFO RESULT tree:1000 budget=5 defer      spread=15.05 (se 0.68) saved=0.4527 used=5.0 time=0.01s
+2026-11-07 13:25:20 INFO RESULT tree:1000 budget=5 defer_nopush spread=15.99 (se 0.85) saved=0.4185 used=5.0 time=0.01s
+2026-11-07 13:25:20 INFO RESULT tree:1000 budget=5 commit     spread=16.20 (se 0.78) saved=0.4109 used=5.0 time=0.02s
+2026-11-07 13:25:20 INFO RESULT tree:1000 budget=20 none       spread=27.50 (se 1.16) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 13:25:20 INFO RESULT tree:1000 budget=20 ag         spread=0.59 (se 0.16) saved=0.9785 used=18.1 time=0.01s
+2026-11-07 13:25:20 INFO RESULT tree:1000 budget=20 gr         spread=0.59 (se 0.16) saved=0.9785 used=18.1 time=0.01s
+2026-11-07 13:25:20 INFO RESULT tree:1000 budget=20 defer      spread=0.61 (se 0.16) saved=0.9778 used=18.1 time=0.01s
+2026-11-07 13:25:20 INFO RESULT tree:1000 budget=20 defer_nopush spread=0.59 (se 0.16) saved=0.9785 used=18.1 time=0.01s
+2026-11-07 13:25:20 INFO RESULT tree:1000 budget=20 commit     spread=0.65 (se 0.17) saved=0.9764 used=18.1 time=0.05s
+2026-11-07 13:25:20 INFO RESULT tree:1000 budget=50 none       spread=27.50 (se 1.16) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 13:25:20 INFO RESULT tree:1000 budget=50 ag         spread=0.00 (se 0.00) saved=1.0000 used=19.2 time=0.01s
+2026-11-07 13:25:20 INFO RESULT tree:1000 budget=50 gr         spread=0.00 (se 0.00) saved=1.0000 used=19.2 time=0.01s
+2026-11-07 13:25:20 INFO RESULT tree:1000 budget=50 defer      spread=0.00 (se 0.00) saved=1.0000 used=19.2 time=0.01s
+2026-11-07 13:25:20 INFO RESULT tree:1000 budget=50 defer_nopush spread=0.00 (se 0.00) saved=1.0000 used=19.2 time=0.01s
+2026-11-07 13:25:20 INFO RESULT tree:1000 budget=50 commit     spread=0.00 (se 0.00) saved=1.0000 used=19.2 time=0.05s
+2026-11-07 13:25:20 INFO run adaptive_regime_20261107T132512Z_0341 finished in 7.5s

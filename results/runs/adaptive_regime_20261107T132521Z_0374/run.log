@@ -1,0 +1,33 @@
+2026-11-07 13:25:21 INFO run adaptive_regime_20261107T132521Z_0374 started, dir=/home/user/trace_e/results/runs/adaptive_regime_20261107T132521Z_0374
+2026-11-07 13:25:21 INFO network grid:1024:shortcuts=0.0: {'n_nodes': 1024, 'n_edges': 1984, 'avg_degree': 3.875, 'n_components': 1, 'lcc_size': 1024}
+2026-11-07 13:25:21 INFO plans ready for instance 1/10
+2026-11-07 13:25:21 INFO plans ready for instance 2/10
+2026-11-07 13:25:21 INFO plans ready for instance 3/10
+2026-11-07 13:25:21 INFO plans ready for instance 4/10
+2026-11-07 13:25:22 INFO plans ready for instance 5/10
+2026-11-07 13:25:22 INFO plans ready for instance 6/10
+2026-11-07 13:25:22 INFO plans ready for instance 7/10
+2026-11-07 13:25:22 INFO plans ready for instance 8/10
+2026-11-07 13:25:22 INFO plans ready for instance 9/10
+2026-11-07 13:25:23 INFO plans ready for instance 10/10
+2026-11-07 13:25:23 INFO running 1800 episodes
+2026-11-07 13:25:26 INFO episodes done in 4s
+2026-11-07 13:25:26 INFO RESULT grid:1024:shortcuts=0.0 budget=5 none       spread=17.61 (se 0.72) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 13:25:26 INFO RESULT grid:1024:shortcuts=0.0 budget=5 ag         spread=15.15 (se 0.70) saved=0.1397 used=5.0 time=0.00s
+2026-11-07 13:25:26 INFO RESULT grid:1024:shortcuts=0.0 budget=5 gr         spread=15.15 (se 0.70) saved=0.1397 used=5.0 time=0.00s
+2026-11-07 13:25:26 INFO RESULT grid:1024:shortcuts=0.0 budget=5 defer      spread=15.00 (se 0.69) saved=0.1482 used=5.0 time=0.01s
+2026-11-07 13:25:26 INFO RESULT grid:1024:shortcuts=0.0 budget=5 defer_nopush spread=15.15 (se 0.70) saved=0.1397 used=5.0 time=0.01s
+2026-11-07 13:25:26 INFO RESULT grid:1024:shortcuts=0.0 budget=5 commit     spread=14.39 (se 0.66) saved=0.1829 used=5.0 time=0.01s
+2026-11-07 13:25:26 INFO RESULT grid:1024:shortcuts=0.0 budget=20 none       spread=17.61 (se 0.72) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 13:25:26 INFO RESULT grid:1024:shortcuts=0.0 budget=20 ag         spread=7.71 (se 0.50) saved=0.5622 used=20.0 time=0.00s
+2026-11-07 13:25:26 INFO RESULT grid:1024:shortcuts=0.0 budget=20 gr         spread=7.71 (se 0.50) saved=0.5622 used=20.0 time=0.00s
+2026-11-07 13:25:26 INFO RESULT grid:1024:shortcuts=0.0 budget=20 defer      spread=7.71 (se 0.50) saved=0.5622 used=20.0 time=0.01s
+2026-11-07 13:25:26 INFO RESULT grid:1024:shortcuts=0.0 budget=20 defer_nopush spread=7.71 (se 0.50) saved=0.5622 used=20.0 time=0.01s
+2026-11-07 13:25:26 INFO RESULT grid:1024:shortcuts=0.0 budget=20 commit     spread=7.76 (se 0.50) saved=0.5593 used=20.0 time=0.03s
+2026-11-07 13:25:26 INFO RESULT grid:1024:shortcuts=0.0 budget=50 none       spread=17.61 (se 0.72) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 13:25:26 INFO RESULT grid:1024:shortcuts=0.0 budget=50 ag         spread=0.00 (se 0.00) saved=1.0000 used=37.6 time=0.00s
+2026-11-07 13:25:26 INFO RESULT grid:1024:shortcuts=0.0 budget=50 gr         spread=0.00 (se 0.00) saved=1.0000 used=37.6 time=0.01s
+2026-11-07 13:25:26 INFO RESULT grid:1024:shortcuts=0.0 budget=50 defer      spread=0.00 (se 0.00) saved=1.0000 used=37.6 time=0.01s
+2026-11-07 13:25:26 INFO RESULT grid:1024:shortcuts=0.0 budget=50 defer_nopush spread=0.00 (se 0.00) saved=1.0000 used=37.6 time=0.01s
+2026-11-07 13:25:26 INFO RESULT grid:1024:shortcuts=0.0 budget=50 commit     spread=0.00 (se 0.00) saved=1.0000 used=37.6 time=0.05s
+2026-11-07 13:25:26 INFO run adaptive_regime_20261107T132521Z_0374 finished in 5.5s
