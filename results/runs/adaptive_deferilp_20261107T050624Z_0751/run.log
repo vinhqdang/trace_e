@@ -1,0 +1,43 @@
+2026-11-07 05:06:24 INFO run adaptive_deferilp_20261107T050624Z_0751 started, dir=/home/user/trace_e/results/runs/adaptive_deferilp_20261107T050624Z_0751
+2026-11-07 05:06:24 INFO network ba:150:m=2: {'n_nodes': 150, 'n_edges': 296, 'avg_degree': 3.9466666666666668, 'n_components': 1, 'lcc_size': 150}
+2026-11-07 05:06:24 INFO plans ready for instance 1/10
+2026-11-07 05:06:24 INFO plans ready for instance 2/10
+2026-11-07 05:06:24 INFO plans ready for instance 3/10
+2026-11-07 05:06:24 INFO plans ready for instance 4/10
+2026-11-07 05:06:24 INFO plans ready for instance 5/10
+2026-11-07 05:06:24 INFO plans ready for instance 6/10
+2026-11-07 05:06:24 INFO plans ready for instance 7/10
+2026-11-07 05:06:24 INFO plans ready for instance 8/10
+2026-11-07 05:06:24 INFO plans ready for instance 9/10
+2026-11-07 05:06:24 INFO plans ready for instance 10/10
+2026-11-07 05:06:24 INFO running 1200 episodes
+2026-11-07 05:06:30 INFO episodes done in 5s
+2026-11-07 05:06:30 INFO ILP ilp1: 150 solves, 0 hit the time limit
+2026-11-07 05:06:30 INFO ILP defer_ilp: 11 solves, 0 hit the time limit
+2026-11-07 05:06:30 INFO ILP defer_ilp_nopush: 2 solves, 0 hit the time limit
+2026-11-07 05:06:30 INFO ILP commit_ilp: 153 solves, 0 hit the time limit
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=2 none       spread=2.72 (se 0.59) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=2 ag         spread=1.44 (se 0.35) saved=0.4706 used=2.0 time=0.00s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=2 defer      spread=1.48 (se 0.35) saved=0.4559 used=1.9 time=0.00s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=2 commit     spread=1.34 (se 0.35) saved=0.5074 used=2.0 time=0.00s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=2 ilp1       spread=1.60 (se 0.38) saved=0.4118 used=2.0 time=0.03s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=2 defer_ilp  spread=1.60 (se 0.38) saved=0.4118 used=1.8 time=0.04s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=2 defer_ilp_nopush spread=1.60 (se 0.38) saved=0.4118 used=1.9 time=0.04s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=2 commit_ilp spread=1.40 (se 0.35) saved=0.4853 used=2.0 time=0.03s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=4 none       spread=2.72 (se 0.59) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=4 ag         spread=1.18 (se 0.32) saved=0.5662 used=4.0 time=0.00s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=4 defer      spread=1.16 (se 0.32) saved=0.5735 used=3.6 time=0.00s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=4 commit     spread=1.00 (se 0.29) saved=0.6324 used=4.0 time=0.01s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=4 ilp1       spread=1.16 (se 0.31) saved=0.5735 used=4.0 time=0.03s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=4 defer_ilp  spread=1.16 (se 0.31) saved=0.5735 used=3.7 time=0.04s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=4 defer_ilp_nopush spread=1.16 (se 0.31) saved=0.5735 used=4.0 time=0.03s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=4 commit_ilp spread=0.92 (se 0.29) saved=0.6618 used=4.0 time=0.03s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=8 none       spread=2.72 (se 0.59) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=8 ag         spread=0.66 (se 0.30) saved=0.7574 used=6.9 time=0.00s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=8 defer      spread=0.66 (se 0.30) saved=0.7574 used=6.7 time=0.00s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=8 commit     spread=0.76 (se 0.29) saved=0.7206 used=6.8 time=0.01s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=8 ilp1       spread=0.62 (se 0.24) saved=0.7721 used=6.9 time=0.03s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=8 defer_ilp  spread=0.66 (se 0.25) saved=0.7574 used=6.5 time=0.03s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=8 defer_ilp_nopush spread=0.62 (se 0.24) saved=0.7721 used=6.8 time=0.03s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=8 commit_ilp spread=0.68 (se 0.23) saved=0.7500 used=5.7 time=0.03s
+2026-11-07 05:06:30 INFO run adaptive_deferilp_20261107T050624Z_0751 finished in 5.4s

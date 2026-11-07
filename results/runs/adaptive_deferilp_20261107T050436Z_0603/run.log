@@ -1,0 +1,43 @@
+2026-11-07 05:04:36 INFO run adaptive_deferilp_20261107T050436Z_0603 started, dir=/home/user/trace_e/results/runs/adaptive_deferilp_20261107T050436Z_0603
+2026-11-07 05:04:36 INFO network iceland: {'n_nodes': 75, 'n_edges': 114, 'avg_degree': 3.04, 'n_components': 1, 'lcc_size': 75}
+2026-11-07 05:04:36 INFO plans ready for instance 1/10
+2026-11-07 05:04:36 INFO plans ready for instance 2/10
+2026-11-07 05:04:36 INFO plans ready for instance 3/10
+2026-11-07 05:04:36 INFO plans ready for instance 4/10
+2026-11-07 05:04:36 INFO plans ready for instance 5/10
+2026-11-07 05:04:36 INFO plans ready for instance 6/10
+2026-11-07 05:04:36 INFO plans ready for instance 7/10
+2026-11-07 05:04:36 INFO plans ready for instance 8/10
+2026-11-07 05:04:36 INFO plans ready for instance 9/10
+2026-11-07 05:04:36 INFO plans ready for instance 10/10
+2026-11-07 05:04:36 INFO running 1200 episodes
+2026-11-07 05:05:27 INFO episodes done in 50s
+2026-11-07 05:05:27 INFO ILP ilp1: 150 solves, 0 hit the time limit
+2026-11-07 05:05:27 INFO ILP defer_ilp: 10 solves, 0 hit the time limit
+2026-11-07 05:05:27 INFO ILP defer_ilp_nopush: 1 solves, 0 hit the time limit
+2026-11-07 05:05:27 INFO ILP commit_ilp: 161 solves, 0 hit the time limit
+2026-11-07 05:05:27 INFO RESULT iceland budget=2 none       spread=15.50 (se 1.83) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:05:27 INFO RESULT iceland budget=2 ag         spread=3.84 (se 0.97) saved=0.7523 used=1.9 time=0.00s
+2026-11-07 05:05:27 INFO RESULT iceland budget=2 defer      spread=3.84 (se 0.97) saved=0.7523 used=1.9 time=0.01s
+2026-11-07 05:05:27 INFO RESULT iceland budget=2 commit     spread=2.96 (se 0.78) saved=0.8090 used=1.9 time=0.01s
+2026-11-07 05:05:27 INFO RESULT iceland budget=2 ilp1       spread=3.64 (se 0.89) saved=0.7652 used=1.9 time=0.53s
+2026-11-07 05:05:27 INFO RESULT iceland budget=2 defer_ilp  spread=3.64 (se 0.89) saved=0.7652 used=1.9 time=0.56s
+2026-11-07 05:05:27 INFO RESULT iceland budget=2 defer_ilp_nopush spread=3.64 (se 0.89) saved=0.7652 used=1.9 time=0.54s
+2026-11-07 05:05:27 INFO RESULT iceland budget=2 commit_ilp spread=4.40 (se 0.94) saved=0.7161 used=1.9 time=0.55s
+2026-11-07 05:05:27 INFO RESULT iceland budget=4 none       spread=15.50 (se 1.83) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:05:27 INFO RESULT iceland budget=4 ag         spread=0.84 (se 0.26) saved=0.9458 used=3.2 time=0.00s
+2026-11-07 05:05:27 INFO RESULT iceland budget=4 defer      spread=0.86 (se 0.27) saved=0.9445 used=3.0 time=0.01s
+2026-11-07 05:05:27 INFO RESULT iceland budget=4 commit     spread=0.96 (se 0.30) saved=0.9381 used=3.2 time=0.01s
+2026-11-07 05:05:27 INFO RESULT iceland budget=4 ilp1       spread=0.84 (se 0.26) saved=0.9458 used=3.5 time=0.23s
+2026-11-07 05:05:27 INFO RESULT iceland budget=4 defer_ilp  spread=0.86 (se 0.27) saved=0.9445 used=3.0 time=0.24s
+2026-11-07 05:05:27 INFO RESULT iceland budget=4 defer_ilp_nopush spread=0.84 (se 0.26) saved=0.9458 used=3.2 time=0.23s
+2026-11-07 05:05:27 INFO RESULT iceland budget=4 commit_ilp spread=1.20 (se 0.36) saved=0.9226 used=3.4 time=0.23s
+2026-11-07 05:05:27 INFO RESULT iceland budget=8 none       spread=15.50 (se 1.83) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:05:27 INFO RESULT iceland budget=8 ag         spread=0.34 (se 0.12) saved=0.9781 used=4.3 time=0.00s
+2026-11-07 05:05:27 INFO RESULT iceland budget=8 defer      spread=0.38 (se 0.12) saved=0.9755 used=4.3 time=0.01s
+2026-11-07 05:05:27 INFO RESULT iceland budget=8 commit     spread=0.40 (se 0.13) saved=0.9742 used=4.4 time=0.01s
+2026-11-07 05:05:27 INFO RESULT iceland budget=8 ilp1       spread=0.38 (se 0.13) saved=0.9755 used=5.7 time=0.18s
+2026-11-07 05:05:27 INFO RESULT iceland budget=8 defer_ilp  spread=0.42 (se 0.13) saved=0.9729 used=4.1 time=0.18s
+2026-11-07 05:05:27 INFO RESULT iceland budget=8 defer_ilp_nopush spread=0.38 (se 0.13) saved=0.9755 used=4.3 time=0.18s
+2026-11-07 05:05:27 INFO RESULT iceland budget=8 commit_ilp spread=0.70 (se 0.20) saved=0.9548 used=4.5 time=0.20s
+2026-11-07 05:05:27 INFO run adaptive_deferilp_20261107T050436Z_0603 finished in 50.9s

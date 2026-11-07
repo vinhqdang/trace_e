@@ -1,0 +1,263 @@
+2026-11-07 05:02:36 INFO run adaptive_deferilp_20261107T050236Z_0377 started, dir=/home/user/trace_e/results/runs/adaptive_deferilp_20261107T050236Z_0377
+2026-11-07 05:02:36 INFO network dolphin: {'n_nodes': 62, 'n_edges': 159, 'avg_degree': 5.129032258064516, 'n_components': 1, 'lcc_size': 62}
+2026-11-07 05:02:36 INFO plans ready for instance 1/10
+2026-11-07 05:02:36 INFO plans ready for instance 2/10
+2026-11-07 05:02:36 INFO plans ready for instance 3/10
+2026-11-07 05:02:36 INFO plans ready for instance 4/10
+2026-11-07 05:02:36 INFO plans ready for instance 5/10
+2026-11-07 05:02:36 INFO plans ready for instance 6/10
+2026-11-07 05:02:36 INFO plans ready for instance 7/10
+2026-11-07 05:02:36 INFO plans ready for instance 8/10
+2026-11-07 05:02:36 INFO plans ready for instance 9/10
+2026-11-07 05:02:36 INFO plans ready for instance 10/10
+2026-11-07 05:02:36 INFO running 1200 episodes
+2026-11-07 05:02:42 INFO episodes done in 5s
+2026-11-07 05:02:42 INFO ILP ilp1: 150 solves, 0 hit the time limit
+2026-11-07 05:02:42 INFO ILP defer_ilp: 29 solves, 0 hit the time limit
+2026-11-07 05:02:42 INFO ILP defer_ilp_nopush: 1 solves, 0 hit the time limit
+2026-11-07 05:02:42 INFO ILP commit_ilp: 152 solves, 0 hit the time limit
+2026-11-07 05:02:42 INFO RESULT dolphin budget=2 none       spread=3.20 (se 0.59) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:02:42 INFO RESULT dolphin budget=2 ag         spread=2.34 (se 0.42) saved=0.2688 used=2.0 time=0.00s
+2026-11-07 05:02:42 INFO RESULT dolphin budget=2 defer      spread=2.40 (se 0.42) saved=0.2500 used=1.9 time=0.00s
+2026-11-07 05:02:42 INFO RESULT dolphin budget=2 commit     spread=2.10 (se 0.40) saved=0.3438 used=2.0 time=0.00s
+2026-11-07 05:02:42 INFO RESULT dolphin budget=2 ilp1       spread=2.18 (se 0.40) saved=0.3187 used=2.0 time=0.03s
+2026-11-07 05:02:42 INFO RESULT dolphin budget=2 defer_ilp  spread=2.16 (se 0.39) saved=0.3250 used=1.9 time=0.04s
+2026-11-07 05:02:42 INFO RESULT dolphin budget=2 defer_ilp_nopush spread=2.18 (se 0.40) saved=0.3187 used=2.0 time=0.03s
+2026-11-07 05:02:42 INFO RESULT dolphin budget=2 commit_ilp spread=2.60 (se 0.47) saved=0.1875 used=2.0 time=0.03s
+2026-11-07 05:02:42 INFO RESULT dolphin budget=4 none       spread=3.20 (se 0.59) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:02:42 INFO RESULT dolphin budget=4 ag         spread=1.70 (se 0.34) saved=0.4688 used=4.0 time=0.00s
+2026-11-07 05:02:42 INFO RESULT dolphin budget=4 defer      spread=1.70 (se 0.32) saved=0.4688 used=3.8 time=0.00s
+2026-11-07 05:02:42 INFO RESULT dolphin budget=4 commit     spread=1.60 (se 0.34) saved=0.5000 used=4.0 time=0.01s
+2026-11-07 05:02:42 INFO RESULT dolphin budget=4 ilp1       spread=1.88 (se 0.36) saved=0.4125 used=4.0 time=0.03s
+2026-11-07 05:02:42 INFO RESULT dolphin budget=4 defer_ilp  spread=1.86 (se 0.35) saved=0.4187 used=3.8 time=0.04s
+2026-11-07 05:02:42 INFO RESULT dolphin budget=4 defer_ilp_nopush spread=1.88 (se 0.36) saved=0.4125 used=4.0 time=0.03s
+2026-11-07 05:02:42 INFO RESULT dolphin budget=4 commit_ilp spread=1.82 (se 0.37) saved=0.4313 used=4.0 time=0.03s
+2026-11-07 05:02:42 INFO RESULT dolphin budget=8 none       spread=3.20 (se 0.59) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:02:42 INFO RESULT dolphin budget=8 ag         spread=0.82 (se 0.23) saved=0.7438 used=7.9 time=0.00s
+2026-11-07 05:02:42 INFO RESULT dolphin budget=8 defer      spread=0.82 (se 0.21) saved=0.7438 used=7.5 time=0.00s
+2026-11-07 05:02:42 INFO RESULT dolphin budget=8 commit     spread=0.70 (se 0.19) saved=0.7812 used=7.9 time=0.01s
+2026-11-07 05:02:42 INFO RESULT dolphin budget=8 ilp1       spread=0.78 (se 0.19) saved=0.7562 used=7.9 time=0.03s
+2026-11-07 05:02:42 INFO RESULT dolphin budget=8 defer_ilp  spread=0.76 (se 0.17) saved=0.7625 used=7.5 time=0.03s
+2026-11-07 05:02:42 INFO RESULT dolphin budget=8 defer_ilp_nopush spread=0.78 (se 0.19) saved=0.7562 used=7.9 time=0.03s
+2026-11-07 05:02:42 INFO RESULT dolphin budget=8 commit_ilp spread=0.94 (se 0.22) saved=0.7063 used=7.4 time=0.03s
+2026-11-07 05:02:42 INFO run adaptive_deferilp_20261107T050236Z_0377 finished in 5.6s
+2026-11-07 05:02:43 INFO run adaptive_deferilp_20261107T050243Z_0459 started, dir=/home/user/trace_e/results/runs/adaptive_deferilp_20261107T050243Z_0459
+2026-11-07 05:02:43 INFO network dolphin: {'n_nodes': 62, 'n_edges': 159, 'avg_degree': 5.129032258064516, 'n_components': 1, 'lcc_size': 62}
+2026-11-07 05:02:43 INFO plans ready for instance 1/10
+2026-11-07 05:02:43 INFO plans ready for instance 2/10
+2026-11-07 05:02:43 INFO plans ready for instance 3/10
+2026-11-07 05:02:43 INFO plans ready for instance 4/10
+2026-11-07 05:02:43 INFO plans ready for instance 5/10
+2026-11-07 05:02:43 INFO plans ready for instance 6/10
+2026-11-07 05:02:43 INFO plans ready for instance 7/10
+2026-11-07 05:02:43 INFO plans ready for instance 8/10
+2026-11-07 05:02:43 INFO plans ready for instance 9/10
+2026-11-07 05:02:43 INFO plans ready for instance 10/10
+2026-11-07 05:02:43 INFO running 1200 episodes
+2026-11-07 05:04:35 INFO episodes done in 112s
+2026-11-07 05:04:35 INFO ILP ilp1: 150 solves, 0 hit the time limit
+2026-11-07 05:04:35 INFO ILP defer_ilp: 32 solves, 0 hit the time limit
+2026-11-07 05:04:35 INFO ILP defer_ilp_nopush: 14 solves, 0 hit the time limit
+2026-11-07 05:04:35 INFO ILP commit_ilp: 151 solves, 0 hit the time limit
+2026-11-07 05:04:35 INFO RESULT dolphin budget=2 none       spread=12.00 (se 1.38) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=2 ag         spread=6.84 (se 0.91) saved=0.4300 used=2.0 time=0.00s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=2 defer      spread=6.86 (se 0.90) saved=0.4283 used=2.0 time=0.01s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=2 commit     spread=6.88 (se 0.92) saved=0.4267 used=2.0 time=0.01s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=2 ilp1       spread=6.74 (se 0.88) saved=0.4383 used=2.0 time=0.85s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=2 defer_ilp  spread=6.64 (se 0.86) saved=0.4467 used=2.0 time=0.88s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=2 defer_ilp_nopush spread=6.64 (se 0.86) saved=0.4467 used=2.0 time=0.88s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=2 commit_ilp spread=7.42 (se 0.97) saved=0.3817 used=2.0 time=0.60s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=4 none       spread=12.00 (se 1.38) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=4 ag         spread=5.12 (se 0.79) saved=0.5733 used=4.0 time=0.00s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=4 defer      spread=5.16 (se 0.79) saved=0.5700 used=3.9 time=0.01s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=4 commit     spread=4.60 (se 0.69) saved=0.6167 used=4.0 time=0.01s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=4 ilp1       spread=5.16 (se 0.72) saved=0.5700 used=4.0 time=0.74s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=4 defer_ilp  spread=5.20 (se 0.71) saved=0.5667 used=4.0 time=0.78s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=4 defer_ilp_nopush spread=5.14 (se 0.72) saved=0.5717 used=4.0 time=0.77s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=4 commit_ilp spread=4.94 (se 0.65) saved=0.5883 used=4.0 time=0.75s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=8 none       spread=12.00 (se 1.38) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=8 ag         spread=1.74 (se 0.46) saved=0.8550 used=7.9 time=0.00s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=8 defer      spread=1.78 (se 0.45) saved=0.8517 used=7.4 time=0.01s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=8 commit     spread=2.16 (se 0.50) saved=0.8200 used=7.9 time=0.02s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=8 ilp1       spread=1.88 (se 0.50) saved=0.8433 used=8.0 time=0.53s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=8 defer_ilp  spread=2.20 (se 0.51) saved=0.8167 used=7.4 time=0.54s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=8 defer_ilp_nopush spread=1.88 (se 0.50) saved=0.8433 used=7.9 time=0.51s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=8 commit_ilp spread=2.26 (se 0.54) saved=0.8117 used=8.0 time=0.34s
+2026-11-07 05:04:35 INFO run adaptive_deferilp_20261107T050243Z_0459 finished in 112.3s
+2026-11-07 05:04:36 INFO run adaptive_deferilp_20261107T050436Z_0603 started, dir=/home/user/trace_e/results/runs/adaptive_deferilp_20261107T050436Z_0603
+2026-11-07 05:04:36 INFO network iceland: {'n_nodes': 75, 'n_edges': 114, 'avg_degree': 3.04, 'n_components': 1, 'lcc_size': 75}
+2026-11-07 05:04:36 INFO plans ready for instance 1/10
+2026-11-07 05:04:36 INFO plans ready for instance 2/10
+2026-11-07 05:04:36 INFO plans ready for instance 3/10
+2026-11-07 05:04:36 INFO plans ready for instance 4/10
+2026-11-07 05:04:36 INFO plans ready for instance 5/10
+2026-11-07 05:04:36 INFO plans ready for instance 6/10
+2026-11-07 05:04:36 INFO plans ready for instance 7/10
+2026-11-07 05:04:36 INFO plans ready for instance 8/10
+2026-11-07 05:04:36 INFO plans ready for instance 9/10
+2026-11-07 05:04:36 INFO plans ready for instance 10/10
+2026-11-07 05:04:36 INFO running 1200 episodes
+2026-11-07 05:05:27 INFO episodes done in 50s
+2026-11-07 05:05:27 INFO ILP ilp1: 150 solves, 0 hit the time limit
+2026-11-07 05:05:27 INFO ILP defer_ilp: 10 solves, 0 hit the time limit
+2026-11-07 05:05:27 INFO ILP defer_ilp_nopush: 1 solves, 0 hit the time limit
+2026-11-07 05:05:27 INFO ILP commit_ilp: 161 solves, 0 hit the time limit
+2026-11-07 05:05:27 INFO RESULT iceland budget=2 none       spread=15.50 (se 1.83) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:05:27 INFO RESULT iceland budget=2 ag         spread=3.84 (se 0.97) saved=0.7523 used=1.9 time=0.00s
+2026-11-07 05:05:27 INFO RESULT iceland budget=2 defer      spread=3.84 (se 0.97) saved=0.7523 used=1.9 time=0.01s
+2026-11-07 05:05:27 INFO RESULT iceland budget=2 commit     spread=2.96 (se 0.78) saved=0.8090 used=1.9 time=0.01s
+2026-11-07 05:05:27 INFO RESULT iceland budget=2 ilp1       spread=3.64 (se 0.89) saved=0.7652 used=1.9 time=0.53s
+2026-11-07 05:05:27 INFO RESULT iceland budget=2 defer_ilp  spread=3.64 (se 0.89) saved=0.7652 used=1.9 time=0.56s
+2026-11-07 05:05:27 INFO RESULT iceland budget=2 defer_ilp_nopush spread=3.64 (se 0.89) saved=0.7652 used=1.9 time=0.54s
+2026-11-07 05:05:27 INFO RESULT iceland budget=2 commit_ilp spread=4.40 (se 0.94) saved=0.7161 used=1.9 time=0.55s
+2026-11-07 05:05:27 INFO RESULT iceland budget=4 none       spread=15.50 (se 1.83) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:05:27 INFO RESULT iceland budget=4 ag         spread=0.84 (se 0.26) saved=0.9458 used=3.2 time=0.00s
+2026-11-07 05:05:27 INFO RESULT iceland budget=4 defer      spread=0.86 (se 0.27) saved=0.9445 used=3.0 time=0.01s
+2026-11-07 05:05:27 INFO RESULT iceland budget=4 commit     spread=0.96 (se 0.30) saved=0.9381 used=3.2 time=0.01s
+2026-11-07 05:05:27 INFO RESULT iceland budget=4 ilp1       spread=0.84 (se 0.26) saved=0.9458 used=3.5 time=0.23s
+2026-11-07 05:05:27 INFO RESULT iceland budget=4 defer_ilp  spread=0.86 (se 0.27) saved=0.9445 used=3.0 time=0.24s
+2026-11-07 05:05:27 INFO RESULT iceland budget=4 defer_ilp_nopush spread=0.84 (se 0.26) saved=0.9458 used=3.2 time=0.23s
+2026-11-07 05:05:27 INFO RESULT iceland budget=4 commit_ilp spread=1.20 (se 0.36) saved=0.9226 used=3.4 time=0.23s
+2026-11-07 05:05:27 INFO RESULT iceland budget=8 none       spread=15.50 (se 1.83) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:05:27 INFO RESULT iceland budget=8 ag         spread=0.34 (se 0.12) saved=0.9781 used=4.3 time=0.00s
+2026-11-07 05:05:27 INFO RESULT iceland budget=8 defer      spread=0.38 (se 0.12) saved=0.9755 used=4.3 time=0.01s
+2026-11-07 05:05:27 INFO RESULT iceland budget=8 commit     spread=0.40 (se 0.13) saved=0.9742 used=4.4 time=0.01s
+2026-11-07 05:05:27 INFO RESULT iceland budget=8 ilp1       spread=0.38 (se 0.13) saved=0.9755 used=5.7 time=0.18s
+2026-11-07 05:05:27 INFO RESULT iceland budget=8 defer_ilp  spread=0.42 (se 0.13) saved=0.9729 used=4.1 time=0.18s
+2026-11-07 05:05:27 INFO RESULT iceland budget=8 defer_ilp_nopush spread=0.38 (se 0.13) saved=0.9755 used=4.3 time=0.18s
+2026-11-07 05:05:27 INFO RESULT iceland budget=8 commit_ilp spread=0.70 (se 0.20) saved=0.9548 used=4.5 time=0.20s
+2026-11-07 05:05:27 INFO run adaptive_deferilp_20261107T050436Z_0603 finished in 50.9s
+2026-11-07 05:05:28 INFO run adaptive_deferilp_20261107T050528Z_0660 started, dir=/home/user/trace_e/results/runs/adaptive_deferilp_20261107T050528Z_0660
+2026-11-07 05:05:28 INFO network karate: {'n_nodes': 34, 'n_edges': 77, 'avg_degree': 4.529411764705882, 'n_components': 1, 'lcc_size': 34}
+2026-11-07 05:05:28 INFO plans ready for instance 1/10
+2026-11-07 05:05:28 INFO plans ready for instance 2/10
+2026-11-07 05:05:28 INFO plans ready for instance 3/10
+2026-11-07 05:05:28 INFO plans ready for instance 4/10
+2026-11-07 05:05:28 INFO plans ready for instance 5/10
+2026-11-07 05:05:28 INFO plans ready for instance 6/10
+2026-11-07 05:05:28 INFO plans ready for instance 7/10
+2026-11-07 05:05:28 INFO plans ready for instance 8/10
+2026-11-07 05:05:28 INFO plans ready for instance 9/10
+2026-11-07 05:05:28 INFO plans ready for instance 10/10
+2026-11-07 05:05:28 INFO running 800 episodes
+2026-11-07 05:05:38 INFO episodes done in 10s
+2026-11-07 05:05:38 INFO ILP ilp1: 100 solves, 0 hit the time limit
+2026-11-07 05:05:38 INFO ILP defer_ilp: 19 solves, 0 hit the time limit
+2026-11-07 05:05:38 INFO ILP defer_ilp_nopush: 10 solves, 0 hit the time limit
+2026-11-07 05:05:38 INFO ILP commit_ilp: 100 solves, 0 hit the time limit
+2026-11-07 05:05:38 INFO RESULT karate budget=2 none       spread=7.08 (se 0.81) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:05:38 INFO RESULT karate budget=2 ag         spread=2.86 (se 0.48) saved=0.5960 used=2.0 time=0.00s
+2026-11-07 05:05:38 INFO RESULT karate budget=2 defer      spread=2.82 (se 0.48) saved=0.6017 used=2.0 time=0.00s
+2026-11-07 05:05:38 INFO RESULT karate budget=2 commit     spread=2.84 (se 0.42) saved=0.5989 used=2.0 time=0.01s
+2026-11-07 05:05:38 INFO RESULT karate budget=2 ilp1       spread=2.90 (se 0.45) saved=0.5904 used=2.0 time=0.10s
+2026-11-07 05:05:38 INFO RESULT karate budget=2 defer_ilp  spread=2.86 (se 0.45) saved=0.5960 used=2.0 time=0.11s
+2026-11-07 05:05:38 INFO RESULT karate budget=2 defer_ilp_nopush spread=2.86 (se 0.45) saved=0.5960 used=2.0 time=0.11s
+2026-11-07 05:05:38 INFO RESULT karate budget=2 commit_ilp spread=2.78 (se 0.40) saved=0.6073 used=2.0 time=0.11s
+2026-11-07 05:05:38 INFO RESULT karate budget=4 none       spread=7.08 (se 0.81) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:05:38 INFO RESULT karate budget=4 ag         spread=1.30 (se 0.25) saved=0.8164 used=3.8 time=0.00s
+2026-11-07 05:05:38 INFO RESULT karate budget=4 defer      spread=1.40 (se 0.24) saved=0.8023 used=3.6 time=0.01s
+2026-11-07 05:05:38 INFO RESULT karate budget=4 commit     spread=1.18 (se 0.23) saved=0.8333 used=3.8 time=0.01s
+2026-11-07 05:05:38 INFO RESULT karate budget=4 ilp1       spread=1.38 (se 0.28) saved=0.8051 used=4.0 time=0.08s
+2026-11-07 05:05:38 INFO RESULT karate budget=4 defer_ilp  spread=1.48 (se 0.27) saved=0.7910 used=3.7 time=0.09s
+2026-11-07 05:05:38 INFO RESULT karate budget=4 defer_ilp_nopush spread=1.34 (se 0.28) saved=0.8107 used=3.8 time=0.08s
+2026-11-07 05:05:38 INFO RESULT karate budget=4 commit_ilp spread=1.18 (se 0.23) saved=0.8333 used=3.8 time=0.07s
+2026-11-07 05:05:38 INFO run adaptive_deferilp_20261107T050528Z_0660 finished in 9.8s
+2026-11-07 05:05:39 INFO run adaptive_deferilp_20261107T050539Z_0697 started, dir=/home/user/trace_e/results/runs/adaptive_deferilp_20261107T050539Z_0697
+2026-11-07 05:05:39 INFO network workplace: {'n_nodes': 92, 'n_edges': 755, 'avg_degree': 16.41304347826087, 'n_components': 1, 'lcc_size': 92}
+2026-11-07 05:05:39 INFO plans ready for instance 1/10
+2026-11-07 05:05:39 INFO plans ready for instance 2/10
+2026-11-07 05:05:39 INFO plans ready for instance 3/10
+2026-11-07 05:05:39 INFO plans ready for instance 4/10
+2026-11-07 05:05:39 INFO plans ready for instance 5/10
+2026-11-07 05:05:39 INFO plans ready for instance 6/10
+2026-11-07 05:05:39 INFO plans ready for instance 7/10
+2026-11-07 05:05:39 INFO plans ready for instance 8/10
+2026-11-07 05:05:39 INFO plans ready for instance 9/10
+2026-11-07 05:05:39 INFO plans ready for instance 10/10
+2026-11-07 05:05:39 INFO running 1200 episodes
+2026-11-07 05:06:23 INFO episodes done in 44s
+2026-11-07 05:06:23 INFO ILP ilp1: 150 solves, 0 hit the time limit
+2026-11-07 05:06:23 INFO ILP defer_ilp: 70 solves, 0 hit the time limit
+2026-11-07 05:06:23 INFO ILP defer_ilp_nopush: 34 solves, 0 hit the time limit
+2026-11-07 05:06:23 INFO ILP commit_ilp: 150 solves, 0 hit the time limit
+2026-11-07 05:06:23 INFO RESULT workplace budget=2 none       spread=9.54 (se 1.30) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:06:23 INFO RESULT workplace budget=2 ag         spread=6.98 (se 1.18) saved=0.2683 used=2.0 time=0.00s
+2026-11-07 05:06:23 INFO RESULT workplace budget=2 defer      spread=6.98 (se 1.18) saved=0.2683 used=2.0 time=0.01s
+2026-11-07 05:06:23 INFO RESULT workplace budget=2 commit     spread=6.48 (se 1.03) saved=0.3208 used=2.0 time=0.01s
+2026-11-07 05:06:23 INFO RESULT workplace budget=2 ilp1       spread=7.10 (se 1.13) saved=0.2558 used=2.0 time=0.26s
+2026-11-07 05:06:23 INFO RESULT workplace budget=2 defer_ilp  spread=7.10 (se 1.13) saved=0.2558 used=2.0 time=0.30s
+2026-11-07 05:06:23 INFO RESULT workplace budget=2 defer_ilp_nopush spread=7.10 (se 1.13) saved=0.2558 used=2.0 time=0.30s
+2026-11-07 05:06:23 INFO RESULT workplace budget=2 commit_ilp spread=6.92 (se 1.11) saved=0.2746 used=2.0 time=0.24s
+2026-11-07 05:06:23 INFO RESULT workplace budget=4 none       spread=9.54 (se 1.30) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:06:23 INFO RESULT workplace budget=4 ag         spread=5.44 (se 0.98) saved=0.4298 used=4.0 time=0.00s
+2026-11-07 05:06:23 INFO RESULT workplace budget=4 defer      spread=5.46 (se 0.96) saved=0.4277 used=3.9 time=0.01s
+2026-11-07 05:06:23 INFO RESULT workplace budget=4 commit     spread=5.40 (se 0.89) saved=0.4340 used=4.0 time=0.01s
+2026-11-07 05:06:23 INFO RESULT workplace budget=4 ilp1       spread=5.74 (se 1.03) saved=0.3983 used=4.0 time=0.25s
+2026-11-07 05:06:23 INFO RESULT workplace budget=4 defer_ilp  spread=5.64 (se 0.96) saved=0.4088 used=3.9 time=0.31s
+2026-11-07 05:06:23 INFO RESULT workplace budget=4 defer_ilp_nopush spread=5.72 (se 1.01) saved=0.4004 used=4.0 time=0.29s
+2026-11-07 05:06:23 INFO RESULT workplace budget=4 commit_ilp spread=4.96 (se 0.82) saved=0.4801 used=4.0 time=0.34s
+2026-11-07 05:06:23 INFO RESULT workplace budget=8 none       spread=9.54 (se 1.30) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:06:23 INFO RESULT workplace budget=8 ag         spread=4.44 (se 0.80) saved=0.5346 used=8.0 time=0.00s
+2026-11-07 05:06:23 INFO RESULT workplace budget=8 defer      spread=4.54 (se 0.80) saved=0.5241 used=7.7 time=0.01s
+2026-11-07 05:06:24 INFO RESULT workplace budget=8 commit     spread=4.04 (se 0.72) saved=0.5765 used=8.0 time=0.02s
+2026-11-07 05:06:24 INFO RESULT workplace budget=8 ilp1       spread=4.52 (se 0.83) saved=0.5262 used=8.0 time=0.27s
+2026-11-07 05:06:24 INFO RESULT workplace budget=8 defer_ilp  spread=4.26 (se 0.68) saved=0.5535 used=7.5 time=0.32s
+2026-11-07 05:06:24 INFO RESULT workplace budget=8 defer_ilp_nopush spread=4.52 (se 0.83) saved=0.5262 used=8.0 time=0.29s
+2026-11-07 05:06:24 INFO RESULT workplace budget=8 commit_ilp spread=4.02 (se 0.80) saved=0.5786 used=8.0 time=0.28s
+2026-11-07 05:06:24 INFO run adaptive_deferilp_20261107T050539Z_0697 finished in 44.7s
+2026-11-07 05:06:24 INFO run adaptive_deferilp_20261107T050624Z_0751 started, dir=/home/user/trace_e/results/runs/adaptive_deferilp_20261107T050624Z_0751
+2026-11-07 05:06:24 INFO network ba:150:m=2: {'n_nodes': 150, 'n_edges': 296, 'avg_degree': 3.9466666666666668, 'n_components': 1, 'lcc_size': 150}
+2026-11-07 05:06:24 INFO plans ready for instance 1/10
+2026-11-07 05:06:24 INFO plans ready for instance 2/10
+2026-11-07 05:06:24 INFO plans ready for instance 3/10
+2026-11-07 05:06:24 INFO plans ready for instance 4/10
+2026-11-07 05:06:24 INFO plans ready for instance 5/10
+2026-11-07 05:06:24 INFO plans ready for instance 6/10
+2026-11-07 05:06:24 INFO plans ready for instance 7/10
+2026-11-07 05:06:24 INFO plans ready for instance 8/10
+2026-11-07 05:06:24 INFO plans ready for instance 9/10
+2026-11-07 05:06:24 INFO plans ready for instance 10/10
+2026-11-07 05:06:24 INFO running 1200 episodes
+2026-11-07 05:06:30 INFO episodes done in 5s
+2026-11-07 05:06:30 INFO ILP ilp1: 150 solves, 0 hit the time limit
+2026-11-07 05:06:30 INFO ILP defer_ilp: 11 solves, 0 hit the time limit
+2026-11-07 05:06:30 INFO ILP defer_ilp_nopush: 2 solves, 0 hit the time limit
+2026-11-07 05:06:30 INFO ILP commit_ilp: 153 solves, 0 hit the time limit
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=2 none       spread=2.72 (se 0.59) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=2 ag         spread=1.44 (se 0.35) saved=0.4706 used=2.0 time=0.00s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=2 defer      spread=1.48 (se 0.35) saved=0.4559 used=1.9 time=0.00s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=2 commit     spread=1.34 (se 0.35) saved=0.5074 used=2.0 time=0.00s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=2 ilp1       spread=1.60 (se 0.38) saved=0.4118 used=2.0 time=0.03s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=2 defer_ilp  spread=1.60 (se 0.38) saved=0.4118 used=1.8 time=0.04s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=2 defer_ilp_nopush spread=1.60 (se 0.38) saved=0.4118 used=1.9 time=0.04s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=2 commit_ilp spread=1.40 (se 0.35) saved=0.4853 used=2.0 time=0.03s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=4 none       spread=2.72 (se 0.59) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=4 ag         spread=1.18 (se 0.32) saved=0.5662 used=4.0 time=0.00s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=4 defer      spread=1.16 (se 0.32) saved=0.5735 used=3.6 time=0.00s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=4 commit     spread=1.00 (se 0.29) saved=0.6324 used=4.0 time=0.01s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=4 ilp1       spread=1.16 (se 0.31) saved=0.5735 used=4.0 time=0.03s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=4 defer_ilp  spread=1.16 (se 0.31) saved=0.5735 used=3.7 time=0.04s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=4 defer_ilp_nopush spread=1.16 (se 0.31) saved=0.5735 used=4.0 time=0.03s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=4 commit_ilp spread=0.92 (se 0.29) saved=0.6618 used=4.0 time=0.03s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=8 none       spread=2.72 (se 0.59) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=8 ag         spread=0.66 (se 0.30) saved=0.7574 used=6.9 time=0.00s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=8 defer      spread=0.66 (se 0.30) saved=0.7574 used=6.7 time=0.00s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=8 commit     spread=0.76 (se 0.29) saved=0.7206 used=6.8 time=0.01s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=8 ilp1       spread=0.62 (se 0.24) saved=0.7721 used=6.9 time=0.03s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=8 defer_ilp  spread=0.66 (se 0.25) saved=0.7574 used=6.5 time=0.03s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=8 defer_ilp_nopush spread=0.62 (se 0.24) saved=0.7721 used=6.8 time=0.03s
+2026-11-07 05:06:30 INFO RESULT ba:150:m=2 budget=8 commit_ilp spread=0.68 (se 0.23) saved=0.7500 used=5.7 time=0.03s
+2026-11-07 05:06:30 INFO run adaptive_deferilp_20261107T050624Z_0751 finished in 5.4s
+2026-11-07 05:06:31 INFO run adaptive_deferilp_20261107T050631Z_0795 started, dir=/home/user/trace_e/results/runs/adaptive_deferilp_20261107T050631Z_0795
+2026-11-07 05:06:31 INFO network highschool2013: {'n_nodes': 327, 'n_edges': 5818, 'avg_degree': 35.584097859327215, 'n_components': 1, 'lcc_size': 327}
+2026-11-07 05:06:31 INFO plans ready for instance 1/10
+2026-11-07 05:06:31 INFO plans ready for instance 2/10
+2026-11-07 05:06:31 INFO plans ready for instance 3/10
+2026-11-07 05:06:31 INFO plans ready for instance 4/10
+2026-11-07 05:06:31 INFO plans ready for instance 5/10
+2026-11-07 05:06:31 INFO plans ready for instance 6/10
+2026-11-07 05:06:31 INFO plans ready for instance 7/10
+2026-11-07 05:06:31 INFO plans ready for instance 8/10
+2026-11-07 05:06:32 INFO plans ready for instance 9/10
+2026-11-07 05:06:32 INFO plans ready for instance 10/10
+2026-11-07 05:06:32 INFO running 800 episodes

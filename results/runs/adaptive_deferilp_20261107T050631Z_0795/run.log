@@ -1,0 +1,13 @@
+2026-11-07 05:06:31 INFO run adaptive_deferilp_20261107T050631Z_0795 started, dir=/home/user/trace_e/results/runs/adaptive_deferilp_20261107T050631Z_0795
+2026-11-07 05:06:31 INFO network highschool2013: {'n_nodes': 327, 'n_edges': 5818, 'avg_degree': 35.584097859327215, 'n_components': 1, 'lcc_size': 327}
+2026-11-07 05:06:31 INFO plans ready for instance 1/10
+2026-11-07 05:06:31 INFO plans ready for instance 2/10
+2026-11-07 05:06:31 INFO plans ready for instance 3/10
+2026-11-07 05:06:31 INFO plans ready for instance 4/10
+2026-11-07 05:06:31 INFO plans ready for instance 5/10
+2026-11-07 05:06:31 INFO plans ready for instance 6/10
+2026-11-07 05:06:31 INFO plans ready for instance 7/10
+2026-11-07 05:06:31 INFO plans ready for instance 8/10
+2026-11-07 05:06:32 INFO plans ready for instance 9/10
+2026-11-07 05:06:32 INFO plans ready for instance 10/10
+2026-11-07 05:06:32 INFO running 800 episodes

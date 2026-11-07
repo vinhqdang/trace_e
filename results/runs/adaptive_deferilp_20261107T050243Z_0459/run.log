@@ -1,0 +1,43 @@
+2026-11-07 05:02:43 INFO run adaptive_deferilp_20261107T050243Z_0459 started, dir=/home/user/trace_e/results/runs/adaptive_deferilp_20261107T050243Z_0459
+2026-11-07 05:02:43 INFO network dolphin: {'n_nodes': 62, 'n_edges': 159, 'avg_degree': 5.129032258064516, 'n_components': 1, 'lcc_size': 62}
+2026-11-07 05:02:43 INFO plans ready for instance 1/10
+2026-11-07 05:02:43 INFO plans ready for instance 2/10
+2026-11-07 05:02:43 INFO plans ready for instance 3/10
+2026-11-07 05:02:43 INFO plans ready for instance 4/10
+2026-11-07 05:02:43 INFO plans ready for instance 5/10
+2026-11-07 05:02:43 INFO plans ready for instance 6/10
+2026-11-07 05:02:43 INFO plans ready for instance 7/10
+2026-11-07 05:02:43 INFO plans ready for instance 8/10
+2026-11-07 05:02:43 INFO plans ready for instance 9/10
+2026-11-07 05:02:43 INFO plans ready for instance 10/10
+2026-11-07 05:02:43 INFO running 1200 episodes
+2026-11-07 05:04:35 INFO episodes done in 112s
+2026-11-07 05:04:35 INFO ILP ilp1: 150 solves, 0 hit the time limit
+2026-11-07 05:04:35 INFO ILP defer_ilp: 32 solves, 0 hit the time limit
+2026-11-07 05:04:35 INFO ILP defer_ilp_nopush: 14 solves, 0 hit the time limit
+2026-11-07 05:04:35 INFO ILP commit_ilp: 151 solves, 0 hit the time limit
+2026-11-07 05:04:35 INFO RESULT dolphin budget=2 none       spread=12.00 (se 1.38) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=2 ag         spread=6.84 (se 0.91) saved=0.4300 used=2.0 time=0.00s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=2 defer      spread=6.86 (se 0.90) saved=0.4283 used=2.0 time=0.01s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=2 commit     spread=6.88 (se 0.92) saved=0.4267 used=2.0 time=0.01s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=2 ilp1       spread=6.74 (se 0.88) saved=0.4383 used=2.0 time=0.85s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=2 defer_ilp  spread=6.64 (se 0.86) saved=0.4467 used=2.0 time=0.88s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=2 defer_ilp_nopush spread=6.64 (se 0.86) saved=0.4467 used=2.0 time=0.88s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=2 commit_ilp spread=7.42 (se 0.97) saved=0.3817 used=2.0 time=0.60s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=4 none       spread=12.00 (se 1.38) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=4 ag         spread=5.12 (se 0.79) saved=0.5733 used=4.0 time=0.00s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=4 defer      spread=5.16 (se 0.79) saved=0.5700 used=3.9 time=0.01s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=4 commit     spread=4.60 (se 0.69) saved=0.6167 used=4.0 time=0.01s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=4 ilp1       spread=5.16 (se 0.72) saved=0.5700 used=4.0 time=0.74s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=4 defer_ilp  spread=5.20 (se 0.71) saved=0.5667 used=4.0 time=0.78s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=4 defer_ilp_nopush spread=5.14 (se 0.72) saved=0.5717 used=4.0 time=0.77s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=4 commit_ilp spread=4.94 (se 0.65) saved=0.5883 used=4.0 time=0.75s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=8 none       spread=12.00 (se 1.38) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=8 ag         spread=1.74 (se 0.46) saved=0.8550 used=7.9 time=0.00s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=8 defer      spread=1.78 (se 0.45) saved=0.8517 used=7.4 time=0.01s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=8 commit     spread=2.16 (se 0.50) saved=0.8200 used=7.9 time=0.02s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=8 ilp1       spread=1.88 (se 0.50) saved=0.8433 used=8.0 time=0.53s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=8 defer_ilp  spread=2.20 (se 0.51) saved=0.8167 used=7.4 time=0.54s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=8 defer_ilp_nopush spread=1.88 (se 0.50) saved=0.8433 used=7.9 time=0.51s
+2026-11-07 05:04:35 INFO RESULT dolphin budget=8 commit_ilp spread=2.26 (se 0.54) saved=0.8117 used=8.0 time=0.34s
+2026-11-07 05:04:35 INFO run adaptive_deferilp_20261107T050243Z_0459 finished in 112.3s
