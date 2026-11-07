@@ -1454,7 +1454,10 @@ $0.02$--$52$ s per episode against milliseconds for AG and DEFER, and on the
 the greedy methods, so these formulations did not scale to the sizes where
 DEFER is used.
 
-Two further points limit what the comparison shows. A separate scan of larger
+Two further points limit what the comparison shows. On the star-of-paths family
+of Theorem~\ref{thm:adaptivity-gap} (Online Supplement~\ref{ec:sop}), DEFER
+saves $0.36$--$0.97$ of spread and exceeds the best of AG, GR, COMMIT and
+\texttt{ilp1} in all 18 cells by at least $0.27$. A separate scan of larger
 synthetic networks (Online Supplement~\ref{ec:regime}) finds DEFER significantly
 better than AG in 9 of 45 cells and worse in 0, with the gains in large-cascade regimes; the
 small-instance cells above are mostly outside that regime. COMMIT, the
@@ -2377,6 +2380,65 @@ power-grid & 0.339 & \textbf{0.341} & 0.339 & \textbf{0.341} \\
 \end{tabular}}
 {Bold marks the best value per row. isocut never beats AG; defer\_cut
 beats plain DEFER only on ca-HepTh and ties it elsewhere.}
+\end{table}
+
+\section{Star-of-Paths Benchmark}\label{ec:sop}
+
+The star-of-paths family of Theorem~\ref{thm:adaptivity-gap} is the structure
+for which the theory predicts an advantage of deferral: seed $s$ has $\Delta$
+gateways, each active with probability $p$ and heading a private deterministic
+path of $L=30$ vertices. We ran every policy of this appendix on identical
+realizations for $\Delta\in\{4,8,16\}$, $p\in\{0.05,0.1,0.2\}$, budgets
+$b\in\{1,2\}$, with 100, 50 and 20 realizations for $\Delta=4,8,16$ respectively
+(fewer for the larger stars, where the ILP solves dominate the running time).
+AG, GR and the ILP planners see the same sample budget as elsewhere
+($\theta=100$ for greedy planners, $48$ scenarios for the ILP). This is a
+constructed family, so the table shows that the predicted effect is realized
+by the algorithm, not how often such structure occurs in real networks.
+
+Table~\ref{tab:sop} gives the saved fraction. DEFER saves between $0.36$ and
+$0.97$ of the unprotected spread. In every cell it exceeds the best of AG, GR,
+COMMIT and \texttt{ilp1} by at least $0.27$ (those policies reach at most $0.48$,
+$0.48$, $0.55$ and $0.64$ respectively, each in a different cell), and the paired difference in
+final spread between each of AG, COMMIT and \texttt{ilp1} and DEFER has a
+ratio to its standard error of at least $3.2$ in all 18 cells (54 comparisons; DEFER
+is never significantly worse). \texttt{DEFER-nopush} equals AG exactly in every
+cell: here the planned gateway is exposed in round $0$ and is committed at once
+without the push-down rule, so the entire advantage comes from push-down
+deferring the gateway (Lemma~\ref{lem:pushdown}), as in the worked example of
+Section~\ref{sec:defer-example}. The rolling staged ILP (\texttt{ilp\_roll})
+also exploits waiting and is the best policy other than DEFER-based ones in all 18 cells;
+it matches DEFER (within $0.005$ of saved fraction) in 7 cells and is below it in 11,
+and is above it in 0. \texttt{DEFER-ILP} matches DEFER within $0.005$ in all 18 cells.
+
+\begin{table}[h]
+\TABLE
+{Star-of-paths benchmark ($L=30$): saved fraction of spread by policy; bold is DEFER.\label{tab:sop}}
+{\footnotesize
+\begin{tabular}{rrrrrrrrrrrr}
+\hline
+$\Delta$ & $p$ & $b$ & $n$ & unprot. & AG & COMMIT & ilp1 & ilp\_roll & nopush & DEFER & DEFER-ILP \\
+\hline
+4 & 0.05 & 1 & 100 & 7.4 & 0.208 & 0.083 & 0.208 & 0.566 & 0.208 & \textbf{0.847} & 0.847 \\
+4 & 0.05 & 2 & 100 & 7.4 & 0.375 & 0.375 & 0.417 & 0.737 & 0.375 & \textbf{0.968} & 0.968 \\
+4 & 0.1 & 1 & 100 & 13.6 & 0.205 & 0.295 & 0.273 & 0.705 & 0.205 & \textbf{0.814} & 0.814 \\
+4 & 0.1 & 2 & 100 & 13.6 & 0.409 & 0.545 & 0.636 & 0.826 & 0.409 & \textbf{0.968} & 0.968 \\
+4 & 0.2 & 1 & 100 & 22.6 & 0.192 & 0.315 & 0.260 & 0.729 & 0.192 & \textbf{0.742} & 0.742 \\
+4 & 0.2 & 2 & 100 & 22.6 & 0.479 & 0.507 & 0.521 & 0.828 & 0.479 & \textbf{0.954} & 0.954 \\
+8 & 0.05 & 1 & 50 & 14.3 & 0.174 & 0.087 & 0.043 & 0.799 & 0.174 & \textbf{0.843} & 0.842 \\
+8 & 0.05 & 2 & 50 & 14.3 & 0.348 & 0.174 & 0.130 & 0.847 & 0.348 & \textbf{0.968} & 0.968 \\
+8 & 0.1 & 1 & 50 & 24.8 & 0.100 & 0.050 & 0.125 & 0.750 & 0.100 & \textbf{0.750} & 0.750 \\
+8 & 0.1 & 2 & 50 & 24.8 & 0.200 & 0.150 & 0.275 & 0.848 & 0.200 & \textbf{0.944} & 0.944 \\
+8 & 0.2 & 1 & 50 & 44.0 & 0.169 & 0.127 & 0.113 & 0.572 & 0.169 & \textbf{0.572} & 0.572 \\
+8 & 0.2 & 2 & 50 & 44.0 & 0.296 & 0.254 & 0.211 & 0.859 & 0.296 & \textbf{0.872} & 0.872 \\
+16 & 0.05 & 1 & 20 & 20.1 & 0.000 & 0.000 & 0.077 & 0.819 & 0.000 & \textbf{0.819} & 0.819 \\
+16 & 0.05 & 2 & 20 & 20.1 & 0.000 & 0.154 & 0.231 & 0.893 & 0.000 & \textbf{0.968} & 0.968 \\
+16 & 0.1 & 1 & 20 & 45.0 & 0.103 & 0.000 & 0.069 & 0.501 & 0.103 & \textbf{0.501} & 0.501 \\
+16 & 0.1 & 2 & 20 & 45.0 & 0.103 & 0.069 & 0.103 & 0.768 & 0.103 & \textbf{0.768} & 0.768 \\
+16 & 0.2 & 1 & 20 & 83.7 & 0.093 & 0.074 & 0.092 & 0.358 & 0.093 & \textbf{0.358} & 0.358 \\
+16 & 0.2 & 2 & 20 & 83.7 & 0.111 & 0.148 & 0.185 & 0.645 & 0.111 & \textbf{0.645} & 0.645 \\
+\hline
+\end{tabular}}{}
 \end{table}
 
 \section{Regime Scan: Where Does Deferral Help?}\label{ec:regime}
