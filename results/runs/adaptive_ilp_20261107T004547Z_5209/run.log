@@ -1,0 +1,33 @@
+2026-11-07 00:45:47 INFO run adaptive_ilp_20261107T004547Z_5209 started, dir=/home/user/trace_e/results/runs/adaptive_ilp_20261107T004547Z_5209
+2026-11-07 00:45:47 INFO network highschool2013: {'n_nodes': 327, 'n_edges': 5818, 'avg_degree': 35.584097859327215, 'n_components': 1, 'lcc_size': 327}
+2026-11-07 00:45:47 INFO plans ready for instance 1/10
+2026-11-07 00:45:47 INFO plans ready for instance 2/10
+2026-11-07 00:45:47 INFO plans ready for instance 3/10
+2026-11-07 00:45:47 INFO plans ready for instance 4/10
+2026-11-07 00:45:48 INFO plans ready for instance 5/10
+2026-11-07 00:45:48 INFO plans ready for instance 6/10
+2026-11-07 00:45:48 INFO plans ready for instance 7/10
+2026-11-07 00:45:48 INFO plans ready for instance 8/10
+2026-11-07 00:45:49 INFO plans ready for instance 9/10
+2026-11-07 00:45:49 INFO plans ready for instance 10/10
+2026-11-07 00:45:49 INFO running 800 episodes
+2026-11-07 01:16:23 INFO episodes done in 1834s
+2026-11-07 01:16:23 INFO ILP ilp1: 100 solves, 47 hit the time limit
+2026-11-07 01:16:23 INFO ILP ilp_roll: 971 solves, 26 hit the time limit
+2026-11-07 01:16:23 INFO RESULT highschool2013 budget=4 none       spread=56.46 (se 7.31) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 01:16:23 INFO RESULT highschool2013 budget=4 ag         spread=44.50 (se 6.24) saved=0.2118 used=4.0 time=0.01s
+2026-11-07 01:16:23 INFO RESULT highschool2013 budget=4 gr         spread=44.50 (se 6.24) saved=0.2118 used=4.0 time=0.01s
+2026-11-07 01:16:23 INFO RESULT highschool2013 budget=4 defer      spread=44.40 (se 6.24) saved=0.2136 used=3.9 time=0.06s
+2026-11-07 01:16:23 INFO RESULT highschool2013 budget=4 defer_nopush spread=44.48 (se 6.23) saved=0.2122 used=3.9 time=0.06s
+2026-11-07 01:16:23 INFO RESULT highschool2013 budget=4 commit     spread=41.58 (se 5.99) saved=0.2635 used=4.0 time=0.05s
+2026-11-07 01:16:23 INFO RESULT highschool2013 budget=4 ilp1       spread=46.12 (se 6.50) saved=0.1831 used=4.0 time=19.36s
+2026-11-07 01:16:23 INFO RESULT highschool2013 budget=4 ilp_roll   spread=52.38 (se 7.05) saved=0.0723 used=2.2 time=52.03s
+2026-11-07 01:16:23 INFO RESULT highschool2013 budget=8 none       spread=56.46 (se 7.31) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 01:16:23 INFO RESULT highschool2013 budget=8 ag         spread=32.44 (se 4.90) saved=0.4254 used=8.0 time=0.01s
+2026-11-07 01:16:23 INFO RESULT highschool2013 budget=8 gr         spread=34.04 (se 5.10) saved=0.3971 used=8.0 time=0.01s
+2026-11-07 01:16:23 INFO RESULT highschool2013 budget=8 defer      spread=31.60 (se 4.73) saved=0.4403 used=7.8 time=0.07s
+2026-11-07 01:16:23 INFO RESULT highschool2013 budget=8 defer_nopush spread=32.16 (se 4.83) saved=0.4304 used=7.9 time=0.07s
+2026-11-07 01:16:23 INFO RESULT highschool2013 budget=8 commit     spread=31.96 (se 4.93) saved=0.4339 used=8.0 time=0.07s
+2026-11-07 01:16:23 INFO RESULT highschool2013 budget=8 ilp1       spread=38.86 (se 5.98) saved=0.3117 used=7.9 time=21.96s
+2026-11-07 01:16:23 INFO RESULT highschool2013 budget=8 ilp_roll   spread=47.30 (se 6.51) saved=0.1622 used=6.1 time=50.35s
+2026-11-07 01:16:23 INFO run adaptive_ilp_20261107T004547Z_5209 finished in 1836.5s

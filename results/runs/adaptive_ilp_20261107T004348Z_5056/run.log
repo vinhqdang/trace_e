@@ -1,0 +1,33 @@
+2026-11-07 00:43:48 INFO run adaptive_ilp_20261107T004348Z_5056 started, dir=/home/user/trace_e/results/runs/adaptive_ilp_20261107T004348Z_5056
+2026-11-07 00:43:48 INFO network karate: {'n_nodes': 34, 'n_edges': 77, 'avg_degree': 4.529411764705882, 'n_components': 1, 'lcc_size': 34}
+2026-11-07 00:43:48 INFO plans ready for instance 1/10
+2026-11-07 00:43:48 INFO plans ready for instance 2/10
+2026-11-07 00:43:48 INFO plans ready for instance 3/10
+2026-11-07 00:43:48 INFO plans ready for instance 4/10
+2026-11-07 00:43:48 INFO plans ready for instance 5/10
+2026-11-07 00:43:48 INFO plans ready for instance 6/10
+2026-11-07 00:43:48 INFO plans ready for instance 7/10
+2026-11-07 00:43:48 INFO plans ready for instance 8/10
+2026-11-07 00:43:48 INFO plans ready for instance 9/10
+2026-11-07 00:43:48 INFO plans ready for instance 10/10
+2026-11-07 00:43:48 INFO running 800 episodes
+2026-11-07 00:44:11 INFO episodes done in 23s
+2026-11-07 00:44:11 INFO ILP ilp1: 100 solves, 0 hit the time limit
+2026-11-07 00:44:11 INFO ILP ilp_roll: 126 solves, 0 hit the time limit
+2026-11-07 00:44:11 INFO RESULT karate budget=2 none       spread=7.08 (se 0.81) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 00:44:11 INFO RESULT karate budget=2 ag         spread=2.86 (se 0.48) saved=0.5960 used=2.0 time=0.00s
+2026-11-07 00:44:11 INFO RESULT karate budget=2 gr         spread=2.76 (se 0.45) saved=0.6102 used=2.0 time=0.00s
+2026-11-07 00:44:11 INFO RESULT karate budget=2 defer      spread=2.82 (se 0.48) saved=0.6017 used=2.0 time=0.00s
+2026-11-07 00:44:11 INFO RESULT karate budget=2 defer_nopush spread=2.82 (se 0.48) saved=0.6017 used=2.0 time=0.00s
+2026-11-07 00:44:11 INFO RESULT karate budget=2 commit     spread=2.84 (se 0.42) saved=0.5989 used=2.0 time=0.00s
+2026-11-07 00:44:11 INFO RESULT karate budget=2 ilp1       spread=2.90 (se 0.45) saved=0.5904 used=2.0 time=0.09s
+2026-11-07 00:44:11 INFO RESULT karate budget=2 ilp_roll   spread=3.18 (se 0.46) saved=0.5508 used=2.0 time=0.70s
+2026-11-07 00:44:11 INFO RESULT karate budget=4 none       spread=7.08 (se 0.81) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 00:44:11 INFO RESULT karate budget=4 ag         spread=1.30 (se 0.25) saved=0.8164 used=3.8 time=0.00s
+2026-11-07 00:44:11 INFO RESULT karate budget=4 gr         spread=1.30 (se 0.25) saved=0.8164 used=3.8 time=0.00s
+2026-11-07 00:44:11 INFO RESULT karate budget=4 defer      spread=1.40 (se 0.24) saved=0.8023 used=3.6 time=0.00s
+2026-11-07 00:44:11 INFO RESULT karate budget=4 defer_nopush spread=1.26 (se 0.25) saved=0.8220 used=3.8 time=0.00s
+2026-11-07 00:44:11 INFO RESULT karate budget=4 commit     spread=1.18 (se 0.23) saved=0.8333 used=3.8 time=0.01s
+2026-11-07 00:44:11 INFO RESULT karate budget=4 ilp1       spread=1.38 (se 0.28) saved=0.8051 used=4.0 time=0.07s
+2026-11-07 00:44:11 INFO RESULT karate budget=4 ilp_roll   spread=1.20 (se 0.24) saved=0.8305 used=3.8 time=0.14s
+2026-11-07 00:44:11 INFO run adaptive_ilp_20261107T004348Z_5056 finished in 23.3s

@@ -1,0 +1,41 @@
+2026-11-07 00:38:39 INFO run adaptive_ilp_20261107T003839Z_4870 started, dir=/home/user/trace_e/results/runs/adaptive_ilp_20261107T003839Z_4870
+2026-11-07 00:38:39 INFO network dolphin: {'n_nodes': 62, 'n_edges': 159, 'avg_degree': 5.129032258064516, 'n_components': 1, 'lcc_size': 62}
+2026-11-07 00:38:39 INFO plans ready for instance 1/10
+2026-11-07 00:38:39 INFO plans ready for instance 2/10
+2026-11-07 00:38:39 INFO plans ready for instance 3/10
+2026-11-07 00:38:39 INFO plans ready for instance 4/10
+2026-11-07 00:38:39 INFO plans ready for instance 5/10
+2026-11-07 00:38:39 INFO plans ready for instance 6/10
+2026-11-07 00:38:39 INFO plans ready for instance 7/10
+2026-11-07 00:38:40 INFO plans ready for instance 8/10
+2026-11-07 00:38:40 INFO plans ready for instance 9/10
+2026-11-07 00:38:40 INFO plans ready for instance 10/10
+2026-11-07 00:38:40 INFO running 1200 episodes
+2026-11-07 00:42:29 INFO episodes done in 229s
+2026-11-07 00:42:29 INFO ILP ilp1: 150 solves, 0 hit the time limit
+2026-11-07 00:42:29 INFO ILP ilp_roll: 416 solves, 0 hit the time limit
+2026-11-07 00:42:29 INFO RESULT dolphin budget=2 none       spread=12.00 (se 1.38) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 00:42:29 INFO RESULT dolphin budget=2 ag         spread=6.84 (se 0.91) saved=0.4300 used=2.0 time=0.00s
+2026-11-07 00:42:29 INFO RESULT dolphin budget=2 gr         spread=6.84 (se 0.91) saved=0.4300 used=2.0 time=0.00s
+2026-11-07 00:42:29 INFO RESULT dolphin budget=2 defer      spread=6.86 (se 0.90) saved=0.4283 used=2.0 time=0.01s
+2026-11-07 00:42:29 INFO RESULT dolphin budget=2 defer_nopush spread=6.84 (se 0.91) saved=0.4300 used=2.0 time=0.00s
+2026-11-07 00:42:29 INFO RESULT dolphin budget=2 commit     spread=6.88 (se 0.92) saved=0.4267 used=2.0 time=0.01s
+2026-11-07 00:42:29 INFO RESULT dolphin budget=2 ilp1       spread=6.74 (se 0.88) saved=0.4383 used=2.0 time=0.69s
+2026-11-07 00:42:29 INFO RESULT dolphin budget=2 ilp_roll   spread=9.90 (se 1.19) saved=0.1750 used=1.7 time=4.03s
+2026-11-07 00:42:29 INFO RESULT dolphin budget=4 none       spread=12.00 (se 1.38) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 00:42:29 INFO RESULT dolphin budget=4 ag         spread=5.12 (se 0.79) saved=0.5733 used=4.0 time=0.00s
+2026-11-07 00:42:29 INFO RESULT dolphin budget=4 gr         spread=5.12 (se 0.79) saved=0.5733 used=4.0 time=0.00s
+2026-11-07 00:42:29 INFO RESULT dolphin budget=4 defer      spread=5.16 (se 0.79) saved=0.5700 used=3.9 time=0.01s
+2026-11-07 00:42:29 INFO RESULT dolphin budget=4 defer_nopush spread=5.12 (se 0.79) saved=0.5733 used=4.0 time=0.00s
+2026-11-07 00:42:29 INFO RESULT dolphin budget=4 commit     spread=4.60 (se 0.69) saved=0.6167 used=4.0 time=0.01s
+2026-11-07 00:42:29 INFO RESULT dolphin budget=4 ilp1       spread=5.16 (se 0.72) saved=0.5700 used=4.0 time=0.65s
+2026-11-07 00:42:29 INFO RESULT dolphin budget=4 ilp_roll   spread=6.92 (se 0.94) saved=0.4233 used=3.7 time=8.76s
+2026-11-07 00:42:29 INFO RESULT dolphin budget=8 none       spread=12.00 (se 1.38) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 00:42:29 INFO RESULT dolphin budget=8 ag         spread=1.74 (se 0.46) saved=0.8550 used=7.9 time=0.00s
+2026-11-07 00:42:29 INFO RESULT dolphin budget=8 gr         spread=1.74 (se 0.46) saved=0.8550 used=7.9 time=0.00s
+2026-11-07 00:42:29 INFO RESULT dolphin budget=8 defer      spread=1.78 (se 0.45) saved=0.8517 used=7.4 time=0.01s
+2026-11-07 00:42:29 INFO RESULT dolphin budget=8 defer_nopush spread=1.74 (se 0.46) saved=0.8550 used=7.9 time=0.00s
+2026-11-07 00:42:29 INFO RESULT dolphin budget=8 commit     spread=2.16 (se 0.50) saved=0.8200 used=7.9 time=0.01s
+2026-11-07 00:42:29 INFO RESULT dolphin budget=8 ilp1       spread=1.88 (se 0.50) saved=0.8433 used=8.0 time=0.45s
+2026-11-07 00:42:29 INFO RESULT dolphin budget=8 ilp_roll   spread=2.84 (se 0.65) saved=0.7633 used=7.7 time=3.24s
+2026-11-07 00:42:29 INFO run adaptive_ilp_20261107T003839Z_4870 finished in 229.9s
