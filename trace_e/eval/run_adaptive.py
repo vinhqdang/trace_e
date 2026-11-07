@@ -107,6 +107,15 @@ def _episode(task):
             con = get_container("adaptive", planner="imin:gr", initial_plan=gr_plan, pushdown=False, **kw)
         elif policy == "commit":  # ablation: fresh plan every round, committed in full (no deferral, no protection)
             con = get_container("adaptive_commit", planner="imin:ag", **kw)
+        elif policy in ("defer_ilp", "defer_ilp_nopush", "commit_ilp"):  # DEFER with the exact ILP as its one-shot planner
+            ik = dict(ilp_k=_G["ilp"]["k"], ilp_tl=min(10.0, _G["ilp"]["tl"]))
+            if policy == "commit_ilp":
+                con = get_container("adaptive_commit", planner="ilp", **kw, **ik)
+            else:
+                first = ILPController("ilp1", K=_G["ilp"]["k"], time_limit=_G["ilp"]["tl"], seed=ep_seed, slack=_G["ilp"]["slack"])
+                first.reset(budget)
+                ip = first.act(ep)  # the ILP's own round-0 solution, as for the other wrapped planners
+                con = get_container("adaptive", planner="ilp", initial_plan=ip, pushdown=(policy == "defer_ilp"), **kw, **ik)
         elif policy in ("ilp1", "ilp_roll"):  # exact sample-average time-indexed ILP controllers
             con = ILPController(policy, K=_G["ilp"]["k"], H=_G["ilp"]["h"], time_limit=_G["ilp"]["tl"], seed=ep_seed, slack=_G["ilp"]["slack"], M=_G["ilp"]["m"] if policy == "ilp_roll" else 0)
         elif policy == "defer_h4":
@@ -125,6 +134,8 @@ def _episode(task):
     extra = {}
     if policy in ("ilp1", "ilp_roll"):
         extra = {"timeouts": con.timeouts, "solves": con.solves}
+    elif policy in ("defer_ilp", "defer_ilp_nopush", "commit_ilp"):
+        extra = {"timeouts": con.ilp_timeouts if hasattr(con, "ilp_timeouts") else 0, "solves": getattr(con, "ilp_solves", 0)}
     return {"inst": inst, "draw": draw, "policy": policy, "budget": budget, "spread": int(ep.harm - len(seeds)), "used": used,
             "time": time.perf_counter() - t0, **extra}
 
@@ -197,7 +208,7 @@ def main(argv=None):
     else:
         rows = [_episode(t) for t in tasks]
     log.info("episodes done in %.0fs", time.time() - t0)
-    for pol in ("ilp1", "ilp_roll"):
+    for pol in ("ilp1", "ilp_roll", "defer_ilp", "defer_ilp_nopush", "commit_ilp"):
         rs = [r for r in rows if r["policy"] == pol]
         if rs:
             log.info("ILP %s: %d solves, %d hit the time limit", pol, sum(r["solves"] for r in rs), sum(r["timeouts"] for r in rs))

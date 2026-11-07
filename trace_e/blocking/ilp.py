@@ -102,9 +102,13 @@ def _sample_core(g, ep, K, rng, layer1_seed):
     return out, list(range(K))
 
 
-def solve_plan(g, ep, budget_left, K, H, staged, rng, time_limit, slack=4, M=0):
+def solve_plan(g, ep, budget_left, K, H, staged, rng, time_limit, slack=4, M=0, scen=None):
     """Solve the SAA ILP; return (nodes to block now, info dict)."""
-    scen, bid = _sample_tree(g, ep, K, rng, M)
+    if scen is None:
+        scen, bid = _sample_tree(g, ep, K, rng, M)
+    else:  # externally supplied scenarios (e.g. DEFER's samples), one branch each
+        bid = list(range(len(scen)))
+        K = len(scen)
     cand = sorted({v for arr, _ in scen for v in arr})
     if not cand or budget_left <= 0:
         return [], dict(status="trivial", gap=0.0, nvars=0)
@@ -236,3 +240,37 @@ class ILPController:
         nodes = nodes[: self.left]
         self.left -= len(nodes)
         return nodes
+
+
+def scenarios_from_lives(g, lives, sources, forbidden):
+    """Scenarios (arrival depths, live edges) from live-edge samples, as DEFER's planner receives them."""
+    out = []
+    for live in lives:
+        arr, edges = {}, []
+        cur = [int(u) for u in sources]
+        visited = set(cur)
+        depth = 0
+        while cur:
+            depth += 1
+            nxt = []
+            for u in cur:
+                lo, hi = g.indptr[u], g.indptr[u + 1]
+                for v in g.indices[lo:hi][live[lo:hi]]:
+                    v = int(v)
+                    if forbidden[v]:
+                        continue
+                    edges.append((u, v))
+                    if v not in visited:
+                        visited.add(v)
+                        arr[v] = depth
+                        nxt.append(v)
+            cur = nxt
+        out.append((arr, edges))
+    return out
+
+
+def ilp_plan_from_lives(g, lives, sources, forbidden, budget, K=48, time_limit=10.0, slack=4):
+    """One-shot sample-average ILP plan on the first ``K`` of DEFER's samples."""
+    scen = scenarios_from_lives(g, lives[:K], sources, forbidden)
+    nodes, info = solve_plan(g, None, budget, K, 1, False, None, time_limit, slack, 0, scen=scen)
+    return nodes[:budget], info

@@ -110,17 +110,26 @@ class Container:
         self.pool = pool
         self.use_kappa = use_kappa
         self.planner = planner  # "dominator" (exact gains, all candidates) or "celf" (sampled reach, candidate pool)
+        self.ilp_k = kw.get("ilp_k", 48)
+        self.ilp_tl = kw.get("ilp_tl", 10.0)
         self.horizon = horizon  # 0 = whole reachable region; h > 0 = plan within h live hops of the frontier
 
     def plan(self, g, lives, sources, forbidden, budget, leftover=None):
-        if self.planner.startswith("imin:"):
+        if self.planner.startswith("imin:") or self.planner == "ilp":
             from ..blocking.imin import ALGORITHMS, SampleSet, advanced_greedy
-            name = self.planner.split(":", 1)[1]
             S = SampleSet(g, sources, len(lives), np.random.default_rng(0), forbidden=forbidden, lives=lives)
             S.refresh()
             gvals = S.single_gains()
             B0 = set(S.blocked)
-            B = [v for v in ALGORITHMS[name](S, budget) if v not in B0]
+            if self.planner == "ilp":  # exact sample-average time-indexed ILP as DEFER's one-shot planner
+                from ..blocking.ilp import ilp_plan_from_lives
+                B, info = ilp_plan_from_lives(g, lives, sources, forbidden, budget, K=self.ilp_k, time_limit=self.ilp_tl)
+                self.ilp_solves = getattr(self, "ilp_solves", 0) + 1
+                self.ilp_timeouts = getattr(self, "ilp_timeouts", 0) + int(bool(info.get("timeout")))
+                B = [v for v in B if v not in B0]
+            else:
+                name = self.planner.split(":", 1)[1]
+                B = [v for v in ALGORITHMS[name](S, budget) if v not in B0]
             if len(B) < budget:
                 advanced_greedy(S, budget - len(B))
                 B = [v for v in S.blocked if v not in B0]
