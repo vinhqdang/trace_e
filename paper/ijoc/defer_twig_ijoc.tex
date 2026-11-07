@@ -103,6 +103,20 @@ exact computation currently admits.
 
 \section{Introduction}\label{sec:intro}
 
+Consider a platform moderator who learns that a false rumor has started
+spreading from a handful of accounts, or a health authority that has detected
+a few cases of an infectious disease. Each can suspend a small number of
+accounts, or quarantine a small number of people, but not many. The standard
+operations-research treatment asks which targets to pick \emph{now}, and
+commits the whole budget before anything further is known. Real interventions
+rarely work this way: within hours or days the moderator sees which accounts
+the rumor has actually reached, and the authority sees which contacts have
+actually become infected. The practical question is whether it is better to
+spend the budget at once or to hold part of it back and spend it where the
+outbreak actually goes. Holding back is risky, because a cascade can pass
+through a node before it is blocked, but it also avoids spending budget on
+targets the cascade never reaches. This paper quantifies that trade-off.
+
 Misinformation and epidemic-style contagions on networks share a common
 downstream control problem once they have already started: given a fixed
 set of active or seeded sources and a limited budget of vertices that can be
@@ -173,7 +187,41 @@ available beyond trivial instances.
   used throughout our broader project.
 \end{enumerate}
 
+\paragraph{Roadmap.} Section~\ref{sec:prelim} fixes the model and the
+problem. Section~\ref{sec:defer} introduces DEFER; it first gives the
+algorithm, then a small worked example that shows the effect in numbers,
+and then the formal guarantees, each preceded by a plain-language statement
+of what it says and why it holds. Section~\ref{sec:twig} introduces TWIG, the
+exact evaluator used to check simulation-based judgments, and
+Section~\ref{sec:experiments} reports the benchmarks. Readers mainly
+interested in the practical message can read Sections~\ref{sec:defer-algo}
+and~\ref{sec:defer-example}, the overview opening
+Section~\ref{sec:defer-theory}, and Section~\ref{sec:discussion}; the proofs
+are in the Online Supplement.
+
 \subsection{Related Work}\label{sec:related}
+
+\textbf{Exact and optimization-based methods.} Influence minimization and
+related blocking problems have also been attacked with exact
+mathematical-programming methods, which we do not benchmark against but which
+matter for the dynamic setting studied here. \citet{taninmis2022} study
+min--max bilevel formulations of misinformation spread in social networks and
+give an improved $x$-space algorithm for them, and \citet{taninmis2024}
+develop Benders decomposition algorithms for minimizing the spread of harmful
+contagions; both are scenario-based exact approaches that certify optimality
+on instances where greedy methods give no such certificate. Their
+formulations are static, but they can be extended to staged budgets: in a
+time-indexed formulation the blocking variables carry a time index, the
+budget constraint couples the stages, and a node cannot be blocked after the
+cascade has reached it, so allowing part of the budget to be spent in later
+periods requires only extra indices and non-anticipativity constraints across
+scenarios that look identical up to the decision time. A solver for such a
+formulation would give a different baseline for DEFER than the greedy
+planners we use: slower, but exact on the sampled scenarios. We discuss what
+this would and would not show in Section~\ref{sec:discussion}, and we have not
+run it. DEFER is complementary to these methods, since its planner
+$\mathcal P$ is arbitrary and an exact scenario-based solver can be used in
+that role.
 
 \textbf{Influence minimization.} \citet{xie2023} introduce IMIN, prove
 NP-hardness and inapproximability, and give AdvancedGreedy. \citet{xie2024}
@@ -514,8 +562,13 @@ itself can no longer be blocked once activated).}
 
 \subsection{Worked example}\label{sec:defer-example}
 
-We make the mechanism behind Theorem~\ref{thm:adaptivity-gap} concrete on
-the star-of-paths instance its proof constructs
+Before stating the formal results of Section~\ref{sec:defer-theory}, we show
+the central effect on a small instance. The idea is that a one-shot policy
+must pay to protect against every threat that \emph{might} materialize,
+while a deferred policy waits and pays only for threats that are seen to
+materialize. The instance below is the one used later to prove that this gap
+can be arbitrarily large (Theorem~\ref{thm:adaptivity-gap}); here we only
+compute its numbers. It is a star-of-paths instance
 (Figure~\ref{fig:star-of-paths}), with $\Delta=4$ branches,
 per-branch activation probability $p=0.1$, path length $L=50$, and budget
 $b=1$. Seed $s$ has four out-neighbors $a_1,\dots,a_4$, each independently
@@ -572,7 +625,29 @@ one-shot behavior exactly where deferring would not help.
 \subsection{Theoretical guarantees}\label{sec:defer-theory}
 
 Full proofs of every result in this section are given in
-Online Supplement~\ref{ec:defer-proofs}.
+Online Supplement~\ref{ec:defer-proofs}. Before the formal statements, here
+is what they say in plain terms.
+\begin{itemize}
+\item \emph{Waiting costs nothing in itself} (Lemma~\ref{lem:defer-free}):
+  if the targets are fixed in advance, blocking each one only when the
+  cascade reaches its doorstep gives exactly the same outcome as blocking
+  all of them at time $0$, and may leave budget unspent.
+\item \emph{Adapting to a better plan cannot hurt, if switching is
+  disciplined} (Theorem~\ref{thm:defer-dominates}): re-planning from what
+  has been observed is safe as long as a new plan replaces the old one only
+  when it is clearly better on fresh data.
+\item \emph{Committing an exposed target early versus waiting is a
+  local trade-off} (Lemma~\ref{lem:pushdown}): the rule is optimal for one
+  target in isolation but can fail when several deferred targets compete for
+  the same budget (Remark~\ref{rem:pushdown-counterexample}).
+\item \emph{The benefit of adapting can be arbitrarily large}
+  (Theorem~\ref{thm:adaptivity-gap}): the instance of
+  Section~\ref{sec:defer-example} scales so that the one-shot policy's
+  loss grows without bound relative to the adaptive one.
+\end{itemize}
+Theorem~\ref{thm:defer-complexity} then states the running time, and
+Theorem~\ref{thm:isocut-separation} concerns an extra planner move of
+secondary importance.
 
 \begin{lemma}[Deferral is free]\label{lem:defer-free}
 Fix a live-edge realization, the seeds, and any set $P$ with $|P|\le b$. Let
@@ -581,6 +656,12 @@ vertices of $P$ that are exposed to the current frontier. Then $\pi_P$
 produces exactly the same final active set as blocking $P$ at time $0$, and
 blocks at most as many vertices.
 \end{lemma}
+
+\emph{Intuition.} The lemma holds because blocking only matters on the
+path the cascade actually takes. A target that is not yet adjacent to the
+cascade cannot influence anything this round, so postponing its removal until
+the cascade is adjacent changes no realized outcome, and any target the
+cascade never reaches never needs to be paid for.
 
 \begin{theorem}[\texttt{DEFER-nopush} weakly dominates its planner]\label{thm:defer-dominates}
 Let $P_0$ be $\mathcal P$'s plan at round $0$, and consider Algorithm~\ref{alg:defer}
@@ -593,6 +674,14 @@ held-out standard error, then the expected final spread of
 \texttt{DEFER-nopush} is at most that of the one-shot solution $P_0$, up to
 the residual error of that one-sided test (Remark~\ref{rem:winners-curse}).
 \end{theorem}
+
+\emph{Intuition.} Lemma~\ref{lem:defer-free} says deferral alone loses
+nothing, so any loss from DEFER could only come from replacing the leftover
+plan by a worse one. The held-out standard-error test is a guard against
+exactly that: it makes replacement happen only when the new plan looks
+better by more than the sampling noise. The theorem is therefore
+conditional on that test, and Remark~\ref{rem:winners-curse} says how far it
+can be trusted.
 
 \begin{remark}[The 1-SE margin bounds, but does not eliminate, selection
 bias]\label{rem:winners-curse}
@@ -614,6 +703,14 @@ $v$'s children if and only if $v$ activates,'' the second has smaller
 expected loss (vertices lost plus $\lambda$ times budget spent) if and only
 if $q_v(c_v+1/\lambda)<1$.
 \end{lemma}
+
+\emph{Intuition.} Deferring an exposed target $v$ is a bet: with
+probability $1-q_v$ the cascade does not reach $v$ and the budget unit is
+saved, and with probability $q_v$ it does, in which case $v$ is lost but its
+$c_v$ children can still be protected. The bet is worth taking when $v$ is
+unlikely to be reached or has few children. The rule prices the saved unit
+at a single number $\lambda$ and so ignores that several simultaneous bets
+may all come due at once.
 
 \begin{remark}[Push-down does not preserve
 domination]\label{rem:pushdown-counterexample}
@@ -642,6 +739,14 @@ weighted-cascade model -- can be judged directly against
 Theorem~\ref{thm:defer-dominates}'s guaranteed variant.
 \end{remark}
 
+\emph{Intuition.} The gap results from asymmetry between insuring and
+reacting. A one-shot policy with one unit of budget can protect only one of
+several branches that might each become dangerous, so it ends up
+under-protected whenever more than one branch fires. The adaptive policy waits,
+sees which branch is live, and spends its unit there. Making branches rare
+and their consequences long makes insurance expensive and reaction cheap,
+which is why the ratio grows without bound.
+
 \begin{theorem}[The adaptivity gap of IMIN is unbounded]\label{thm:adaptivity-gap}
 For every $\Delta\ge 2$, $p\in(0,1)$, and path length $L\ge1$ there is an
 instance with maximum out-degree $\Delta$, budget $1$, on which the best
@@ -668,6 +773,11 @@ the spread ratio instead stays bounded as $p\to0$ (it tends to the finite
 constant $(\Delta-1)(L+1)/\Delta$).
 \end{theorem}
 
+\emph{Remark on interpretation.} The unboundedness is a worst-case
+statement about a constructed family. It shows adaptivity cannot be dismissed
+on theoretical grounds, not that it will matter on a given network; the
+empirical size of the effect is the subject of Section~\ref{sec:experiments}.
+
 \begin{theorem}[Complexity of DEFER]\label{thm:defer-complexity}
 Let $n_t,m_t$ be the number of vertices and edges reachable from $F_t$ in
 the union of the $\theta$ samples, $r$ the number of rounds, and $\alpha$
@@ -688,6 +798,11 @@ bound. \texttt{isocut} is not itself a competing baseline from the
 literature; it is reported only as an ablation, in
 Online Supplement~\ref{sec:isocut-practice}, because it is rarely selected
 on the SNAP graphs used there.
+
+\emph{Intuition.} Greedy planners add one vertex at a time and credit each
+with its marginal saving; when the benefit only appears after several
+blocks are made together, as when isolating all out-neighbors of a seed, each
+single block looks worthless and greedy never finds it.
 
 \begin{theorem}[Isolation-move separation]\label{thm:isocut-separation}
 There is a family of instances on which AdvancedGreedy, GreedyReplace, and
@@ -1309,6 +1424,26 @@ propagation, realistic when suspensions or quarantines are fast relative
 to the cascade's own timescale, but not otherwise; noisy, delayed, or
 partially-observed feedback is open.
 
+\subsection{Relation to exact scenario-based methods}\label{sec:discussion-exact}
+
+The baselines in Section~\ref{sec:experiments} are the greedy planners of the
+IMIN literature, and our computational evidence is limited to them. Exact
+methods such as the Benders and bilevel algorithms of
+\citet{taninmis2022,taninmis2024} are not included, and the comparison they
+would support is different in kind. First, a staged-budget version of a
+time-indexed scenario formulation would give, on a fixed set of sampled
+scenarios, a policy that is optimal for those scenarios under
+non-anticipativity, and so an upper bound on what any planner wrapped by
+DEFER could achieve there; it would not by itself be a competitor at the
+scale of the SNAP networks used here, where such formulations are expected to
+become expensive, although we have not measured this. Second, such a solver
+could replace the greedy planner inside DEFER, so the two approaches combine
+rather than compete. Third, the sampled-scenario optimum inherits the same
+Monte-Carlo error that TWIG is designed to expose, so on small graphs the
+two can be checked against each other. We leave a systematic computational
+comparison to future work and regard its absence as a real limitation of the
+present evidence.
+
 \subsection{When is TWIG the right tool?}\label{sec:discussion-twig}
 
 TWIG is not a substitute for the Monte-Carlo-based evaluation AG, GR, and
@@ -1518,6 +1653,16 @@ Shah C, Dehmamy N, Perra N, Chinazzi M, Barab\'asi AL, Vespignani A, Yu R
 \bibitem[{Sterchi et~al.(2026)Sterchi, Brack, and Hilfiker}]{sterchi2026}
 Sterchi M, Brack F, Hilfiker R (2026) A systematic benchmark of graph
   neural networks for epidemic source detection. \emph{arXiv:2512.20657}.
+
+\bibitem[{Tan{\i}nm{\i}{\c s} et~al.(2022)}]{taninmis2022}
+Tan{\i}nm{\i}{\c s} et al.\ (2022) Improved $x$-space algorithm for min-max
+  bilevel problems with an application to misinformation spread in social
+  networks. \emph{Eur.\ J.\ Oper.\ Res.} 297(1):40--52.
+
+\bibitem[{Tan{\i}nm{\i}{\c s} et~al.(2024)}]{taninmis2024}
+Tan{\i}nm{\i}{\c s} et al.\ (2024) Benders decomposition algorithms for
+  minimizing the spread of harmful contagions in networks. \emph{Comput.\
+  Oper.\ Res.} 167.
 
 \bibitem[{Tong et~al.(2017)}]{tong2017}
 Tong G, Wu W, Tang S, Du DZ (2017) Adaptive influence maximization in
