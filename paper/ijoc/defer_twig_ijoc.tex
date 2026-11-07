@@ -1454,7 +1454,10 @@ $0.02$--$52$ s per episode against milliseconds for AG and DEFER, and on the
 the greedy methods, so these formulations did not scale to the sizes where
 DEFER is used.
 
-Two further points limit what the comparison shows. COMMIT, the
+Two further points limit what the comparison shows. A separate scan of larger
+synthetic networks (Online Supplement~\ref{ec:regime}) finds DEFER significantly
+better than AG in 9 of 45 cells and worse in 0, with the gains in large-cascade regimes; the
+small-instance cells above are mostly outside that regime. COMMIT, the
 re-plan-and-commit-everything ablation, was above DEFER in 11 cells and below
 in 2 in this small-instance regime, so on these instances the advantage of
 deferral that Section~\ref{sec:defer-example} predicts for low-probability,
@@ -2374,6 +2377,94 @@ power-grid & 0.339 & \textbf{0.341} & 0.339 & \textbf{0.341} \\
 \end{tabular}}
 {Bold marks the best value per row. isocut never beats AG; defer\_cut
 beats plain DEFER only on ca-HepTh and ties it elsewhere.}
+\end{table}
+
+\section{Regime Scan: Where Does Deferral Help?}\label{ec:regime}
+
+The small-instance benchmark of Online Supplement~\ref{ec:ilp} has mostly
+saturated or low-spread cells, where there is little for deferral to gain. To
+see where DEFER's advantage appears, we scanned a grid of 5 graph families
+(1000-node random tree, 1024-node grid, random geometric graph with mean
+degree 4, Watts--Strogatz $k=4$, $\beta=0.05$, and Barab\'asi--Albert $m=2$),
+3 constant edge probabilities each, and budgets $b\in\{5,20,50\}$, with 10
+random seed sets of size 10 and 10 realizations per seed set (100 paired
+episodes per cell). The probabilities were chosen to span sub- to near-critical
+spread for each family after seeing the earlier small-instance results, so the
+grid is exploratory; every cell is reported. Cells are compared pairwise on
+identical realizations; the entry is the mean number of nodes by which the
+spread of the other policy exceeds DEFER's (positive favors DEFER), with the
+standard error of the paired difference in parentheses, in bold when the ratio
+exceeds $2$. With 45 cells per comparison, about two ratios beyond $\pm2$ are
+expected by chance alone.
+
+Against AG, DEFER is significantly better in 9 cells and significantly
+worse in 0, and against COMMIT it is significantly better in 6 cells and worse in
+0. The significant cells are concentrated where cascades are large:
+the grid at $p=0.5$ (budgets $5,20,50$; unprotected spread about $616$ nodes;
+DEFER saves $0.447$ of spread at $b=20$ against $0.335$ for AG and $0.355$ for
+COMMIT), Watts--Strogatz at $p=0.5$, and random geometric graphs at moderate
+$p$. Where spread is small or the budget covers the whole cascade (many cells
+with $b=50$) all policies tie, and on Barab\'asi--Albert graphs there is no
+significant difference anywhere.
+
+\begin{table}[h]
+\TABLE
+{Regime scan. Saved fraction of spread for AG and DEFER, and paired mean
+differences in final spread (nodes) of AG and COMMIT relative to DEFER, with
+standard errors in parentheses; positive values favor DEFER, bold marks ratio
+$>2$.\label{tab:regime}}
+{\footnotesize
+\begin{tabular}{lrrrrrrr}
+\hline
+Network & $p$ & $b$ & unprot. & AG & DEFER & AG$-$DEFER & COMMIT$-$DEFER \\
+\hline
+tree-1000 & 0.2 & 5 & 5.5 & 0.295 & 0.286 & -0.05\,(0.05) & -0.23\,(0.15) \\
+tree-1000 & 0.2 & 20 & 5.5 & 0.947 & 0.947 & +0.00\,(0.00) & -0.04\,(0.08) \\
+tree-1000 & 0.2 & 50 & 5.5 & 1.000 & 1.000 & +0.00\,(0.00) & +0.00\,(0.00) \\
+tree-1000 & 0.35 & 5 & 12.4 & 0.375 & 0.373 & -0.02\,(0.09) & -0.07\,(0.22) \\
+tree-1000 & 0.35 & 20 & 12.4 & 0.966 & 0.964 & -0.03\,(0.02) & +0.00\,(0.04) \\
+tree-1000 & 0.35 & 50 & 12.4 & 1.000 & 1.000 & +0.00\,(0.00) & +0.00\,(0.00) \\
+tree-1000 & 0.5 & 5 & 27.5 & 0.419 & 0.453 & \textbf{+0.94\,(0.39)} & \textbf{+1.15\,(0.50)} \\
+tree-1000 & 0.5 & 20 & 27.5 & 0.979 & 0.978 & -0.02\,(0.01) & +0.04\,(0.04) \\
+tree-1000 & 0.5 & 50 & 27.5 & 1.000 & 1.000 & +0.00\,(0.00) & +0.00\,(0.00) \\
+grid-1024 & 0.2 & 5 & 17.6 & 0.140 & 0.148 & +0.15\,(0.11) & -0.61\,(0.47) \\
+grid-1024 & 0.2 & 20 & 17.6 & 0.562 & 0.562 & +0.00\,(0.00) & +0.05\,(0.54) \\
+grid-1024 & 0.2 & 50 & 17.6 & 1.000 & 1.000 & +0.00\,(0.00) & +0.00\,(0.00) \\
+grid-1024 & 0.35 & 5 & 84.5 & 0.176 & 0.176 & +0.00\,(0.00) & +3.17\,(1.71) \\
+grid-1024 & 0.35 & 20 & 84.5 & 0.628 & 0.637 & +0.77\,(0.49) & +0.45\,(2.01) \\
+grid-1024 & 0.35 & 50 & 84.5 & 1.000 & 1.000 & +0.00\,(0.00) & +0.00\,(0.00) \\
+grid-1024 & 0.5 & 5 & 615.8 & 0.064 & 0.082 & \textbf{+11.50\,(3.62)} & \textbf{+19.63\,(7.70)} \\
+grid-1024 & 0.5 & 20 & 615.8 & 0.335 & 0.447 & \textbf{+68.86\,(15.08)} & \textbf{+56.62\,(17.53)} \\
+grid-1024 & 0.5 & 50 & 615.8 & 0.952 & 0.996 & \textbf{+27.11\,(6.70)} & \textbf{+44.18\,(9.72)} \\
+rgg-1000 & 0.2 & 5 & 16.2 & 0.235 & 0.230 & -0.07\,(0.06) & -0.44\,(0.35) \\
+rgg-1000 & 0.2 & 20 & 16.2 & 0.707 & 0.712 & +0.08\,(0.12) & +0.39\,(0.31) \\
+rgg-1000 & 0.2 & 50 & 16.2 & 1.000 & 1.000 & +0.00\,(0.00) & +0.00\,(0.00) \\
+rgg-1000 & 0.35 & 5 & 47.0 & 0.287 & 0.294 & \textbf{+0.37\,(0.15)} & +0.12\,(0.65) \\
+rgg-1000 & 0.35 & 20 & 47.0 & 0.773 & 0.784 & \textbf{+0.52\,(0.24)} & -0.26\,(0.48) \\
+rgg-1000 & 0.35 & 50 & 47.0 & 1.000 & 1.000 & +0.00\,(0.00) & +0.00\,(0.00) \\
+rgg-1000 & 0.5 & 5 & 103.9 & 0.330 & 0.336 & +0.55\,(0.35) & +1.91\,(1.20) \\
+rgg-1000 & 0.5 & 20 & 103.9 & 0.814 & 0.828 & \textbf{+1.41\,(0.37)} & +0.40\,(0.54) \\
+rgg-1000 & 0.5 & 50 & 103.9 & 1.000 & 1.000 & +0.00\,(0.00) & +0.00\,(0.02) \\
+WS-1000 & 0.2 & 5 & 14.9 & 0.149 & 0.150 & +0.02\,(0.02) & +0.08\,(0.30) \\
+WS-1000 & 0.2 & 20 & 14.9 & 0.591 & 0.592 & +0.01\,(0.01) & +0.21\,(0.38) \\
+WS-1000 & 0.2 & 50 & 14.9 & 1.000 & 1.000 & +0.00\,(0.00) & +0.00\,(0.00) \\
+WS-1000 & 0.35 & 5 & 56.2 & 0.210 & 0.210 & +0.01\,(0.01) & -0.89\,(1.07) \\
+WS-1000 & 0.35 & 20 & 56.2 & 0.642 & 0.647 & \textbf{+0.27\,(0.13)} & +0.34\,(1.00) \\
+WS-1000 & 0.35 & 50 & 56.2 & 1.000 & 1.000 & +0.00\,(0.00) & +0.00\,(0.00) \\
+WS-1000 & 0.5 & 5 & 266.7 & 0.184 & 0.211 & +7.08\,(4.65) & +8.00\,(5.56) \\
+WS-1000 & 0.5 & 20 & 266.7 & 0.673 & 0.739 & \textbf{+17.57\,(2.73)} & \textbf{+20.94\,(6.34)} \\
+WS-1000 & 0.5 & 50 & 266.7 & 0.998 & 0.998 & +0.02\,(0.01) & \textbf{+0.33\,(0.10)} \\
+BA-1000 & 0.03 & 5 & 1.8 & 0.286 & 0.280 & -0.01\,(0.01) & -0.04\,(0.08) \\
+BA-1000 & 0.03 & 20 & 1.8 & 0.571 & 0.571 & +0.00\,(0.00) & +0.11\,(0.12) \\
+BA-1000 & 0.03 & 50 & 1.8 & 0.852 & 0.852 & +0.00\,(0.00) & +0.04\,(0.06) \\
+BA-1000 & 0.06 & 5 & 5.7 & 0.422 & 0.444 & +0.13\,(0.15) & +0.27\,(0.18) \\
+BA-1000 & 0.06 & 20 & 5.7 & 0.661 & 0.661 & +0.00\,(0.00) & -0.01\,(0.12) \\
+BA-1000 & 0.06 & 50 & 5.7 & 0.877 & 0.878 & +0.01\,(0.01) & -0.05\,(0.10) \\
+BA-1000 & 0.1 & 5 & 17.4 & 0.584 & 0.602 & +0.31\,(0.23) & +0.30\,(0.33) \\
+BA-1000 & 0.1 & 20 & 17.4 & 0.778 & 0.780 & +0.02\,(0.04) & +0.08\,(0.18) \\
+BA-1000 & 0.1 & 50 & 17.4 & 0.937 & 0.937 & +0.00\,(0.00) & -0.01\,(0.09) \\
+\hline
+\end{tabular}}{}
 \end{table}
 
 \section{Exact Scenario-Based ILP Baselines}\label{ec:ilp}

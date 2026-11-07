@@ -1,0 +1,33 @@
+2026-11-07 13:42:27 INFO run adaptive_regime_20261107T134227Z_1495 started, dir=/home/user/trace_e/results/runs/adaptive_regime_20261107T134227Z_1495
+2026-11-07 13:42:27 INFO network ba:1000:m=2: {'n_nodes': 1000, 'n_edges': 1996, 'avg_degree': 3.992, 'n_components': 1, 'lcc_size': 1000}
+2026-11-07 13:42:27 INFO plans ready for instance 1/10
+2026-11-07 13:42:27 INFO plans ready for instance 2/10
+2026-11-07 13:42:27 INFO plans ready for instance 3/10
+2026-11-07 13:42:27 INFO plans ready for instance 4/10
+2026-11-07 13:42:27 INFO plans ready for instance 5/10
+2026-11-07 13:42:27 INFO plans ready for instance 6/10
+2026-11-07 13:42:28 INFO plans ready for instance 7/10
+2026-11-07 13:42:28 INFO plans ready for instance 8/10
+2026-11-07 13:42:28 INFO plans ready for instance 9/10
+2026-11-07 13:42:28 INFO plans ready for instance 10/10
+2026-11-07 13:42:28 INFO running 1800 episodes
+2026-11-07 13:42:30 INFO episodes done in 2s
+2026-11-07 13:42:30 INFO RESULT ba:1000:m=2 budget=5 none       spread=5.67 (se 0.57) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 13:42:30 INFO RESULT ba:1000:m=2 budget=5 ag         spread=3.28 (se 0.34) saved=0.4215 used=5.0 time=0.00s
+2026-11-07 13:42:30 INFO RESULT ba:1000:m=2 budget=5 gr         spread=3.28 (se 0.34) saved=0.4215 used=5.0 time=0.00s
+2026-11-07 13:42:30 INFO RESULT ba:1000:m=2 budget=5 defer      spread=3.15 (se 0.30) saved=0.4444 used=4.9 time=0.01s
+2026-11-07 13:42:30 INFO RESULT ba:1000:m=2 budget=5 defer_nopush spread=3.28 (se 0.34) saved=0.4215 used=5.0 time=0.01s
+2026-11-07 13:42:30 INFO RESULT ba:1000:m=2 budget=5 commit     spread=3.42 (se 0.33) saved=0.3968 used=5.0 time=0.01s
+2026-11-07 13:42:30 INFO RESULT ba:1000:m=2 budget=20 none       spread=5.67 (se 0.57) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 13:42:30 INFO RESULT ba:1000:m=2 budget=20 ag         spread=1.92 (se 0.24) saved=0.6614 used=20.0 time=0.00s
+2026-11-07 13:42:30 INFO RESULT ba:1000:m=2 budget=20 gr         spread=1.94 (se 0.25) saved=0.6578 used=20.0 time=0.00s
+2026-11-07 13:42:30 INFO RESULT ba:1000:m=2 budget=20 defer      spread=1.92 (se 0.24) saved=0.6614 used=19.9 time=0.01s
+2026-11-07 13:42:30 INFO RESULT ba:1000:m=2 budget=20 defer_nopush spread=1.92 (se 0.24) saved=0.6614 used=19.9 time=0.01s
+2026-11-07 13:42:30 INFO RESULT ba:1000:m=2 budget=20 commit     spread=1.91 (se 0.24) saved=0.6631 used=20.0 time=0.01s
+2026-11-07 13:42:30 INFO RESULT ba:1000:m=2 budget=50 none       spread=5.67 (se 0.57) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 13:42:30 INFO RESULT ba:1000:m=2 budget=50 ag         spread=0.70 (se 0.18) saved=0.8765 used=38.3 time=0.00s
+2026-11-07 13:42:30 INFO RESULT ba:1000:m=2 budget=50 gr         spread=0.68 (se 0.18) saved=0.8801 used=38.2 time=0.00s
+2026-11-07 13:42:30 INFO RESULT ba:1000:m=2 budget=50 defer      spread=0.69 (se 0.18) saved=0.8783 used=38.2 time=0.01s
+2026-11-07 13:42:30 INFO RESULT ba:1000:m=2 budget=50 defer_nopush spread=0.69 (se 0.18) saved=0.8783 used=38.2 time=0.01s
+2026-11-07 13:42:30 INFO RESULT ba:1000:m=2 budget=50 commit     spread=0.64 (se 0.18) saved=0.8871 used=38.2 time=0.02s
+2026-11-07 13:42:30 INFO run adaptive_regime_20261107T134227Z_1495 finished in 3.0s

@@ -1,0 +1,33 @@
+2026-11-07 13:38:28 INFO run adaptive_regime_20261107T133828Z_1153 started, dir=/home/user/trace_e/results/runs/adaptive_regime_20261107T133828Z_1153
+2026-11-07 13:38:28 INFO network rgg:1000:deg=4: {'n_nodes': 1000, 'n_edges': 1912, 'avg_degree': 3.824, 'n_components': 58, 'lcc_size': 339}
+2026-11-07 13:38:29 INFO plans ready for instance 1/10
+2026-11-07 13:38:30 INFO plans ready for instance 2/10
+2026-11-07 13:38:32 INFO plans ready for instance 3/10
+2026-11-07 13:38:34 INFO plans ready for instance 4/10
+2026-11-07 13:38:35 INFO plans ready for instance 5/10
+2026-11-07 13:38:36 INFO plans ready for instance 6/10
+2026-11-07 13:38:38 INFO plans ready for instance 7/10
+2026-11-07 13:38:39 INFO plans ready for instance 8/10
+2026-11-07 13:38:41 INFO plans ready for instance 9/10
+2026-11-07 13:38:43 INFO plans ready for instance 10/10
+2026-11-07 13:38:43 INFO running 1800 episodes
+2026-11-07 13:39:13 INFO episodes done in 30s
+2026-11-07 13:39:13 INFO RESULT rgg:1000:deg=4 budget=5 none       spread=103.91 (se 3.41) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 13:39:13 INFO RESULT rgg:1000:deg=4 budget=5 ag         spread=69.58 (se 2.78) saved=0.3304 used=5.0 time=0.01s
+2026-11-07 13:39:13 INFO RESULT rgg:1000:deg=4 budget=5 gr         spread=69.43 (se 2.80) saved=0.3318 used=5.0 time=0.02s
+2026-11-07 13:39:13 INFO RESULT rgg:1000:deg=4 budget=5 defer      spread=69.03 (se 2.81) saved=0.3357 used=5.0 time=0.10s
+2026-11-07 13:39:13 INFO RESULT rgg:1000:deg=4 budget=5 defer_nopush spread=69.02 (se 2.81) saved=0.3358 used=5.0 time=0.10s
+2026-11-07 13:39:13 INFO RESULT rgg:1000:deg=4 budget=5 commit     spread=70.94 (se 2.72) saved=0.3173 used=5.0 time=0.13s
+2026-11-07 13:39:13 INFO RESULT rgg:1000:deg=4 budget=20 none       spread=103.91 (se 3.41) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 13:39:13 INFO RESULT rgg:1000:deg=4 budget=20 ag         spread=19.33 (se 1.09) saved=0.8140 used=20.0 time=0.03s
+2026-11-07 13:39:13 INFO RESULT rgg:1000:deg=4 budget=20 gr         spread=18.88 (se 1.21) saved=0.8183 used=20.0 time=0.03s
+2026-11-07 13:39:13 INFO RESULT rgg:1000:deg=4 budget=20 defer      spread=17.92 (se 0.96) saved=0.8275 used=19.8 time=0.08s
+2026-11-07 13:39:13 INFO RESULT rgg:1000:deg=4 budget=20 defer_nopush spread=17.87 (se 0.99) saved=0.8280 used=20.0 time=0.07s
+2026-11-07 13:39:13 INFO RESULT rgg:1000:deg=4 budget=20 commit     spread=18.32 (se 0.99) saved=0.8237 used=20.0 time=0.28s
+2026-11-07 13:39:13 INFO RESULT rgg:1000:deg=4 budget=50 none       spread=103.91 (se 3.41) saved=0.0000 used=0.0 time=0.00s
+2026-11-07 13:39:13 INFO RESULT rgg:1000:deg=4 budget=50 ag         spread=0.03 (se 0.02) saved=0.9997 used=39.4 time=0.03s
+2026-11-07 13:39:13 INFO RESULT rgg:1000:deg=4 budget=50 gr         spread=0.00 (se 0.00) saved=1.0000 used=36.5 time=0.03s
+2026-11-07 13:39:13 INFO RESULT rgg:1000:deg=4 budget=50 defer      spread=0.03 (se 0.02) saved=0.9997 used=36.4 time=0.04s
+2026-11-07 13:39:13 INFO RESULT rgg:1000:deg=4 budget=50 defer_nopush spread=0.03 (se 0.02) saved=0.9997 used=36.4 time=0.04s
+2026-11-07 13:39:13 INFO RESULT rgg:1000:deg=4 budget=50 commit     spread=0.03 (se 0.02) saved=0.9997 used=39.4 time=0.34s
+2026-11-07 13:39:13 INFO run adaptive_regime_20261107T133828Z_1153 finished in 45.8s
