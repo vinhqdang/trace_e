@@ -32,6 +32,7 @@ import numpy as np
 
 from ..blocking import BlockingContext, get_blocker
 from ..blocking.imin import run_algorithm
+from ..blocking.ilp import ILPController
 from ..graphs import load_network, graph_stats
 from ..logging_utils import RunLogger, RESULTS_DIR, append_csv, git_commit
 from ..sequential.containers import get_container
@@ -57,6 +58,11 @@ def parse_args(argv=None):
     p.add_argument("--draws", type=int, default=5, help="live-edge realisations per instance")
     p.add_argument("--theta", type=int, default=100)
     p.add_argument("--policies", default="none,ag,gr,lsbm,proximity,degree,defer,defer_gr,commit")
+    p.add_argument("--ilp-k", type=int, default=40, help="scenarios in the sample-average ILP policies (ilp1, ilp_roll)")
+    p.add_argument("--ilp-h", type=int, default=3, help="stages in the ilp_roll recourse model")
+    p.add_argument("--ilp-time-limit", type=float, default=20.0)
+    p.add_argument("--ilp-slack", type=int, default=4)
+    p.add_argument("--ilp-branches", type=int, default=0, help="first-step branches of the ilp_roll scenario tree (0: clairvoyant recourse)")
     p.add_argument("--max-rounds", type=int, default=200)
     p.add_argument("--seed", type=int, default=1)
     p.add_argument("--n-jobs", type=int, default=max(1, os.cpu_count() or 1))
@@ -101,6 +107,8 @@ def _episode(task):
             con = get_container("adaptive", planner="imin:gr", initial_plan=gr_plan, pushdown=False, **kw)
         elif policy == "commit":  # ablation: fresh plan every round, committed in full (no deferral, no protection)
             con = get_container("adaptive_commit", planner="imin:ag", **kw)
+        elif policy in ("ilp1", "ilp_roll"):  # exact sample-average time-indexed ILP controllers
+            con = ILPController(policy, K=_G["ilp"]["k"], H=_G["ilp"]["h"], time_limit=_G["ilp"]["tl"], seed=ep_seed, slack=_G["ilp"]["slack"], M=_G["ilp"]["m"] if policy == "ilp_roll" else 0)
         elif policy == "defer_h4":
             kw["horizon"] = 4
             con = get_container("adaptive", **kw)
@@ -114,8 +122,11 @@ def _episode(task):
             rounds += 1
     while ep.alive:
         ep.step()
+    extra = {}
+    if policy in ("ilp1", "ilp_roll"):
+        extra = {"timeouts": con.timeouts, "solves": con.solves}
     return {"inst": inst, "draw": draw, "policy": policy, "budget": budget, "spread": int(ep.harm - len(seeds)), "used": used,
-            "time": time.perf_counter() - t0}
+            "time": time.perf_counter() - t0, **extra}
 
 
 def main(argv=None):
@@ -169,7 +180,8 @@ def main(argv=None):
                     plans[(i, pol, b)] = blk.select(seeds, b)
                     plan_time[(pol, b)] = plan_time.get((pol, b), 0.0) + time.perf_counter() - t0
         log.info("plans ready for instance %d/%d", i + 1, len(instances))
-    _G.update(g=g, plans=plans, theta=args.theta, max_rounds=args.max_rounds)
+    _G.update(g=g, plans=plans, theta=args.theta, max_rounds=args.max_rounds,
+             ilp=dict(k=args.ilp_k, h=args.ilp_h, tl=args.ilp_time_limit, slack=args.ilp_slack, m=args.ilp_branches))
     tasks = []
     for i, seeds in enumerate(instances):
         for d in range(args.draws):
@@ -185,6 +197,10 @@ def main(argv=None):
     else:
         rows = [_episode(t) for t in tasks]
     log.info("episodes done in %.0fs", time.time() - t0)
+    for pol in ("ilp1", "ilp_roll"):
+        rs = [r for r in rows if r["policy"] == pol]
+        if rs:
+            log.info("ILP %s: %d solves, %d hit the time limit", pol, sum(r["solves"] for r in rs), sum(r["timeouts"] for r in rs))
     with rl.instance_writer("episodes") as fh:
         for r in rows:
             fh.write(json.dumps(r) + "\n")
