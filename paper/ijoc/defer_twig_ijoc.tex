@@ -203,19 +203,19 @@ are in the Online Supplement.
 
 \textbf{Exact and optimization-based methods.} Influence minimization and
 related blocking problems have also been attacked with exact
-mathematical-programming methods, which we do not benchmark against but which
-matter for the dynamic setting studied here. \citet{taninmis2022} study
-min--max bilevel formulations of misinformation spread in social networks and
-give an improved $x$-space algorithm for them, and \citet{taninmis2024}
-develop Benders decomposition algorithms for minimizing the spread of harmful
-contagions; both are scenario-based exact approaches that certify optimality
-on instances where greedy methods give no such certificate. Their
-formulations are static, but they can be extended to staged budgets: in a
-time-indexed formulation the blocking variables carry a time index, the
-budget constraint couples the stages, and a node cannot be blocked after the
-cascade has reached it, so allowing part of the budget to be spent in later
-periods requires only extra indices and non-anticipativity constraints across
-scenarios that look identical up to the decision time. We implement a
+mathematical-programming methods, which matter for the dynamic setting studied
+here. \citet{taninmis2022} give an improved $x$-space algorithm for min--max
+bilevel problems, with misinformation spread in social networks as an
+application, and \citet{taninmis2024} develop Benders decomposition algorithms
+for minimizing the spread of harmful contagions. We are not aware that either
+treats the timing of commitment as a decision, but a time-indexed formulation
+extends naturally to staged budgets: the blocking variables carry a time
+index, the budget constraint couples the stages, and a node cannot be blocked
+after the cascade has reached it, so allowing part of the budget to be spent
+in later periods requires only extra indices and non-anticipativity
+constraints across scenarios that look identical up to the decision time. A
+solver for such a formulation gives a different baseline for DEFER than the
+greedy planners we use: slower, but exact on the sampled scenarios. We implement a
 scenario-based, time-indexed version of this idea, in a one-shot and a staged
 form, and benchmark it against the greedy planners and DEFER in
 Online Supplement~\ref{ec:ilp}; Section~\ref{sec:discussion-exact} discusses

@@ -1,0 +1,12 @@
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+*.synctex.gz
+*.pdf
+!images/*.pdf
+!figures/*.pdf
+!empty-eps-converted-to.pdf
+log.txt
+Fonts/

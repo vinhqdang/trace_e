@@ -1,0 +1,34 @@
+\documentclass[11pt]{letter}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor=blue, linkcolor=blue}
+
+\signature{Quang-Vinh Dang}
+\address{British University Vietnam \\ Hung Yen, Vietnam \\ vinh.dq4@buv.edu.vn \\ ORCID: 0000-0002-3877-8024}
+
+\begin{document}
+
+\begin{letter}{The Editors \\ \textit{Networks}}
+
+\opening{Dear Editors,}
+
+I am pleased to submit my manuscript, ``\textit{Adaptive Influence Minimization via Deferred Frontier Blocking: Theory, Algorithms, and Exact Validation on Bounded-Pathwidth Graphs},'' for consideration in \textit{Networks}.
+
+The manuscript studies influence minimization on networks: given a rumor or epidemic that has already been seeded and a fixed budget of vertices that can be removed, which vertices should be chosen to minimize the eventual spread. Published algorithms are one-shot and commit the whole budget before the cascade is observed. The paper asks whether committing the budget gradually, as the cascade unfolds, can be worse than committing it at once, and how much better it can be. It makes three contributions:
+
+\begin{itemize}
+\item \textbf{Analysis of adaptivity.} I introduce DEFER, a wrapper that turns any one-shot planner into an adaptive one, and prove that its pure-deferral variant is never worse than the plan it wraps; that a natural push-down commitment rule is myopically optimal but, by a closed-form counterexample, does not extend this guarantee to the full algorithm; and that the adaptivity gap of influence minimization is unbounded.
+\item \textbf{An exact algorithm.} TWIG is a dynamic program that computes the expected spread of a blocking set exactly on graphs of bounded pathwidth, fixed-parameter tractable in the width, with a correctness proof and a worst-case separation between processing directions. It is used to measure, free of Monte Carlo noise, how far greedy blocking is from optimal.
+\item \textbf{Computational evidence.} DEFER is compared with greedy planners, a re-plan-and-commit ablation and scenario-based time-indexed integer programs on empirical and synthetic networks. The report includes the regimes where DEFER does not help.
+\end{itemize}
+
+I believe the paper fits the journal's interest in the mathematical analysis of network problems and the design of computationally efficient network algorithms, and in the modeling of processes on networks. The code, scripts and result logs are available at \url{https://github.com/vinhqdang/trace_e}.
+
+This manuscript is original and is not under consideration at any other journal. I have no conflicts of interest to disclose.
+
+Thank you for considering my manuscript.
+
+\closing{Sincerely,}
+
+\end{letter}
+\end{document}
