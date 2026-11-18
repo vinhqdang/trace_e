@@ -1,0 +1,54 @@
+{'graph': 'karate', 'n': 34, 'm': 77, 'width_min_fill_reversed': 10, 'width_best_layout': 5, 'layout_seconds': 0.0}
+{'graph': 'iceland', 'n': 75, 'm': 114, 'width_min_fill_reversed': 12, 'width_best_layout': 7, 'layout_seconds': 0.01}
+{'graph': 'dolphin', 'n': 62, 'm': 159, 'width_min_fill_reversed': 19, 'width_best_layout': 10, 'layout_seconds': 0.01}
+{'graph': 'workplace', 'n': 92, 'm': 755, 'width_min_fill_reversed': 61, 'width_best_layout': 37, 'layout_seconds': 0.06}
+{'graph': 'fraternity', 'n': 58, 'm': 967, 'width_min_fill_reversed': 47, 'width_best_layout': 41, 'layout_seconds': 0.05}
+{'graph': 'airtraffic', 'n': 225, 'm': 2317, 'width_min_fill_reversed': 114, 'width_best_layout': 44, 'layout_seconds': 0.4}
+{'graph': 'powergrid', 'n': 4941, 'm': 6594, 'width_min_fill_reversed': 1140, 'width_best_layout': 61, 'layout_seconds': 4.84}
+{'graph': 'grid 3x200', 'n': 600, 'm': 997, 'width_min_fill_reversed': 6, 'width_best_layout': 3, 'layout_seconds': 0.04}
+{'graph': 'grid 4x200', 'n': 800, 'm': 1396, 'width_min_fill_reversed': 204, 'width_best_layout': 4, 'layout_seconds': 0.06}
+{'graph': 'grid 6x200', 'n': 1200, 'm': 2194, 'width_min_fill_reversed': 596, 'width_best_layout': 6, 'layout_seconds': 0.13}
+{'graph': 'random tree (500)', 'n': 500, 'm': 499, 'width_min_fill_reversed': 110, 'width_best_layout': 6, 'layout_seconds': 0.04}
+{'graph': 'complete binary tree (511)', 'n': 511, 'm': 510, 'width_min_fill_reversed': 7, 'width_best_layout': 64, 'layout_seconds': 0.26}
+{'graph': 'Watts-Strogatz k=4, p=0.02 (500)', 'n': 500, 'm': 1000, 'width_min_fill_reversed': 66, 'width_best_layout': 14, 'layout_seconds': 0.13}
+karate {'n': 34, 'width': 5, 'outcome': 'ok', 'seconds': 0.02587723731994629, 'spread': 26.91927004146657}
+iceland {'n': 75, 'width': 7, 'outcome': 'ok', 'seconds': 0.06865954399108887, 'spread': 42.23723400790952}
+dolphin {'n': 62, 'width': 10, 'outcome': 'ok', 'seconds': 95.31069111824036, 'spread': 49.42234595442999}
+{'family': 'grid 3 x m', 'n': 150, 'width': 3, 'outcome': 'ok', 'seconds': 0.027977466583251953, 'spread': 6.111289085148762}
+{'family': 'grid 3 x m', 'n': 300, 'width': 3, 'outcome': 'ok', 'seconds': 0.05418515205383301, 'spread': 7.754421332593175}
+{'family': 'grid 3 x m', 'n': 600, 'width': 3, 'outcome': 'ok', 'seconds': 0.10675907135009766, 'spread': 7.125981538753872}
+{'family': 'grid 3 x m', 'n': 1200, 'width': 3, 'outcome': 'ok', 'seconds': 0.23166394233703613, 'spread': 8.560032519086656}
+{'family': 'grid 3 x m', 'n': 2400, 'width': 3, 'outcome': 'ok', 'seconds': 0.45856499671936035, 'spread': 6.438488594796045}
+{'family': 'grid 3 x m', 'n': 4800, 'width': 3, 'outcome': 'ok', 'seconds': 1.042872428894043, 'spread': 6.937256105213111}
+{'family': 'random tree', 'n': 100, 'width': 3, 'outcome': 'ok', 'seconds': 0.015252828598022461, 'spread': 1.075705369520947}
+{'family': 'random tree', 'n': 200, 'width': 4, 'outcome': 'ok', 'seconds': 0.01315164566040039, 'spread': 3.0397400444360128}
+{'family': 'random tree', 'n': 400, 'width': 6, 'outcome': 'ok', 'seconds': 0.06482505798339844, 'spread': 2.12905135453029}
+{'family': 'random tree', 'n': 800, 'width': 7, 'outcome': 'ok', 'seconds': 0.1698908805847168, 'spread': 0.4930217645450471}
+{'family': 'random tree', 'n': 1600, 'width': 10, 'outcome': 'ok', 'seconds': 6.327176332473755, 'spread': 1.496625871375373}
+{'family': 'grid k x m', 'k': 2, 'n': 240, 'width': 2, 'outcome': 'ok', 'seconds': 0.0057027339935302734, 'spread': 4.522504636657194}
+{'family': 'grid k x m', 'k': 3, 'n': 240, 'width': 3, 'outcome': 'ok', 'seconds': 0.04351091384887695, 'spread': 5.899852350231117}
+{'family': 'grid k x m', 'k': 4, 'n': 240, 'width': 4, 'outcome': 'ok', 'seconds': 0.1653614044189453, 'spread': 8.471214426865211}
+{'family': 'grid k x m', 'k': 5, 'n': 240, 'width': 5, 'outcome': 'ok', 'seconds': 0.6315882205963135, 'spread': 12.038028067587685}
+{'family': 'grid k x m', 'k': 6, 'n': 240, 'width': 6, 'outcome': 'ok', 'seconds': 2.5366947650909424, 'spread': 20.04960898519345}
+{'family': 'grid k x m', 'k': 7, 'n': 238, 'width': 7, 'outcome': 'ok', 'seconds': 10.020275831222534, 'spread': 18.876224431399677}
+{'family': 'grid k x m', 'k': 8, 'n': 240, 'width': 8, 'outcome': 'ok', 'seconds': 40.61515212059021, 'spread': 20.840025577711906}
+{'n': 100, 'width': 7, 'outcome': 'ok', 'seconds': 0.20711445808410645, 'spread': 9.344354734131427}
+{'n': 100, 'width': 8, 'outcome': 'ok', 'seconds': 1.775252342224121, 'spread': 2.6926880700973026}
+{'n': 100, 'width': 6, 'outcome': 'ok', 'seconds': 0.11816525459289551, 'spread': 2.3213243062283992}
+{'n': 100, 'width': 6, 'outcome': 'ok', 'seconds': 0.12608647346496582, 'spread': 14.965528743267821}
+{'n': 100, 'width': 5, 'outcome': 'ok', 'seconds': 0.01910996437072754, 'spread': 5.615688258057535}
+{'n': 200, 'width': 12, 'outcome': 'ok', 'seconds': 157.4415192604065, 'spread': 24.308574411849108}
+{'n': 200, 'width': 9, 'outcome': 'ok', 'seconds': 4.31364369392395, 'spread': 21.450230269585184}
+{'n': 200, 'width': 10, 'outcome': 'ok', 'seconds': 136.1242380142212, 'spread': 6.532520334838106}
+{'n': 200, 'width': 10, 'outcome': 'ok', 'seconds': 14.167832612991333, 'spread': 1.7385926621475245}
+{'n': 200, 'width': 7, 'outcome': 'ok', 'seconds': 0.9426267147064209, 'spread': 1.1567086914779845}
+{'n': 400, 'width': 15, 'outcome': 'not run (width > 12)'}
+{'n': 400, 'width': 14, 'outcome': 'not run (width > 12)'}
+{'n': 400, 'width': 10, 'outcome': 'ok', 'seconds': 17.957770824432373, 'spread': 3.447155317229203}
+{'n': 400, 'width': 18, 'outcome': 'not run (width > 12)'}
+{'n': 400, 'width': 20, 'outcome': 'not run (width > 12)'}
+{'n': 800, 'width': 28, 'outcome': 'not run (width > 12)'}
+{'n': 800, 'width': 22, 'outcome': 'not run (width > 12)'}
+{'n': 800, 'width': 30, 'outcome': 'not run (width > 12)'}
+{'n': 800, 'width': 14, 'outcome': 'not run (width > 12)'}
+{'n': 800, 'width': 21, 'outcome': 'not run (width > 12)'}

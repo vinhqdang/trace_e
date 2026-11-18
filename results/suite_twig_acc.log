@@ -1,0 +1,9 @@
+grid 3 x 300 (n=900) {100: (0.1036, 0.015), 1000: (0.0367, 0.0), 10000: (0.0115, 0.0)} exact 1.792 diff -0.4084
+random tree (n=800) {100: (0.1231, 0.0), 1000: (0.0366, 0.0), 10000: (0.0109, 0.0)} exact 0.411 diff -0.3077
+ring lattice k=4 (n=500) {100: (0.066, 0.0), 1000: (0.0206, 0.0), 10000: (0.0065, 0.0)} exact 4.742 diff -0.1871
+{'graph': 'karate', 'inst': 0, 'n': 34, 'width': 5, 'budget': 2, 'theta': 1000, 'exact_greedy': 3.4900877097431566, 'optimum': 3.4900877097431566, 'ag_mean': 3.5257438556394414, 'ag_worst': 3.6683684392245786, 'ag_equal_to_greedy_value': 0.8}
+{'graph': 'karate', 'inst': 0, 'n': 34, 'width': 5, 'budget': 4, 'theta': 1000, 'exact_greedy': 0.42573311328275687, 'optimum': None, 'ag_mean': 0.4257331132827568, 'ag_worst': 0.42573311328275687, 'ag_equal_to_greedy_value': 1.0}
+{'graph': 'karate', 'inst': 1, 'n': 34, 'width': 5, 'budget': 2, 'theta': 1000, 'exact_greedy': 1.5869000443765129, 'optimum': 1.5869000443765129, 'ag_mean': 1.5869000443765129, 'ag_worst': 1.5869000443765129, 'ag_equal_to_greedy_value': 1.0}
+{'graph': 'karate', 'inst': 1, 'n': 34, 'width': 5, 'budget': 4, 'theta': 1000, 'exact_greedy': 0.0, 'optimum': None, 'ag_mean': 0.0, 'ag_worst': 0.0, 'ag_equal_to_greedy_value': 1.0}
+{'graph': 'karate', 'inst': 2, 'n': 34, 'width': 5, 'budget': 2, 'theta': 1000, 'exact_greedy': 2.7520330320812225, 'optimum': 2.7520330320812225, 'ag_mean': 2.7520330320812225, 'ag_worst': 2.7520330320812225, 'ag_equal_to_greedy_value': 1.0}
+{'graph': 'karate', 'inst': 2, 'n': 34, 'width': 5, 'budget': 4, 'theta': 1000, 'exact_greedy': 0.0, 'optimum': None, 'ag_mean': 0.0, 'ag_worst': 0.0, 'ag_equal_to_greedy_value': 1.0}

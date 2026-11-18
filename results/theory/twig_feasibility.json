@@ -79,5 +79,25 @@
       "outcome": "memory limit",
       "seconds": 157.7304766178131
     }
+  },
+  "best_order": {
+    "karate": {
+      "width": 5,
+      "outcome": "ok",
+      "seconds": 0.029015302658081055,
+      "expected_spread": 9.17344500602713
+    },
+    "iceland": {
+      "width": 7,
+      "outcome": "ok",
+      "seconds": 0.07165241241455078,
+      "expected_spread": 10.85773064812586
+    },
+    "dolphin": {
+      "width": 10,
+      "outcome": "ok",
+      "seconds": 94.68483233451843,
+      "expected_spread": 10.004334304040693
+    }
   }
 }
