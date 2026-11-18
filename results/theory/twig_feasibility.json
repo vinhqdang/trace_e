@@ -1,0 +1,83 @@
+{
+  "machine": "Linux-6.18.44-fc-v595-x86_64-with-glibc2.39",
+  "python": "3.13.18",
+  "cpu_count": 4,
+  "time_limit_s": 600,
+  "memory_limit_gb": 8,
+  "networks": {
+    "karate": {
+      "n": 34,
+      "m": 77,
+      "width": 10,
+      "bell_bound": 4213597,
+      "outcome": "ok",
+      "seconds": 2.5154337882995605,
+      "expected_spread": 9.173445006027128
+    },
+    "iceland": {
+      "n": 75,
+      "m": 114,
+      "width": 12,
+      "bell_bound": 190899322,
+      "outcome": "ok",
+      "seconds": 54.732133865356445,
+      "expected_spread": 10.85773064812585
+    },
+    "dolphin": {
+      "n": 62,
+      "m": 159,
+      "width": 19,
+      "bell_bound": 474869816156751,
+      "outcome": "memory limit",
+      "seconds": 163.62136340141296
+    }
+  },
+  "binary_trees": [
+    {
+      "height": 2,
+      "n": 7,
+      "realised_width": 1,
+      "pathwidth_lower_bound": 1
+    },
+    {
+      "height": 3,
+      "n": 15,
+      "realised_width": 2,
+      "pathwidth_lower_bound": 2
+    },
+    {
+      "height": 4,
+      "n": 31,
+      "realised_width": 3,
+      "pathwidth_lower_bound": 2
+    },
+    {
+      "height": 5,
+      "n": 63,
+      "realised_width": 4,
+      "pathwidth_lower_bound": 3
+    },
+    {
+      "height": 6,
+      "n": 127,
+      "realised_width": 5,
+      "pathwidth_lower_bound": 3
+    },
+    {
+      "height": 7,
+      "n": 255,
+      "realised_width": 6,
+      "pathwidth_lower_bound": 4
+    }
+  ],
+  "karate_variants": {
+    "xp": {
+      "outcome": "memory limit",
+      "seconds": 233.24622321128845
+    },
+    "fast_forward_order": {
+      "outcome": "memory limit",
+      "seconds": 157.7304766178131
+    }
+  }
+}
