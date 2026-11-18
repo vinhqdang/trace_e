@@ -2,6 +2,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb,amsthm,amsfonts,bm}
 \usepackage{graphicx}
+\usepackage{array}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{tikz}
@@ -81,7 +82,7 @@ DEFER touches four lines of work: influence maximization and its adaptive varian
 \centering
 \caption{Positioning of this paper. ``Gap'' is the adaptivity gap, the loss from committing in advance.}\label{tab:related}
 \small
-\begin{tabular}{@{}p{0.2\textwidth}p{0.17\textwidth}p{0.17\textwidth}p{0.18\textwidth}p{0.22\textwidth}@{}}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.2\textwidth}>{\raggedright\arraybackslash}p{0.17\textwidth}>{\raggedright\arraybackslash}p{0.17\textwidth}>{\raggedright\arraybackslash}p{0.18\textwidth}>{\raggedright\arraybackslash}p{0.22\textwidth}@{}}
 \hline
 \up Line of work & Action & Timing & Known & This paper \\
 \hline

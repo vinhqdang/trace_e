@@ -213,7 +213,77 @@ def fig_gap():
     fig.tight_layout(); save(fig, TWIG_DIR, "fig_gap.pdf")
 
 
+def fig_orders():
+    d = json.load(open("results/theory/twig_scaling.json"))["orders"]
+    d = [x for x in d if x["graph"] not in ("grid 3x200",)]
+    d.sort(key=lambda x: x["width_min_fill_reversed"])
+    fig, ax = plt.subplots(figsize=(6.4, 3.2))
+    y = np.arange(len(d))
+    for i, x in enumerate(d):
+        ax.plot([x["width_best_layout"], x["width_min_fill_reversed"]], [i, i], color=GRID, lw=2.0, zorder=1)
+    ax.scatter([x["width_min_fill_reversed"] for x in d], y, s=34, color=ORANGE, zorder=3, label="reversed min-fill-in order")
+    ax.scatter([x["width_best_layout"] for x in d], y, s=34, color=VIOLET, marker="D", zorder=3, label="best greedy layout")
+    ax.set_xscale("log"); ax.set_yticks(y); ax.set_yticklabels([f"{x['graph']} ($n={x['n']}$)" for x in d], fontsize=7)
+    ax.set_xlabel("frontier width $w$ of the order (log scale)"); ax.grid(axis="x", color=GRID, lw=0.6); ax.set_axisbelow(True)
+    ax.legend(frameon=False, fontsize=7.5, loc="lower right"); fig.tight_layout(); save(fig, TWIG_DIR, "fig_orders.pdf")
+
+
+def fig_scaling():
+    d = json.load(open("results/theory/twig_scaling.json"))
+    fig, axes = plt.subplots(1, 3, figsize=(7.2, 2.5))
+    ax = axes[0]
+    for fam, col, mk in (("grid 3 x m", BLUE, "o"), ("random tree", ORANGE, "s")):
+        r = [x for x in d["n_scaling"] if x["family"] == fam and x["outcome"] == "ok"]
+        ax.plot([x["n"] for x in r], [x["seconds"] for x in r], marker=mk, color=col, lw=1.4, ms=5, label=("grid $3\\times m$ (width 3)" if fam.startswith("grid") else "random trees (width 3-10)"))
+    ns = np.array([100, 5000]); ax.plot(ns, 2.2e-4 * ns, color=GREY, ls="--", lw=0.9); ax.text(1200, 0.05, "slope 1", color=INK2, fontsize=7)
+    ax.set_xscale("log"); ax.set_yscale("log"); ax.set_xlabel("vertices $n$"); ax.set_ylabel("seconds per evaluation"); ax.legend(frameon=False, fontsize=6.8, loc="upper left"); ax.grid(color=GRID, lw=0.6); ax.set_axisbelow(True)
+    ax = axes[1]
+    r = [x for x in d["w_scaling"] if x["outcome"] == "ok"]
+    ax.plot([x["width"] for x in r], [x["seconds"] for x in r], "o-", color=VIOLET, lw=1.6, ms=5, label="grid strips, $n=240$")
+    pb = [x for x in d["powergrid_balls"] if x["outcome"] == "ok"]
+    ax.scatter([x["width"] for x in pb], [x["seconds"] for x in pb], s=22, color=AQUA, marker="^", label="power-grid subnetworks", zorder=3)
+    ws = np.arange(2, 13); ax.plot(ws, [r[0]["seconds"] * 4.0 ** (w - 2) for w in ws], color=GREY, ls="--", lw=0.9); ax.text(9.1, 0.01, "$\\times4$ per unit", color=INK2, fontsize=7)
+    ax.set_yscale("log"); ax.set_xlabel("frontier width $w$"); ax.legend(frameon=False, fontsize=6.8, loc="upper left"); ax.grid(color=GRID, lw=0.6); ax.set_axisbelow(True)
+    ax = axes[2]
+    fe = d["feasible"]
+    names = ["karate", "iceland", "dolphin"]
+    old = {"karate": 2.5, "iceland": 54.7, "dolphin": None}
+    ax.bar(np.arange(3) - 0.2, [old[k] if old[k] else np.nan for k in names], width=0.38, color=ORANGE, label="reversed min-fill-in order")
+    ax.bar(np.arange(3) + 0.2, [fe[k]["seconds"] for k in names], width=0.38, color=VIOLET, label="best greedy layout")
+    ax.text(2 - 0.2, 0.4, "memory\nlimit", ha="center", va="bottom", fontsize=6.8, color=ORANGE)
+    ax.set_yscale("log"); ax.set_xticks(range(3)); ax.set_xticklabels(["karate", "Iceland", "dolphin"], fontsize=7.5); ax.set_ylabel("seconds"); ax.legend(frameon=False, fontsize=6.5, loc="upper left"); ax.grid(axis="y", color=GRID, lw=0.6); ax.set_axisbelow(True)
+    fig.tight_layout(w_pad=0.9); save(fig, TWIG_DIR, "fig_scaling.pdf")
+
+
+def fig_accuracy():
+    d = json.load(open("results/theory/twig_accuracy.json"))
+    fig, ax = plt.subplots(figsize=(3.6, 2.7)); cols = [BLUE, ORANGE, AQUA, MAGENTA]; mks = ["o", "s", "^", "v"]
+    th = np.array([100, 1000, 10000])
+    for i, x in enumerate(d):
+        ax.plot(th, [x["theta"][str(t)]["rel_rmse"] for t in th], marker=mks[i % 4], color=cols[i % 4], lw=1.4, ms=5, label=x["instance"].split(" (")[0])
+    ax.plot(th, 1.0 * th ** -0.5, color=GREY, ls="--", lw=0.9); ax.text(120, 0.065, "slope $-1/2$", color=INK2, fontsize=7)
+    ax.set_xscale("log"); ax.set_yscale("log"); ax.set_xlabel("samples $\\theta$"); ax.set_ylabel("relative RMS error of the estimate"); ax.legend(frameon=False, fontsize=6.8, loc="lower left"); ax.grid(color=GRID, lw=0.6); ax.set_axisbelow(True)
+    fig.tight_layout(); save(fig, TWIG_DIR, "fig_accuracy.pdf")
+
+
+def fig_planners():
+    d = pd.read_csv("results/theory/twig_planners.csv")
+    d["excess"] = 100 * (d.ag_mean - d.exact_greedy) / d.exact_greedy.replace(0, np.nan)
+    fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.5), sharey=True)
+    for ax, b in zip(axes, (2, 4)):
+        g = d[d.budget == b]; graphs = list(dict.fromkeys(g.graph)); rng = np.random.default_rng(2)
+        for k, (theta, col, mk) in enumerate(((100, ORANGE, "o"), (1000, VIOLET, "D"))):
+            h = g[g.theta == theta]
+            for i, gr in enumerate(graphs):
+                v = h[h.graph == gr].excess.values
+                ax.scatter(i + (k - 0.5) * 0.28 + rng.uniform(-0.05, 0.05, len(v)), v, s=22, color=col, marker=mk, edgecolor="#fcfcfb", linewidth=0.4, zorder=3, label=f"AG, $\\theta={theta}$" if i == 0 else None)
+        ax.axhline(0, color=INK2, lw=0.6); ax.set_xticks(range(len(graphs))); ax.set_xticklabels(graphs, fontsize=6.8, rotation=20, ha="right"); ax.set_title(f"budget $b={b}$", loc="left")
+        ax.grid(axis="y", color=GRID, lw=0.6); ax.set_axisbelow(True)
+    axes[0].set_ylabel("exact spread of AG's plan,\n% above exact greedy"); axes[0].legend(frameon=False, fontsize=7, loc="upper left")
+    fig.tight_layout(w_pad=0.8); save(fig, TWIG_DIR, "fig_planners.pdf")
+
+
 if __name__ == "__main__":
-    which = sys.argv[1:] or ["gap_curve", "sop", "regime", "zone", "ilp", "frontier", "bell", "gap"]
-    fn = dict(gap_curve=fig_adaptivity_gap, sop=fig_sop, regime=fig_regime, zone=fig_zone, ilp=fig_ilp, frontier=fig_frontier, bell=fig_bell, gap=fig_gap)
+    which = sys.argv[1:] or ["gap_curve", "sop", "regime", "zone", "ilp", "frontier", "bell", "gap", "orders", "scaling", "accuracy", "planners"]
+    fn = dict(gap_curve=fig_adaptivity_gap, sop=fig_sop, regime=fig_regime, zone=fig_zone, ilp=fig_ilp, frontier=fig_frontier, bell=fig_bell, gap=fig_gap, orders=fig_orders, scaling=fig_scaling, accuracy=fig_accuracy, planners=fig_planners)
     for w in which: fn[w]()
