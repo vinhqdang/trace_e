@@ -1,0 +1,43 @@
+2026-11-18 13:58:01 INFO run adaptive_snap2deg_20261118T135801Z_6036 started, dir=/home/user/trace_e/results/runs/adaptive_snap2deg_20261118T135801Z_6036
+2026-11-18 13:58:01 INFO network powergrid: {'n_nodes': 4941, 'n_edges': 6594, 'avg_degree': 2.66909532483303, 'n_components': 1, 'lcc_size': 4941}
+2026-11-18 13:58:02 INFO plans ready for instance 1/20
+2026-11-18 13:58:03 INFO plans ready for instance 2/20
+2026-11-18 13:58:04 INFO plans ready for instance 3/20
+2026-11-18 13:58:05 INFO plans ready for instance 4/20
+2026-11-18 13:58:06 INFO plans ready for instance 5/20
+2026-11-18 13:58:07 INFO plans ready for instance 6/20
+2026-11-18 13:58:08 INFO plans ready for instance 7/20
+2026-11-18 13:58:10 INFO plans ready for instance 8/20
+2026-11-18 13:58:11 INFO plans ready for instance 9/20
+2026-11-18 13:58:12 INFO plans ready for instance 10/20
+2026-11-18 13:58:13 INFO plans ready for instance 11/20
+2026-11-18 13:58:14 INFO plans ready for instance 12/20
+2026-11-18 13:58:15 INFO plans ready for instance 13/20
+2026-11-18 13:58:16 INFO plans ready for instance 14/20
+2026-11-18 13:58:17 INFO plans ready for instance 15/20
+2026-11-18 13:58:18 INFO plans ready for instance 16/20
+2026-11-18 13:58:19 INFO plans ready for instance 17/20
+2026-11-18 13:58:20 INFO plans ready for instance 18/20
+2026-11-18 13:58:22 INFO plans ready for instance 19/20
+2026-11-18 13:58:23 INFO plans ready for instance 20/20
+2026-11-18 13:58:23 INFO running 1800 episodes
+2026-11-18 13:58:41 INFO episodes done in 18s
+2026-11-18 13:58:41 INFO RESULT powergrid budget=10 none       spread=58.86 (se 1.00) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:58:41 INFO RESULT powergrid budget=10 ag         spread=54.17 (se 0.93) saved=0.0797 used=10.0 time=0.02s
+2026-11-18 13:58:41 INFO RESULT powergrid budget=10 commit     spread=54.03 (se 0.96) saved=0.0821 used=10.0 time=0.10s
+2026-11-18 13:58:41 INFO RESULT powergrid budget=10 defer      spread=54.15 (se 0.93) saved=0.0800 used=10.0 time=0.03s
+2026-11-18 13:58:41 INFO RESULT powergrid budget=10 isocut     spread=54.17 (se 0.93) saved=0.0797 used=10.0 time=0.02s
+2026-11-18 13:58:41 INFO RESULT powergrid budget=10 defer_cut  spread=54.15 (se 0.93) saved=0.0800 used=10.0 time=0.03s
+2026-11-18 13:58:41 INFO RESULT powergrid budget=20 none       spread=58.86 (se 1.00) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:58:41 INFO RESULT powergrid budget=20 ag         spread=51.55 (se 0.91) saved=0.1242 used=20.0 time=0.03s
+2026-11-18 13:58:41 INFO RESULT powergrid budget=20 commit     spread=51.18 (se 0.92) saved=0.1305 used=20.0 time=0.14s
+2026-11-18 13:58:41 INFO RESULT powergrid budget=20 defer      spread=51.59 (se 0.91) saved=0.1235 used=19.9 time=0.04s
+2026-11-18 13:58:41 INFO RESULT powergrid budget=20 isocut     spread=51.55 (se 0.91) saved=0.1242 used=20.0 time=0.03s
+2026-11-18 13:58:41 INFO RESULT powergrid budget=20 defer_cut  spread=51.59 (se 0.91) saved=0.1235 used=19.9 time=0.04s
+2026-11-18 13:58:41 INFO RESULT powergrid budget=50 none       spread=58.86 (se 1.00) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:58:41 INFO RESULT powergrid budget=50 ag         spread=45.23 (se 0.88) saved=0.2316 used=50.0 time=0.05s
+2026-11-18 13:58:41 INFO RESULT powergrid budget=50 commit     spread=45.37 (se 0.88) saved=0.2292 used=50.0 time=0.27s
+2026-11-18 13:58:41 INFO RESULT powergrid budget=50 defer      spread=45.23 (se 0.88) saved=0.2316 used=50.0 time=0.03s
+2026-11-18 13:58:41 INFO RESULT powergrid budget=50 isocut     spread=45.23 (se 0.88) saved=0.2316 used=50.0 time=0.07s
+2026-11-18 13:58:41 INFO RESULT powergrid budget=50 defer_cut  spread=45.23 (se 0.88) saved=0.2316 used=50.0 time=0.03s
+2026-11-18 13:58:41 INFO run adaptive_snap2deg_20261118T135801Z_6036 finished in 40.1s

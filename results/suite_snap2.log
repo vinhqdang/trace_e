@@ -1,0 +1,520 @@
+2026-11-18 13:02:03 INFO run adaptive_snap2_20261118T130203Z_3268 started, dir=/home/user/trace_e/results/runs/adaptive_snap2_20261118T130203Z_3268
+2026-11-18 13:02:03 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-11-18 13:02:12 INFO plans ready for instance 1/20
+2026-11-18 13:02:29 INFO plans ready for instance 2/20
+2026-11-18 13:02:54 INFO plans ready for instance 3/20
+2026-11-18 13:02:56 INFO plans ready for instance 4/20
+2026-11-18 13:03:08 INFO plans ready for instance 5/20
+2026-11-18 13:03:10 INFO plans ready for instance 6/20
+2026-11-18 13:03:18 INFO plans ready for instance 7/20
+2026-11-18 13:03:22 INFO plans ready for instance 8/20
+2026-11-18 13:03:24 INFO plans ready for instance 9/20
+2026-11-18 13:03:30 INFO plans ready for instance 10/20
+2026-11-18 13:03:36 INFO plans ready for instance 11/20
+2026-11-18 13:03:53 INFO plans ready for instance 12/20
+2026-11-18 13:04:00 INFO plans ready for instance 13/20
+2026-11-18 13:04:16 INFO plans ready for instance 14/20
+2026-11-18 13:04:22 INFO plans ready for instance 15/20
+2026-11-18 13:04:28 INFO plans ready for instance 16/20
+2026-11-18 13:04:43 INFO plans ready for instance 17/20
+2026-11-18 13:04:46 INFO plans ready for instance 18/20
+2026-11-18 13:04:48 INFO plans ready for instance 19/20
+2026-11-18 13:04:51 INFO plans ready for instance 20/20
+2026-11-18 13:04:51 INFO running 4000 episodes
+2026-11-18 13:06:51 INFO episodes done in 120s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=5 none       spread=145.70 (se 11.29) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=5 ag         spread=100.28 (se 8.96) saved=0.3117 used=5.0 time=0.04s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=5 gr         spread=100.46 (se 8.98) saved=0.3105 used=5.0 time=0.06s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=5 lsbm       spread=101.31 (se 8.94) saved=0.3047 used=5.0 time=0.03s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=5 proximity  spread=107.01 (se 9.63) saved=0.2655 used=5.0 time=0.03s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=5 commit     spread=98.53 (se 9.20) saved=0.3237 used=5.0 time=0.25s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=5 defer      spread=94.40 (se 8.78) saved=0.3521 used=5.0 time=0.22s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=5 defer_nopush spread=96.41 (se 8.82) saved=0.3383 used=5.0 time=0.21s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=10 none       spread=145.70 (se 11.29) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=10 ag         spread=74.06 (se 6.94) saved=0.4917 used=10.0 time=0.07s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=10 gr         spread=76.42 (se 7.23) saved=0.4755 used=10.0 time=0.09s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=10 lsbm       spread=76.75 (se 7.10) saved=0.4732 used=10.0 time=0.04s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=10 proximity  spread=84.12 (se 8.59) saved=0.4226 used=10.0 time=0.03s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=10 commit     spread=77.11 (se 7.88) saved=0.4708 used=10.0 time=0.39s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=10 defer      spread=71.40 (se 6.80) saved=0.5100 used=9.9 time=0.25s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=10 defer_nopush spread=71.61 (se 6.81) saved=0.5085 used=10.0 time=0.24s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=20 none       spread=145.70 (se 11.29) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=20 ag         spread=48.81 (se 4.72) saved=0.6650 used=20.0 time=0.11s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=20 gr         spread=50.02 (se 5.01) saved=0.6567 used=20.0 time=0.12s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=20 lsbm       spread=52.70 (se 4.80) saved=0.6383 used=20.0 time=0.05s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=20 proximity  spread=63.28 (se 7.75) saved=0.5657 used=20.0 time=0.03s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=20 commit     spread=50.53 (se 5.15) saved=0.6532 used=20.0 time=0.59s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=20 defer      spread=46.25 (se 4.40) saved=0.6826 used=19.9 time=0.22s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=20 defer_nopush spread=46.47 (se 4.42) saved=0.6811 used=20.0 time=0.21s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=50 none       spread=145.70 (se 11.29) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=50 ag         spread=18.12 (se 2.45) saved=0.8756 used=50.0 time=0.16s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=50 gr         spread=18.06 (se 2.62) saved=0.8760 used=50.0 time=0.17s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=50 lsbm       spread=22.01 (se 2.53) saved=0.8489 used=50.0 time=0.09s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=50 proximity  spread=20.99 (se 3.12) saved=0.8559 used=50.0 time=0.03s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=50 commit     spread=17.67 (se 2.13) saved=0.8787 used=50.0 time=0.82s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=50 defer      spread=15.17 (se 1.76) saved=0.8959 used=49.6 time=0.13s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=50 defer_nopush spread=15.17 (se 1.76) saved=0.8959 used=49.8 time=0.13s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=100 none       spread=145.70 (se 11.29) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=100 ag         spread=4.19 (se 0.94) saved=0.9712 used=92.2 time=0.17s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=100 gr         spread=4.23 (se 0.95) saved=0.9710 used=91.5 time=0.17s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=100 lsbm       spread=7.87 (se 1.01) saved=0.9460 used=97.4 time=0.15s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=100 proximity  spread=3.90 (se 0.80) saved=0.9732 used=100.0 time=0.03s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=100 commit     spread=4.14 (se 0.83) saved=0.9716 used=92.3 time=0.90s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=100 defer      spread=3.21 (se 0.52) saved=0.9780 used=90.9 time=0.10s
+2026-11-18 13:06:51 INFO RESULT cagrqc budget=100 defer_nopush spread=3.34 (se 0.61) saved=0.9771 used=91.2 time=0.10s
+2026-11-18 13:06:51 INFO run adaptive_snap2_20261118T130203Z_3268 finished in 288.1s
+2026-11-18 13:06:52 INFO run adaptive_snap2_20261118T130652Z_3867 started, dir=/home/user/trace_e/results/runs/adaptive_snap2_20261118T130652Z_3867
+2026-11-18 13:06:52 INFO network cagrqc: {'n_nodes': 5241, 'n_edges': 14484, 'avg_degree': 5.527189467658844, 'n_components': 354, 'lcc_size': 4158}
+2026-11-18 13:06:55 INFO plans ready for instance 1/20
+2026-11-18 13:06:58 INFO plans ready for instance 2/20
+2026-11-18 13:07:02 INFO plans ready for instance 3/20
+2026-11-18 13:07:04 INFO plans ready for instance 4/20
+2026-11-18 13:07:06 INFO plans ready for instance 5/20
+2026-11-18 13:07:09 INFO plans ready for instance 6/20
+2026-11-18 13:07:12 INFO plans ready for instance 7/20
+2026-11-18 13:07:14 INFO plans ready for instance 8/20
+2026-11-18 13:07:16 INFO plans ready for instance 9/20
+2026-11-18 13:07:20 INFO plans ready for instance 10/20
+2026-11-18 13:07:23 INFO plans ready for instance 11/20
+2026-11-18 13:07:27 INFO plans ready for instance 12/20
+2026-11-18 13:07:29 INFO plans ready for instance 13/20
+2026-11-18 13:07:32 INFO plans ready for instance 14/20
+2026-11-18 13:07:36 INFO plans ready for instance 15/20
+2026-11-18 13:07:38 INFO plans ready for instance 16/20
+2026-11-18 13:07:41 INFO plans ready for instance 17/20
+2026-11-18 13:07:43 INFO plans ready for instance 18/20
+2026-11-18 13:07:46 INFO plans ready for instance 19/20
+2026-11-18 13:07:48 INFO plans ready for instance 20/20
+2026-11-18 13:07:48 INFO running 4000 episodes
+2026-11-18 13:08:18 INFO episodes done in 30s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=5 none       spread=55.40 (se 2.78) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=5 ag         spread=51.36 (se 2.51) saved=0.0729 used=5.0 time=0.01s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=5 gr         spread=51.36 (se 2.51) saved=0.0729 used=5.0 time=0.01s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=5 lsbm       spread=51.36 (se 2.51) saved=0.0729 used=5.0 time=0.01s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=5 proximity  spread=52.14 (se 2.41) saved=0.0588 used=5.0 time=0.03s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=5 commit     spread=51.83 (se 2.72) saved=0.0644 used=5.0 time=0.04s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=5 defer      spread=51.37 (se 2.54) saved=0.0727 used=4.9 time=0.05s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=5 defer_nopush spread=51.36 (se 2.51) saved=0.0729 used=5.0 time=0.03s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=10 none       spread=55.40 (se 2.78) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=10 ag         spread=46.48 (se 2.29) saved=0.1610 used=10.0 time=0.01s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=10 gr         spread=46.53 (se 2.29) saved=0.1601 used=10.0 time=0.01s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=10 lsbm       spread=46.12 (se 2.29) saved=0.1675 used=10.0 time=0.01s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=10 proximity  spread=49.55 (se 2.27) saved=0.1056 used=10.0 time=0.03s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=10 commit     spread=47.10 (se 2.57) saved=0.1498 used=10.0 time=0.07s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=10 defer      spread=46.48 (se 2.29) saved=0.1610 used=10.0 time=0.04s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=10 defer_nopush spread=46.47 (se 2.29) saved=0.1612 used=10.0 time=0.03s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=20 none       spread=55.40 (se 2.78) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=20 ag         spread=37.74 (se 2.21) saved=0.3188 used=20.0 time=0.02s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=20 gr         spread=37.89 (se 2.23) saved=0.3161 used=20.0 time=0.03s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=20 lsbm       spread=37.57 (se 2.20) saved=0.3218 used=20.0 time=0.02s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=20 proximity  spread=45.47 (se 2.27) saved=0.1792 used=20.0 time=0.03s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=20 commit     spread=39.32 (se 2.32) saved=0.2903 used=20.0 time=0.14s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=20 defer      spread=37.74 (se 2.21) saved=0.3188 used=20.0 time=0.03s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=20 defer_nopush spread=37.73 (se 2.21) saved=0.3190 used=20.0 time=0.03s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=50 none       spread=55.40 (se 2.78) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=50 ag         spread=18.08 (se 1.65) saved=0.6736 used=50.0 time=0.04s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=50 gr         spread=18.11 (se 1.65) saved=0.6731 used=50.0 time=0.05s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=50 lsbm       spread=17.95 (se 1.68) saved=0.6760 used=50.0 time=0.03s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=50 proximity  spread=35.00 (se 2.46) saved=0.3682 used=50.0 time=0.03s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=50 commit     spread=21.05 (se 1.96) saved=0.6200 used=50.0 time=0.26s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=50 defer      spread=18.05 (se 1.65) saved=0.6742 used=50.0 time=0.03s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=50 defer_nopush spread=18.07 (se 1.65) saved=0.6738 used=50.0 time=0.03s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=100 none       spread=55.40 (se 2.78) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=100 ag         spread=3.91 (se 0.80) saved=0.9294 used=91.2 time=0.06s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=100 gr         spread=3.90 (se 0.80) saved=0.9296 used=91.5 time=0.06s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=100 lsbm       spread=3.80 (se 0.79) saved=0.9314 used=93.3 time=0.05s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=100 proximity  spread=13.57 (se 1.79) saved=0.7551 used=100.0 time=0.03s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=100 commit     spread=4.04 (se 0.83) saved=0.9271 used=91.2 time=0.34s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=100 defer      spread=3.91 (se 0.80) saved=0.9294 used=91.2 time=0.03s
+2026-11-18 13:08:18 INFO RESULT cagrqc budget=100 defer_nopush spread=3.90 (se 0.80) saved=0.9296 used=91.2 time=0.03s
+2026-11-18 13:08:18 INFO run adaptive_snap2_20261118T130652Z_3867 finished in 86.2s
+2026-11-18 13:08:19 INFO run adaptive_snap2_20261118T130819Z_3944 started, dir=/home/user/trace_e/results/runs/adaptive_snap2_20261118T130819Z_3944
+2026-11-18 13:08:19 INFO network cahepth: {'n_nodes': 9875, 'n_edges': 25973, 'avg_degree': 5.2603544303797465, 'n_components': 427, 'lcc_size': 8638}
+2026-11-18 13:08:36 INFO plans ready for instance 1/20
+2026-11-18 13:08:55 INFO plans ready for instance 2/20
+2026-11-18 13:09:28 INFO plans ready for instance 3/20
+2026-11-18 13:09:41 INFO plans ready for instance 4/20
+2026-11-18 13:09:55 INFO plans ready for instance 5/20
+2026-11-18 13:10:12 INFO plans ready for instance 6/20
+2026-11-18 13:10:32 INFO plans ready for instance 7/20
+2026-11-18 13:11:03 INFO plans ready for instance 8/20
+2026-11-18 13:11:21 INFO plans ready for instance 9/20
+2026-11-18 13:11:39 INFO plans ready for instance 10/20
+2026-11-18 13:12:01 INFO plans ready for instance 11/20
+2026-11-18 13:12:25 INFO plans ready for instance 12/20
+2026-11-18 13:12:57 INFO plans ready for instance 13/20
+2026-11-18 13:13:30 INFO plans ready for instance 14/20
+2026-11-18 13:13:57 INFO plans ready for instance 15/20
+2026-11-18 13:14:15 INFO plans ready for instance 16/20
+2026-11-18 13:14:44 INFO plans ready for instance 17/20
+2026-11-18 13:15:00 INFO plans ready for instance 18/20
+2026-11-18 13:15:28 INFO plans ready for instance 19/20
+2026-11-18 13:15:51 INFO plans ready for instance 20/20
+2026-11-18 13:15:51 INFO running 4000 episodes
+2026-11-18 13:22:39 INFO episodes done in 407s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=5 none       spread=528.32 (se 35.17) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=5 ag         spread=459.54 (se 34.62) saved=0.1302 used=5.0 time=0.13s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=5 gr         spread=454.33 (se 34.98) saved=0.1400 used=5.0 time=0.19s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=5 lsbm       spread=463.53 (se 34.95) saved=0.1226 used=5.0 time=0.10s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=5 proximity  spread=440.14 (se 35.18) saved=0.1669 used=5.0 time=0.06s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=5 commit     spread=451.11 (se 35.34) saved=0.1461 used=5.0 time=0.71s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=5 defer      spread=459.49 (se 34.71) saved=0.1303 used=5.0 time=0.94s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=5 defer_nopush spread=459.59 (se 34.72) saved=0.1301 used=5.0 time=0.94s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=10 none       spread=528.32 (se 35.17) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=10 ag         spread=409.54 (se 34.16) saved=0.2248 used=10.0 time=0.21s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=10 gr         spread=392.75 (se 34.85) saved=0.2566 used=10.0 time=0.24s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=10 lsbm       spread=426.98 (se 33.79) saved=0.1918 used=10.0 time=0.14s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=10 proximity  spread=375.07 (se 34.47) saved=0.2901 used=10.0 time=0.06s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=10 commit     spread=373.24 (se 34.20) saved=0.2935 used=10.0 time=1.10s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=10 defer      spread=395.94 (se 34.40) saved=0.2506 used=10.0 time=1.23s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=10 defer_nopush spread=396.03 (se 34.41) saved=0.2504 used=10.0 time=1.24s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=20 none       spread=528.32 (se 35.17) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=20 ag         spread=295.07 (se 31.49) saved=0.4415 used=20.0 time=0.30s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=20 gr         spread=293.84 (se 33.32) saved=0.4438 used=20.0 time=0.30s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=20 lsbm       spread=330.92 (se 30.81) saved=0.3736 used=20.0 time=0.19s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=20 proximity  spread=240.48 (se 31.56) saved=0.5448 used=20.0 time=0.06s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=20 commit     spread=272.81 (se 31.40) saved=0.4836 used=20.0 time=1.53s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=20 defer      spread=221.87 (se 30.00) saved=0.5800 used=19.8 time=1.47s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=20 defer_nopush spread=244.33 (se 31.24) saved=0.5375 used=20.0 time=1.42s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=50 none       spread=528.32 (se 35.17) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=50 ag         spread=68.89 (se 16.18) saved=0.8696 used=50.0 time=0.35s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=50 gr         spread=34.41 (se 12.77) saved=0.9349 used=50.0 time=0.32s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=50 lsbm       spread=101.03 (se 13.74) saved=0.8088 used=50.0 time=0.38s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=50 proximity  spread=88.10 (se 21.29) saved=0.8332 used=50.0 time=0.06s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=50 commit     spread=57.15 (se 14.45) saved=0.8918 used=50.0 time=1.85s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=50 defer      spread=22.54 (se 7.81) saved=0.9573 used=47.6 time=0.68s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=50 defer_nopush spread=23.37 (se 8.21) saved=0.9558 used=48.4 time=0.65s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=100 none       spread=528.32 (se 35.17) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=100 ag         spread=14.03 (se 8.06) saved=0.9734 used=93.4 time=0.36s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=100 gr         spread=1.14 (se 0.22) saved=0.9978 used=89.7 time=0.33s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=100 lsbm       spread=27.40 (se 2.49) saved=0.9481 used=100.0 time=0.66s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=100 proximity  spread=7.29 (se 6.34) saved=0.9862 used=100.0 time=0.06s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=100 commit     spread=3.74 (se 1.24) saved=0.9929 used=93.7 time=1.93s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=100 defer      spread=1.91 (se 0.26) saved=0.9964 used=83.7 time=0.26s
+2026-11-18 13:22:39 INFO RESULT cahepth budget=100 defer_nopush spread=1.87 (se 0.25) saved=0.9965 used=83.9 time=0.26s
+2026-11-18 13:22:39 INFO run adaptive_snap2_20261118T130819Z_3944 finished in 859.6s
+2026-11-18 13:22:40 INFO run adaptive_snap2_20261118T132240Z_4230 started, dir=/home/user/trace_e/results/runs/adaptive_snap2_20261118T132240Z_4230
+2026-11-18 13:22:40 INFO network cahepth: {'n_nodes': 9875, 'n_edges': 25973, 'avg_degree': 5.2603544303797465, 'n_components': 427, 'lcc_size': 8638}
+2026-11-18 13:22:43 INFO plans ready for instance 1/20
+2026-11-18 13:22:47 INFO plans ready for instance 2/20
+2026-11-18 13:22:51 INFO plans ready for instance 3/20
+2026-11-18 13:22:54 INFO plans ready for instance 4/20
+2026-11-18 13:22:57 INFO plans ready for instance 5/20
+2026-11-18 13:23:00 INFO plans ready for instance 6/20
+2026-11-18 13:23:04 INFO plans ready for instance 7/20
+2026-11-18 13:23:08 INFO plans ready for instance 8/20
+2026-11-18 13:23:11 INFO plans ready for instance 9/20
+2026-11-18 13:23:14 INFO plans ready for instance 10/20
+2026-11-18 13:23:18 INFO plans ready for instance 11/20
+2026-11-18 13:23:22 INFO plans ready for instance 12/20
+2026-11-18 13:23:26 INFO plans ready for instance 13/20
+2026-11-18 13:23:31 INFO plans ready for instance 14/20
+2026-11-18 13:23:34 INFO plans ready for instance 15/20
+2026-11-18 13:23:38 INFO plans ready for instance 16/20
+2026-11-18 13:23:43 INFO plans ready for instance 17/20
+2026-11-18 13:23:46 INFO plans ready for instance 18/20
+2026-11-18 13:23:50 INFO plans ready for instance 19/20
+2026-11-18 13:23:55 INFO plans ready for instance 20/20
+2026-11-18 13:23:55 INFO running 4000 episodes
+2026-11-18 13:24:32 INFO episodes done in 37s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=5 none       spread=56.71 (se 3.56) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=5 ag         spread=51.40 (se 3.28) saved=0.0936 used=5.0 time=0.01s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=5 gr         spread=51.40 (se 3.28) saved=0.0936 used=5.0 time=0.01s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=5 lsbm       spread=51.52 (se 3.28) saved=0.0915 used=5.0 time=0.01s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=5 proximity  spread=53.48 (se 3.30) saved=0.0570 used=5.0 time=0.06s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=5 commit     spread=53.98 (se 3.37) saved=0.0481 used=5.0 time=0.06s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=5 defer      spread=51.40 (se 3.28) saved=0.0936 used=5.0 time=0.04s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=5 defer_nopush spread=51.40 (se 3.28) saved=0.0936 used=5.0 time=0.04s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=10 none       spread=56.71 (se 3.56) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=10 ag         spread=46.60 (se 2.87) saved=0.1783 used=10.0 time=0.01s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=10 gr         spread=46.65 (se 2.88) saved=0.1774 used=10.0 time=0.01s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=10 lsbm       spread=46.62 (se 2.86) saved=0.1779 used=10.0 time=0.01s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=10 proximity  spread=49.09 (se 2.81) saved=0.1344 used=10.0 time=0.06s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=10 commit     spread=51.67 (se 3.40) saved=0.0889 used=10.0 time=0.08s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=10 defer      spread=46.65 (se 2.88) saved=0.1774 used=10.0 time=0.06s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=10 defer_nopush spread=46.65 (se 2.88) saved=0.1774 used=10.0 time=0.05s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=20 none       spread=56.71 (se 3.56) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=20 ag         spread=37.92 (se 2.28) saved=0.3313 used=20.0 time=0.02s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=20 gr         spread=37.96 (se 2.28) saved=0.3306 used=20.0 time=0.03s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=20 lsbm       spread=37.86 (se 2.28) saved=0.3324 used=20.0 time=0.02s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=20 proximity  spread=43.49 (se 2.17) saved=0.2331 used=20.0 time=0.06s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=20 commit     spread=43.94 (se 2.97) saved=0.2252 used=20.0 time=0.14s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=20 defer      spread=37.97 (se 2.30) saved=0.3305 used=19.9 time=0.07s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=20 defer_nopush spread=37.96 (se 2.30) saved=0.3306 used=20.0 time=0.05s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=50 none       spread=56.71 (se 3.56) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=50 ag         spread=19.00 (se 1.66) saved=0.6650 used=50.0 time=0.04s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=50 gr         spread=19.00 (se 1.66) saved=0.6650 used=50.0 time=0.04s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=50 lsbm       spread=18.80 (se 1.64) saved=0.6685 used=50.0 time=0.03s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=50 proximity  spread=25.49 (se 1.69) saved=0.5505 used=50.0 time=0.06s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=50 commit     spread=22.14 (se 2.28) saved=0.6096 used=50.0 time=0.28s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=50 defer      spread=18.99 (se 1.66) saved=0.6651 used=49.9 time=0.05s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=50 defer_nopush spread=19.00 (se 1.66) saved=0.6650 used=50.0 time=0.05s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=100 none       spread=56.71 (se 3.56) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=100 ag         spread=3.34 (se 0.93) saved=0.9411 used=89.5 time=0.06s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=100 gr         spread=3.34 (se 0.93) saved=0.9411 used=89.7 time=0.06s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=100 lsbm       spread=3.36 (se 0.93) saved=0.9408 used=92.8 time=0.05s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=100 proximity  spread=6.08 (se 1.09) saved=0.8928 used=100.0 time=0.06s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=100 commit     spread=1.84 (se 0.43) saved=0.9676 used=89.6 time=0.37s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=100 defer      spread=3.25 (se 0.91) saved=0.9427 used=89.7 time=0.06s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=100 defer_nopush spread=3.25 (se 0.91) saved=0.9427 used=89.7 time=0.05s
+2026-11-18 13:24:32 INFO run adaptive_snap2_20261118T132240Z_4230 finished in 112.5s
+2026-11-18 13:24:33 INFO run adaptive_snap2_20261118T132433Z_4314 started, dir=/home/user/trace_e/results/runs/adaptive_snap2_20261118T132433Z_4314
+2026-11-18 13:24:33 INFO network powergrid: {'n_nodes': 4941, 'n_edges': 6594, 'avg_degree': 2.66909532483303, 'n_components': 1, 'lcc_size': 4941}
+2026-11-18 13:24:34 INFO plans ready for instance 1/20
+2026-11-18 13:24:36 INFO plans ready for instance 2/20
+2026-11-18 13:24:37 INFO plans ready for instance 3/20
+2026-11-18 13:24:38 INFO plans ready for instance 4/20
+2026-11-18 13:24:40 INFO plans ready for instance 5/20
+2026-11-18 13:24:41 INFO plans ready for instance 6/20
+2026-11-18 13:24:42 INFO plans ready for instance 7/20
+2026-11-18 13:24:43 INFO plans ready for instance 8/20
+2026-11-18 13:24:45 INFO plans ready for instance 9/20
+2026-11-18 13:24:46 INFO plans ready for instance 10/20
+2026-11-18 13:24:47 INFO plans ready for instance 11/20
+2026-11-18 13:24:49 INFO plans ready for instance 12/20
+2026-11-18 13:24:50 INFO plans ready for instance 13/20
+2026-11-18 13:24:51 INFO plans ready for instance 14/20
+2026-11-18 13:24:52 INFO plans ready for instance 15/20
+2026-11-18 13:24:53 INFO plans ready for instance 16/20
+2026-11-18 13:24:55 INFO plans ready for instance 17/20
+2026-11-18 13:24:56 INFO plans ready for instance 18/20
+2026-11-18 13:24:57 INFO plans ready for instance 19/20
+2026-11-18 13:24:59 INFO plans ready for instance 20/20
+2026-11-18 13:24:59 INFO running 4000 episodes
+2026-11-18 13:25:07 INFO episodes done in 8s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=5 none       spread=7.56 (se 0.42) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=5 ag         spread=6.34 (se 0.32) saved=0.1614 used=5.0 time=0.00s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=5 gr         spread=6.34 (se 0.32) saved=0.1614 used=5.0 time=0.00s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=5 lsbm       spread=6.34 (se 0.32) saved=0.1614 used=5.0 time=0.00s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=5 proximity  spread=6.28 (se 0.34) saved=0.1693 used=5.0 time=0.03s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=5 commit     spread=6.47 (se 0.37) saved=0.1442 used=5.0 time=0.02s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=5 defer      spread=6.32 (se 0.33) saved=0.1640 used=5.0 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=5 defer_nopush spread=6.34 (se 0.32) saved=0.1614 used=5.0 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=10 none       spread=7.56 (se 0.42) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=10 ag         spread=5.77 (se 0.30) saved=0.2368 used=10.0 time=0.00s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=10 gr         spread=5.77 (se 0.30) saved=0.2368 used=10.0 time=0.00s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=10 lsbm       spread=5.77 (se 0.30) saved=0.2368 used=10.0 time=0.00s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=10 proximity  spread=5.16 (se 0.31) saved=0.3175 used=10.0 time=0.03s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=10 commit     spread=5.44 (se 0.32) saved=0.2804 used=10.0 time=0.03s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=10 defer      spread=5.77 (se 0.30) saved=0.2368 used=10.0 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=10 defer_nopush spread=5.77 (se 0.30) saved=0.2368 used=10.0 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=20 none       spread=7.56 (se 0.42) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=20 ag         spread=4.08 (se 0.27) saved=0.4603 used=20.0 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=20 gr         spread=4.08 (se 0.27) saved=0.4603 used=20.0 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=20 lsbm       spread=4.08 (se 0.27) saved=0.4603 used=20.0 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=20 proximity  spread=3.68 (se 0.21) saved=0.5132 used=20.0 time=0.03s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=20 commit     spread=4.07 (se 0.25) saved=0.4616 used=20.0 time=0.03s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=20 defer      spread=4.09 (se 0.27) saved=0.4590 used=20.0 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=20 defer_nopush spread=4.08 (se 0.27) saved=0.4603 used=20.0 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=50 none       spread=7.56 (se 0.42) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=50 ag         spread=0.50 (se 0.10) saved=0.9339 used=48.5 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=50 gr         spread=0.50 (se 0.10) saved=0.9339 used=48.5 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=50 lsbm       spread=0.52 (se 0.10) saved=0.9312 used=48.5 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=50 proximity  spread=0.40 (se 0.08) saved=0.9471 used=50.0 time=0.03s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=50 commit     spread=0.55 (se 0.11) saved=0.9272 used=48.5 time=0.06s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=50 defer      spread=0.50 (se 0.10) saved=0.9339 used=48.5 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=50 defer_nopush spread=0.50 (se 0.10) saved=0.9339 used=48.5 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=100 none       spread=7.56 (se 0.42) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=100 ag         spread=0.00 (se 0.00) saved=1.0000 used=53.4 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=100 gr         spread=0.00 (se 0.00) saved=1.0000 used=53.4 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=100 lsbm       spread=0.00 (se 0.00) saved=1.0000 used=53.5 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=100 proximity  spread=0.00 (se 0.00) saved=1.0000 used=100.0 time=0.03s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=100 commit     spread=0.00 (se 0.00) saved=1.0000 used=53.4 time=0.06s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=100 defer      spread=0.00 (se 0.00) saved=1.0000 used=53.4 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=100 defer_nopush spread=0.00 (se 0.00) saved=1.0000 used=53.4 time=0.01s
+2026-11-18 13:25:07 INFO run adaptive_snap2_20261118T132433Z_4314 finished in 34.1s
+2026-11-18 13:25:08 INFO run adaptive_snap2_20261118T132508Z_4382 started, dir=/home/user/trace_e/results/runs/adaptive_snap2_20261118T132508Z_4382
+2026-11-18 13:25:08 INFO network powergrid: {'n_nodes': 4941, 'n_edges': 6594, 'avg_degree': 2.66909532483303, 'n_components': 1, 'lcc_size': 4941}
+2026-11-18 13:25:11 INFO plans ready for instance 1/20
+2026-11-18 13:25:13 INFO plans ready for instance 2/20
+2026-11-18 13:25:16 INFO plans ready for instance 3/20
+2026-11-18 13:25:18 INFO plans ready for instance 4/20
+2026-11-18 13:25:21 INFO plans ready for instance 5/20
+2026-11-18 13:25:24 INFO plans ready for instance 6/20
+2026-11-18 13:25:27 INFO plans ready for instance 7/20
+2026-11-18 13:25:29 INFO plans ready for instance 8/20
+2026-11-18 13:25:31 INFO plans ready for instance 9/20
+2026-11-18 13:25:33 INFO plans ready for instance 10/20
+2026-11-18 13:25:36 INFO plans ready for instance 11/20
+2026-11-18 13:25:38 INFO plans ready for instance 12/20
+2026-11-18 13:25:40 INFO plans ready for instance 13/20
+2026-11-18 13:25:43 INFO plans ready for instance 14/20
+2026-11-18 13:25:45 INFO plans ready for instance 15/20
+2026-11-18 13:25:47 INFO plans ready for instance 16/20
+2026-11-18 13:25:49 INFO plans ready for instance 17/20
+2026-11-18 13:25:52 INFO plans ready for instance 18/20
+2026-11-18 13:25:54 INFO plans ready for instance 19/20
+2026-11-18 13:25:56 INFO plans ready for instance 20/20
+2026-11-18 13:25:56 INFO running 4000 episodes
+2026-11-18 13:26:19 INFO episodes done in 23s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=5 none       spread=50.94 (se 1.76) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=5 ag         spread=45.18 (se 1.58) saved=0.1131 used=5.0 time=0.01s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=5 gr         spread=45.18 (se 1.58) saved=0.1131 used=5.0 time=0.01s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=5 lsbm       spread=45.18 (se 1.58) saved=0.1131 used=5.0 time=0.01s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=5 proximity  spread=45.27 (se 1.49) saved=0.1113 used=5.0 time=0.03s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=5 commit     spread=46.64 (se 1.69) saved=0.0844 used=5.0 time=0.04s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=5 defer      spread=45.14 (se 1.59) saved=0.1139 used=5.0 time=0.02s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=5 defer_nopush spread=45.18 (se 1.58) saved=0.1131 used=5.0 time=0.02s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=10 none       spread=50.94 (se 1.76) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=10 ag         spread=40.23 (se 1.49) saved=0.2102 used=10.0 time=0.01s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=10 gr         spread=40.23 (se 1.49) saved=0.2102 used=10.0 time=0.01s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=10 lsbm       spread=40.24 (se 1.49) saved=0.2101 used=10.0 time=0.01s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=10 proximity  spread=40.06 (se 1.34) saved=0.2136 used=10.0 time=0.03s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=10 commit     spread=42.15 (se 1.58) saved=0.1726 used=10.0 time=0.07s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=10 defer      spread=40.23 (se 1.49) saved=0.2102 used=10.0 time=0.02s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=10 defer_nopush spread=40.23 (se 1.49) saved=0.2102 used=10.0 time=0.02s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=20 none       spread=50.94 (se 1.76) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=20 ag         spread=30.06 (se 1.27) saved=0.4099 used=20.0 time=0.02s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=20 gr         spread=30.06 (se 1.27) saved=0.4099 used=20.0 time=0.02s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=20 lsbm       spread=30.01 (se 1.27) saved=0.4109 used=20.0 time=0.01s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=20 proximity  spread=30.87 (se 1.21) saved=0.3940 used=20.0 time=0.03s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=20 commit     spread=32.12 (se 1.52) saved=0.3695 used=20.0 time=0.13s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=20 defer      spread=30.06 (se 1.27) saved=0.4099 used=20.0 time=0.02s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=20 defer_nopush spread=30.06 (se 1.27) saved=0.4099 used=20.0 time=0.02s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=50 none       spread=50.94 (se 1.76) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=50 ag         spread=3.59 (se 0.66) saved=0.9295 used=48.5 time=0.04s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=50 gr         spread=3.59 (se 0.66) saved=0.9295 used=48.5 time=0.04s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=50 lsbm       spread=3.55 (se 0.66) saved=0.9303 used=49.3 time=0.02s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=50 proximity  spread=4.66 (se 0.64) saved=0.9085 used=50.0 time=0.03s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=50 commit     spread=3.09 (se 0.55) saved=0.9393 used=48.5 time=0.23s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=50 defer      spread=3.59 (se 0.66) saved=0.9295 used=48.5 time=0.02s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=50 defer_nopush spread=3.59 (se 0.66) saved=0.9295 used=48.5 time=0.02s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=100 none       spread=50.94 (se 1.76) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=100 ag         spread=0.00 (se 0.00) saved=1.0000 used=53.4 time=0.04s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=100 gr         spread=0.00 (se 0.00) saved=1.0000 used=53.4 time=0.04s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=100 lsbm       spread=0.00 (se 0.00) saved=1.0000 used=62.7 time=0.03s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=100 proximity  spread=0.00 (se 0.00) saved=1.0000 used=100.0 time=0.03s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=100 commit     spread=0.00 (se 0.00) saved=1.0000 used=53.4 time=0.24s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=100 defer      spread=0.00 (se 0.00) saved=1.0000 used=53.4 time=0.02s
+2026-11-18 13:26:19 INFO RESULT powergrid budget=100 defer_nopush spread=0.00 (se 0.00) saved=1.0000 used=53.4 time=0.02s
+2026-11-18 13:26:19 INFO run adaptive_snap2_20261118T132508Z_4382 finished in 71.2s
+2026-11-18 13:26:20 INFO run adaptive_snap2_20261118T132620Z_4459 started, dir=/home/user/trace_e/results/runs/adaptive_snap2_20261118T132620Z_4459
+2026-11-18 13:26:20 INFO network ba:2000:m=2: {'n_nodes': 2000, 'n_edges': 3996, 'avg_degree': 3.996, 'n_components': 1, 'lcc_size': 2000}
+2026-11-18 13:26:21 INFO plans ready for instance 1/20
+2026-11-18 13:26:23 INFO plans ready for instance 2/20
+2026-11-18 13:26:24 INFO plans ready for instance 3/20
+2026-11-18 13:26:25 INFO plans ready for instance 4/20
+2026-11-18 13:26:26 INFO plans ready for instance 5/20
+2026-11-18 13:26:27 INFO plans ready for instance 6/20
+2026-11-18 13:26:28 INFO plans ready for instance 7/20
+2026-11-18 13:26:29 INFO plans ready for instance 8/20
+2026-11-18 13:26:30 INFO plans ready for instance 9/20
+2026-11-18 13:26:32 INFO plans ready for instance 10/20
+2026-11-18 13:26:33 INFO plans ready for instance 11/20
+2026-11-18 13:26:34 INFO plans ready for instance 12/20
+2026-11-18 13:26:35 INFO plans ready for instance 13/20
+2026-11-18 13:26:37 INFO plans ready for instance 14/20
+2026-11-18 13:26:38 INFO plans ready for instance 15/20
+2026-11-18 13:26:39 INFO plans ready for instance 16/20
+2026-11-18 13:26:40 INFO plans ready for instance 17/20
+2026-11-18 13:26:42 INFO plans ready for instance 18/20
+2026-11-18 13:26:43 INFO plans ready for instance 19/20
+2026-11-18 13:26:44 INFO plans ready for instance 20/20
+2026-11-18 13:26:44 INFO running 4000 episodes
+2026-11-18 13:26:58 INFO episodes done in 14s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=5 none       spread=37.86 (se 2.77) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=5 ag         spread=15.11 (se 0.91) saved=0.6009 used=5.0 time=0.01s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=5 gr         spread=15.09 (se 0.92) saved=0.6014 used=5.0 time=0.01s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=5 lsbm       spread=15.19 (se 0.93) saved=0.5988 used=5.0 time=0.01s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=5 proximity  spread=16.55 (se 1.16) saved=0.5629 used=5.0 time=0.01s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=5 commit     spread=16.50 (se 1.02) saved=0.5642 used=5.0 time=0.03s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=5 defer      spread=15.05 (se 0.92) saved=0.6025 used=4.9 time=0.03s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=5 defer_nopush spread=15.04 (se 0.92) saved=0.6027 used=5.0 time=0.03s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=10 none       spread=37.86 (se 2.77) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=10 ag         spread=11.92 (se 0.73) saved=0.6852 used=10.0 time=0.01s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=10 gr         spread=12.38 (se 0.90) saved=0.6730 used=10.0 time=0.01s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=10 lsbm       spread=11.71 (se 0.73) saved=0.6907 used=10.0 time=0.01s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=10 proximity  spread=12.93 (se 1.00) saved=0.6585 used=10.0 time=0.01s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=10 commit     spread=11.81 (se 0.72) saved=0.6881 used=10.0 time=0.04s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=10 defer      spread=11.10 (se 0.69) saved=0.7068 used=9.8 time=0.03s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=10 defer_nopush spread=11.24 (se 0.70) saved=0.7031 used=9.9 time=0.03s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=20 none       spread=37.86 (se 2.77) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=20 ag         spread=8.30 (se 0.55) saved=0.7808 used=20.0 time=0.01s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=20 gr         spread=8.66 (se 0.61) saved=0.7713 used=20.0 time=0.01s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=20 lsbm       spread=8.25 (se 0.55) saved=0.7821 used=20.0 time=0.01s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=20 proximity  spread=8.47 (se 0.67) saved=0.7763 used=20.0 time=0.01s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=20 commit     spread=8.49 (se 0.55) saved=0.7758 used=20.0 time=0.05s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=20 defer      spread=7.81 (se 0.49) saved=0.7937 used=19.6 time=0.03s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=20 defer_nopush spread=8.05 (se 0.55) saved=0.7874 used=19.9 time=0.03s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=50 none       spread=37.86 (se 2.77) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=50 ag         spread=2.89 (se 0.29) saved=0.9237 used=49.9 time=0.01s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=50 gr         spread=2.61 (se 0.28) saved=0.9311 used=49.9 time=0.01s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=50 lsbm       spread=3.21 (se 0.35) saved=0.9152 used=50.0 time=0.02s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=50 proximity  spread=3.27 (se 0.48) saved=0.9136 used=50.0 time=0.01s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=50 commit     spread=3.47 (se 0.37) saved=0.9083 used=49.9 time=0.07s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=50 defer      spread=2.79 (se 0.29) saved=0.9263 used=49.4 time=0.03s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=50 defer_nopush spread=2.75 (se 0.29) saved=0.9274 used=49.7 time=0.02s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=100 none       spread=37.86 (se 2.77) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=100 ag         spread=0.02 (se 0.01) saved=0.9995 used=71.5 time=0.01s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=100 gr         spread=0.01 (se 0.01) saved=0.9997 used=70.4 time=0.02s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=100 lsbm       spread=0.05 (se 0.03) saved=0.9987 used=82.8 time=0.03s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=100 proximity  spread=0.02 (se 0.01) saved=0.9995 used=100.0 time=0.01s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=100 commit     spread=0.08 (se 0.04) saved=0.9979 used=71.5 time=0.09s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=100 defer      spread=0.02 (se 0.01) saved=0.9995 used=70.3 time=0.02s
+2026-11-18 13:26:58 INFO RESULT ba:2000:m=2 budget=100 defer_nopush spread=0.02 (se 0.01) saved=0.9995 used=70.3 time=0.02s
+2026-11-18 13:26:58 INFO run adaptive_snap2_20261118T132620Z_4459 finished in 38.0s
+2026-11-18 13:26:59 INFO run adaptive_snap2_20261118T132659Z_4523 started, dir=/home/user/trace_e/results/runs/adaptive_snap2_20261118T132659Z_4523
+2026-11-18 13:26:59 INFO network ba:2000:m=2: {'n_nodes': 2000, 'n_edges': 3996, 'avg_degree': 3.996, 'n_components': 1, 'lcc_size': 2000}
+2026-11-18 13:27:01 INFO plans ready for instance 1/20
+2026-11-18 13:27:03 INFO plans ready for instance 2/20
+2026-11-18 13:27:05 INFO plans ready for instance 3/20
+2026-11-18 13:27:07 INFO plans ready for instance 4/20
+2026-11-18 13:27:09 INFO plans ready for instance 5/20
+2026-11-18 13:27:10 INFO plans ready for instance 6/20
+2026-11-18 13:27:12 INFO plans ready for instance 7/20
+2026-11-18 13:27:14 INFO plans ready for instance 8/20
+2026-11-18 13:27:16 INFO plans ready for instance 9/20
+2026-11-18 13:27:19 INFO plans ready for instance 10/20
+2026-11-18 13:27:20 INFO plans ready for instance 11/20
+2026-11-18 13:27:23 INFO plans ready for instance 12/20
+2026-11-18 13:27:26 INFO plans ready for instance 13/20
+2026-11-18 13:27:29 INFO plans ready for instance 14/20
+2026-11-18 13:27:31 INFO plans ready for instance 15/20
+2026-11-18 13:27:33 INFO plans ready for instance 16/20
+2026-11-18 13:27:35 INFO plans ready for instance 17/20
+2026-11-18 13:27:38 INFO plans ready for instance 18/20
+2026-11-18 13:27:40 INFO plans ready for instance 19/20
+2026-11-18 13:27:42 INFO plans ready for instance 20/20
+2026-11-18 13:27:42 INFO running 4000 episodes
+2026-11-18 13:28:10 INFO episodes done in 28s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=5 none       spread=67.74 (se 4.01) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=5 ag         spread=57.69 (se 3.24) saved=0.1484 used=5.0 time=0.01s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=5 gr         spread=57.34 (se 3.24) saved=0.1535 used=5.0 time=0.01s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=5 lsbm       spread=57.64 (se 3.23) saved=0.1491 used=5.0 time=0.01s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=5 proximity  spread=58.62 (se 3.19) saved=0.1346 used=5.0 time=0.01s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=5 commit     spread=59.30 (se 3.38) saved=0.1246 used=5.0 time=0.04s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=5 defer      spread=58.13 (se 3.46) saved=0.1419 used=4.8 time=0.08s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=5 defer_nopush spread=57.50 (se 3.45) saved=0.1512 used=5.0 time=0.05s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=10 none       spread=67.74 (se 4.01) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=10 ag         spread=52.11 (se 3.19) saved=0.2307 used=10.0 time=0.01s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=10 gr         spread=53.49 (se 3.51) saved=0.2104 used=10.0 time=0.01s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=10 lsbm       spread=52.16 (se 3.19) saved=0.2300 used=10.0 time=0.01s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=10 proximity  spread=51.53 (se 2.87) saved=0.2393 used=10.0 time=0.01s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=10 commit     spread=52.72 (se 3.21) saved=0.2217 used=10.0 time=0.06s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=10 defer      spread=52.35 (se 3.21) saved=0.2272 used=9.9 time=0.08s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=10 defer_nopush spread=51.83 (se 3.20) saved=0.2349 used=10.0 time=0.05s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=20 none       spread=67.74 (se 4.01) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=20 ag         spread=41.79 (se 2.54) saved=0.3831 used=20.0 time=0.02s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=20 gr         spread=42.91 (se 3.04) saved=0.3665 used=20.0 time=0.02s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=20 lsbm       spread=41.55 (se 2.56) saved=0.3866 used=20.0 time=0.02s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=20 proximity  spread=41.56 (se 2.25) saved=0.3865 used=20.0 time=0.01s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=20 commit     spread=43.34 (se 2.99) saved=0.3602 used=20.0 time=0.10s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=20 defer      spread=42.86 (se 2.62) saved=0.3673 used=19.8 time=0.07s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=20 defer_nopush spread=42.24 (se 2.93) saved=0.3764 used=20.0 time=0.05s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=50 none       spread=67.74 (se 4.01) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=50 ag         spread=15.67 (se 1.91) saved=0.7687 used=49.9 time=0.04s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=50 gr         spread=15.05 (se 1.95) saved=0.7778 used=49.8 time=0.04s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=50 lsbm       spread=15.95 (se 1.96) saved=0.7645 used=50.0 time=0.03s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=50 proximity  spread=17.17 (se 1.65) saved=0.7465 used=50.0 time=0.01s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=50 commit     spread=16.73 (se 1.78) saved=0.7530 used=49.9 time=0.19s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=50 defer      spread=16.12 (se 1.99) saved=0.7620 used=49.5 time=0.04s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=50 defer_nopush spread=16.03 (se 1.98) saved=0.7634 used=49.7 time=0.04s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=100 none       spread=67.74 (se 4.01) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=100 ag         spread=0.00 (se 0.00) saved=1.0000 used=70.6 time=0.04s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=100 gr         spread=0.00 (se 0.00) saved=1.0000 used=70.2 time=0.04s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=100 lsbm       spread=0.00 (se 0.00) saved=1.0000 used=89.8 time=0.05s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=100 proximity  spread=0.07 (se 0.03) saved=0.9990 used=100.0 time=0.01s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=100 commit     spread=0.08 (se 0.07) saved=0.9988 used=70.6 time=0.24s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=100 defer      spread=0.00 (se 0.00) saved=1.0000 used=69.8 time=0.02s
+2026-11-18 13:28:10 INFO RESULT ba:2000:m=2 budget=100 defer_nopush spread=0.00 (se 0.00) saved=1.0000 used=69.8 time=0.02s
+2026-11-18 13:28:10 INFO run adaptive_snap2_20261118T132659Z_4523 finished in 71.5s

@@ -1,0 +1,65 @@
+2026-11-18 13:24:33 INFO run adaptive_snap2_20261118T132433Z_4314 started, dir=/home/user/trace_e/results/runs/adaptive_snap2_20261118T132433Z_4314
+2026-11-18 13:24:33 INFO network powergrid: {'n_nodes': 4941, 'n_edges': 6594, 'avg_degree': 2.66909532483303, 'n_components': 1, 'lcc_size': 4941}
+2026-11-18 13:24:34 INFO plans ready for instance 1/20
+2026-11-18 13:24:36 INFO plans ready for instance 2/20
+2026-11-18 13:24:37 INFO plans ready for instance 3/20
+2026-11-18 13:24:38 INFO plans ready for instance 4/20
+2026-11-18 13:24:40 INFO plans ready for instance 5/20
+2026-11-18 13:24:41 INFO plans ready for instance 6/20
+2026-11-18 13:24:42 INFO plans ready for instance 7/20
+2026-11-18 13:24:43 INFO plans ready for instance 8/20
+2026-11-18 13:24:45 INFO plans ready for instance 9/20
+2026-11-18 13:24:46 INFO plans ready for instance 10/20
+2026-11-18 13:24:47 INFO plans ready for instance 11/20
+2026-11-18 13:24:49 INFO plans ready for instance 12/20
+2026-11-18 13:24:50 INFO plans ready for instance 13/20
+2026-11-18 13:24:51 INFO plans ready for instance 14/20
+2026-11-18 13:24:52 INFO plans ready for instance 15/20
+2026-11-18 13:24:53 INFO plans ready for instance 16/20
+2026-11-18 13:24:55 INFO plans ready for instance 17/20
+2026-11-18 13:24:56 INFO plans ready for instance 18/20
+2026-11-18 13:24:57 INFO plans ready for instance 19/20
+2026-11-18 13:24:59 INFO plans ready for instance 20/20
+2026-11-18 13:24:59 INFO running 4000 episodes
+2026-11-18 13:25:07 INFO episodes done in 8s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=5 none       spread=7.56 (se 0.42) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=5 ag         spread=6.34 (se 0.32) saved=0.1614 used=5.0 time=0.00s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=5 gr         spread=6.34 (se 0.32) saved=0.1614 used=5.0 time=0.00s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=5 lsbm       spread=6.34 (se 0.32) saved=0.1614 used=5.0 time=0.00s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=5 proximity  spread=6.28 (se 0.34) saved=0.1693 used=5.0 time=0.03s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=5 commit     spread=6.47 (se 0.37) saved=0.1442 used=5.0 time=0.02s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=5 defer      spread=6.32 (se 0.33) saved=0.1640 used=5.0 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=5 defer_nopush spread=6.34 (se 0.32) saved=0.1614 used=5.0 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=10 none       spread=7.56 (se 0.42) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=10 ag         spread=5.77 (se 0.30) saved=0.2368 used=10.0 time=0.00s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=10 gr         spread=5.77 (se 0.30) saved=0.2368 used=10.0 time=0.00s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=10 lsbm       spread=5.77 (se 0.30) saved=0.2368 used=10.0 time=0.00s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=10 proximity  spread=5.16 (se 0.31) saved=0.3175 used=10.0 time=0.03s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=10 commit     spread=5.44 (se 0.32) saved=0.2804 used=10.0 time=0.03s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=10 defer      spread=5.77 (se 0.30) saved=0.2368 used=10.0 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=10 defer_nopush spread=5.77 (se 0.30) saved=0.2368 used=10.0 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=20 none       spread=7.56 (se 0.42) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=20 ag         spread=4.08 (se 0.27) saved=0.4603 used=20.0 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=20 gr         spread=4.08 (se 0.27) saved=0.4603 used=20.0 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=20 lsbm       spread=4.08 (se 0.27) saved=0.4603 used=20.0 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=20 proximity  spread=3.68 (se 0.21) saved=0.5132 used=20.0 time=0.03s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=20 commit     spread=4.07 (se 0.25) saved=0.4616 used=20.0 time=0.03s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=20 defer      spread=4.09 (se 0.27) saved=0.4590 used=20.0 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=20 defer_nopush spread=4.08 (se 0.27) saved=0.4603 used=20.0 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=50 none       spread=7.56 (se 0.42) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=50 ag         spread=0.50 (se 0.10) saved=0.9339 used=48.5 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=50 gr         spread=0.50 (se 0.10) saved=0.9339 used=48.5 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=50 lsbm       spread=0.52 (se 0.10) saved=0.9312 used=48.5 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=50 proximity  spread=0.40 (se 0.08) saved=0.9471 used=50.0 time=0.03s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=50 commit     spread=0.55 (se 0.11) saved=0.9272 used=48.5 time=0.06s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=50 defer      spread=0.50 (se 0.10) saved=0.9339 used=48.5 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=50 defer_nopush spread=0.50 (se 0.10) saved=0.9339 used=48.5 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=100 none       spread=7.56 (se 0.42) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=100 ag         spread=0.00 (se 0.00) saved=1.0000 used=53.4 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=100 gr         spread=0.00 (se 0.00) saved=1.0000 used=53.4 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=100 lsbm       spread=0.00 (se 0.00) saved=1.0000 used=53.5 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=100 proximity  spread=0.00 (se 0.00) saved=1.0000 used=100.0 time=0.03s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=100 commit     spread=0.00 (se 0.00) saved=1.0000 used=53.4 time=0.06s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=100 defer      spread=0.00 (se 0.00) saved=1.0000 used=53.4 time=0.01s
+2026-11-18 13:25:07 INFO RESULT powergrid budget=100 defer_nopush spread=0.00 (se 0.00) saved=1.0000 used=53.4 time=0.01s
+2026-11-18 13:25:07 INFO run adaptive_snap2_20261118T132433Z_4314 finished in 34.1s

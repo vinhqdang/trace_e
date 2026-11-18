@@ -36,7 +36,7 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-Blocking the spread of a rumor or epidemic that has already started, by removing a few nodes under a fixed budget, is usually posed as a one-shot decision made before the outbreak is observed. We ask whether spending the budget gradually, as the cascade unfolds, can be worse than spending it at once, and how large the benefit can be. We introduce DEFER, a wrapper that turns any one-shot influence minimization planner into an adaptive one by re-planning every round and blocking a planned node only once the cascade has reached its neighborhood. We prove that its pure-deferral variant is never worse in expectation than the planner it wraps, up to a selection-bias caveat that we state; that a local push-down rule for early commitment is myopically optimal but can fail when several deferred targets compete for the budget; and that the adaptivity gap of influence minimization is unbounded. Experiments give a consistent picture. On star-of-paths instances, the family used in the proof, DEFER saves 0.36 to 0.97 of the spread and beats greedy, re-planning and integer-programming policies in all 18 settings. On 45 synthetic settings it is significantly better than greedy in 9 and never significantly worse, with the gains in large-cascade regimes. On small and SNAP-scale networks the differences are small, re-planning with immediate commitment is often as good, and exact integer programs did not beat greedy while running orders of magnitude slower.
+Blocking the spread of a rumor or epidemic that has already started, by removing a few nodes under a fixed budget, is usually posed as a one-shot decision made before the outbreak is observed. We ask whether spending the budget gradually, as the cascade unfolds, can be worse than spending it at once, and how large the benefit can be. We introduce DEFER, a wrapper that turns any one-shot influence minimization planner into an adaptive one by re-planning every round and blocking a planned node only once the cascade has reached its neighborhood. We prove that its pure-deferral variant is never worse in expectation than the planner it wraps, provided plan replacement passes a held-out test whose residual error we do not bound; that a local push-down rule for early commitment is myopically optimal but can fail when several deferred targets compete for the budget; and that the adaptivity gap of influence minimization is unbounded. Experiments, in which every policy faces the same random cascades, give a mixed but consistent picture. On star-of-paths instances, the family used in the proof, DEFER saves between 36\% and 97\% of the spread that would occur without blocking and beats the greedy, re-planning and one-shot integer-programming policies in all 18 settings. On 45 synthetic settings it is significantly better than greedy in 9 and never significantly worse, with the gains in large-cascade regimes. On four empirical and synthetic networks with 2,000 to 9,900 vertices (40 settings) it is significantly better than AdvancedGreedy in 5 and never significantly worse, and the typical difference is small. A staged integer program with 48 sampled scenarios did not beat DEFER, and integer programs for the sampled problem did not beat greedy while running orders of magnitude slower.
 \end{abstract}
 \noindent\textbf{Keywords:} influence minimization; adaptive optimization; misinformation blocking; adaptivity gap
 
@@ -44,11 +44,13 @@ Blocking the spread of a rumor or epidemic that has already started, by removing
 
 Consider a platform moderator who learns that a false rumor has started spreading from a handful of accounts, or a health authority that has detected a few cases of an infectious disease. Each can suspend a small number of accounts, or quarantine a small number of people, but not many. The standard operations-research treatment asks which targets to pick \emph{now}, and commits the whole budget before anything further is known. Real interventions rarely work this way: within hours or days the moderator sees which accounts the rumor has actually reached, and the authority sees which contacts have actually become infected. The practical question is whether it is better to spend the budget at once or to hold part of it back and spend it where the outbreak actually goes. Holding back is risky, because a cascade can pass through a node before it is blocked, but it also avoids spending budget on targets the cascade never reaches. This paper quantifies that trade-off.
 
-The problem is \emph{influence minimization} (IMIN) \citep{xie2023,xie2024}: given the seeds of a cascade under the independent cascade model and a budget of vertices that can be removed, choose the vertices that minimize the expected final spread. IMIN is the natural complement of influence \emph{maximization} \citep{kempe2003}. Unlike maximization its objective is not supermodular, so greedy selection carries no approximation guarantee, and the problem is NP-hard and hard to approximate \citep{xie2023}. Every published IMIN algorithm, including AdvancedGreedy and GreedyReplace \citep{xie2023,xie2024} and the Sandwich family \citep{wang2024sandwich}, is \emph{one-shot}: the entire budget is spent before the cascade is observed.
+The problem is \emph{influence minimization} (IMIN) \citep{xie2023,xie2024}: given the seeds of a cascade under the independent cascade model and a budget of vertices that can be removed, choose the vertices that minimize the expected final spread. IMIN is the natural complement of influence \emph{maximization} \citep{kempe2003}. Unlike maximization its objective is not supermodular, so greedy selection carries no approximation guarantee, and the problem is NP-hard and hard to approximate \citep{xie2023}. The IMIN algorithms we know of, AdvancedGreedy and GreedyReplace \citep{xie2023,xie2024} and the Sandwich family \citep{wang2024sandwich}, are \emph{one-shot}: the entire budget is spent before the cascade is observed.
 
 \paragraph{What we ask.} Two questions follow, and neither has, to our knowledge, been answered formally for IMIN. Can adapting to the unfolding cascade ever hurt, relative to a one-shot plan? And how large can the benefit of adapting be? A third question is practical: in which networks and regimes does adapting actually pay, and is it worth the added computation compared with solving the one-shot problem exactly?
 
-\paragraph{What we find.} Table~\ref{tab:summary} gives the answers in one place, with the sections where each is established.
+\paragraph{A numerical illustration.} Seed $s$ has four neighbors, each independently reached with probability $0.1$; a reached neighbor starts a private chain of $50$ further vertices that the cascade follows with certainty. With no blocking the expected spread is $20.4$ vertices. With a budget of one block, the best one-shot choice removes one neighbor in advance and leaves an expected spread of $15.3$, because it must protect against a threat that is absent $90\%$ of the time. A policy that waits one round, sees which neighbors were reached, and blocks the first vertex of one reached chain has an expected spread of $3.2$ (Section~\ref{sec:defer-example}).
+
+\paragraph{What we find.} Table~\ref{tab:summary} gives the answers in one place, with the sections where each is established. Terms used there: AG and GR are the one-shot planners AdvancedGreedy and GreedyReplace; COMMIT re-plans every round and commits the whole plan at once (no deferral); \texttt{DEFER-nopush} is DEFER without the push-down rule; ILP is an integer linear program. The \emph{saved fraction} of a policy is one minus its total spread divided by the total spread without blocking, computed over the same random cascades for every policy. A comparison is called \emph{significant} when the mean paired difference exceeds twice its standard error.
 
 \begin{table}[h]
 \centering
@@ -60,9 +62,9 @@ The problem is \emph{influence minimization} (IMIN) \citep{xie2023,xie2024}: giv
 \hline
 \up Can adapting hurt? & Pure deferral (\texttt{DEFER-nopush}) is never worse in expectation than the planner it wraps, up to a selection-bias caveat. Early commitment by the push-down rule is optimal for a single target but can make DEFER worse than its planner when targets compete for the budget. & Sec.~\ref{sec:defer-theory} \\
 How large can the benefit be? & Unbounded. On the star-of-paths family the saving ratio approaches $(1-(1-p)^\Delta)/p$ and the spread ratio grows without limit. In simulation DEFER saves $0.36$--$0.97$ of the spread there and exceeds the best of AG, GR, COMMIT and the one-shot ILP by at least $0.27$ in all 18 settings. & Sec.~\ref{sec:defer-theory}, \ref{sec:exp-sop} \\
-Where does it help in practice? & In large-cascade regimes. Over 45 synthetic settings DEFER is significantly better than AG in 9, better than COMMIT in 6, and never significantly worse. On small and SNAP-scale networks the gains are small ($0.2$--$1.9$ percentage points at budget $20$ on four SNAP-scale networks). & Sec.~\ref{sec:exp-regime}, \ref{sec:defer-experiments} \\
-Does exact optimization remove the need? & No. A time-indexed scenario ILP, one-shot or staged, did not beat greedy (within $0.02$ of AG in 13 of 19 cells) and ran far slower; the ILP as DEFER's planner matched the ILP alone. & Sec.~\ref{sec:exp-ilp} \\
-What does it cost? & DEFER's cost is AG's per-round cost times the number of rounds, about $2.5$--$7\times$ AG's wall-clock time. & Sec.~\ref{sec:defer-theory}, \ref{sec:complexity-comparison} \\
+Where does it help in practice? & In large-cascade regimes. Over 45 synthetic settings DEFER is significantly better than AG in 9, better than COMMIT in 6, and never significantly worse. On four networks of 2,000 to 9,900 vertices (40 settings) it is significantly better than AG in 5 and never significantly worse, with small typical differences; the largest is 13.9 points at budget 20 on ca-HepTh. & Sec.~\ref{sec:exp-regime}, \ref{sec:defer-experiments}\\
+Does solving the sampled problem exactly help? & No. A time-indexed ILP over 48 sampled scenarios, one-shot or staged, did not beat greedy (within $0.02$ of AG in 13 of 19 cells) and ran far slower; the ILP as DEFER's planner matched the ILP alone. & Sec.~\ref{sec:exp-ilp} \\
+What does it cost? & DEFER's cost is AG's per-round cost times the number of rounds, which was $2.1$--$4.9\times$ AG's wall-clock time on the four networks. & Sec.~\ref{sec:defer-theory}, \ref{sec:complexity-comparison}\\
 \hline
 \end{tabular}
 \end{table}
@@ -73,13 +75,13 @@ What does it cost? & DEFER's cost is AG's per-round cost times the number of rou
 
 \section{Related Work}\label{sec:related}
 
-\textbf{Influence minimization.} \citet{xie2023} introduce IMIN, prove NP-hardness and inapproximability, and give AdvancedGreedy. \citet{xie2024} extend this with GreedyReplace. The Sandwich lower/upper-bound family we use as the LSBM baseline is due to \citet{wang2024sandwich}.
+\textbf{Influence minimization.} \citet{xie2023} introduce IMIN and prove NP-hardness and inapproximability; AdvancedGreedy and GreedyReplace are due to \citet{xie2023,xie2024}. The Sandwich lower/upper-bound family we use as the LSBM baseline is due to \citet{wang2024sandwich}.
 
-\textbf{Rumor and misinformation blocking before IMIN.} Limiting an already-spreading process's damage by removing or countering a small vertex set predates IMIN's formal treatment: \citet{budak2011} counter-seed a rival campaign under independent cascade; \citet{he2012} extend this to competitive linear threshold; \citet{nguyen2012} and \citet{wang2013blocking} study node and edge removal directly; \citet{fan2013} add a removal-cost budget; \citet{wang2016drimux} and \citet{tong2018} treat dynamic and multi-campaign settings; \citet{farajtabar2017} model the cascade as a Hawkes process steered by reinforcement learning; \citet{yan2020} study blocker placement under a fixed budget; and \citet{zareie2021} survey this line. \citet{xiang2024} is a recent pertinence-constrained variant. None of this line treats commitment timing as a decision variable.
+\textbf{Rumor and misinformation blocking before IMIN.} Limiting an already-spreading process's damage by removing or countering a small vertex set predates IMIN's formal treatment: \citet{budak2011} counter-seed a rival campaign under independent cascade; \citet{he2012} extend this to competitive linear threshold; \citet{nguyen2012} and \citet{wang2013blocking} study node and edge removal directly; \citet{fan2013} add a removal-cost budget; \citet{wang2016drimux} and \citet{tong2018} treat dynamic and multi-campaign settings; \citet{farajtabar2017} model the cascade as a Hawkes process steered by reinforcement learning; \citet{yan2020} study blocker placement under a fixed budget; and \citet{zareie2021} survey this line. \citet{xiang2024} is a recent pertinence-constrained variant. To our knowledge, none of these works analyzes the value of delaying commitment with worst-case guarantees.
 
 \textbf{Exact and optimization-based methods.} Influence minimization and related blocking problems have also been attacked with exact mathematical-programming methods, which matter for the dynamic setting studied here. \citet{taninmis2022} give an improved $x$-space algorithm for min--max bilevel problems, with misinformation spread in social networks as an application, and \citet{taninmis2024} develop Benders decomposition algorithms for minimizing the spread of harmful contagions. We are not aware that either treats the timing of commitment as a decision, but a time-indexed formulation extends naturally to staged budgets: the blocking variables carry a time index, the budget constraint couples the stages, and a node cannot be blocked after the cascade has reached it. Section~\ref{sec:exp-ilp} implements such a formulation and benchmarks it. We did not implement the cut-based Benders or bilevel algorithms themselves.
 
-\textbf{Adaptive and sequential decision problems.} Adaptive variants of influence \emph{maximization} are well studied: \citet{golovinkrause2011} give the adaptive-submodularity framework; \citet{seemansinger2013} apply two-stage adaptive seeding; and \citet{tong2017} give an adaptive maximization algorithm that re-plans as the network changes, structurally similar to DEFER but for the maximization objective. For stochastic monotone submodular maximization, the adaptivity gap, introduced by \citet{deangoemansvondrak2008} for stochastic knapsack, is bounded by a constant \citep{asadpournazerzadeh2016}. Theorem~\ref{thm:adaptivity-gap} shows the opposite for IMIN, an unbounded gap, attributable to the lack of supermodularity of $\FF$ \citep{xie2023}. To our knowledge no prior work formalizes an adaptive variant of IMIN or proves results of the shape of Lemma~\ref{lem:defer-free} or Theorem~\ref{thm:adaptivity-gap} for this minimization problem.
+\textbf{Adaptive and sequential decision problems.} Adaptive variants of influence \emph{maximization} are well studied: \citet{golovinkrause2011} give the adaptive-submodularity framework; \citet{seemansinger2013} apply two-stage adaptive seeding; and \citet{tong2017} give an adaptive maximization algorithm that re-plans as the network changes, structurally similar to DEFER but for the maximization objective. For stochastic monotone submodular maximization, the adaptivity gap, introduced by \citet{deangoemansvondrak2008} for stochastic knapsack, is bounded by a constant \citep{asadpournazerzadeh2016}. Theorem~\ref{thm:adaptivity-gap} shows the opposite for IMIN, an unbounded gap. To our knowledge no prior work formalizes an adaptive variant of IMIN with worst-case guarantees of the shape of Lemma~\ref{lem:defer-free} or Theorem~\ref{thm:adaptivity-gap}.
 
 \section{Preliminaries}\label{sec:prelim}
 \subsection{The independent cascade model}\label{sec:ic-model}
@@ -473,9 +475,7 @@ therefore present Lemma~\ref{lem:pushdown} as a local heuristic
 justification for push-down, not a global guarantee, and report
 \texttt{DEFER-nopush} alongside full DEFER in
 Section~\ref{sec:defer-experiments} so the push-down rule's empirical
-effect -- small, and occasionally negative, e.g.\ on ca-GrQc under the
-weighted-cascade model -- can be judged directly against
-Theorem~\ref{thm:defer-dominates}'s guaranteed variant.
+effect can be judged directly against Theorem~\ref{thm:defer-dominates}'s guaranteed variant: it is the whole advantage on the star-of-paths family (Section~\ref{sec:exp-sop}) and small, occasionally negative, on the empirical networks (Appendix Table~\ref{tab:defer-nopush-parity}).
 \end{remark}
 
 \emph{Intuition.} The gap results from asymmetry between insuring and
@@ -512,7 +512,7 @@ the spread ratio instead stays bounded as $p\to0$ (it tends to the finite
 constant $(\Delta-1)(L+1)/\Delta$).
 \end{theorem}
 
-\emph{Remark on interpretation.} The unboundedness is a worst-case
+\emph{Remark on interpretation.} The ratio exceeds $1$ only when $L(1-(1-p)^\Delta)>p(L+1)$; for $\Delta=2$, $p=0.4$, $L=1$ it equals $0.8$, which is the counterexample of Remark~\ref{rem:pushdown-counterexample}. The unboundedness is a worst-case
 statement about a constructed family. It shows adaptivity cannot be dismissed
 on theoretical grounds, not that it will matter on a given network; the
 empirical size of the effect is the subject of Section~\ref{sec:experiments}.
@@ -531,9 +531,7 @@ We additionally construct \texttt{isocut}, a one-shot planner of our own
 that adds one further kind of candidate move to AG's planner --
 isolating a whole seed's out-neighborhood at once, rather than blocking
 one vertex at a time -- and prove it admits a worst-case separation
-(Theorem~\ref{thm:isocut-separation}, the Appendix) from published
-one-shot planners: AdvancedGreedy, GreedyReplace, and the Sandwich lower
-bound. \texttt{isocut} is not itself a competing baseline from the
+(Theorem~\ref{thm:isocut-separation}, the Appendix) from AdvancedGreedy. \texttt{isocut} is not itself a competing baseline from the
 literature; it is reported only as an ablation, in
 Appendix~\ref{sec:isocut-practice}, because it is rarely selected
 on the SNAP graphs used there.
@@ -544,21 +542,20 @@ blocks are made together, as when isolating all out-neighbors of a seed, each
 single block looks worthless and greedy never finds it.
 
 \begin{theorem}[Isolation-move separation]\label{thm:isocut-separation}
-There is a family of instances on which AdvancedGreedy, GreedyReplace, and
-the Sandwich lower-bound greedy all save $O(b)$ vertices with budget $b$,
+There is a family of instances (with $2\le c\le b$ below) on which AdvancedGreedy saves $O(b)$ vertices with budget $b$,
 while a planner with frontier-isolation moves saves $\Omega(N)$ for
-arbitrary $N$.
+arbitrary $N$. The statement is for AdvancedGreedy, which selects vertices one at a time by marginal single-vertex saving; we do not analyze GreedyReplace or the Sandwich greedy on this family.
 \end{theorem}
 
 \section{Experiments}\label{sec:experiments}
 
-The experiments are designed to answer the three practical questions of Table~\ref{tab:summary}: how large the benefit of adapting is on the family where the theory says it is largest (Section~\ref{sec:exp-sop}); in which regimes it appears on other graphs (Section~\ref{sec:exp-regime}); and how it compares on empirical networks (Section~\ref{sec:defer-experiments}) and with exact integer-programming baselines (Section~\ref{sec:exp-ilp}). In every comparison all policies run on the \emph{same} live-edge realization, so differences between two policies are paired. A difference is called significant when the mean paired difference in final spread exceeds twice its standard error; this is a screening rule, not a corrected test, and with many cells a few false positives are expected.
+The experiments are designed to answer the practical questions of Table~\ref{tab:summary}: how large the benefit of adapting is on the family where the theory says it is largest (Section~\ref{sec:exp-sop}); in which regimes it appears on other graphs (Section~\ref{sec:exp-regime}); and how it compares on empirical networks (Section~\ref{sec:defer-experiments}) and with exact integer-programming baselines (Section~\ref{sec:exp-ilp}). In every comparison all policies run on the \emph{same} live-edge realization, so differences between two policies are paired. A difference is called significant when the mean paired difference in final spread exceeds twice its standard error; this is a screening rule, not a corrected test, and with many cells a few false positives are expected.
 \subsection{Star-of-paths instances}\label{sec:exp-sop}
 
 The star-of-paths family of Theorem~\ref{thm:adaptivity-gap} is the structure
 for which the theory predicts an advantage of deferral: seed $s$ has $\Delta$
 gateways, each active with probability $p$ and heading a private deterministic
-path of $L=30$ vertices. We ran every policy of this appendix on identical
+path of $L=30$ vertices. We ran every policy of this section on identical
 realizations for $\Delta\in\{4,8,16\}$, $p\in\{0.05,0.1,0.2\}$, budgets
 $b\in\{1,2\}$, with 100, 50 and 20 realizations for $\Delta=4,8,16$ respectively
 (fewer for the larger stars, where the ILP solves dominate the running time).
@@ -762,102 +759,69 @@ methods):}
   co-authorship collaboration networks (General Relativity and High Energy
   Physics Theory categories respectively), $n=5241$ and $n=9875$.
 \item \textbf{Power-grid} \citep{watts1998}: the topology of the Western
-  US power grid, $n=4941$, previously used for epidemic-source inference
-  by \citet{lokhov2014}.
+  US power grid, $n=4941$.
 \item \textbf{BA(2000)}: a synthetic Barab\'asi--Albert preferential-attachment
   graph \citep{barabasi1999} with $n=2000$ and attachment parameter $m=2$.
 \end{enumerate}
 
-\noindent We also attempted soc-Epinions1 (a much larger trust network),
-which did not finish within budget and is left for future work. All four
-networks are evaluated under constant activation probability and the
-weighted-cascade (WC) model, seed sets of size 20 chosen uniformly at
-random, budget 20 as the primary comparison point (the full sweep also
-covers budgets 5--100, reported in
-\texttt{results/summary\_adaptive.csv}). Table~\ref{tab:defer-results}
-reports the fraction of no-intervention spread saved (higher is better),
-averaged over available live-edge draws per cell (WC cells for ca-HepTh,
-power-grid, and Barab\'asi--Albert have only one draw each and are
-indicative rather than tight estimates).
+\noindent We also attempted soc-Epinions1 (a much larger trust network), which did not finish within budget and is left for future work. Each network is evaluated under constant activation probability $p=0.1$ and the weighted-cascade (WC) model, with 20 random seed sets of 20 vertices and 5 live-edge realizations per seed set, so every cell has 100 paired episodes, for budgets $b\in\{5,10,20,50,100\}$ (Appendix~\ref{ec:reproducibility}). Table~\ref{tab:defer-results} reports the saved fraction at budget $20$.
 
 \begin{table}[h]
 \centering
-\caption{Fraction of no-intervention spread saved, budget 20, by policy and network\label{tab:defer-results}}
+\caption{Fraction of no-intervention spread saved at budget $20$ (100 paired episodes per cell). Bold in the policy rows marks the best policy in each column. The last two rows give the mean paired improvement of DEFER over AG and over COMMIT, in percentage points of the unprotected spread, with standard errors in parentheses; bold when larger than twice the standard error.\label{tab:defer-results}}
+\footnotesize
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}lcccccccc@{}}
 \hline
-\up & \multicolumn{4}{c}{constant probability} & \multicolumn{4}{c}{weighted cascade} \\
-policy & ca-GrQc & ca-HepTh & power-grid & BA(2000) & ca-GrQc & ca-HepTh & power-grid & BA(2000) \\
+\up & \multicolumn{2}{c}{ca-GrQc} & \multicolumn{2}{c}{ca-HepTh} & \multicolumn{2}{c}{power-grid} & \multicolumn{2}{c}{BA(2000)} \\
+ & const & WC & const & WC & const & WC & const & WC \\
 \hline
-\up AG & 0.583 & 0.452 & 0.339 & 0.571 & 0.391 & 0.333 & 0.394 & 0.419 \\
-GR & 0.592 & 0.466 & 0.339 & 0.568 & 0.391 & 0.335 & 0.394 & 0.432 \\
-LSBM & 0.597 & 0.424 & 0.339 & 0.570 & 0.404 & 0.333 & 0.384 & 0.425 \\
-Proximity & 0.585 & 0.432 & 0.319 & 0.586 & 0.209 & 0.327 & 0.311 & 0.426 \\
-COMMIT & 0.591 & 0.448 & 0.290 & 0.562 & 0.321 & 0.310 & 0.344 & 0.329 \\
-\down DEFER & \textbf{0.602} & \textbf{0.471} & \textbf{0.341} & 0.573 & 0.334 & \textbf{0.339} & \textbf{0.394} & 0.424 \\
+\up AG & 0.665 & 0.319 & 0.441 & 0.331 & 0.460 & 0.410 & 0.781 & 0.383 \\
+GR & 0.657 & 0.316 & 0.444 & 0.331 & 0.460 & 0.410 & 0.771 & 0.367 \\
+LSBM & 0.638 & \textbf{0.322} & 0.374 & \textbf{0.332} & 0.460 & \textbf{0.411} & 0.782 & \textbf{0.387} \\
+Proximity & 0.566 & 0.179 & 0.545 & 0.233 & \textbf{0.513} & 0.394 & 0.776 & \textbf{0.386} \\
+COMMIT & 0.653 & 0.290 & 0.484 & 0.225 & 0.462 & 0.369 & 0.776 & 0.360 \\
+DEFER-nopush & 0.681 & 0.319 & 0.538 & 0.331 & 0.460 & 0.410 & 0.787 & 0.376 \\
+DEFER & \textbf{0.683} & 0.319 & \textbf{0.580} & 0.330 & 0.459 & 0.410 & \textbf{0.794} & 0.367 \\
 \hline
-\end{tabular}
-{\footnotesize Bold marks DEFER only where it is the best of all policies shown here (not merely of the adaptive ones), so an unbolded DEFER cell can still beat AG. Under the constant-probability model DEFER weakly improves on AG, its own planner, on every network, consistent with Theorem~\ref{thm:defer-dominates}; on BA(2000) it is nonetheless not the overall best cell, since Proximity -- a heuristic unrelated to DEFER's own guarantee -- scores higher there. Under the weighted-cascade model DEFER mostly coincides with AG/GR (the push-down rule rarely fires when per-edge probabilities are the small, degree-normalized WC weights), and the one shortfall against AG specifically (ca-GrQc, WC) is a candidate instance of Remark~\ref{rem:winners-curse}'s residual bias risk on a 3-draw cell, not proof either way. COMMIT is at or below AG on 3 of 4 networks under the constant model and on all 4 under WC, illustrating that committing a full plan immediately, rather than deferring it, is the harmful ablation.}
+\up DEFER$-$AG (pp) & +1.8\,(1.2) & +0.0\,(0.0) & \textbf{+13.9}\,(4.7) & -0.1\,(0.1) & -0.1\,(0.1) & +0.0\,(0.0) & \textbf{+1.3}\,(0.6) & -1.6\,(1.3) \\
+\down DEFER$-$COMMIT (pp) & +2.9\,(2.2) & +2.9\,(2.0) & +9.6\,(5.0) & \textbf{+10.5}\,(3.6) & -0.3\,(2.7) & \textbf{+4.0}\,(1.7) & +1.8\,(1.1) & +0.7\,(4.0) \\
+\hline
+\end{tabular}}
 \end{table}
 
-Table~\ref{tab:defer-results} fixes budget 20; Figure~\ref{fig:defer-sweep}
-tracks the same policies across the full budget sweep on ca-GrQc under the
-constant-probability model. The gap between DEFER and COMMIT is roughly
-constant in relative terms across budgets, while the gap between DEFER and
-its own planner AG narrows as the budget grows: with a larger budget, AG's
-one-shot plan already blocks most of what deferring would additionally
-protect, so there is less left for adaptivity to buy. This is consistent
-with Theorem~\ref{thm:adaptivity-gap}'s mechanism -- adaptivity helps by
-avoiding paying for branches of the cascade that never activate, and a
-larger one-shot budget already covers more of those branches by brute
-force.
+Over all 40 (network, model, budget) cells of Tables~\ref{tab:defer-results} and~\ref{tab:defer-allbudgets}, DEFER is significantly better than AG in 5 cells and never significantly worse. Its saved fraction is ahead of AG's in 17 cells, equal to three decimals in 16, and behind in 7, by at most 1.6 points. The gains concentrate on two networks under constant probability: on ca-HepTh DEFER saves $0.580$ of the spread at $b=20$ against AG's $0.441$ (a paired improvement of 13.9 points), and on BA(2000) the improvement at $b=20$ is 1.3 points. On ca-GrQc and power-grid at $b=20$ the differences are within noise, and under weighted cascade DEFER coincides with AG to three decimals on ca-GrQc, ca-HepTh and power-grid, because the push-down rule rarely fires when the weights are the small, degree-normalized ones. Against COMMIT, DEFER is significantly better in 11 cells and never significantly worse; COMMIT has the best saved fraction of AG, DEFER and COMMIT in 6 cells, by at most 4.4 points. Against GreedyReplace, DEFER is significantly better in 3 cells and significantly worse in 3, by at most 1.6 points. The push-down rule does not help here: \texttt{DEFER-nopush} is never significantly worse than DEFER, DEFER is significantly worse than it in two cells (by $0.11$ and $0.01$ points, borderline at $z\approx-2.03$), and the two differ by more than $0.005$ in saved fraction in 6 cells (largest $0.043$; Appendix Table~\ref{tab:defer-nopush-parity}). This is consistent with Remark~\ref{rem:pushdown-counterexample}: push-down is a local heuristic whose effect can be negative, and its benefit shows where the structure the theory describes is present (Section~\ref{sec:exp-sop}).
+
+Figure~\ref{fig:defer-sweep} tracks AG, COMMIT and DEFER across the budget sweep under constant probability, and Table~\ref{tab:defer-allbudgets} gives the numbers. The advantage of DEFER over AG is not monotone in the budget: on ca-HepTh it is $0.0$, $2.6$, $13.9$, $8.7$ and $2.3$ points at $b=5,10,20,50,100$, and it vanishes when every policy saves nearly all of the spread.
 
 \begin{figure}[h]
-\includegraphics[width=0.6\textwidth]{figures/defer_budget_sweep.pdf}
-\caption{Fraction of no-intervention spread saved as a function of budget, ca-GrQc, constant-probability model.\label{fig:defer-sweep}. Each point averages the live-edge draws available at that budget (2--8 draws depending on budget; see \texttt{results/summary\_adaptive.csv}).}
+\centering
+\includegraphics[width=\textwidth]{figures/defer_budget_sweep.pdf}
+\caption{Fraction of no-intervention spread saved as a function of the budget, constant probability $p=0.1$, 100 paired episodes per point (Table~\ref{tab:defer-allbudgets}).\label{fig:defer-sweep}}
 \end{figure}
-
-Table~\ref{tab:defer-allbudgets} extends this comparison to all four
-networks and the full budget sweep $b\in\{5,10,20,50,100\}$ under the
-constant-probability model, restricted to AG, DEFER, and COMMIT for
-readability.
 
 \begin{table}[h]
 \centering
-\caption{Fraction of no-intervention spread saved across the full budget sweep, constant probability\label{tab:defer-allbudgets}}
+\caption{Fraction of no-intervention spread saved across the budget sweep, constant probability $p=0.1$. Bold marks the best of the three policies in each cell (ties bolded on both).\label{tab:defer-allbudgets}}
+\footnotesize
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}lcccccccccccc@{}}
 \hline
 \up & \multicolumn{3}{c}{ca-GrQc} & \multicolumn{3}{c}{ca-HepTh} & \multicolumn{3}{c}{power-grid} & \multicolumn{3}{c}{BA(2000)} \\
 $b$ & AG & DEFER & COMMIT & AG & DEFER & COMMIT & AG & DEFER & COMMIT & AG & DEFER & COMMIT \\
 \hline
-\up 5 & 0.250 & \textbf{0.259} & 0.186 & 0.283 & \textbf{0.322} & 0.235 & \textbf{0.130} & 0.124 & 0.053 & 0.463 & \textbf{0.463} & 0.419 \\
-10 & 0.407 & \textbf{0.422} & 0.389 & 0.331 & \textbf{0.352} & 0.345 & \textbf{0.216} & \textbf{0.216} & 0.188 & 0.521 & \textbf{0.522} & 0.513 \\
-20 & 0.583 & \textbf{0.602} & 0.591 & 0.452 & \textbf{0.471} & 0.448 & 0.339 & \textbf{0.341} & 0.290 & 0.571 & \textbf{0.573} & 0.562 \\
-50 & 0.815 & \textbf{0.818} & 0.801 & 0.656 & \textbf{0.666} & 0.631 & \textbf{0.592} & \textbf{0.592} & 0.583 & 0.671 & 0.673 & \textbf{0.674} \\
-\down 100 & \textbf{0.900} & \textbf{0.900} & 0.897 & 0.671 & 0.679 & \textbf{0.727}$^{*}$ & \textbf{0.788} & \textbf{0.788} & 0.785 & \textbf{0.795} & \textbf{0.795} & 0.767 \\
+\up 5 & 0.312 & \textbf{0.352} & 0.324 & 0.130 & 0.130 & \textbf{0.146} & 0.161 & \textbf{0.164} & 0.144 & 0.601 & \textbf{0.602} & 0.564 \\
+10 & 0.492 & \textbf{0.510} & 0.471 & 0.225 & 0.251 & \textbf{0.294} & 0.237 & 0.237 & \textbf{0.280} & 0.685 & \textbf{0.707} & 0.688 \\
+20 & 0.665 & \textbf{0.683} & 0.653 & 0.441 & \textbf{0.580} & 0.484 & 0.460 & 0.459 & \textbf{0.462} & 0.781 & \textbf{0.794} & 0.776 \\
+50 & 0.876 & \textbf{0.896} & 0.879 & 0.870 & \textbf{0.957} & 0.892 & \textbf{0.934} & \textbf{0.934} & 0.927 & 0.924 & \textbf{0.926} & 0.908 \\
+100 & 0.971 & \textbf{0.978} & 0.972 & 0.973 & \textbf{0.996} & 0.993 & \textbf{1.000} & \textbf{1.000} & \textbf{1.000} & \textbf{0.999} & \textbf{0.999} & 0.998 \\
 \hline
-\end{tabular}
-{\footnotesize Bold marks the best of the three policies shown per cell (ties bolded on
-both). $^{*}$The one cell where COMMIT beats both AG and DEFER
-(ca-HepTh, $b=100$) has only two live-edge draws, the smallest sample in
-the sweep; we read it as more likely to be sampling noise than a real
-reversal, but this is a judgment call, not something the two draws can
-establish -- see \texttt{results/summary\_adaptive.csv} for the per-cell
-standard errors omitted from the table for space. DEFER is at least tied
-with AG in 19 of 20 cells and strictly ahead in 14, a tally that treats
-every cell as equally informative regardless of its draw count (2--8 draws
-depending on budget and network); the narrowing-at-large-budget pattern of
-Figure~\ref{fig:defer-sweep} is nonetheless visible on every network.}
+\end{tabular}}
 \end{table}
 
-Two further robustness checks are reported in
-Appendix~\ref{ec:seed-sensitivity}: a single-draw sweep with 50
-highest-degree seeds (a harder, more concentrated seeding), where the
-qualitative ranking DEFER $\ge$ AG still holds in 10 of 12 cells; and
-\texttt{isocut}/\texttt{defer\_cut}, two constructions of our own
-(Theorem~\ref{thm:isocut-separation}'s worst-case separation does not
-materialize on these real networks, where \texttt{isocut} is
-statistically indistinguishable from AG).
-\subsection{Exact scenario-based integer-programming baselines}\label{sec:exp-ilp}
+Two robustness checks are reported in Appendix~\ref{ec:seed-sensitivity}. With 50 highest-degree seeds (a more concentrated seeding), the three policies are statistically indistinguishable in 11 of 12 cells (DEFER is ahead of AG in 3, tied in 8, behind in 1), and COMMIT is significantly better than DEFER in one. The \texttt{isocut} planner and \texttt{defer\_cut}, two constructions of our own, give the same saved fractions as AG and DEFER to within $0.002$ (Theorem~\ref{thm:isocut-separation}'s worst-case separation does not materialize on these networks).
+
+\subsection{Sample-average integer-programming baselines}\label{sec:exp-ilp}
 
 \paragraph{Formulation.} At a decision point the controller samples $K$
 live-edge scenarios of the unobserved part of the cascade (edges out of the
@@ -928,8 +892,8 @@ highschool2013 & 0.03 & 8 & 0.440 & 0.359 & 0.397 & 0.355 & 0.326 & 27.64 \\
 
 \paragraph{Results.} Table~\ref{tab:ilp} gives the saved fraction of spread on
 the same realizations used for every other policy (10 seed sets $\times$ 5
-realizations per cell). Differences between policies are mostly within $0.03$
-of saved fraction, and standard errors of the underlying spreads are large
+realizations per cell). Differences among AG, DEFER, COMMIT and \texttt{ilp1} are mostly within $0.03$
+of saved fraction, while \texttt{ilp\_roll} is often far below them, and standard errors of the underlying spreads are large
 relative to them (for example, $4.9$--$7.0$ on highschool2013); we did not run
 paired significance tests. Counting cells where saved fractions differ by more than $0.02$:
 \texttt{ilp1} is above AG in 1 of 19 cells and below it in 5; \texttt{ilp\_roll}
@@ -976,39 +940,12 @@ highschool2013 & 0.03 & 8 & 0.425 & 0.440 & 0.434 & 0.312 & 0.162 & 0.01 & 21.96
 
 \subsection{Computational cost}\label{sec:complexity-comparison}
 
-Theorem~\ref{thm:defer-complexity} states DEFER's cost as AdvancedGreedy's per-round cost multiplied by the number of rounds $r$: adaptivity is not free computationally, even though pure deferral is free in expected spread (Theorem~\ref{thm:defer-dominates}). Measured wall-clock time per episode (Appendix Table~\ref{tab:timing}) confirms the shape: AG is cheapest on every network, GR is a small constant factor above it (about $1.1$--$1.3\times$), and DEFER and COMMIT are several times to an order of magnitude above both; DEFER/AG ranges from about $2.5\times$ on power-grid and BA(2000) to $4$--$7\times$ on ca-HepTh and ca-GrQc. COMMIT, not DEFER, is the most expensive throughout: its worse plan quality leaves the cascade active longer and adds re-planning rounds (Appendix~\ref{sec:complexity-practice}). The ILP controllers cost orders of magnitude more per episode (Section~\ref{sec:exp-ilp}).
+Theorem~\ref{thm:defer-complexity} states DEFER's cost as AdvancedGreedy's per-round cost multiplied by the number of rounds $r$: adaptivity is not free computationally, even though pure deferral is free in expected spread (Theorem~\ref{thm:defer-dominates}). Measured wall-clock time per episode (Appendix Table~\ref{tab:timing}) confirms the shape: AG is cheapest on every network, GR is a small constant factor above it (about $1.0$--$1.2\times$), and DEFER and COMMIT are several times above both; DEFER/AG ranges from $2.1\times$ on ca-GrQc to $4.9\times$ on ca-HepTh. COMMIT, not DEFER, is the most expensive throughout: its worse plan quality leaves the cascade active longer and adds re-planning rounds (Appendix~\ref{sec:complexity-practice}). The ILP controllers cost orders of magnitude more per episode (Section~\ref{sec:exp-ilp}).
 
 \section{Discussion and Limitations}\label{sec:discussion}
 \subsection{When does DEFER help in practice, and when is it unnecessary?}
 
-Theorem~\ref{thm:adaptivity-gap} and Section~\ref{sec:defer-example}
-locate the source of \texttt{DEFER-nopush}'s advantage precisely: it is
-large when a vertex's protection is cheap to buy \emph{after} it is known
-threatened but expensive \emph{unconditionally}, i.e.\ when activation
-probabilities are low relative to the graph's branching factor. The
-benchmark confirms this rather than merely asserting it: at budget $20$
-under the constant-probability model, DEFER saves $0.2$--$1.9$ percentage
-points more spread than AG on the four SNAP networks
-(Table~\ref{tab:defer-results}), a margin that shrinks as the budget grows
-(Figure~\ref{fig:defer-sweep}, Table~\ref{tab:defer-allbudgets}) and is
-somewhat larger at small budgets ($0.2$--$3.9$ points over
-$b\in\{5,10,20,50,100\}$), at roughly $2.5$--$7\times$ AG's per-episode
-compute (Table~\ref{tab:timing});
-under weighted cascade the margin is within the residual selection-bias
-risk of Remark~\ref{rem:winners-curse}, so the extra compute buys little
-there. A practitioner should ask whether the intervention has this shape
--- occasional high-fan-out gatekeepers, individually unlikely but
-consequential -- rather than treat adaptivity as free and always better.
-\texttt{DEFER-nopush} is never worse than its planner
-(Theorem~\ref{thm:defer-dominates}); full DEFER is not
-(Remark~\ref{rem:pushdown-counterexample}), though
-Table~\ref{tab:defer-nopush-parity} in the the Appendix shows the two
-agree to within $0.0075$ of saved fraction on every benchmark cell we ran.
-DEFER also assumes full-adoption feedback with negligible latency: the
-controller must observe each round's activations before the next round's
-propagation, realistic when suspensions or quarantines are fast relative
-to the cascade's own timescale, but not otherwise; noisy, delayed, or
-partially-observed feedback is open.
+Theorem~\ref{thm:adaptivity-gap} and Section~\ref{sec:defer-example} locate the source of DEFER's advantage: it is large when a vertex's protection is cheap to buy \emph{after} it is known to be threatened but expensive \emph{unconditionally}, that is, when activation probabilities are low relative to the branching factor and the threat, if it materializes, is large. On the star-of-paths family, where this holds by construction, the whole advantage comes from the push-down rule, since \texttt{DEFER-nopush} equals AG there (Section~\ref{sec:exp-sop}). Elsewhere the evidence is mixed. In the regime scan the gains appear where cascades are large (Section~\ref{sec:exp-regime}); on four empirical and synthetic networks DEFER is significantly better than AG in 5 of 40 settings, never significantly worse, and typically within a point of AG, at $2$--$5\times$ AG's compute (Table~\ref{tab:timing}); on small networks re-planning with immediate commitment is often as good (Section~\ref{sec:exp-ilp}). A practitioner should therefore ask whether the intervention has the described shape, occasional high-fan-out gatekeepers that are individually unlikely but consequential, before paying for adaptivity, and should not treat it as free and always better. \texttt{DEFER-nopush} is never worse than its planner up to the residual error of Remark~\ref{rem:winners-curse} (Theorem~\ref{thm:defer-dominates}); full DEFER is not (Remark~\ref{rem:pushdown-counterexample}), and the empirical differences between the two are small outside the star-of-paths family (Appendix Table~\ref{tab:defer-nopush-parity}). DEFER also assumes full-adoption feedback with negligible latency: the controller must observe each round's activations before the next round's propagation, which is realistic when suspensions or quarantines are fast relative to the cascade's own timescale, but not otherwise; noisy, delayed or partially observed feedback is open.
 
 \subsection{Relation to exact scenario-based methods}\label{sec:discussion-exact}
 
@@ -1024,7 +961,7 @@ and ran both on six networks of 34 to 327 nodes with 2--3 seeds and budgets of
 
 First, solving the sampled problem exactly did not beat greedy selection in
 this benchmark. \texttt{ilp1} was within $0.02$ of AG's saved fraction in 13
-of 19 cells, above it in one and below it in five. This is consistent with an exact evaluation of greedy on 60 small instances in a companion paper on exact evaluation of influence minimization, which found greedy exactly optimal on 56 of them, and it adds that the sampled optimum is itself a noisy
+of 19 cells, above it in one and below it in five. The sampled optimum is itself a noisy
 estimate of the true optimum, so exactness on the sample need not translate
 into better out-of-sample plans. Second, the staged controller did not
 outperform DEFER either: \texttt{ilp\_roll} was above DEFER in 3 cells and
@@ -1394,165 +1331,110 @@ rounds gives the bound.
 \end{proof}
 
 \begin{repeattheorem}[Theorem~\ref{thm:isocut-separation} (Isolation-move separation)]
-There is a family of instances on which AdvancedGreedy, GreedyReplace, and
-the Sandwich lower-bound greedy all save $O(b)$ vertices with budget $b$,
+There is a family of instances (with $2\le c\le b$ below) on which AdvancedGreedy saves $O(b)$ vertices with budget $b$,
 while a planner with frontier-isolation moves saves $\Omega(N)$ for
 arbitrary $N$.
 \end{repeattheorem}
 \begin{proof}
 Construction: a decoy seed with $b+1$ out-neighbors, each with one private
-leaf (single-vertex saving 2); a real seed with $c\le b$ out-neighbors, all
+leaf (single-vertex saving 2); a real seed with $2\le c\le b$ out-neighbors (so that no single out-neighbor disconnects $R$), all
 of which point to every vertex of a region $R$ of $N$ vertices whose
 vertices have no private successors. Every single vertex in $R$ or among
-the real seed's out-neighbors saves at most 1, so all three published
-rules spend the budget on decoy neighbors (saving $2b$; GreedyReplace's
-replacement pass replaces a decoy blocker by itself and stops), whereas
+the real seed's out-neighbors saves at most 1, so a rule that picks by marginal single-vertex saving, as AdvancedGreedy does,
+spends the budget on decoy neighbors (saving $2b$), whereas
 isolating the real seed saves $N+c$ at cost $c$.
 \end{proof}
 
-\section{Seed-Selection Sensitivity and Isolation-Move Ablations}\label{ec:seed-sensitivity}
+\section{Seed Selection, Cost and Isolation-Move Ablations}\label{ec:seed-sensitivity}
 
 \subsection{Seed-selection sensitivity}
 
-The main-body results seed with 20 uniformly random vertices. We
-additionally ran a single-draw sweep with 50 highest-degree seeds -- a
-harder, more concentrated seeding -- across the same networks and budgets
-$10,20,50$ (Table~\ref{tab:defer-degree-seeds}). These noisier (one draw
-per cell) numbers still show DEFER weakly at or above AG in 10 of 12
-cells; the two exceptions (ca-GrQc $b=10$, ca-HepTh $b=50$) are
-single-draw, small-margin reversals of the kind
-Remark~\ref{rem:winners-curse} anticipates, not evidence against
-Theorem~\ref{thm:defer-dominates}. Power-grid $b=50$ is a tie, not a
-reversal. High-degree seeding also compresses push-down's opportunity and
-gives COMMIT less chance to lock in a bad early commitment, so COMMIT is
-no longer uniformly dominated here (it is the single-draw winner on
-several cells).
+The main-body results seed with 20 uniformly random vertices. We additionally ran a sweep with 50 highest-degree seeds, a harder and more concentrated seeding, on the same networks with budgets $10,20,50$, constant probability $p=0.1$, 20 seed sets and 5 realizations per seed set (Table~\ref{tab:defer-degree-seeds}). Across the 12 cells no difference between AG and DEFER is significant (DEFER is ahead in 3, tied to three decimals in 8, behind in 1), and COMMIT is significantly better than DEFER in one cell. High-degree seeding makes the cascade large at the start and leaves little for deferral to buy.
 
 \begin{table}[h]
 \centering
-\caption{Fraction of spread saved, 50 highest-degree seeds, single draw per cell, constant probability\label{tab:defer-degree-seeds}}
+\caption{Fraction of spread saved, 50 highest-degree seeds, constant probability $p=0.1$, 100 paired episodes per cell. Bold marks the best of the three policies per cell (ties bolded on both).\label{tab:defer-degree-seeds}}
+\footnotesize
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}lcccccccccccc@{}}
 \hline
 \up & \multicolumn{3}{c}{ca-GrQc} & \multicolumn{3}{c}{ca-HepTh} & \multicolumn{3}{c}{power-grid} & \multicolumn{3}{c}{BA(2000)} \\
 $b$ & AG & DEFER & COMMIT & AG & DEFER & COMMIT & AG & DEFER & COMMIT & AG & DEFER & COMMIT \\
 \hline
-\up 10 & 0.317 & 0.314 & \textbf{0.325}$^\dagger$ & 0.121 & 0.121 & \textbf{0.122}$^\dagger$ & 0.148 & \textbf{0.153} & 0.146 & 0.340 & 0.342 & \textbf{0.344}$^\dagger$ \\
-20 & 0.471 & 0.474 & \textbf{0.476}$^\dagger$ & 0.229 & 0.231 & \textbf{0.237}$^\dagger$ & 0.231 & \textbf{0.238} & 0.214 & 0.395 & \textbf{0.397} & 0.388 \\
-\down 50 & 0.691 & 0.696 & \textbf{0.709}$^\dagger$ & \textbf{0.472} & 0.461 & 0.464 & 0.404 & 0.404 & \textbf{0.411}$^\dagger$ & 0.470 & 0.474 & \textbf{0.478}$^\dagger$ \\
+\up 10 & 0.188 & 0.190 & \textbf{0.191} & 0.103 & 0.103 & \textbf{0.111} & 0.080 & 0.080 & \textbf{0.082} & 0.320 & 0.320 & \textbf{0.322} \\
+20 & 0.306 & \textbf{0.307} & \textbf{0.307} & 0.191 & 0.191 & \textbf{0.192} & 0.124 & 0.124 & \textbf{0.130} & 0.369 & 0.370 & \textbf{0.372} \\
+50 & 0.492 & 0.493 & \textbf{0.500} & \textbf{0.373} & \textbf{0.373} & 0.368 & \textbf{0.232} & \textbf{0.232} & 0.229 & \textbf{0.444} & \textbf{0.444} & \textbf{0.445} \\
 \hline
-\end{tabular}
-{\footnotesize $^\dagger$Cells where the single-draw realization favors AG or COMMIT
-over DEFER by a small margin; see the discussion in the text. Bold marks
-the nominal best value per cell, which at $n=1$ draw is a point estimate
-rather than a statistically distinguishable ranking.}
+\end{tabular}}
 \end{table}
 
 \subsection{Complexity in practice}\label{sec:complexity-practice}
 
-The wall-clock measurements behind the main text's timing discussion
-(Section~\ref{sec:complexity-comparison}): COMMIT, despite executing the
-identical per-round algorithm as DEFER, costs \emph{more} than DEFER on
-every network, because its inferior plan quality
-(Tables~\ref{tab:defer-results}, \ref{tab:defer-allbudgets}) leaves the
-cascade active longer, adding re-planning rounds.
+Table~\ref{tab:timing} gives the wall-clock time per episode behind the main text's cost discussion (Section~\ref{sec:complexity-comparison}), including planning, measured by the same runs as Table~\ref{tab:defer-results}. COMMIT, despite executing the same per-round loop as DEFER, costs more than DEFER on every network: its plans are of lower quality and leave the cascade active longer, adding re-planning rounds.
 
 \begin{table}[h]
 \centering
-\caption{Wall-clock time per episode (seconds), budget 20, constant probability\label{tab:timing}}
+\caption{Wall-clock time per episode (seconds), budget $20$, constant probability $p=0.1$, pure Python on one core.\label{tab:timing}}
+\small
 \begin{tabular}{@{}lccccc@{}}
 \hline
-\up network ($n$) & AG & GR & DEFER & COMMIT & isocut \\
+\up network ($n$) & AG & GR & DEFER & COMMIT & DEFER/AG \\
 \hline
-\up ca-GrQc (5241) & 0.078 & 0.085 & 0.542 & 0.861 & 0.080 \\
-ca-HepTh (9875) & 0.232 & 0.272 & 1.002 & 1.793 & 0.238 \\
-power-grid (4941) & 0.006 & 0.008 & 0.017 & 0.048 & 0.010 \\
-\down BA(2000) (2000) & 0.012 & 0.014 & 0.030 & 0.088 & 0.016 \\
+\up ca-GrQc (5241) & 0.108 & 0.116 & 0.223 & 0.592 & 2.1$\times$ \\
+ca-HepTh (9875) & 0.297 & 0.300 & 1.470 & 1.527 & 4.9$\times$ \\
+power-grid (4941) & 0.005 & 0.006 & 0.012 & 0.031 & 2.4$\times$ \\
+BA(2000) (2000) & 0.008 & 0.009 & 0.031 & 0.047 & 3.9$\times$ \\
 \hline
 \end{tabular}
-{\footnotesize Isocut (a one-shot planner with the added frontier-isolation move of
-Theorem~\ref{thm:isocut-separation}) costs about as much as AG, since it
-adds one candidate-move type to a single planning call rather than
-introducing DEFER's round-by-round re-planning.}
 \end{table}
 
 \subsection{Isolation moves in practice}\label{sec:isocut-practice}
 
-\texttt{isocut} (AG extended with a frontier-isolation move) and
-\texttt{defer\_cut} (DEFER wrapping \texttt{isocut}) are our own
-constructions, not literature baselines. Theorem~\ref{thm:isocut-separation}
-shows a worst-case family where isolation moves save $\Omega(N)$ against
-every other rule's $O(b)$; Table~\ref{tab:isocut} checks whether this
-shows up on the real SNAP-scale networks used throughout, and it does
-not -- isocut is statistically indistinguishable from AG, and
-defer\_cut is at best a marginal improvement (ca-HepTh) and a marginal
-loss elsewhere. This reflects which graphs the adversarial construction's
-decoy-seed structure resembles, not a failure of the proof: real
-collaboration/infrastructure networks rarely have a seed whose entire
-out-neighborhood points into an otherwise-unreachable region, so the move
-is a documented worst-case possibility, not a default-algorithm
-component.
+\texttt{isocut} (AG extended with a frontier-isolation move) and \texttt{defer\_cut} (DEFER wrapping \texttt{isocut}) are our own constructions, not literature baselines. Theorem~\ref{thm:isocut-separation} gives a worst-case family on which isolation moves save $\Omega(N)$ against $O(b)$ for AdvancedGreedy. Table~\ref{tab:isocut} checks whether this appears on the networks used here: it does not. \texttt{isocut} equals AG to three decimals on all four networks, and \texttt{defer\_cut} is within $0.002$ of DEFER. Real collaboration and infrastructure networks rarely have a seed whose entire out-neighborhood points into an otherwise unreachable region, so the move is a documented worst-case possibility, not a component of the default algorithm.
 
 \begin{table}[h]
 \centering
-\caption{Fraction of no-intervention spread saved, isolation-move ablations, budget 20, constant probability\label{tab:isocut}}
+\caption{Fraction of spread saved, isolation-move ablations, 50 highest-degree seeds, budget $20$, constant probability $p=0.1$.\label{tab:isocut}}
+\small
 \begin{tabular}{@{}lcccc@{}}
 \hline
-\up network & AG & DEFER & isocut & defer\_cut \\
+\up network & AG & isocut & DEFER & defer\_cut \\
 \hline
-\up ca-GrQc & 0.583 & \textbf{0.602} & 0.574 & 0.589 \\
-ca-HepTh & 0.452 & 0.471 & 0.452 & \textbf{0.488} \\
-power-grid & 0.339 & \textbf{0.341} & 0.339 & \textbf{0.341} \\
-\down BA(2000) & 0.571 & \textbf{0.573} & 0.571 & \textbf{0.573} \\
+\up ca-GrQc & 0.306 & 0.306 & 0.307 & 0.309 \\
+ca-HepTh & 0.191 & 0.191 & 0.191 & 0.191 \\
+power-grid & 0.124 & 0.124 & 0.124 & 0.124 \\
+BA(2000) & 0.369 & 0.369 & 0.370 & 0.370 \\
 \hline
 \end{tabular}
-{\footnotesize Bold marks the best value per row. isocut never beats AG; defer\_cut
-beats plain DEFER only on ca-HepTh and ties it elsewhere.}
 \end{table}
 
 \section{Experimental Protocol}\label{ec:reproducibility}
-Graphs: ca-GrQc, ca-HepTh, a power-grid network, a Barab\'asi--Albert
-random graph with 2000 vertices, and soc-Epinions1 where feasible.
-Probabilities: constant $p\in\{0.05,0.1\}$ and the weighted-cascade model.
-Seeds: 20 or 50, drawn uniformly at random or as the highest-degree
-vertices. Budgets: 20, 50, 100. For each instance and each of 5 independent
-live-edge realizations, every policy runs on the same realization with the
-same total budget (common random numbers), so differences are attributable
-to policy alone. Policies compared: none, AdvancedGreedy, GreedyReplace,
-the Sandwich lower bound, proximity-to-seeds, degree (all one-shot); DEFER
-with the dominator planner, DEFER with GreedyReplace as planner, COMMIT,
-and DEFER restricted to a 4-round planning horizon. Reported: final spread
-beyond the seeds (mean and standard error), fraction of spread saved,
-budget used, and wall-clock time per episode including planning.
 
-Table~\ref{tab:defer-nopush-parity} compares full DEFER and
-\texttt{DEFER-nopush} directly on the same live-edge draws, at budget 20,
-for every (network, probability model) cell in
-Table~\ref{tab:defer-results}, independent of that table's own
-aggregation.
+\paragraph{Empirical networks (Section~\ref{sec:defer-experiments}).} Run by \texttt{scripts/run\_snap\_benchmark.sh} and tabulated by \texttt{scripts/snap\_tables.py}; the high-degree-seed and isolation-move runs are \texttt{scripts/run\_snap\_degree.sh}. Graphs: ca-GrQc, ca-HepTh, a power-grid network and a Barab\'asi--Albert graph with 2000 vertices. Probabilities: constant $p=0.1$ and the weighted-cascade model. Seeds: 20 uniformly random vertices per seed set (50 highest-degree vertices in the robustness run), 20 seed sets per cell. Budgets: $5,10,20,50,100$ ($10,20,50$ in the robustness run). Each seed set has 5 independent live-edge realizations, and every policy runs on the same realization with the same total budget (common random numbers), so differences are attributable to the policy alone; planners use $\theta=100$ sampled live-edge subgraphs. Policies: none; AdvancedGreedy, GreedyReplace, the Sandwich lower bound and proximity-to-seeds (one-shot); COMMIT, DEFER and \texttt{DEFER-nopush}, all wrapping AdvancedGreedy. Reported: final spread beyond the seeds, saved fraction (one minus total spread over total unprotected spread), paired differences with standard errors, and wall-clock time per episode including planning. A paired difference is called significant when it exceeds twice its standard error; this is a screening rule, not a corrected test, and across 40 cells a few false positives are expected.
+
+Table~\ref{tab:defer-nopush-parity} gives the difference in saved fraction between full DEFER and \texttt{DEFER-nopush}.
 
 \begin{table}[h]
 \centering
-\caption{Fraction of no-intervention spread saved, budget 20: full DEFER vs.\ \texttt{DEFER-nopush}\label{tab:defer-nopush-parity}}
+\caption{Saved fraction of full DEFER minus saved fraction of \texttt{DEFER-nopush}, by network, model and budget.\label{tab:defer-nopush-parity}}
+\footnotesize
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}lcccccccc@{}}
 \hline
-\up & \multicolumn{4}{c}{constant probability} & \multicolumn{4}{c}{weighted cascade} \\
-policy & ca-GrQc & ca-HepTh & power-grid & BA(2000) & ca-GrQc & ca-HepTh & power-grid & BA(2000) \\
+\up & \multicolumn{2}{c}{ca-GrQc} & \multicolumn{2}{c}{ca-HepTh} & \multicolumn{2}{c}{power-grid} & \multicolumn{2}{c}{BA(2000)} \\
+$b$ & const & WC & const & WC & const & WC & const & WC \\
 \hline
-\up DEFER & 0.667 & 0.820 & 0.466 & 0.798 & 0.391 & 0.339 & 0.394 & 0.424 \\
-\down \texttt{DEFER-nopush} & 0.666 & 0.820 & 0.466 & 0.798 & 0.391 & 0.339 & 0.394 & 0.424 \\
+\up 5 & +0.014 & -0.000 & +0.000 & +0.000 & +0.003 & +0.001 & -0.000 & -0.009 \\
+10 & +0.001 & -0.000 & +0.000 & +0.000 & +0.000 & +0.000 & +0.004 & -0.008 \\
+20 & +0.002 & -0.000 & +0.043 & -0.000 & -0.001 & +0.000 & +0.006 & -0.009 \\
+50 & +0.000 & +0.000 & +0.002 & +0.000 & +0.000 & +0.000 & -0.001 & -0.001 \\
+100 & +0.001 & -0.000 & -0.000 & +0.000 & +0.000 & +0.000 & +0.000 & +0.000 \\
 \hline
-\end{tabular}
-{\footnotesize Values differ from Table~\ref{tab:defer-results} because that table
-pools across the two constant-probability settings $p\in\{0.05,0.1\}$,
-while this table reports a single $p=0.1$ draw per network to keep the
-two policies' inputs identical; see
-\texttt{results/summary\_adaptive.csv}. Across all eight cells here, and
-across every budget in $\{5,10,20,50,100\}$ on the same
-20-random-seed runs, \texttt{DEFER-nopush} agrees with full DEFER to
-within $0.0075$ of saved fraction, and is identical to three decimal
-places in the large majority of cells -- push-down essentially never
-changes the outcome on these benchmarks, even though
-Remark~\ref{rem:pushdown-counterexample} shows it can in principle.}
+\end{tabular}}
 \end{table}
+
+The two differ by more than $0.005$ in 6 of 40 cells, with a largest absolute difference of $0.043$; DEFER is never significantly better than \texttt{DEFER-nopush} and is significantly worse in two cells by $0.11$ and $0.01$ points.
+
+\paragraph{Other experiments.} The star-of-paths benchmark is \texttt{scripts/star\_of\_paths\_bench.py}, the regime scan \texttt{scripts/run\_regime\_scan.sh} with \texttt{scripts/regime\_report.py}, and the integer-programming baselines \texttt{scripts/run\_ilp\_baseline.sh} and \texttt{scripts/run\_defer\_ilp.sh}; per-instance logs are in \texttt{results/}.
 
 \end{document}

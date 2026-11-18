@@ -1,0 +1,65 @@
+2026-11-18 13:22:40 INFO run adaptive_snap2_20261118T132240Z_4230 started, dir=/home/user/trace_e/results/runs/adaptive_snap2_20261118T132240Z_4230
+2026-11-18 13:22:40 INFO network cahepth: {'n_nodes': 9875, 'n_edges': 25973, 'avg_degree': 5.2603544303797465, 'n_components': 427, 'lcc_size': 8638}
+2026-11-18 13:22:43 INFO plans ready for instance 1/20
+2026-11-18 13:22:47 INFO plans ready for instance 2/20
+2026-11-18 13:22:51 INFO plans ready for instance 3/20
+2026-11-18 13:22:54 INFO plans ready for instance 4/20
+2026-11-18 13:22:57 INFO plans ready for instance 5/20
+2026-11-18 13:23:00 INFO plans ready for instance 6/20
+2026-11-18 13:23:04 INFO plans ready for instance 7/20
+2026-11-18 13:23:08 INFO plans ready for instance 8/20
+2026-11-18 13:23:11 INFO plans ready for instance 9/20
+2026-11-18 13:23:14 INFO plans ready for instance 10/20
+2026-11-18 13:23:18 INFO plans ready for instance 11/20
+2026-11-18 13:23:22 INFO plans ready for instance 12/20
+2026-11-18 13:23:26 INFO plans ready for instance 13/20
+2026-11-18 13:23:31 INFO plans ready for instance 14/20
+2026-11-18 13:23:34 INFO plans ready for instance 15/20
+2026-11-18 13:23:38 INFO plans ready for instance 16/20
+2026-11-18 13:23:43 INFO plans ready for instance 17/20
+2026-11-18 13:23:46 INFO plans ready for instance 18/20
+2026-11-18 13:23:50 INFO plans ready for instance 19/20
+2026-11-18 13:23:55 INFO plans ready for instance 20/20
+2026-11-18 13:23:55 INFO running 4000 episodes
+2026-11-18 13:24:32 INFO episodes done in 37s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=5 none       spread=56.71 (se 3.56) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=5 ag         spread=51.40 (se 3.28) saved=0.0936 used=5.0 time=0.01s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=5 gr         spread=51.40 (se 3.28) saved=0.0936 used=5.0 time=0.01s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=5 lsbm       spread=51.52 (se 3.28) saved=0.0915 used=5.0 time=0.01s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=5 proximity  spread=53.48 (se 3.30) saved=0.0570 used=5.0 time=0.06s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=5 commit     spread=53.98 (se 3.37) saved=0.0481 used=5.0 time=0.06s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=5 defer      spread=51.40 (se 3.28) saved=0.0936 used=5.0 time=0.04s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=5 defer_nopush spread=51.40 (se 3.28) saved=0.0936 used=5.0 time=0.04s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=10 none       spread=56.71 (se 3.56) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=10 ag         spread=46.60 (se 2.87) saved=0.1783 used=10.0 time=0.01s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=10 gr         spread=46.65 (se 2.88) saved=0.1774 used=10.0 time=0.01s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=10 lsbm       spread=46.62 (se 2.86) saved=0.1779 used=10.0 time=0.01s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=10 proximity  spread=49.09 (se 2.81) saved=0.1344 used=10.0 time=0.06s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=10 commit     spread=51.67 (se 3.40) saved=0.0889 used=10.0 time=0.08s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=10 defer      spread=46.65 (se 2.88) saved=0.1774 used=10.0 time=0.06s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=10 defer_nopush spread=46.65 (se 2.88) saved=0.1774 used=10.0 time=0.05s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=20 none       spread=56.71 (se 3.56) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=20 ag         spread=37.92 (se 2.28) saved=0.3313 used=20.0 time=0.02s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=20 gr         spread=37.96 (se 2.28) saved=0.3306 used=20.0 time=0.03s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=20 lsbm       spread=37.86 (se 2.28) saved=0.3324 used=20.0 time=0.02s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=20 proximity  spread=43.49 (se 2.17) saved=0.2331 used=20.0 time=0.06s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=20 commit     spread=43.94 (se 2.97) saved=0.2252 used=20.0 time=0.14s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=20 defer      spread=37.97 (se 2.30) saved=0.3305 used=19.9 time=0.07s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=20 defer_nopush spread=37.96 (se 2.30) saved=0.3306 used=20.0 time=0.05s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=50 none       spread=56.71 (se 3.56) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=50 ag         spread=19.00 (se 1.66) saved=0.6650 used=50.0 time=0.04s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=50 gr         spread=19.00 (se 1.66) saved=0.6650 used=50.0 time=0.04s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=50 lsbm       spread=18.80 (se 1.64) saved=0.6685 used=50.0 time=0.03s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=50 proximity  spread=25.49 (se 1.69) saved=0.5505 used=50.0 time=0.06s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=50 commit     spread=22.14 (se 2.28) saved=0.6096 used=50.0 time=0.28s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=50 defer      spread=18.99 (se 1.66) saved=0.6651 used=49.9 time=0.05s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=50 defer_nopush spread=19.00 (se 1.66) saved=0.6650 used=50.0 time=0.05s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=100 none       spread=56.71 (se 3.56) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=100 ag         spread=3.34 (se 0.93) saved=0.9411 used=89.5 time=0.06s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=100 gr         spread=3.34 (se 0.93) saved=0.9411 used=89.7 time=0.06s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=100 lsbm       spread=3.36 (se 0.93) saved=0.9408 used=92.8 time=0.05s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=100 proximity  spread=6.08 (se 1.09) saved=0.8928 used=100.0 time=0.06s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=100 commit     spread=1.84 (se 0.43) saved=0.9676 used=89.6 time=0.37s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=100 defer      spread=3.25 (se 0.91) saved=0.9427 used=89.7 time=0.06s
+2026-11-18 13:24:32 INFO RESULT cahepth budget=100 defer_nopush spread=3.25 (se 0.91) saved=0.9427 used=89.7 time=0.05s
+2026-11-18 13:24:32 INFO run adaptive_snap2_20261118T132240Z_4230 finished in 112.5s

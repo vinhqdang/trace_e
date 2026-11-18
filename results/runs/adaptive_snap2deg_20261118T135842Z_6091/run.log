@@ -1,0 +1,43 @@
+2026-11-18 13:58:42 INFO run adaptive_snap2deg_20261118T135842Z_6091 started, dir=/home/user/trace_e/results/runs/adaptive_snap2deg_20261118T135842Z_6091
+2026-11-18 13:58:42 INFO network ba:2000:m=2: {'n_nodes': 2000, 'n_edges': 3996, 'avg_degree': 3.996, 'n_components': 1, 'lcc_size': 2000}
+2026-11-18 13:58:44 INFO plans ready for instance 1/20
+2026-11-18 13:58:46 INFO plans ready for instance 2/20
+2026-11-18 13:58:48 INFO plans ready for instance 3/20
+2026-11-18 13:58:51 INFO plans ready for instance 4/20
+2026-11-18 13:58:53 INFO plans ready for instance 5/20
+2026-11-18 13:58:55 INFO plans ready for instance 6/20
+2026-11-18 13:58:57 INFO plans ready for instance 7/20
+2026-11-18 13:58:59 INFO plans ready for instance 8/20
+2026-11-18 13:59:02 INFO plans ready for instance 9/20
+2026-11-18 13:59:04 INFO plans ready for instance 10/20
+2026-11-18 13:59:06 INFO plans ready for instance 11/20
+2026-11-18 13:59:08 INFO plans ready for instance 12/20
+2026-11-18 13:59:11 INFO plans ready for instance 13/20
+2026-11-18 13:59:13 INFO plans ready for instance 14/20
+2026-11-18 13:59:15 INFO plans ready for instance 15/20
+2026-11-18 13:59:18 INFO plans ready for instance 16/20
+2026-11-18 13:59:20 INFO plans ready for instance 17/20
+2026-11-18 13:59:22 INFO plans ready for instance 18/20
+2026-11-18 13:59:24 INFO plans ready for instance 19/20
+2026-11-18 13:59:26 INFO plans ready for instance 20/20
+2026-11-18 13:59:26 INFO running 1800 episodes
+2026-11-18 14:00:08 INFO episodes done in 42s
+2026-11-18 14:00:08 INFO RESULT ba:2000:m=2 budget=10 none       spread=142.37 (se 2.46) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 14:00:08 INFO RESULT ba:2000:m=2 budget=10 ag         spread=96.85 (se 1.47) saved=0.3197 used=10.0 time=0.04s
+2026-11-18 14:00:08 INFO RESULT ba:2000:m=2 budget=10 commit     spread=96.59 (se 1.46) saved=0.3216 used=10.0 time=0.27s
+2026-11-18 14:00:08 INFO RESULT ba:2000:m=2 budget=10 defer      spread=96.85 (se 1.47) saved=0.3197 used=10.0 time=0.06s
+2026-11-18 14:00:08 INFO RESULT ba:2000:m=2 budget=10 isocut     spread=96.85 (se 1.47) saved=0.3197 used=10.0 time=0.05s
+2026-11-18 14:00:08 INFO RESULT ba:2000:m=2 budget=10 defer_cut  spread=96.85 (se 1.47) saved=0.3197 used=10.0 time=0.06s
+2026-11-18 14:00:08 INFO RESULT ba:2000:m=2 budget=20 none       spread=142.37 (se 2.46) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 14:00:08 INFO RESULT ba:2000:m=2 budget=20 ag         spread=89.79 (se 1.39) saved=0.3693 used=20.0 time=0.06s
+2026-11-18 14:00:08 INFO RESULT ba:2000:m=2 budget=20 commit     spread=89.47 (se 1.39) saved=0.3716 used=20.0 time=0.37s
+2026-11-18 14:00:08 INFO RESULT ba:2000:m=2 budget=20 defer      spread=89.73 (se 1.39) saved=0.3697 used=20.0 time=0.07s
+2026-11-18 14:00:08 INFO RESULT ba:2000:m=2 budget=20 isocut     spread=89.79 (se 1.39) saved=0.3693 used=20.0 time=0.07s
+2026-11-18 14:00:08 INFO RESULT ba:2000:m=2 budget=20 defer_cut  spread=89.73 (se 1.39) saved=0.3697 used=20.0 time=0.07s
+2026-11-18 14:00:08 INFO RESULT ba:2000:m=2 budget=50 none       spread=142.37 (se 2.46) saved=0.0000 used=0.0 time=0.00s
+2026-11-18 14:00:08 INFO RESULT ba:2000:m=2 budget=50 ag         spread=79.15 (se 1.19) saved=0.4441 used=50.0 time=0.10s
+2026-11-18 14:00:08 INFO RESULT ba:2000:m=2 budget=50 commit     spread=79.08 (se 1.20) saved=0.4445 used=50.0 time=0.59s
+2026-11-18 14:00:08 INFO RESULT ba:2000:m=2 budget=50 defer      spread=79.15 (se 1.20) saved=0.4441 used=50.0 time=0.09s
+2026-11-18 14:00:08 INFO RESULT ba:2000:m=2 budget=50 isocut     spread=79.15 (se 1.19) saved=0.4441 used=50.0 time=0.12s
+2026-11-18 14:00:08 INFO RESULT ba:2000:m=2 budget=50 defer_cut  spread=79.14 (se 1.20) saved=0.4441 used=50.0 time=0.08s
+2026-11-18 14:00:08 INFO run adaptive_snap2deg_20261118T135842Z_6091 finished in 86.0s
