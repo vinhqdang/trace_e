@@ -261,14 +261,15 @@ def fig_accuracy():
     th = np.array([100, 1000, 10000])
     for i, x in enumerate(d):
         ax.plot(th, [x["theta"][str(t)]["rel_rmse"] for t in th], marker=mks[i % 4], color=cols[i % 4], lw=1.4, ms=5, label=x["instance"].split(" (")[0])
-    ax.plot(th, 1.0 * th ** -0.5, color=GREY, ls="--", lw=0.9); ax.text(120, 0.065, "slope $-1/2$", color=INK2, fontsize=7)
+    ax.plot(th, 1.0 * th ** -0.5, color=GREY, ls="--", lw=0.9); ax.text(400, 0.012, "slope $-1/2$", color=INK2, fontsize=7, rotation=-24)
     ax.set_xscale("log"); ax.set_yscale("log"); ax.set_xlabel("samples $\\theta$"); ax.set_ylabel("relative RMS error of the estimate"); ax.legend(frameon=False, fontsize=6.8, loc="lower left"); ax.grid(color=GRID, lw=0.6); ax.set_axisbelow(True)
     fig.tight_layout(); save(fig, TWIG_DIR, "fig_accuracy.pdf")
 
 
 def fig_planners():
     d = pd.read_csv("results/theory/twig_planners.csv")
-    d["excess"] = 100 * (d.ag_mean - d.exact_greedy) / d.exact_greedy.replace(0, np.nan)
+    d = d[d.exact_greedy > 1e-9].copy()  # drop degenerate rows where blocking leaves zero spread
+    d["excess"] = 100 * (d.ag_mean - d.exact_greedy) / d.exact_greedy
     fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.5), sharey=True)
     for ax, b in zip(axes, (2, 4)):
         g = d[d.budget == b]; graphs = list(dict.fromkeys(g.graph)); rng = np.random.default_rng(2)
