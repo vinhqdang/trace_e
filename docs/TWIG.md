@@ -389,7 +389,12 @@ is APX-hard (Theorem 9). This is consistent with, and gives a theoretical
 account of, the following: this is the first time in this project (and, as
 far as the literature search turned up, in the IMIN literature) that a
 *provably exact* optimality gap for greedy blocking has been measured,
-rather than a sampling-noise-confounded proxy. Result over 60 random small
+rather than a sampling-noise-confounded proxy. **Superseded.** The figures in this paragraph (56 / 60, 84.6%, 2.2%) were recorded in an earlier session without a script and could
+not be reproduced. The reproducible study is `scripts/twig_optimality_gap.py` (300 instances, three families, per-instance results in
+`results/theory/twig_optimality_gap.csv`): greedy is exactly optimal in 287 of 300, with mean excess 0.32% and largest excess 44.8%.
+Timings and widths: `scripts/twig_feasibility.py`, `results/theory/twig_feasibility.json`.
+
+Result over 60 random small
 instances (n=6-14, budget 1-4, `greedy_exact` vs
 `brute_force_optimal_block`):
 

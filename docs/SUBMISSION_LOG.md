@@ -4,7 +4,8 @@
 
 - Title: Adaptive Influence Minimization via Deferred Frontier Blocking
 - Portal: https://authors.wiley.com/journal/NET (Free Format submission)
-- Manuscript ID: (fill in from the confirmation email)
+- Manuscript ID: NET-26-01040
+- Outcome: rejected by the handling editor (Dr. Archetti) on 2026-11-18 without external review. Reasons given: the writing is hard to follow at several places, and the contributions are summarized so compactly that the results cannot be evaluated.
 - Files: `paper/networks/defer_twig_networks.tex`, PDF, and the LaTeX package `paper/networks/submission/defer_twig_networks_latex.zip`; cover letter source in `paper/networks/cover_letter/`
 - Repository state at submission: `main`, commit `8f672ee` (manuscript and package); this note added afterwards
 - Format: Wiley `USG.cls` template; abstract 245 words (limit 250); 7 keywords; numbered references; appendices kept inside the main file; the sample-journal logo and open-access badge were removed from the local copy of the class
@@ -38,3 +39,18 @@ INFORMS Journal on Computing, JOC-2026-09-OA-2569, rejected 2026-11-06 by the ar
 ### Fallbacks if rejected
 
 Computers & Operations Research (closer to the editor's feedback; expect demands for stronger computational comparison), Journal of Combinatorial Optimization or Discrete Applied Mathematics (theory-leaning; the paper would need cutting), INFORMS Journal on Optimization or Decision Analysis (scope unchecked).
+
+
+## After the Networks decision: split into two papers (2026-11-18)
+
+The combined manuscript (`paper/ijoc`, `paper/networks`) is superseded. It is replaced by two stand-alone papers in a neutral `article` format, to be formatted for a journal once chosen:
+
+- `paper/defer/defer.tex`: adaptive influence minimization (DEFER). Summary-of-results table in the introduction; star-of-paths, regime scan, empirical networks and integer-programming baselines in the main text.
+- `paper/twig/twig.tex`: exact spread evaluation on bounded-pathwidth graphs (TWIG) and the optimality gap of greedy blocking.
+
+An independent review of both drafts found that several numbers in the combined manuscript could not be reproduced. Do not reuse the old versions. Corrections made:
+
+- TWIG optimality gap: the old 56 of 60, 2.2% and 84.6% had no script behind them. The reproducible study gives 287 of 300 optimal, mean excess 0.32%, largest 44.8% (`scripts/twig_optimality_gap.py`). Timings and widths are logged by `scripts/twig_feasibility.py`; karate 2.5 s, Iceland 55 s, dolphin exceeded an 8 GB limit.
+- DEFER empirical-network tables: the old tables mixed runs made with different versions of the code. They were regenerated from one run with the current code (`scripts/run_snap_benchmark.sh`, tables and figure by `scripts/snap_tables.py` and `scripts/snap_figure.py`). The new picture is weaker than the old one: DEFER significantly better than AG in 5 of 40 settings, never significantly worse; the largest gain is 13.9 points (ca-HepTh, constant probability, budget 20).
+- Push-down does not help on the empirical networks (two borderline settings where DEFER is slightly worse than DEFER-nopush); on the star-of-paths family it is the whole advantage.
+- Statements about other authors' papers were softened to what the repository supports (Nakamura and Nishino, Xie et al., Tanınmış et al.); AdvancedGreedy and GreedyReplace are credited to both Xie et al. papers.
