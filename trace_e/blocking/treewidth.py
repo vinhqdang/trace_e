@@ -87,6 +87,19 @@ def elimination_order(G: nx.Graph, method: str = "min_fill_in"):
     return order
 
 
+def best_elimination_order(G: nx.Graph):
+    """Elimination order whose *reverse* has the smallest frontier width among: the min-fill-in order, and greedy frontier layouts
+    (see ``layout.best_layout``). The DP processes the reverse of the returned order."""
+    from .layout import best_layout, frontier_width, layout_to_order
+    mf = elimination_order(G)
+    w_mf = frontier_width(G, list(reversed(mf)))
+    try:
+        lay, w = best_layout(G)
+    except Exception:
+        return mf
+    return layout_to_order(lay) if w < w_mf else mf
+
+
 def _schedule(G: nx.Graph, order: list):
     """For each step, the vertex introduced and the (already-active) neighbours to connect to,
     plus the set of vertices retiring right after (all of whose edges are now processed)."""
@@ -184,7 +197,7 @@ class ExactSpread:
         # empirically (Zachary karate club, width 5 by the heuristic's own count) the forward
         # order's true DP frontier peaks at 15+ active vertices while the reversed order peaks
         # at 11, the difference between intractable and fast.
-        self.order = order if order is not None else elimination_order(G)
+        self.order = order if order is not None else best_elimination_order(G)
         self.steps = _schedule(G, list(reversed(self.order)))
 
     def evaluate(self, blocked=frozenset()):
@@ -291,7 +304,7 @@ class ExactSpreadFast:
         # elimination heuristic's output order, so hub vertices (eliminated last, i.e. first
         # in this reversed order) are introduced early instead of staying active almost the
         # whole run.
-        self.order = order if order is not None else elimination_order(G)
+        self.order = order if order is not None else best_elimination_order(G)
         self.steps = _schedule(G, list(reversed(self.order)))
 
     def evaluate(self, blocked=frozenset()):

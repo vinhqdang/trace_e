@@ -175,3 +175,27 @@ def test_exact_spread_fast_runs_fast_on_zachary_karate_club():
     dt = time.perf_counter() - t0
     assert val > 0
     assert dt < 10.0
+
+
+def test_layout_orders_give_the_same_exact_spread():
+    """The order only affects cost, never the value: min-fill-in order, greedy frontier layout and the best-of default agree."""
+    from trace_e.blocking.layout import best_layout, frontier_width, layout_to_order
+    from trace_e.blocking.treewidth import ExactSpreadFast, elimination_order
+
+    rng = random.Random(11)
+    checked = 0
+    for _ in range(25):
+        G, weights = _random_instance(rng)
+        if G.number_of_edges() == 0:
+            continue
+        wfn = lambda u, v, weights=weights: weights[frozenset((u, v))]
+        seeds = rng.sample(list(G.nodes), k=1)
+        lay, w = best_layout(G)
+        assert sorted(lay) == sorted(G.nodes) and frontier_width(G, lay) == w
+        blocked = frozenset(rng.sample([v for v in G.nodes if v not in seeds], k=min(2, G.number_of_nodes() - 1)))
+        a = ExactSpreadFast(G, wfn, seeds, order=elimination_order(G)).evaluate(blocked)
+        b = ExactSpreadFast(G, wfn, seeds, order=layout_to_order(lay)).evaluate(blocked)
+        c = ExactSpreadFast(G, wfn, seeds).evaluate(blocked)
+        assert abs(a - b) < 1e-9 and abs(a - c) < 1e-9
+        checked += 1
+    assert checked > 10
