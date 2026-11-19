@@ -9,7 +9,7 @@ JOURNALS = {
  "Comput.\\ Oper.\\ Res.": "Comput Oper Res", "IEEE/ACM Trans.\\ Networking": "IEEE/ACM Trans Netw", "IEEE Trans.\\ Comput.\\ Social Systems": "IEEE Trans Comput Soc Syst",
  "Proc.\\ VLDB Endowment": "Proc VLDB Endow", "World Wide Web": "World Wide Web", "INFORMS J.\\ Comput.": "INFORMS J Comput",
  "IEEE Trans.\\ Network Science and Engineering": "IEEE Trans Netw Sci Eng", "J.\\ Network and Computer Applications": "J Netw Comput Appl",
- "SIAM J.\\ Comput.": "SIAM J Comput", "J.\\ Algorithms": "J Algorithms", "IEEE Trans.\\ Reliability": "IEEE Trans Reliab",
+ "SIAM J.\\ Comput.": "SIAM J Comput", "Inform.\\ Process.\\ Lett.": "Inf Process Lett", "J.\\ Algorithms": "J Algorithms", "IEEE Trans.\\ Reliability": "IEEE Trans Reliab",
  "IEICE Trans.\\ Fundamentals of Electronics, Communications and Computer Sciences": "IEICE Trans Fundam Electron Commun Comput Sci",
 }
 EXPAND = [("Proc.\\ ", "Proceedings of the "), ("Internat.\\ ", "International "), ("Conf.\\ ", "Conference "), ("Sympos.\\ ", "Symposium "), ("Annual ", "Annual "), ("Sci.\\ ", "Science "), ("Web Sci.\\ ", "Web Science ")]
@@ -22,6 +22,9 @@ DOIS = {
  "taninmis2024": "10.1016/j.cor.2024.106675", "tong2012": "10.1145/2396761.2396795", "wang2016drimux": "10.1609/aaai.v30i1.10063", "wang2024sandwich": "10.14778/3675034.3675042", "xie2023": "10.1109/ICDE55515.2023.00066",
  "xie2024": "10.1287/ijoc.2024.0591", "yuan2017": "10.24963/ijcai.2017/546", "chen2010": "10.1145/1835804.1835934", "cohen2003": "10.1103/PhysRevLett.91.247901", "cormican1998": "10.1287/opre.46.2.184",
  "mayne2000": "10.1016/S0005-1098(99)00214-9", "preciado2014": "10.1109/TCNS.2014.2310911", "tang2014": "10.1145/2588555.2593670", "yan2020": "10.1109/TNSE.2019.2903272", "zareie2021": "10.1016/j.jnca.2021.103094",
+  "bodlaender1988": "10.1007/3-540-19488-6_110", "bodlaender1996": "10.1006/jagm.1996.0049", "budak2011": "10.1145/1963405.1963499", "hardy2007": "10.1109/TR.2007.898572",
+ "kinnersley1992": "10.1016/0020-0190(92)90234-M", "maehara2017": "10.1145/3038912.3052567", "provan1983": "10.1137/0212053", "valiant1979": "10.1137/0208032",
+ "kawahara2017": "10.1587/transfun.E100.A.1773", "satyanarayana1985": "10.1137/0214057",
  "birge2011": "10.1007/978-1-4614-0237-4", "cancela2021": "10.1016/j.orp.2021.100199",
 }
 OVERRIDE = {
@@ -43,7 +46,7 @@ def fmt_authors(a):
 
 ACC = {"{\\'E}": "É", "\\'E": "É", "{\\'a}": "á", "\\'a": "á", "{\\'e}": "é", "\\'e": "é"}
 def clean_tex(t):
-    t = t.replace("\\ ", " ")
+    t = t.replace("\\ ", " ").replace("~", " ")
     for k, v in ACC.items(): t = t.replace(k, v)
     return t
 
@@ -54,6 +57,12 @@ def reformat(key, body):
         return f"{a}. {t}. {v}." + (f" \\url{{https://doi.org/{doi}}}." if doi else "")
     if key == "birge2011":
         return "Birge JR, Louveaux F. Introduction to Stochastic Programming. 2nd ed. New York: Springer; 2011. \\url{https://doi.org/10.1007/978-1-4614-0237-4}."
+    if key == "cygan2015":
+        return "Cygan M, Fomin FV, Kowalik Ł, Lokshtanov D, Marx D, Pilipczuk M, et al. Parameterized Algorithms. Cham: Springer; 2015. \\url{https://doi.org/10.1007/978-3-319-21275-3}."
+    if key == "nakamura2026":
+        return "Nakamura K, Nishino M. Linear-time exact computation of influence spread on bounded-pathwidth graphs. In: 20th Scandinavian Symposium on Algorithm Theory (SWAT 2026), LIPIcs vol. 370, article 34; 2026."
+    if key == "pozar2026":
+        return "Požar M. Exact greedy influence maximization in linear time on bounded-treewidth graphs. Preprint, arXiv:2609.19960 [cs.DS]; 2026. \\url{https://arxiv.org/abs/2609.19960}."
     if key == "colbourn1987":
         return "Colbourn CJ. The Combinatorics of Network Reliability. New York: Oxford University Press; 1987."
     m = re.match(r"(.*?) \((\d{4})\) (.*?)\. (.*)$", body)
