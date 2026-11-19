@@ -54,3 +54,33 @@ An independent review of both drafts found that several numbers in the combined 
 - DEFER empirical-network tables: the old tables mixed runs made with different versions of the code. They were regenerated from one run with the current code (`scripts/run_snap_benchmark.sh`, tables and figure by `scripts/snap_tables.py` and `scripts/snap_figure.py`). The new picture is weaker than the old one: DEFER significantly better than AG in 5 of 40 settings, never significantly worse; the largest gain is 13.9 points (ca-HepTh, constant probability, budget 20).
 - Push-down does not help on the empirical networks (two borderline settings where DEFER is slightly worse than DEFER-nopush); on the star-of-paths family it is the whole advantage.
 - Statements about other authors' papers were softened to what the repository supports (Nakamura and Nishino, Xie et al., Tanınmış et al.); AdvancedGreedy and GreedyReplace are credited to both Xie et al. papers.
+
+
+## Operations Research Perspectives (Elsevier): both papers submitted, 2026-11-19
+
+Both papers were submitted to ORP (single-blind review, at least two referee reports, open access). Manuscript IDs: (fill in from the confirmation emails).
+
+| | Paper A | Paper B |
+|---|---|---|
+| Title | Adaptive Influence Minimization via Deferred Frontier Blocking | Exact Spread Evaluation for Influence Minimization on Bounded-Pathwidth Graphs |
+| Source | `paper/orp-defer/defer_orp.tex` | `paper/orp-twig/twig_orp.tex` |
+| Package | `paper/orp-defer/submission/defer_orp_latex.zip` | `paper/orp-twig/submission/twig_orp_latex.zip` |
+| Highlights | `paper/orp-defer/Highlights_defer.docx` | `paper/orp-twig/Highlights_twig.docx` |
+| Neutral-format source | `paper/defer/defer.tex` | `paper/twig/twig.tex` |
+| Abstract | 240 words | 228 words |
+
+- Repository state at submission: `main`, commit `3fd290b` (ORP files and the self-contained revision); this note was added afterwards.
+- Authors, in order: Quang-Vinh Dang (British University Vietnam), Dat Le (Ho Chi Minh City University of Economics and Finance), Minh Ngoc Dinh (Millennia Education, corresponding author). Quang-Vinh Dang holds the submission account.
+- CRediT: Quang-Vinh Dang: conceptualization, methodology, software, validation, formal analysis, investigation, data curation, visualization, writing (original draft, review and editing); Dat Le and Minh Ngoc Dinh: writing, review and editing.
+- Declarations in the manuscripts: no competing interests; no specific grant; generative AI declared (Claude, Anthropic) for writing support and for assistance with code, figures and diagrams, with the authors reviewing the content and taking responsibility.
+- Format: Elsevier `elsarticle` class, single column; references numbered in order of first citation, with DOIs where verified; appendices numbered A, B, C with Table A.1 style numbering; manuscripts are self-contained (no references to code files or script names), with one data availability statement pointing to the repository.
+- Items to confirm after submission: the archived data deposit (DOI) and the full postal address of the first author's affiliation were left to the submitting author.
+
+### What the reviewers are likely to ask
+
+- Paper A: comparison with the adaptive influence blocking algorithms of Shi et al. (ICDE 2019), which was not run; the Benders and bilevel algorithms of Tanınmış et al. were not implemented; the evidence on empirical networks is modest (DEFER significantly better than AdvancedGreedy in 5 of 40 settings, never significantly worse); the regime scan grid was chosen after seeing earlier results.
+- Paper B: running-time comparison with Nakamura and Nishino (2026) and the preprint of Požar (2026), neither of which was run; the accuracy experiment has three instances and the planner experiment five graphs of at most 80 vertices with one planner; the vertex-order heuristic has no guarantee and dense networks (widths 37 to 44) remain out of reach; the practical relevance to the operations research audience.
+
+### If a paper is rejected
+
+For paper A: Computers & Operations Research or EJOR (the editorial agreements with ORP allow transfer of reviewed papers in the other direction); for paper B: Networks again with the new experiments, or Journal of Combinatorial Optimization.
