@@ -30,7 +30,7 @@ This research did not receive any specific grant from funding agencies in the pu
 The code, scripts, networks used and per-instance results that reproduce every table and figure are available at \url{https://github.com/vinhqdang/trace_e}.
 
 \section*{Declaration of generative AI and AI-assisted technologies in the manuscript preparation process}
-During the preparation of this work the author used [NAME OF TOOL/SERVICE] to support the writing of the manuscript and to assist in writing and running the code, figures and diagrams. After using this tool, the author reviewed and edited the content as needed and takes full responsibility for the content of the published article.
+During the preparation of this work the author used Claude (Anthropic) to support the writing of the manuscript and to assist in writing and running the code, figures and diagrams. After using this tool, the author reviewed and edited the content as needed and takes full responsibility for the content of the published article.
 """
 main = re.sub(r'\\paragraph\{([^}]*?)\.\}', r'\\paragraph{\1}', main); appendix = re.sub(r'\\paragraph\{([^}]*?)\.\}', r'\\paragraph{\1}', appendix)
 order_text = main + appendix + END_MATTER
