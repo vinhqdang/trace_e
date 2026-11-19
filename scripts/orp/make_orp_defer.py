@@ -18,7 +18,7 @@ KEYWORDS = ["influence minimization", "adaptive optimization", "misinformation b
 # --- citation order: main text, then appendices, then end matter
 END_MATTER = r"""
 \section*{CRediT authorship contribution statement}
-\textbf{Quang-Vinh Dang:} Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Data curation, Visualization, Writing -- original draft, Writing -- review \& editing. \textbf{Dat Le:} [roles to be confirmed by the author]. \textbf{Minh-Ngoc Dinh:} [roles to be confirmed by the author].
+\textbf{Quang-Vinh Dang:} Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Data curation, Visualization, Writing -- original draft, Writing -- review \& editing. \textbf{Dat Le:} [roles to be confirmed by the author]. \textbf{Minh Ngoc Dinh:} [roles to be confirmed by the author].
 
 \section*{Declaration of competing interest}
 The authors declare that there are no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
@@ -91,7 +91,7 @@ PRE = r"""\documentclass[preprint,11pt]{elsarticle}
 \ead{vinh.dq4@buv.edu.vn}
 \author[b]{Dat Le}
 \ead{datla@uef.edu.vn}
-\author[c]{Minh-Ngoc Dinh\corref{cor1}}
+\author[c]{Minh Ngoc Dinh\corref{cor1}}
 \ead{minh.dinh@maeducation.com}
 \cortext[cor1]{Corresponding author.}
 \affiliation[a]{organization={British University Vietnam},
