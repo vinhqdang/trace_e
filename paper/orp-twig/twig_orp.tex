@@ -88,7 +88,7 @@ Does it replace sampling? & No. It is a validation instrument for small and low-
 \end{tabular}
 \end{table}
 
-\paragraph{Contributions} (i) TWIG and its correctness proof (Section~\ref{sec:twig}). (ii) A reformulation that removes the dependence on $n$ from the state count, and an analysis of what the cost depends on, including the processing direction and the distinction between pathwidth and treewidth (Sections~\ref{sec:twig-complexity}--\ref{sec:twig-direction}). (iii) A greedy frontier layout for the vertex order, which cuts the width of the three small real networks by a factor of $1.7$ to $2.0$, of the power-grid network by a factor of $19$, and of grids and trees by up to two orders of magnitude (Section~\ref{sec:order}). (iv) Experiments with the exact oracle (Section~\ref{sec:twig-empirical}): feasibility and scaling on real and structured graphs, the error of Monte Carlo evaluation, the exact quality of sampling-based AdvancedGreedy plans, and an exact measurement of the optimality gap of greedy on 300 small random instances. The scripts and per-instance results are in the repository. We state plainly what is not new: \citet{nakamura2026} give a linear-time exact algorithm for spread on bounded-pathwidth graphs, and we have not compared with it, so we do not claim the complexity improvement as an advance over theirs (Section~\ref{sec:related}).
+\paragraph{Contributions} (i) TWIG and its correctness proof (Section~\ref{sec:twig}). (ii) A reformulation that removes the dependence on $n$ from the state count, and an analysis of what the cost depends on, including the processing direction and the distinction between pathwidth and treewidth (Sections~\ref{sec:twig-complexity}--\ref{sec:twig-direction}). (iii) A greedy frontier layout for the vertex order, which cuts the width of the three small real networks by a factor of $1.7$ to $2.0$, of the power-grid network by a factor of $19$, and of grids and trees by up to two orders of magnitude (Section~\ref{sec:order}). (iv) Experiments with the exact oracle (Section~\ref{sec:twig-empirical}): feasibility and scaling on real and structured graphs, the error of Monte Carlo evaluation, the exact quality of sampling-based AdvancedGreedy plans, and an exact measurement of the optimality gap of greedy on 300 small random instances. We state plainly what is not new: \citet{nakamura2026} give a linear-time exact algorithm for spread on bounded-pathwidth graphs, and we have not compared with it, so we do not claim the complexity improvement as an advance over theirs (Section~\ref{sec:related}).
 
 \paragraph{Roadmap} Section~\ref{sec:related} reviews related work and Section~\ref{sec:prelim} fixes the model and the pathwidth machinery. Section~\ref{sec:twig} presents TWIG with a worked example. Section~\ref{sec:twig-complexity} analyzes its cost, Section~\ref{sec:twig-direction} the processing direction, Section~\ref{sec:order} the choice of order, and Section~\ref{sec:twig-empirical} the experiments. Section~\ref{sec:discussion} discusses scope and limitations. Proofs are in the appendix.
 
@@ -105,8 +105,8 @@ Does it replace sampling? & No. It is a validation instrument for small and low-
 \node[core,text width=44mm] (dp) at (10.2,0) {sweep over $\sigma$: \emph{introduce}, \emph{process edge}, \emph{retire}; state = distribution over frontier partitions};
 \node[res,text width=25mm] (F) at (15.3,0) {exact expected spread $F(B)$};
 \draw[arr] (in)--(ord); \draw[arr] (ord)--(dp); \draw[arr] (dp)--(F);
-\node[cmp,text width=40mm] (gr) at (4.2,-2.3) {\texttt{greedy\_exact}: add the vertex with the smallest exact $F$};
-\node[cmp,text width=40mm] (bf) at (9.6,-2.3) {\texttt{brute\_force\_optimal\_block}: all sets of size $\le b$};
+\node[cmp,text width=40mm] (gr) at (4.2,-2.3) {exact greedy: add the vertex with the smallest exact $F$};
+\node[cmp,text width=40mm] (bf) at (9.6,-2.3) {exhaustive search: all sets of size $\le b$};
 \node[res,text width=32mm] (gap) at (15.3,-2.3) {optimality gap of greedy, free of sampling noise};
 \node[box,dashed,text width=36mm] (mc) at (15.3,-4.4) {Monte Carlo sampling: estimate of $F(B)$ with sampling error};
 \draw[arr] (F.south) -- ++(0,-0.6) -| (gr.north); \draw[arr] (F.south) -- ++(0,-0.6) -| (bf.north);
@@ -247,7 +247,7 @@ block to a nonnegative integer (its \emph{pending count}).
 in Section~\ref{sec:prelim}, a probability distribution over configurations
 on the frontier $F_i$, plus a running scalar $\mathrm{acc}_i$, updated by
 three operations: \emph{introduce} a new singleton block for each newly
-processed vertex; \emph{process\_edge} branches on each edge's live/dead
+processed vertex; \emph{process edge} branches on each edge's live/dead
 outcome, merging blocks on the live branch and paying out to $\mathrm{acc}$
 when a merge is into $\mathrm{SEED}$; and \emph{retire} pays out $\mathrm{acc}$
 for a retiring $\mathrm{SEED}$-block vertex (unless it is itself a seed), or
@@ -312,7 +312,7 @@ reached}]+\Pr[3\text{ reached}]+\Pr[4\text{ reached}]
 
 \texttt{ExactSpread} reaches the same number without ever conditioning on
 all $2^3=8$ live-edge histories explicitly (Figure~\ref{fig:twig-path-example}).
-After introducing vertices 1 and 2, \emph{process\_edge}(1,2) branches: w.p.\
+After introducing vertices 1 and 2, \emph{process edge} $(1,2)$ branches: w.p.\
 $0.5$ nothing changes; w.p.\ $0.5$ vertex 2 merges into SEED, paying out
 $0$ (no previously-retired vertex was waiting on this block). Vertex 1
 retires excluded from payout (it is a seed), leaving two configurations:
@@ -357,7 +357,7 @@ histories into shared configurations rather than enumerating them.}
 \end{table}
 
 \begin{theorem}[Correctness of \texttt{ExactSpread}]\label{thm:twig-correct}
-\texttt{ExactSpread}$(G,p,S)$.evaluate$(B)=\FF(B)$ for every $B$.
+For every blocking set $B$, the value that \texttt{ExactSpread} computes for $(G,p,S,B)$ equals $\FF(B)$.
 \end{theorem}
 
 \subsection{Complexity: from XP to FPT in the width $w$}\label{sec:twig-complexity}
@@ -422,7 +422,7 @@ over all orders is, classically, the graph's \emph{pathwidth}
 \citep{kinnersley1992} -- unbounded in terms of treewidth alone. A
 complete binary tree of height $h$ has treewidth $1$ but pathwidth
 $\Theta(h)$ \citep{kinnersley1992}: running this implementation's actual
-order and schedule (the reverse of the min-fill-in order; \texttt{scripts/twig\_feasibility.py}) on heights
+order and schedule (the reverse of the min-fill-in order) on heights
 $2$--$7$ gives realized widths $1,2,3,4,5,6$ (frontier peaks $2,\dots,7$), growing linearly with $h$ while treewidth stays $1$. The realized width is an upper bound on the pathwidth, and min-fill-in is not a good heuristic for it on these trees; the point is only that the realized width is not bounded by the treewidth. \emph{TWIG is therefore a
 bounded-\underline{pathwidth} algorithm, not a bounded-treewidth one}:
 Propositions~\ref{prop:xp-space}--\ref{prop:fpt-space}'s bounds are in
@@ -543,7 +543,7 @@ We therefore also use a greedy layout heuristic that targets the frontier direct
 
 \section{Experiments}\label{sec:twig-empirical}
 
-The experiments answer four questions. Which networks can the exact evaluation handle, and how much does the order matter (Section~\ref{sec:exp-feasible})? How does the cost grow with the number of vertices and with the width (Section~\ref{sec:exp-scaling})? How large is the error of the Monte Carlo evaluation that influence minimization algorithms use, and how much does it cost their plans (Sections~\ref{sec:exp-accuracy} and~\ref{sec:exp-planners})? And how far is greedy blocking from the optimum (Section~\ref{sec:twig-gap})? All timings are for single evaluations in pure Python on one core of a Linux x86\_64 machine, with a wall-clock limit of $300$ to $600$ seconds and an address-space limit of $8$ GB; the scripts and logs are in the repository (Appendix~\ref{ec:reproducibility}).
+The experiments answer four questions. Which networks can the exact evaluation handle, and how much does the order matter (Section~\ref{sec:exp-feasible})? How does the cost grow with the number of vertices and with the width (Section~\ref{sec:exp-scaling})? How large is the error of the Monte Carlo evaluation that influence minimization algorithms use, and how much does it cost their plans (Sections~\ref{sec:exp-accuracy} and~\ref{sec:exp-planners})? And how far is greedy blocking from the optimum (Section~\ref{sec:twig-gap})? All timings are for single evaluations in pure Python on one core of a Linux x86\_64 machine, with a wall-clock limit of $300$ to $600$ seconds and an address-space limit of $8$ GB; the setup of every experiment is described in Appendix~\ref{ec:reproducibility}.
 
 \subsection{Orders and feasibility on real networks}\label{sec:exp-feasible}
 
@@ -574,7 +574,7 @@ Iceland (sexual contact) & 75 & 4 & 12 & 55 s & 7 & 0.07 s \\
 
 \smallskip
 \begin{minipage}{0.94\linewidth}
-\footnotesize The treewidth estimate is from the min-fill-in heuristic. The width is $\max_i|F_i|-1$ (Section~\ref{sec:treewidth-prelim}) for the order actually run, and is the quantity that Propositions~\ref{prop:xp-space}--\ref{prop:fpt-space} bound; $B_{w+2}$ is $4.2\times10^{6}$, $1.9\times10^{8}$ and $4.7\times10^{14}$ for widths $10$, $12$ and $19$, and $877$, $2.1\times10^{4}$ and $4.2\times10^{6}$ for widths $5$, $7$ and $10$. On karate with the min-fill-in order and the same memory limit, the XP variant \texttt{ExactSpread} exceeded the limit after 233 s, and \texttt{ExactSpreadFast} run in the forward direction of that order exceeded it after 158 s. Log: \texttt{results/theory/twig\_feasibility.json}.
+\footnotesize The treewidth estimate is from the min-fill-in heuristic. The width is $\max_i|F_i|-1$ (Section~\ref{sec:treewidth-prelim}) for the order actually run, and is the quantity that Propositions~\ref{prop:xp-space}--\ref{prop:fpt-space} bound; $B_{w+2}$ is $4.2\times10^{6}$, $1.9\times10^{8}$ and $4.7\times10^{14}$ for widths $10$, $12$ and $19$, and $877$, $2.1\times10^{4}$ and $4.2\times10^{6}$ for widths $5$, $7$ and $10$. On karate with the min-fill-in order and the same memory limit, the XP variant \texttt{ExactSpread} exceeded the limit after 233 s, and \texttt{ExactSpreadFast} run in the forward direction of that order exceeded it after 158 s.
 \end{minipage}
 \end{table}
 
@@ -626,7 +626,7 @@ The exact oracle also measures how much sampling noise costs a planner. We run A
 \caption{Exact spread of AdvancedGreedy's plan (mean over $10$ replicates, one point per instance) as a percentage above the exact greedy plan, for budgets $2$ and $4$ and $\theta=100$ (orange) and $\theta=1000$ (violet).}\label{fig:planners}
 \end{figure}
 
-\subsection{How far is greedy from the optimum?}\label{sec:twig-gap} \texttt{greedy\_exact} is greedy selection that uses \texttt{ExactSpreadFast} itself as the marginal-gain oracle, with zero sampling noise, over candidates reachable from the seeds. \texttt{brute\_force\_optimal\_block} finds the optimum by exhaustive search over all blocking sets of size at most the budget. We compare them on 300 random instances in three families of Erd\H{o}s--R\'enyi graphs with 6--14 vertices: sparse (mean degree $2$--$3.5$), medium (edge probability $0.25$--$0.5$) and dense (edge probability $0.5$--$0.8$), with 100 instances per family, edge probabilities uniform on $[0.1,0.9]$, one to four seeds, budgets $1$ to $\min(4,n-|S|)$, and realized width at most $8$ (Appendix~\ref{ec:reproducibility}). \emph{Excess} is $(\FF(B_{\mathrm{greedy}})-\FF(B^\ast))/\FF(B^\ast)$ where $\FF$ is the expected spread beyond the seeds.
+\subsection{How far is greedy from the optimum?}\label{sec:twig-gap} \emph{Exact greedy} is greedy selection that uses \texttt{ExactSpreadFast} itself as the marginal-gain oracle, with zero sampling noise, over candidates reachable from the seeds. \emph{Exhaustive search} finds the optimum by evaluating all blocking sets of size at most the budget. We compare them on 300 random instances in three families of Erd\H{o}s--R\'enyi graphs with 6--14 vertices: sparse (mean degree $2$--$3.5$), medium (edge probability $0.25$--$0.5$) and dense (edge probability $0.5$--$0.8$), with 100 instances per family, edge probabilities uniform on $[0.1,0.9]$, one to four seeds, budgets $1$ to $\min(4,n-|S|)$, and realized width at most $8$ (Appendix~\ref{ec:reproducibility}). \emph{Excess} is $(\FF(B_{\mathrm{greedy}})-\FF(B^\ast))/\FF(B^\ast)$ where $\FF$ is the expected spread beyond the seeds.
 
 \begin{table}[h]
 \centering
@@ -644,7 +644,7 @@ dense & 91 / 100 & $0.29\%$ & $12.5\%$ & $0.1,0.6,1.1,1.4,2.1,2.9,3.7,4.7,12.5\%
 \end{tabular}
 \end{table}
 
-Greedy is exactly optimal in 287 of 300 instances (95.7\%) and strictly suboptimal in 13, with excess between $0.1\%$ and $44.8\%$; the mean over all instances is $0.32\%$, dominated by the few large cases. The gap is real but rare in this regime. This is consistent with the theory: \citet{xie2023} prove that $\FF(\cdot)$ is not supermodular in $B$ under the independent cascade model and that IMIN is NP-hard and hard to approximate, so greedy has no $(1-1/e)$-style guarantee, and the suboptimal instances show that the gap does occur. Percentages describe these small random instances and are not estimates for large networks, where TWIG cannot run. As a check on the oracle itself, on the 122 instances with at most 15 edges the optimum value agrees with an independent enumeration of all $2^{|E|}$ live-edge subsets (no mismatch; Appendix~\ref{ec:reproducibility}). Per-instance results are in \texttt{results/theory/twig\_optimality\_gap.csv}; the script is \texttt{scripts/twig\_optimality\_gap.py}.
+Greedy is exactly optimal in 287 of 300 instances (95.7\%) and strictly suboptimal in 13, with excess between $0.1\%$ and $44.8\%$; the mean over all instances is $0.32\%$, dominated by the few large cases. The gap is real but rare in this regime. This is consistent with the theory: \citet{xie2023} prove that $\FF(\cdot)$ is not supermodular in $B$ under the independent cascade model and that IMIN is NP-hard and hard to approximate, so greedy has no $(1-1/e)$-style guarantee, and the suboptimal instances show that the gap does occur. Percentages describe these small random instances and are not estimates for large networks, where TWIG cannot run. As a check on the oracle itself, on the 122 instances with at most 15 edges the optimum value agrees with an independent enumeration of all $2^{|E|}$ live-edge subsets (no mismatch; Appendix~\ref{ec:reproducibility}). The per-instance results are part of the data described in the data availability statement.
 
 \begin{figure}[t]
 \centering
@@ -655,7 +655,7 @@ Greedy is exactly optimal in 287 of 300 instances (95.7\%) and strictly suboptim
 
 \subsection{Complexity comparison}\label{sec:complexity-comparison}
 
-Table~\ref{tab:complexity} collects the cost of the exact methods of this paper. TWIG's two variants solve a strictly harder problem than a Monte Carlo estimate of $\FF(B)$ and are not drop-in replacements for sampling-based planners on large networks. Proposition~\ref{prop:fpt-space}'s independence of $n$ is what makes \texttt{ExactSpreadFast} usable compared with enumerating all $2^m$ live-edge realizations, but $B_{w+2}$ still grows very quickly in the width $w$ (Table~\ref{tab:bell-numbers}). \texttt{brute\_force\_optimal\_block} compounds the per-evaluation cost with an outer search over all size-$\le b$ subsets, which confines the optimality-gap study of Section~\ref{sec:twig-empirical} to $n\le14$. The measured effect of the collapse and of the processing direction on karate is given in Section~\ref{sec:twig-empirical}.
+Table~\ref{tab:complexity} collects the cost of the exact methods of this paper. TWIG's two variants solve a strictly harder problem than a Monte Carlo estimate of $\FF(B)$ and are not drop-in replacements for sampling-based planners on large networks. Proposition~\ref{prop:fpt-space}'s independence of $n$ is what makes \texttt{ExactSpreadFast} usable compared with enumerating all $2^m$ live-edge realizations, but $B_{w+2}$ still grows very quickly in the width $w$ (Table~\ref{tab:bell-numbers}). Exhaustive search compounds the per-evaluation cost with an outer search over all size-$\le b$ subsets, which confines the optimality-gap study of Section~\ref{sec:twig-empirical} to $n\le14$. The measured effect of the collapse and of the processing direction on karate is given in Section~\ref{sec:twig-empirical}.
 
 \begin{table}[h]
 \centering
@@ -665,10 +665,10 @@ Table~\ref{tab:complexity} collects the cost of the exact methods of this paper.
 \hline
 \up Method & Time complexity \\
 \hline
-\up \texttt{ExactSpread} (Proposition~\ref{prop:xp-space}) & one \texttt{evaluate}: $O(n\cdot B_{w+2}\cdot(n+1)^{w+1})$ (XP in $w$) \\
-\texttt{ExactSpreadFast} (Proposition~\ref{prop:fpt-space}) & one \texttt{evaluate}: $O(n\cdot B_{w+2}\cdot\mathrm{poly}(w))$ (FPT in $w$) \\
-\texttt{greedy\_exact} & $O(b\,n)$ \texttt{evaluate} calls, each as above \\
-\down \texttt{brute\_force\_optimal\_block} & $O(n^b)$ \texttt{evaluate} calls, each as above \\
+\up \texttt{ExactSpread} (Proposition~\ref{prop:xp-space}) & one evaluation: $O(n\cdot B_{w+2}\cdot(n+1)^{w+1})$ (XP in $w$) \\
+\texttt{ExactSpreadFast} (Proposition~\ref{prop:fpt-space}) & one evaluation: $O(n\cdot B_{w+2}\cdot\mathrm{poly}(w))$ (FPT in $w$) \\
+Exact greedy & $O(b\,n)$ evaluations, each as above \\
+\down Exhaustive search & $O(n^b)$ evaluations, each as above \\
 \hline
 \end{tabular}
 
@@ -704,7 +704,7 @@ The order is a practical lever. Changing it from the reversed min-fill-in order 
 
 The optimality-gap study uses 300 random Erd\H{o}s--R\'enyi graphs with at most 14 vertices, edge probabilities uniform on $[0.1,0.9]$ and budgets up to $4$, so its percentages describe that regime. They are not an estimate of greedy's gap on large networks, where TWIG cannot run, and the largest excess ($44.8\%$) is the largest found among these instances, not a bound. Other graph families and probability ranges may give different frequencies; an exploratory run with edge probabilities in $[0.05,0.4]$ found suboptimal greedy selections even less often. The accuracy experiment uses three instances and one blocking set each, and the planner experiment uses five graphs with at most $80$ vertices and one planner, AdvancedGreedy, so neither supports statements about other planners or larger instances. Exact evaluation scales with the width realized by the vertex order, and our order heuristic has no guarantee; on dense networks the width stays large. We did not compare TWIG's running time with that of \citet{nakamura2026} or \citet{pozar2026}, and the implementation is pure Python, so the absolute times would be lower in a compiled implementation.
 
-\textbf{Code and data availability.} TWIG, the order heuristics, \texttt{greedy\_exact}, \texttt{brute\_force\_optimal\_block} and the scripts for every experiment are released at \url{https://github.com/vinhqdang/trace_e}, with per-instance results under \texttt{results/theory/}. The networks are the small public datasets cited in Section~\ref{sec:exp-feasible}.
+\textbf{Code and data availability.} The implementation of TWIG, the order heuristics, the exact greedy and exhaustive search procedures, and the code and per-instance results of every experiment are released at \url{https://github.com/vinhqdang/trace_e}. The networks are the small public datasets cited in Section~\ref{sec:exp-feasible}.
 
 \appendix
 \counterwithin{table}{section}
@@ -749,7 +749,7 @@ since $v$ is trivially connected to itself and, being newly introduced, to
 nothing else yet). The invariant is preserved for $\Pi$ and, since no new
 edges enter $E_i$, for $\mathrm{acc}$.
 
-\emph{Process\_edge$(u,v)$.} This is the only place a new edge $(u,v)$
+\emph{Process edge$(u,v)$.} This is the only place a new edge $(u,v)$
 enters $E_i$. Conditioning on its two outcomes (independent of every other
 edge's realization, by the independent-cascade model's edge independence)
 exactly reproduces the two branches: tails leaves $\Pi$, $\rho$,
@@ -786,7 +786,7 @@ $F_i\setminus\{u\}$.
 \end{proof}
 
 \begin{repeattheorem}[Theorem~\ref{thm:twig-correct} (Correctness of \texttt{ExactSpread})]
-\texttt{ExactSpread}$(G,p,S)$.evaluate$(B)=\FF(B)$ for every $B$.
+For every blocking set $B$, the value that \texttt{ExactSpread} computes for $(G,p,S,B)$ equals $\FF(B)$.
 \end{repeattheorem}
 \begin{proof}
 Apply Lemma~\ref{ec:lem:invariant} at $i=n-1$ (the last step): $F_{n-1}
@@ -796,7 +796,7 @@ edges$)$, i.e.\ all of $G_B$'s edges, and every non-seed, non-blocked
 vertex has $\mathrm{last}(v)\le n-1$. The second identity of
 Lemma~\ref{ec:lem:invariant} then reads $\mathrm{acc}_{n-1}=
 \sum_{v\in V\setminus S\setminus B}\Pr_\omega[v\sim_\omega\text{ some seed
-in }G_B]=\FF(B)$, which is exactly what \texttt{evaluate}$(B)$
+in }G_B]=\FF(B)$, which is exactly the value that \texttt{ExactSpread}
 returns.
 \end{proof}
 
@@ -831,7 +831,7 @@ update yields the identical sequence of \texttt{acc} increments as
 We check each of the (at most) four ways a step transforms a configuration
 $(s,\rho)\mapsto(s',\rho')$ within a fixed edge-outcome branch (shape
 transitions never depend on $\rho$, only on $s$ and, for
-\texttt{process\_edge}, the branch); linearity of each in $\rho$ is then
+\emph{process edge}, the branch); linearity of each in $\rho$ is then
 all that is needed.
 
 \emph{Introduce a new non-seed block $b_0$.} $\rho'(b_0)=0$,
@@ -839,17 +839,17 @@ $\rho'(b)=\rho(b)$ otherwise, $s'=s\cup\{b_0\}$ is independent of $\rho$.
 Then $W'_{b_0}=\sum_\rho P_\rho\cdot 0=0$ and $W'_b=W_b$ for $b\ne b_0$: no
 update needed for existing entries, new entry is (implicitly) $0$.
 
-\emph{Process\_edge, tails.} $s'=s$, $\rho'=\rho$, but the whole branch
+\emph{Process edge, tails.} $s'=s$, $\rho'=\rho$, but the whole branch
 carries probability weight $(1-p_e)$: $P'_s=(1-p_e)P_s$ and
 $W'_b=(1-p_e)W_b$ for every entry.
 
-\emph{Process\_edge, heads, merge into SEED.} The payout added to
+\emph{Process edge, heads, merge into SEED.} The payout added to
 $\mathrm{acc}$ in this branch is
 $p_e\sum_{(s,\rho)}P_\rho\cdot\rho(b)=p_e\cdot W_b$ exactly (a direct
 algebraic identity, not a mean-field substitution). Block $b$ is then
 dropped ($\rho'$ has no entry for it).
 
-\emph{Process\_edge, heads, merge two ordinary blocks $b_1,b_2\to b$.}
+\emph{Process edge, heads, merge two ordinary blocks $b_1,b_2\to b$.}
 $\rho'(b)=\rho(b_1)+\rho(b_2)$, so
 $W'_b=\sum_\rho P_\rho(\rho(b_1)+\rho(b_2))=W_{b_1}+W_{b_2}$.
 
@@ -902,15 +902,15 @@ the last-introduced leaf), giving $|F_i|\le 2$ for all $i$.
 
 \section{Experimental Protocol}\label{ec:reproducibility}
 
-\paragraph{Optimality-gap study} Instances are drawn by \texttt{scripts/twig\_optimality\_gap.py} with fixed random seeds. Each is an Erd\H{o}s--R\'enyi graph $G(n,p)$ with $n$ uniform on $\{6,\dots,14\}$; the sparse family uses mean degree uniform on $[2,3.5]$, the medium family $p$ uniform on $[0.25,0.5]$, and the dense family $p$ uniform on $[0.5,0.8]$. Graphs with no edges, or with realized width above $8$ (the width of the reversed min-fill-in order), are rejected and redrawn. Edge probabilities are uniform on $[0.1,0.9]$, the number of seeds is uniform on $\{1,\dots,\min(4,n-2)\}$, and the budget is uniform on $\{1,\dots,\min(4,n-|S|)\}$. Across the 300 instances the mean number of vertices is $9.7$ and the mean realized width is $4.9$ (range $1$--$8$). \texttt{greedy\_exact} and the exhaustive search both use the same oracle \texttt{ExactSpreadFast.evaluate}, so any discrepancy is a true optimality gap, not sampling noise; greedy's candidate pool is the set of vertices reachable from the seeds, and the exhaustive search ranges over all non-seed vertices. On the 122 instances with at most 15 edges the optimum's value was also computed by enumerating all $2^{|E|}$ live-edge subsets (\texttt{brute\_force\_spread}); all 122 agree with the oracle.
+\paragraph{Optimality-gap study} Instances are drawn with fixed random seeds. Each is an Erd\H{o}s--R\'enyi graph $G(n,p)$ with $n$ uniform on $\{6,\dots,14\}$; the sparse family uses mean degree uniform on $[2,3.5]$, the medium family $p$ uniform on $[0.25,0.5]$, and the dense family $p$ uniform on $[0.5,0.8]$. Graphs with no edges, or with realized width above $8$ (the width of the reversed min-fill-in order), are rejected and redrawn. Edge probabilities are uniform on $[0.1,0.9]$, the number of seeds is uniform on $\{1,\dots,\min(4,n-2)\}$, and the budget is uniform on $\{1,\dots,\min(4,n-|S|)\}$. Across the 300 instances the mean number of vertices is $9.7$ and the mean realized width is $4.9$ (range $1$--$8$). Exact greedy and the exhaustive search both use the same oracle, \texttt{ExactSpreadFast}, so any discrepancy is a true optimality gap, not sampling noise; greedy's candidate pool is the set of vertices reachable from the seeds, and the exhaustive search ranges over all non-seed vertices. On the 122 instances with at most 15 edges the optimum's value was also computed by enumerating all $2^{|E|}$ live-edge subsets; all 122 agree with the oracle.
 
-\paragraph{Unit tests} \texttt{tests/test\_treewidth.py} compares \texttt{ExactSpread} with exhaustive enumeration on 120 random graphs without blocking and 120 with blocking, \texttt{ExactSpreadFast} with both \texttt{ExactSpread} and enumeration on 80 random graphs, and checks that greedy never beats the optimum on 15 graphs with $n\le9$; each run draws these instances afresh from a fixed seed. These tests support Theorems~\ref{thm:twig-correct} and \ref{thm:twig-collapse}; they do not replace the proofs.
+\paragraph{Correctness checks} The implementation was compared with exhaustive enumeration of all live-edge subsets: \texttt{ExactSpread} on 120 random graphs without blocking and 120 with blocking, and \texttt{ExactSpreadFast} against both \texttt{ExactSpread} and enumeration on 80 random graphs. It was also checked on 15 further graphs with $n\le9$ that exact greedy never beats the optimum, and on 25 random graphs that the value does not depend on the order (the reversed min-fill-in order, a greedy frontier layout, and the default best-of choice). These checks support Theorems~\ref{thm:twig-correct} and \ref{thm:twig-collapse}; they do not replace the proofs.
 
-\paragraph{Orders and scaling} \texttt{scripts/twig\_scaling.py} computes the realized widths of both orders on the real networks and structured families, one evaluation per configuration with the best order (edge probabilities uniform on $[0.2,0.8]$ from a fixed seed, one seed vertex), and the scaling experiments: grid strips $3\times m$ for $m\in\{50,\dots,1600\}$, random trees with $100$ to $1600$ vertices, grid strips $k\times m$ with $n\approx240$ and $k=2,\dots,8$, and five breadth-first balls of the power-grid network at each of the sizes $100,200,400,800$ (evaluated when the width was at most $12$). Each evaluation runs in a child process with a 300 s limit and an 8 GB address-space limit. \texttt{scripts/twig\_feasibility\_orders.py} repeats the three small networks with the best order in exactly the configuration of Table~\ref{tab:twig-feasibility}.
+\paragraph{Orders and scaling} For the real networks and structured families we computed the widths of both orders and one evaluation per configuration with the best order (edge probabilities uniform on $[0.2,0.8]$ from a fixed seed, one seed vertex). The scaling experiments use grid strips $3\times m$ for $m\in\{50,\dots,1600\}$, random trees with $100$ to $1600$ vertices, grid strips $k\times m$ with $n\approx240$ and $k=2,\dots,8$, and five breadth-first balls of the power-grid network at each of the sizes $100,200,400,800$ (evaluated when the width was at most $12$). Each evaluation runs in a separate process with a 300 s wall-clock limit and an 8 GB address-space limit. The three small networks were repeated with the best order in exactly the configuration of Table~\ref{tab:twig-feasibility}.
 
-\paragraph{Accuracy and planners} \texttt{scripts/twig\_accuracy\_planners.py}. In both parts every undirected edge is live independently with its probability, one coin for both directions, which is the model TWIG evaluates. Accuracy: a blocking set of five vertices at distance at most $8$ from the seed, edge probabilities uniform on $[0.1,0.6]$, estimates from $\theta=100,1000,10^4$ samples with $200,100,15$ replicates; the second blocking set replaces one vertex of the first, and both are evaluated on the same samples. Planners: AdvancedGreedy is run with the dominator-tree implementation of the repository on symmetric live-edge samples, $10$ replicates per instance, budget and $\theta$; exact values come from TWIG. Results: \texttt{results/theory/twig\_accuracy.json} and \texttt{results/theory/twig\_planners.csv}.
+\paragraph{Accuracy and planners} In both experiments every undirected edge is live independently with its probability, one coin for both directions, which is the model TWIG evaluates. Accuracy: a blocking set of five vertices at distance at most $8$ from the seed, edge probabilities uniform on $[0.1,0.6]$, estimates from $\theta=100,1000,10^4$ samples with $200,100,15$ replicates; the second blocking set replaces one vertex of the first, and both are evaluated on the same samples. Planners: AdvancedGreedy is run with its dominator-tree implementation on symmetric live-edge samples, with $10$ replicates per instance, budget and $\theta$; exact values come from TWIG.
 
-\paragraph{Feasibility runs} \texttt{scripts/twig\_feasibility.py} runs one \texttt{evaluate} call per network (one seed, node $0$ of the relabelled graph; edge probabilities uniform on $[0.05,0.4]$ from a fixed seed) under a 600 s wall-clock limit and an 8 GB address-space limit on a Linux x86\_64 machine, in pure Python. The XP variant and the forward-direction run on karate were limited to 300 s and the same memory limit. Complete binary trees of heights $2$--$7$ are processed with the same order and schedule to obtain the realized widths quoted in Section~\ref{sec:twig-direction}.
+\paragraph{Feasibility runs} One exact evaluation per network (one seed, node $0$ of the relabelled graph; edge probabilities uniform on $[0.05,0.4]$ from a fixed seed) under a 600 s wall-clock limit and an 8 GB address-space limit on a Linux x86\_64 machine, in pure Python. The XP variant and the forward-direction run on karate were limited to 300 s and the same memory limit. Complete binary trees of heights $2$--$7$ are processed with the same order and schedule to obtain the realized widths quoted in Section~\ref{sec:twig-direction}.
 
 \section*{CRediT authorship contribution statement}
 \textbf{Quang-Vinh Dang:} Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Data curation, Visualization, Writing -- original draft, Writing -- review \& editing. \textbf{Dat Le:} Writing -- review \& editing. \textbf{Minh Ngoc Dinh:} Writing -- review \& editing.

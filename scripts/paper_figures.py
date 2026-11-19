@@ -50,7 +50,7 @@ def fig_adaptivity_gap():
 
 def fig_sop():
     d = pd.DataFrame([json.loads(l) for l in open("results/theory/star_of_paths_bench.jsonl")])
-    series = [("ag", "AG", BLUE, "o"), ("commit", "COMMIT", ORANGE, "s"), ("ilp1", "ILP one-shot", AQUA, "^"), ("ilp_roll", "ILP staged", MAGENTA, "v"), ("defer", "DEFER", VIOLET, "D")]
+    series = [("ag", "AG", BLUE, "o"), ("commit", "COMMIT", ORANGE, "s"), ("ilp1", "ILP-1", AQUA, "^"), ("ilp_roll", "ILP-S", MAGENTA, "v"), ("defer", "DEFER", VIOLET, "D")]
     fig, axes = plt.subplots(1, 3, figsize=(7.2, 2.4), sharey=True)
     for ax, D in zip(axes, (4, 8, 16)):
         cfg = [(p, b) for p in (0.05, 0.1, 0.2) for b in (1, 2)]
@@ -124,14 +124,14 @@ def fig_ilp():
     d = pd.read_csv("results/summary_adaptive.csv"); d = d[d.run_id.str.contains("adaptive_ilp_")]
     p = d.pivot_table(index=["network", "p", "budget"], columns="policy", values="saved_frac"); t = d.pivot_table(index=["network", "p", "budget"], columns="policy", values="time_s_per_episode")
     fig, axes = plt.subplots(1, 3, figsize=(7.2, 2.4))
-    for ax, (a, b, la, lb, col) in zip(axes[:2], (("ag", "ilp1", "AG", "ILP one-shot", AQUA), ("defer", "ilp_roll", "DEFER", "ILP staged", MAGENTA))):
+    for ax, (a, b, la, lb, col) in zip(axes[:2], (("ag", "ilp1", "AG", "ILP-1", AQUA), ("defer", "ilp_roll", "DEFER", "ILP-S", MAGENTA))):
         ax.plot([0, 1], [0, 1], color=INK2, lw=0.7, ls="--"); ax.scatter(p[a], p[b], s=22, color=col, edgecolor="#fcfcfb", linewidth=0.5, zorder=3)
         ax.set_xlim(0, 1); ax.set_ylim(0, 1); ax.set_aspect("equal"); ax.set_xlabel(f"saved fraction, {la}"); ax.set_ylabel(f"saved fraction, {lb}")
         ax.grid(color=GRID, lw=0.6); ax.set_axisbelow(True)
     ax = axes[2]
-    for i, (k, lab, col) in enumerate((("ag", "AG", BLUE), ("defer", "DEFER", VIOLET), ("ilp1", "ILP one-shot", AQUA), ("ilp_roll", "ILP staged", MAGENTA))):
+    for i, (k, lab, col) in enumerate((("ag", "AG", BLUE), ("defer", "DEFER", VIOLET), ("ilp1", "ILP-1", AQUA), ("ilp_roll", "ILP-S", MAGENTA))):
         v = t[k].values; ax.scatter(np.full(len(v), i) + np.random.default_rng(0).uniform(-0.18, 0.18, len(v)), v, s=16, color=col, edgecolor="#fcfcfb", linewidth=0.4, zorder=3)
-    ax.set_yscale("log"); ax.set_xticks(range(4)); ax.set_xticklabels(["AG", "DEFER", "ILP\none-shot", "ILP\nstaged"], fontsize=7); ax.set_ylabel("seconds per episode"); ax.grid(axis="y", color=GRID, lw=0.6); ax.set_axisbelow(True)
+    ax.set_yscale("log"); ax.set_xticks(range(4)); ax.set_xticklabels(["AG", "DEFER", "ILP-1", "ILP-S"], fontsize=7); ax.set_ylabel("seconds per episode"); ax.grid(axis="y", color=GRID, lw=0.6); ax.set_axisbelow(True)
     fig.tight_layout(w_pad=0.8); save(fig, DEFER_DIR, "fig_ilp.pdf")
 
 
