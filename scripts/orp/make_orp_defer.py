@@ -18,10 +18,10 @@ KEYWORDS = ["influence minimization", "adaptive optimization", "misinformation b
 # --- citation order: main text, then appendices, then end matter
 END_MATTER = r"""
 \section*{CRediT authorship contribution statement}
-\textbf{Quang-Vinh Dang:} Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Data curation, Visualization, Writing -- original draft, Writing -- review \& editing.
+\textbf{Quang-Vinh Dang:} Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Data curation, Visualization, Writing -- original draft, Writing -- review \& editing. \textbf{Dat Le:} [roles to be confirmed by the author]. \textbf{Minh-Ngoc Dinh:} [roles to be confirmed by the author].
 
 \section*{Declaration of competing interest}
-The author declares that there are no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+The authors declare that there are no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
 
 \section*{Funding}
 This research did not receive any specific grant from funding agencies in the public, commercial, or not-for-profit sectors.
@@ -30,7 +30,7 @@ This research did not receive any specific grant from funding agencies in the pu
 The code, scripts, networks used and per-instance results that reproduce every table and figure are available at \url{https://github.com/vinhqdang/trace_e}.
 
 \section*{Declaration of generative AI and AI-assisted technologies in the manuscript preparation process}
-During the preparation of this work the author used Claude (Anthropic) to support the writing of the manuscript and to assist in writing and running the code, figures and diagrams. After using this tool, the author reviewed and edited the content as needed and takes full responsibility for the content of the published article.
+During the preparation of this work the authors used Claude (Anthropic) to support the writing of the manuscript and to assist in writing and running the code, figures and diagrams. After using this tool, the authors reviewed and edited the content as needed and take full responsibility for the content of the published article.
 """
 main = re.sub(r'\\paragraph\{([^}]*?)\.\}', r'\\paragraph{\1}', main); appendix = re.sub(r'\\paragraph\{([^}]*?)\.\}', r'\\paragraph{\1}', appendix)
 order_text = main + appendix + END_MATTER
@@ -87,11 +87,22 @@ PRE = r"""\documentclass[preprint,11pt]{elsarticle}
 
 \begin{frontmatter}
 \title{""" + title + r"""}
-\author[a]{Quang-Vinh Dang\corref{cor1}}
+\author[a]{Quang-Vinh Dang}
 \ead{vinh.dq4@buv.edu.vn}
+\author[b]{Dat Le}
+\ead{datla@uef.edu.vn}
+\author[c]{Minh-Ngoc Dinh\corref{cor1}}
+\ead{minh.dinh@maeducation.com}
 \cortext[cor1]{Corresponding author.}
 \affiliation[a]{organization={British University Vietnam},
             city={Hung Yen},
+            country={Vietnam}}
+\affiliation[b]{organization={Department of Science, Technology, and International Projects, Ho Chi Minh City University of Economics and Finance},
+            city={Ho Chi Minh City},
+            postcode={700000},
+            country={Vietnam}}
+\affiliation[c]{organization={Millennia Education},
+            city={Ho Chi Minh City},
             country={Vietnam}}
 
 \begin{abstract}
