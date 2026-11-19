@@ -33,6 +33,7 @@ The code, scripts, networks used and per-instance results that reproduce every t
 During the preparation of this work the authors used Claude (Anthropic) to support the writing of the manuscript and to assist in writing and running the code, figures and diagrams. After using this tool, the authors reviewed and edited the content as needed and take full responsibility for the content of the published article.
 """
 main = re.sub(r'\\paragraph\{([^}]*?)\.\}', r'\\paragraph{\1}', main); appendix = re.sub(r'\\paragraph\{([^}]*?)\.\}', r'\\paragraph{\1}', appendix)
+main = re.sub(r'\\textbf\{Code and data availability\.\}[^\n]*\n', '', main)
 order_text = main + appendix + END_MATTER
 seen = []
 for m in re.finditer(r"\\cite[a-z]*\*?(?:\[[^\]]*\])*\{([^}]*)\}", order_text):

@@ -35,6 +35,7 @@ During the preparation of this work the authors used Claude (Anthropic) to suppo
 main = re.sub(r'\\paragraph\{([^}]*?)\.\}', r'\\paragraph{\1}', main); appendix = re.sub(r'\\paragraph\{([^}]*?)\.\}', r'\\paragraph{\1}', appendix)
 for a_, b_ in (('centre', 'center'), ('Centre', 'Center')):
     main = main.replace(a_, b_); appendix = appendix.replace(a_, b_)
+main = re.sub(r'\\textbf\{Code and data availability\.\}[^\n]*\n', '', main)
 order_text = main + appendix + END_MATTER
 seen = []
 for m in re.finditer(r"\\cite[a-z]*\*?(?:\[[^\]]*\])*\{([^}]*)\}", order_text):
