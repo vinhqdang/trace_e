@@ -1,0 +1,11 @@
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+*.synctex.gz
+log.txt
+!figures/*.pdf
+!submission/*.zip
+*.pdf
+!figures/*.pdf
