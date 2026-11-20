@@ -97,3 +97,16 @@ Both papers were desk-rejected by Operations Research Perspectives and resubmitt
 Sources: `paper/dajour-defer/` (A) and `paper/rico-twig/` (B); the submission zips are in each `submission/` folder. Only the `\journal{}` line differs from the ORP versions.
 
 Notes for B: the journal's scope excludes well-studied classical methods, so the paper is framed as a new exact method with benchmark results. Its checklist asks for a competing-interests statement and referee suggestions.
+
+## Both papers resubmitted (2026-11-20)
+
+| Paper | Venue | Manuscript number | Status |
+|---|---|---|---|
+| A: Adaptive Influence Minimization via Deferred Frontier Blocking | Decision Analytics Journal (Elsevier) | DAJOUR-D-26-00787 | submitted |
+| B: Exact Spread Evaluation for Influence Minimization on Bounded-Pathwidth Graphs | Results in Control and Optimization (Elsevier) | not yet recorded | submitted |
+
+- Paper A package: `paper/dajour-defer/submission/dajour_package/` (cover letter, title page with author details, blinded manuscript, highlights) and `paper/dajour-defer/submission/defer_dajour_latex_blinded.zip`. The unblinded source and zip are `paper/dajour-defer/defer_dajour.tex` and `paper/dajour-defer/submission/defer_dajour_latex.zip`.
+- Paper A primary focus selected on the submission form: Prescriptive Analytics.
+- Paper B package: `paper/rico-twig/twig_rico.tex`, `paper/rico-twig/submission/twig_rico_latex.zip`, `paper/rico-twig/Highlights_twig.docx`.
+- The desk-rejection reasons from ORP were not shared with us.
+- Open items: Paper B manuscript number; ORCIDs of the two co-authors if wanted on the title page; Paper B abstract is 228 words and RICO's limit was not verified.
