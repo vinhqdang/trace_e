@@ -232,3 +232,8 @@ paper/*/package/*.log
 paper/*/package/*.aux
 paper/*/package/*.out
 paper/*/package/*.spl
+paper/dajour-defer/*.pdf
+paper/rico-twig/*.pdf
+paper/dajour-defer/package/*.pdf
+paper/dajour-defer/package/figures/
+paper/dajour-defer/package/log.txt
