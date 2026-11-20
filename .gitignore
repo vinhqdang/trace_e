@@ -228,3 +228,7 @@ paper/*/*.aux
 paper/*/*.out
 paper/*/*.spl
 paper/*/log.txt
+paper/*/package/*.log
+paper/*/package/*.aux
+paper/*/package/*.out
+paper/*/package/*.spl
