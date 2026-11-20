@@ -222,3 +222,9 @@ __marimo__/
 
 # large downloaded graphs (regenerate with scripts/fetch_snap.py)
 data/networks/socepinions1.csv
+
+# LaTeX build artifacts in submission folders
+paper/*/*.aux
+paper/*/*.out
+paper/*/*.spl
+paper/*/log.txt
