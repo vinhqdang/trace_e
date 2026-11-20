@@ -34,7 +34,7 @@
 \begin{document}
 
 \begin{frontmatter}
-\title{Adaptive Influence Minimization via Deferred Frontier Blocking}
+\title{A Deferred Frontier Blocking Framework for Adaptive Influence Minimization and Network Decision-Making}
 \author[a]{Quang-Vinh Dang}
 \ead{vinh.dq4@buv.edu.vn}
 \author[b]{Dat Le}
@@ -58,13 +58,13 @@ Blocking the spread of a rumor or epidemic that has already started, by removing
 \end{abstract}
 
 \begin{keyword}
-influence minimization \sep adaptive optimization \sep misinformation blocking \sep adaptivity gap \sep network optimization
+Influence minimization \sep Adaptive optimization \sep Sequential decision-making \sep Network analytics \sep Resource allocation \sep Stochastic optimization
 \end{keyword}
 \end{frontmatter}
 
 \section{Introduction}\label{sec:intro}
 
-Consider a platform moderator who learns that a false rumor has started spreading from a handful of accounts, or a health authority that has detected a few cases of an infectious disease. Each can suspend a small number of accounts, or quarantine a small number of people, but not many. The standard operations-research treatment asks which targets to pick \emph{now}, and commits the whole budget before anything further is known. Real interventions rarely work this way: within hours or days the moderator sees which accounts the rumor has actually reached, and the authority sees which contacts have actually become infected. The practical question is whether it is better to spend the budget at once or to hold part of it back and spend it where the outbreak actually goes. Holding back is risky, because a cascade can pass through a node before it is blocked, but it also avoids spending budget on targets the cascade never reaches. This paper quantifies that trade-off.
+False information can spread faster and farther than true information online \citep{vosoughi2018,lazer2018}, and the same cascade structure describes contagion in public health, enterprise cybersecurity and supply networks. Consider a platform moderator who learns that a false rumor has started spreading from a handful of accounts, or a health authority that has detected a few cases of an infectious disease. Each can suspend a small number of accounts, or quarantine a small number of people, but not many. The standard operations-research treatment asks which targets to pick \emph{now}, and commits the whole budget before anything further is known. Real interventions rarely work this way: within hours or days the moderator sees which accounts the rumor has actually reached, and the authority sees which contacts have actually become infected. The practical question is whether it is better to spend the budget at once or to hold part of it back and spend it where the outbreak actually goes. Holding back is risky, because a cascade can pass through a node before it is blocked, but it also avoids spending budget on targets the cascade never reaches. This paper quantifies that trade-off, and Section~\ref{sec:org} identifies the organizational settings and decision makers to which it applies.
 
 The problem is \emph{influence minimization} (IMIN) \citep{xie2023,xie2024}: given the seeds of a cascade under the independent cascade model and a budget of vertices that can be removed, choose the vertices that minimize the expected final spread. IMIN is the natural complement of influence \emph{maximization} \citep{kempe2003}. Unlike maximization its objective is not supermodular, so greedy selection carries no approximation guarantee, and the problem is NP-hard and hard to approximate \citep{xie2023}. The IMIN algorithms we know of, AdvancedGreedy and GreedyReplace \citep{xie2023,xie2024} and the Sandwich family \citep{wang2024sandwich}, are \emph{one-shot}: the entire budget is spent before the cascade is observed.
 
@@ -109,7 +109,7 @@ DEFER touches four lines of work: influence maximization and its adaptive varian
 \hline
 \up Influence maximization, adaptive & add seeds & before or while the cascade runs & submodular structure, bounded gap & removes vertices; objective not supermodular; gap unbounded \\
 One-shot influence minimization & remove vertices or edges & before the cascade is observed & NP-hard; greedy and sandwich heuristics & wraps these planners \\
-Adaptive influence blocking & immunize nodes & after observing the spread & approximation guarantees \citep{shi2019} & not compared (Section~\ref{sec:conclusion}) \\
+Adaptive influence blocking & immunize nodes & after observing the spread & approximation guarantees \citep{shi2019} & not compared (Section~\ref{sec:limitations}) \\
 Immunization and vaccination & vaccinate nodes & mostly fixed in advance & heuristics and spectral surrogates & acts on the realized cascade \\
 Stochastic network interdiction & remove arcs & before the opponent moves & exact and decomposition methods & sample-average ILP baseline (Section~\ref{sec:exp-ilp}) \\
 \hline
@@ -118,23 +118,23 @@ Stochastic network interdiction & remove arcs & before the opponent moves & exac
 
 \subsection{Influence maximization and adaptive seeding}
 
-Influence maximization asks for the seed set that maximizes the expected spread of a cascade \citep{kempe2003}. Under the independent cascade model its objective is monotone and submodular, so greedy selection has a $(1-1/e)$ guarantee, and much of the later literature is about evaluating the objective faster: lazy evaluation \citep{leskovec2007b} and reverse-reachability sampling with near-linear running time \citep{borgs2014,tang2014}; \citet{li2018} survey the area. Evaluating the spread of a fixed seed set is itself \#P-hard \citep{chen2010}, which is why these methods estimate it by sampling.
+Influence maximization asks for the seed set that maximizes the expected spread of a cascade \citep{kempe2003}. Under the independent cascade model its objective is monotone and submodular, so greedy selection has a $(1-1/e)$ guarantee, and much of the later literature is about evaluating the objective faster: lazy evaluation \citep{leskovec2007b} and reverse-reachability sampling with near-linear running time \citep{borgs2014,tang2014}; \citet{li2018} and \citet{zareie2023} survey the area, and \citet{biswas2024} study cost-effective seed selection under several constraints. Evaluating the spread of a fixed seed set is itself \#P-hard \citep{chen2010}, which is why these methods estimate it by sampling.
 
 Adaptive versions let later choices depend on what has been observed. \citet{golovinkrause2011} give the adaptive-submodularity framework for greedy policies, \citet{seemansinger2013} study two-stage adaptive seeding, \citet{tong2017} re-plan as the network changes, \citet{sun2018} select seeds over several rounds of diffusion, and \citet{yuan2017} study adaptive selection with partial feedback. In these problems an action adds seeds to a cascade that the decision maker wants to grow, and the objective keeps a submodular structure that limits how much adaptivity can help: for stochastic monotone submodular maximization the adaptivity gap is bounded by a constant \citep{asadpournazerzadeh2016}, following the analysis of stochastic knapsack by \citet{deangoemansvondrak2008}. DEFER's setting is the opposite. Its actions remove vertices from a cascade that the decision maker wants to contain, the objective is not supermodular \citep{xie2023}, and Theorem~\ref{thm:adaptivity-gap} shows that the adaptivity gap is unbounded.
 
 \subsection{Influence minimization and blocking}
 
-\citet{xie2023} introduce IMIN, prove NP-hardness and inapproximability, and give AdvancedGreedy and GreedyReplace, extended in \citet{xie2024}. \citet{wang2024sandwich} give the Sandwich lower/upper-bound family and \citet{xiang2024} a pertinence-constrained variant. Earlier work removes links or nodes, or counter-seeds a competing campaign: \citet{kimura2008} block links to minimize the spread of contamination; \citet{budak2011} counter-seed a rival campaign under independent cascade and \citet{he2012} under competitive linear threshold; \citet{nguyen2012}, \citet{wang2013blocking} and \citet{yan2020} study node-removal and blocker problems; \citet{fan2013} add a removal-cost budget; and \citet{kuhlman2013} study edge removal against simple and complex contagion. \citet{tong2012} and \citet{khalil2014} modify the network topology to change the outcome of a diffusion process. \citet{wang2016drimux}, \citet{tong2018} and \citet{farajtabar2017} consider dynamic, multi-campaign or learned settings, and \citet{zareie2021} survey misinformation limitation. Apart from one work discussed next, these methods choose their interventions before the process is observed.
+\citet{xie2023} introduce IMIN, prove NP-hardness and inapproximability, and give AdvancedGreedy and GreedyReplace, extended in \citet{xie2024}. \citet{wang2024sandwich} give the Sandwich lower/upper-bound family and \citet{xiang2024} a pertinence-constrained variant; \citet{taninmis2019} and \citet{ghoshal2025} address misinformation minimization with mathematical programming and network-topology approaches. Earlier work removes links or nodes, or counter-seeds a competing campaign: \citet{kimura2008} block links to minimize the spread of contamination; \citet{budak2011} counter-seed a rival campaign under independent cascade; \citet{yan2020} and \citet{yang2020} study blocker and rumor-containment problems; and \citet{kuhlman2013} study edge removal against simple and complex contagion. \citet{wang2016drimux}, \citet{tong2018} and \citet{farajtabar2017} consider dynamic, multi-campaign or learned settings, and \citet{zareie2021} survey misinformation limitation. Apart from one work discussed next, these methods choose their interventions before the process is observed.
 
 The exception is close to ours. \citet{shi2019} propose adaptive influence blocking, in which the nodes to immunize are chosen using observations of the spread so far, and give algorithms with approximation guarantees. We have not implemented or compared with their algorithms. What this paper adds is a different set of questions and results: a wrapper that makes \emph{any} one-shot planner adaptive, with a dominance guarantee relative to that planner (Theorem~\ref{thm:defer-dominates}); a natural early-commitment rule, push-down, that is optimal for one target but can fail when targets compete for the budget (Remark~\ref{rem:pushdown-counterexample}); an unbounded adaptivity gap for IMIN; and an empirical study of the regimes in which adapting helps.
 
 \subsection{Epidemic control on networks}
 
-In network epidemiology the corresponding actions are immunization and vaccination. \citet{pastor2002} study immunization of scale-free networks, and \citet{cohen2003} propose acquaintance immunization, which needs no global knowledge of the network. \citet{preciado2014} allocate protection resources against spreading processes by optimizing a spectral measure of the network, and \citet{li2024} quantify the benefit of customized vaccination strategies with a network-based optimization model. These approaches fix the allocation before the outbreak or optimize a spectral surrogate of its growth; DEFER instead acts on the realized cascade.
+In network epidemiology the corresponding actions are immunization and vaccination. \citet{pastor2002} study immunization of scale-free networks, and \citet{cohen2003} propose acquaintance immunization, which needs no global knowledge of the network. \citet{nowzari2016} survey the analysis and control of spreading processes on networks. \citet{preciado2014} allocate protection resources against spreading processes by optimizing a spectral measure of the network, and \citet{li2024} quantify the benefit of customized vaccination strategies with a network-based optimization model. These approaches fix the allocation before the outbreak or optimize a spectral surrogate of its growth; DEFER instead acts on the realized cascade.
 
 \subsection{Network interdiction and optimization under uncertainty}
 
-Network interdiction chooses arcs or nodes to remove so as to degrade an opponent's objective. \citet{smith2020} survey the models and algorithms, and \citet{cormican1998} study the stochastic version in which network data are uncertain when the interdictor acts. The staged-decision view is standard in stochastic programming: the decision at each stage may depend only on the information revealed so far (non-anticipativity), and models are solved over a scenario tree \citep{birge2011} or over sampled scenarios by sample average approximation \citep{kleywegt2002}. Section~\ref{sec:exp-ilp} builds a time-indexed integer program of this kind as a baseline. Staged choices in a network under uncertainty also appear outside cascades, for example as optimal paths in multi-stage stochastic decision networks \citep{roohnavazfar2019}. The sequential decision problem of Definition~\ref{def:adaptive-imin} is the kind of problem that approximate dynamic programming addresses, whose applications in defence operations research are reviewed by \citet{rempel2021}; DEFER is a heuristic policy for it with a worst-case comparison against one-shot plans, not an approximate dynamic program. Adaptivity gaps measure the loss from committing in advance in stochastic problems \citep{deangoemansvondrak2008,gupta2016}. DEFER re-solves its planning problem every round and commits only the exposed part of the plan, which is the pattern of receding-horizon control \citep{mayne2000}; its default planner uses dominator trees \citep{lengauer1979} on sampled live-edge subgraphs, as AdvancedGreedy does.
+Network interdiction chooses arcs or nodes to remove so as to degrade an opponent's objective. \citet{smith2020} survey the models and algorithms, \citet{cormican1998} study the stochastic version in which network data are uncertain when the interdictor acts, and \citet{janan2025} and \citet{bhuiyan2021} treat stochastic interdiction with restructuring and for cyber-security risk management. The staged-decision view is standard in stochastic programming: the decision at each stage may depend only on the information revealed so far (non-anticipativity), and models are solved over a scenario tree \citep{birge2011} or over sampled scenarios by sample average approximation \citep{kleywegt2002}. Section~\ref{sec:exp-ilp} builds a time-indexed integer program of this kind as a baseline. Staged choices in a network under uncertainty also appear outside cascades, for example as optimal paths in multi-stage stochastic decision networks \citep{roohnavazfar2019} and in two-stage stochastic optimization for manufacturing network decisions \citep{gomezrocha2026}. The sequential decision problem of Definition~\ref{def:adaptive-imin} is the kind of problem that approximate dynamic programming addresses, whose applications in defence operations research are reviewed by \citet{rempel2021}; DEFER is a heuristic policy for it with a worst-case comparison against one-shot plans, not an approximate dynamic program. Adaptivity gaps measure the loss from committing in advance in stochastic problems \citep{deangoemansvondrak2008,gupta2016}. DEFER re-solves its planning problem every round and commits only the exposed part of the plan, which is the pattern of receding-horizon control \citep{mayne2000}; its default planner uses dominator trees \citep{lengauer1979} on sampled live-edge subgraphs, as AdvancedGreedy does.
 
 \section{Preliminaries}\label{sec:prelim}
 \subsection{The independent cascade model}\label{sec:ic-model}
@@ -466,7 +466,7 @@ one-shot behavior exactly where deferring would not help.
 \subsection{Theoretical guarantees}\label{sec:defer-theory}
 
 Full proofs of every result in this section are given in
-Appendix~\ref{ec:defer-proofs}. Before the formal statements, here
+\ref{ec:defer-proofs}. Before the formal statements, here
 is what they say in plain terms.
 \begin{itemize}
 \item \emph{Waiting costs nothing in itself} (Lemma~\ref{lem:defer-free}):
@@ -640,7 +640,7 @@ isolating a whole seed's out-neighborhood at once, rather than blocking
 one vertex at a time -- and prove it admits a worst-case separation
 (Theorem~\ref{thm:isocut-separation}, the Appendix) from AdvancedGreedy. \emph{isocut} is not itself a competing baseline from the
 literature; it is reported only as an ablation, in
-Appendix~\ref{sec:isocut-practice}, because it is rarely selected
+\ref{sec:isocut-practice}, because it is rarely selected
 on the empirical networks used there.
 
 \emph{Intuition.} Greedy planners add one vertex at a time and credit each
@@ -870,9 +870,9 @@ methods):}
   a whole seed's out-neighborhood at once
   (Section~\ref{sec:complexity-comparison}, Theorem~\ref{thm:isocut-separation});
   a one-shot planner, not a DEFER variant, used only in
-  Appendix~\ref{sec:isocut-practice}.
+  \ref{sec:isocut-practice}.
 \item \textbf{DEFER-cut}: DEFER wrapping \emph{isocut} instead of plain
-  AG, used only in Appendix~\ref{sec:isocut-practice} to check
+  AG, used only in \ref{sec:isocut-practice} to check
   whether isocut's worst-case advantage survives once DEFER's adaptivity
   is layered on top.
 \end{enumerate}
@@ -889,7 +889,7 @@ methods):}
   graph \citep{barabasi1999} with $n=2000$ and attachment parameter $m=2$.
 \end{enumerate}
 
-\noindent We also attempted soc-Epinions1 (a much larger trust network), which did not finish within budget and is left for future work. Each network is evaluated under constant activation probability $p=0.1$ and the weighted-cascade (WC) model, with 20 random seed sets of 20 vertices and 5 live-edge realizations per seed set, so every cell has 100 paired episodes, for budgets $b\in\{5,10,20,50,100\}$ (Appendix~\ref{ec:reproducibility}). Table~\ref{tab:defer-results} reports the saved fraction at budget $20$.
+\noindent We also attempted soc-Epinions1 (a much larger trust network), which did not finish within budget and is left for future work. Each network is evaluated under constant activation probability $p=0.1$ and the weighted-cascade (WC) model, with 20 random seed sets of 20 vertices and 5 live-edge realizations per seed set, so every cell has 100 paired episodes, for budgets $b\in\{5,10,20,50,100\}$ (\ref{ec:reproducibility}). Table~\ref{tab:defer-results} reports the saved fraction at budget $20$.
 
 \begin{table}[h]
 \centering
@@ -944,7 +944,7 @@ $b$ & AG & DEFER & COMMIT & AG & DEFER & COMMIT & AG & DEFER & COMMIT & AG & DEF
 \end{tabular}}
 \end{table}
 
-Two robustness checks are reported in Appendix~\ref{ec:seed-sensitivity}. With 50 highest-degree seeds (a more concentrated seeding), the three policies are statistically indistinguishable in 11 of 12 cells (DEFER is ahead of AG in 3, tied in 8, behind in 1), and COMMIT is significantly better than DEFER in one. The \emph{isocut} planner and DEFER-cut, two constructions of our own, give the same saved fractions as AG and DEFER to within $0.002$ (Theorem~\ref{thm:isocut-separation}'s worst-case separation does not materialize on these networks).
+Two robustness checks are reported in \ref{ec:seed-sensitivity}. With 50 highest-degree seeds (a more concentrated seeding), the three policies are statistically indistinguishable in 11 of 12 cells (DEFER is ahead of AG in 3, tied in 8, behind in 1), and COMMIT is significantly better than DEFER in one. The \emph{isocut} planner and DEFER-cut, two constructions of our own, give the same saved fractions as AG and DEFER to within $0.002$ (Theorem~\ref{thm:isocut-separation}'s worst-case separation does not materialize on these networks).
 
 \subsection{Sample-average integer-programming baselines}\label{sec:exp-ilp}
 
@@ -1071,9 +1071,31 @@ highschool2013 & 0.03 & 8 & 0.425 & 0.440 & 0.434 & 0.312 & 0.162 & 0.01 & 21.96
 
 \subsection{Computational cost}\label{sec:complexity-comparison}
 
-Theorem~\ref{thm:defer-complexity} states DEFER's cost as AdvancedGreedy's per-round cost multiplied by the number of rounds $r$: adaptivity is not free computationally, even though pure deferral is free in expected spread (Theorem~\ref{thm:defer-dominates}). Measured wall-clock time per episode (Appendix Table~\ref{tab:timing}) confirms the shape: AG is cheapest on every network, GR is a small constant factor above it (about $1.0$--$1.2\times$), and DEFER and COMMIT are several times above both; DEFER/AG ranges from $2.1\times$ on ca-GrQc to $4.9\times$ on ca-HepTh. COMMIT, not DEFER, is the most expensive throughout: its worse plan quality leaves the cascade active longer and adds re-planning rounds (Appendix~\ref{sec:complexity-practice}). The ILP controllers cost orders of magnitude more per episode (Section~\ref{sec:exp-ilp}).
+Theorem~\ref{thm:defer-complexity} states DEFER's cost as AdvancedGreedy's per-round cost multiplied by the number of rounds $r$: adaptivity is not free computationally, even though pure deferral is free in expected spread (Theorem~\ref{thm:defer-dominates}). Measured wall-clock time per episode (Appendix Table~\ref{tab:timing}) confirms the shape: AG is cheapest on every network, GR is a small constant factor above it (about $1.0$--$1.2\times$), and DEFER and COMMIT are several times above both; DEFER/AG ranges from $2.1\times$ on ca-GrQc to $4.9\times$ on ca-HepTh. COMMIT, not DEFER, is the most expensive throughout: its worse plan quality leaves the cascade active longer and adds re-planning rounds (\ref{sec:complexity-practice}). The ILP controllers cost orders of magnitude more per episode (Section~\ref{sec:exp-ilp}).
 
-\section{Discussion and Limitations}\label{sec:discussion}
+\section{Discussion, Limitations and Conclusion}\label{sec:discussion}
+\subsection{Implications for organizational decision-making}\label{sec:org}
+
+Influence minimization is a decision problem for organizations that must contain a spreading process with a small intervention budget. Table~\ref{tab:org} lists four settings in which the problem has this form, the decision maker, the action that plays the role of blocking a vertex, and what the cascade reveals between decisions. The same structure appears in each: the decision maker acts under uncertainty, observes the realized spread after each round, and has a budget that can be committed now or held back. The settings are illustrations of fit, not field studies; we have no organizational data, and the experiments use the networks and cascade models of Section~\ref{sec:experiments}.
+
+\begin{table}[h]
+\centering
+\caption{Organizational settings with the structure of the adaptive influence minimization problem.}\label{tab:org}
+\small
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.17\textwidth}>{\raggedright\arraybackslash}p{0.17\textwidth}>{\raggedright\arraybackslash}p{0.21\textwidth}>{\raggedright\arraybackslash}p{0.21\textwidth}>{\raggedright\arraybackslash}p{0.14\textwidth}@{}}
+\hline
+\up Setting & Decision maker & Blocking action and budget & Observed between rounds & Source \\
+\hline
+\up Online misinformation & trust-and-safety team of a platform & suspend or throttle accounts; limited review capacity & which accounts the rumor has reached & \citep{vosoughi2018,lazer2018} \\
+Epidemic response & public health authority & quarantine or vaccinate contacts; limited doses or staff & which contacts have become infected & \citep{nowzari2016} \\
+Cyber-security incident & security operations team & isolate hosts or accounts; limited analyst time & which hosts show compromise & \citep{bhuiyan2021} \\
+Supply disruption & supply-chain risk manager & reroute, buffer or protect suppliers; limited contingency budget & which suppliers have been disrupted & \citep{li2021,dolgui2021} \\
+\hline
+\end{tabular}
+\end{table}
+
+The results bear on three decisions. On \emph{timing}, DEFER blocks a planned target only when the cascade reaches its neighborhood, so budget is not spent on threats that never materialize; Theorem~\ref{thm:defer-dominates} says this is safe in expectation for the pure-deferral variant, and the numerical illustration of Section~\ref{sec:intro} gives expected spread $3.2$ against $15.3$ for the best one-shot choice. On \emph{resource allocation}, the adaptivity gap of Theorem~\ref{thm:adaptivity-gap} is unbounded, so an organization whose threats are individually unlikely but large when they occur, with low activation probability relative to branching, can gain a great deal by holding budget back; where cascades are small or dense the gain is small, and Sections~\ref{sec:exp-regime} and~\ref{sec:defer-experiments} show which regimes these are. On \emph{outcomes under uncertainty}, DEFER saves $0.36$--$0.97$ of the spread on the family built to have this structure and is significantly better than greedy in 5 of 40 empirical-network settings and never significantly worse, so the expected improvement over a one-shot greedy plan is selective, not general. A decision maker should adopt adaptive blocking when three conditions hold: the cascade can be observed within rounds, an intervention can act before the next round of spread, and the planning cost of $2.1$--$4.9$ times that of one greedy plan is acceptable. When feedback is slow, partial or noisy, the guarantees do not apply, and a one-shot plan is the safer choice.
+
 \subsection{When does DEFER help in practice, and when is it unnecessary?}
 
 Theorem~\ref{thm:adaptivity-gap} and Section~\ref{sec:defer-example} locate the source of DEFER's advantage: it is large when a vertex's protection is cheap to buy \emph{after} it is known to be threatened but expensive \emph{unconditionally}, that is, when activation probabilities are low relative to the branching factor and the threat, if it materializes, is large. On the star-of-paths family, where this holds by construction, the whole advantage comes from the push-down rule, since DEFER-nopush equals AG there (Section~\ref{sec:exp-sop}). Elsewhere the evidence is mixed. In the regime scan the gains appear where cascades are large (Section~\ref{sec:exp-regime}); on four empirical and synthetic networks DEFER is significantly better than AG in 5 of 40 settings, never significantly worse, and typically within a point of AG, at $2$--$5\times$ AG's compute (Table~\ref{tab:timing}); on small networks re-planning with immediate commitment is often as good (Section~\ref{sec:exp-ilp}). A practitioner should therefore ask whether the intervention has the described shape, occasional high-fan-out gatekeepers that are individually unlikely but consequential, before paying for adaptivity, and should not treat it as free and always better. DEFER-nopush is never worse than its planner up to the residual error of Remark~\ref{rem:winners-curse} (Theorem~\ref{thm:defer-dominates}); full DEFER is not (Remark~\ref{rem:pushdown-counterexample}), and the empirical differences between the two are small outside the star-of-paths family (Appendix Table~\ref{tab:defer-nopush-parity}). DEFER also assumes full-adoption feedback with negligible latency: the controller must observe each round's activations before the next round's propagation, which is realistic when suspensions or quarantines are fast relative to the cascade's own timescale, but not otherwise; noisy, delayed or partially observed feedback is open.
@@ -1132,9 +1154,13 @@ highschool2013 ILP numbers are not exactly reproducible (ILP-1 at
 budget $8$ scored $0.312$ in one run and $0.359$ in the repeat). Staged exact formulations with larger scenario trees, decomposition methods, or
 instances with the star-of-paths structure remain to be evaluated.
 
-\subsection{Limitations}\label{sec:conclusion}
+\subsection{Limitations}\label{sec:limitations}
 
 The evidence has four limits. First, the large synthetic scan and the empirical networks use constant or weighted-cascade edge probabilities and uniformly random or highest-degree seeds; the scan grid was chosen after seeing the small-instance results, so it is exploratory. Second, the empirical-network benchmark covers four networks of up to about 10,000 vertices with 100 paired episodes per cell, so it does not show how DEFER behaves on much larger networks; an attempt on soc-Epinions1 did not finish. Third, the star-of-paths family is constructed to have the structure the theory predicts, so it shows that the algorithm realizes the effect, not how common such structure is. Fourth, DEFER assumes full-adoption feedback with negligible latency; noisy, delayed or partially observed feedback is open. We did not implement the Benders and bilevel algorithms cited in Section~\ref{sec:related}.
+
+\subsection{Conclusion}\label{sec:conclusion}
+
+We asked whether spending an influence-minimization budget as a cascade unfolds can be worse than spending it at once, and how large the benefit can be. DEFER, a wrapper that makes any one-shot planner adaptive, answers both. Pure deferral is never worse in expectation than the planner it wraps, subject to a held-out plan-replacement test whose residual error we do not bound; early commitment can fail when deferred targets compete for the budget; and the adaptivity gap is unbounded. In experiments DEFER saves $0.36$--$0.97$ of the spread on the family used in the proof, is significantly better than greedy in 9 of 45 synthetic settings and 5 of 40 empirical-network settings, and is never significantly worse; sampled integer programs did not beat greedy or DEFER and ran far slower. For decision makers in the settings of Table~\ref{tab:org}, the practical conclusion is selective: adapt when the cascade is observable between rounds and threats are individually unlikely but large, and otherwise a one-shot plan loses little. Open problems are noisy, delayed or partial feedback, larger networks, and staged exact formulations with larger scenario trees.
 
 
 \appendix
@@ -1457,154 +1483,118 @@ During the preparation of this work the authors used Claude (Anthropic) to suppo
 \begin{thebibliography}{99}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
-
+\bibitem[{Vosoughi et~al.(2018)Vosoughi, Roy, and Aral}]{vosoughi2018}
+Vosoughi S, Roy D, Aral S. The spread of true and false news online. Science 2018;359(6380):1146-51. \url{https://doi.org/10.1126/science.aap9559}.
+\bibitem[{Lazer et~al.(2018)Lazer, Baum, Benkler, Berinsky, Greenhill, Menczer, Metzger, Nyhan, Pennycook, Rothschild, Schudson, Sloman, Sunstein, Thorson, Watts, and Zittrain}]{lazer2018}
+Lazer DMJ, Baum MA, Benkler Y, Berinsky AJ, Greenhill KM, Menczer F, et al. The science of fake news. Science 2018;359(6380):1094-6. \url{https://doi.org/10.1126/science.aao2998}.
 \bibitem[{Xie et~al.(2023)Xie, Zhang, Wang, Lin, and Zhang}]{xie2023}
 Xie J, Zhang F, Wang K, Lin X, Zhang W. Minimizing the influence of misinformation via vertex blocking. In: Proceedings of the 39th IEEE International Conference on Data Engineering (ICDE); 2023, p. 3096-108. \url{https://doi.org/10.1109/ICDE55515.2023.00066}.
-
 \bibitem[{Xie et~al.(2025)Xie, Zhang, Wang, Liu, Lin, and Zhang}]{xie2024}
 Xie J, Zhang F, Wang K, Liu J, Lin X, Zhang W. Influence minimization via blocking strategies. INFORMS J Comput 2025;37(6):1587-604. \url{https://doi.org/10.1287/ijoc.2024.0591}.
-
 \bibitem[{Kempe et~al.(2003)Kempe, Kleinberg, and Tardos}]{kempe2003}
 Kempe D, Kleinberg J, Tardos É. Maximizing the spread of influence through a social network. In: Proceedings of the 9th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD); 2003, p. 137-46. \url{https://doi.org/10.1145/956750.956769}.
-
 \bibitem[{Wang et~al.(2024)Wang, Wu, Wang, Zhang, Qin, Zhang, and Lin}]{wang2024sandwich}
 Wang J, Wu Y, Wang X, Zhang Y, Qin L, Zhang W, et al. Efficient influence minimization via node blocking. Proc VLDB Endow 2024;17(10):2501-13. \url{https://doi.org/10.14778/3675034.3675042}.
-
 \bibitem[{Shi et~al.(2019)}]{shi2019}
 Shi Q, Wang C, Ye D, Chen J, Feng Y, Chen C. Adaptive influence blocking: Minimizing the negative spread by observation-based policies. In: Proceedings of the 35th IEEE International Conference on Data Engineering (ICDE); 2019, p. 1502-13. \url{https://doi.org/10.1109/ICDE.2019.00135}.
-
 \bibitem[{Leskovec et~al.(2007b)}]{leskovec2007b}
 Leskovec J, Krause A, Guestrin C, Faloutsos C, VanBriesen J, Glance N. Cost-effective outbreak detection in networks. In: Proceedings of the 13th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining; 2007, p. 420-9. \url{https://doi.org/10.1145/1281192.1281239}.
-
 \bibitem[{Borgs et~al.(2014)}]{borgs2014}
 Borgs C, Brautbar M, Chayes J, Lucier B. Maximizing social influence in nearly optimal time. In: Proceedings of the 25th Annual ACM-SIAM Symposium on Discrete Algorithms (SODA); 2014, p. 946-57. \url{https://doi.org/10.1137/1.9781611973402.70}.
-
 \bibitem[{Tang et~al.(2014)}]{tang2014}
 Tang Y, Xiao X, Shi Y. Influence maximization: Near-optimal time complexity meets practical efficiency. In: Proceedings of the 2014 ACM SIGMOD International Conference on Management of Data; 2014, p. 75-86. \url{https://doi.org/10.1145/2588555.2593670}.
-
 \bibitem[{Li et~al.(2018)}]{li2018}
 Li Y, Fan J, Wang Y, Tan KL. Influence maximization on social graphs: A survey. IEEE Trans Knowl Data Eng 2018;30(10):1852-72. \url{https://doi.org/10.1109/TKDE.2018.2807843}.
-
+\bibitem[{Zareie and Sakellariou(2023)}]{zareie2023}
+Zareie A, Sakellariou R. Influence maximization in social networks: A survey of behaviour-aware methods. Soc Netw Anal Min 2023;13(1). \url{https://doi.org/10.1007/s13278-023-01078-9}.
+\bibitem[{Biswas et~al.(2024)Biswas, Abbasi, and Chakrabortty}]{biswas2024}
+Biswas TK, Abbasi A, Chakrabortty RK. A cost-effective seed selection model for multi-constraint influence maximization in social networks. Decis Anal J 2024;11:100474. \url{https://doi.org/10.1016/j.dajour.2024.100474}.
 \bibitem[{Chen et~al.(2010)Chen, Wang, and Wang}]{chen2010}
 Chen W, Wang C, Wang Y. Scalable influence maximization for prevalent viral marketing in large-scale social networks. In: Proceedings of the 16th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining; 2010, p. 1029-38. \url{https://doi.org/10.1145/1835804.1835934}.
-
 \bibitem[{Golovin and Krause(2011)}]{golovinkrause2011}
 Golovin D, Krause A. Adaptive submodularity: Theory and applications in active learning and stochastic optimization. J Artif Intell Res 2011;42:427-86.
-
 \bibitem[{Seeman and Singer(2013)}]{seemansinger2013}
 Seeman L, Singer Y. Adaptive seeding in social networks. In: Proceedings of the 54th Annual IEEE Symposium on Foundations of Computer Science (FOCS); 2013, p. 459-68. \url{https://doi.org/10.1109/FOCS.2013.56}.
-
 \bibitem[{Tong et~al.(2017)}]{tong2017}
 Tong G, Wu W, Tang S, Du DZ. Adaptive influence maximization in dynamic social networks. IEEE/ACM Trans Netw 2017;25(1):112-25.
-
 \bibitem[{Sun et~al.(2018)}]{sun2018}
 Sun L, Huang W, Yu PS, Chen W. Multi-round influence maximization. In: Proceedings of the 24th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining; 2018, p. 2249-58. \url{https://doi.org/10.1145/3219819.3220101}.
-
 \bibitem[{Yuan and Tang(2017)}]{yuan2017}
 Yuan J, Tang SJ. No time to observe: Adaptive influence maximization with partial feedback. In: Proceedings of the 26th International Joint Conference on Artificial Intelligence (IJCAI); 2017, p. 3908-14. \url{https://doi.org/10.24963/ijcai.2017/546}.
-
 \bibitem[{Asadpour and Nazerzadeh(2016)}]{asadpournazerzadeh2016}
 Asadpour A, Nazerzadeh H. Maximizing stochastic monotone submodular functions. Manag Sci 2016;62(8):2374-91. \url{https://doi.org/10.1287/mnsc.2015.2254}.
-
 \bibitem[{Dean et~al.(2008)Dean, Goemans, and Vondr\'ak}]{deangoemansvondrak2008}
 Dean BC, Goemans MX, Vondrák J. Approximating the stochastic knapsack problem: The benefit of adaptivity. Math Oper Res 2008;33(4):945-64. \url{https://doi.org/10.1287/moor.1080.0330}.
-
 \bibitem[{Xiang et~al.(2024)Xiang, Wang, Wu, Wang, Chen, and Zhang}]{xiang2024}
 Xiang F, Wang J, Wu Y, Wang X, Chen C, Zhang Y. Rumor blocking with pertinence set in large graphs. World Wide Web 2024;27(1):6.
-
+\bibitem[{Tanınmış et~al.(2019)Tanınmış, Aras, Altınel, and Güney}]{taninmis2019}
+Tanınmış K, Aras N, Altınel İK, Güney E. Minimizing the misinformation spread in social networks. IISE Trans 2019;52(8):850-63. \url{https://doi.org/10.1080/24725854.2019.1680909}.
+\bibitem[{Ghoshal et~al.(2025)Ghoshal, Das, Das, and Dhar}]{ghoshal2025}
+Ghoshal AK, Das N, Das S, Dhar S. Minimizing spread of misinformation in social networks: A network topology based approach. Soc Netw Anal Min 2025;15(1). \url{https://doi.org/10.1007/s13278-025-01433-y}.
 \bibitem[{Kimura et~al.(2008)Kimura, Saito, and Motoda}]{kimura2008}
 Kimura M, Saito K, Motoda H. Minimizing the spread of contamination by blocking links in a network. In: Proceedings of the 23rd AAAI Conference on Artificial Intelligence; 2008, p. 1175-80.
-
 \bibitem[{Budak et~al.(2011)Budak, Agrawal, and El~Abbadi}]{budak2011}
 Budak C, Agrawal D, El Abbadi A. Limiting the spread of misinformation in social networks. In: Proceedings of the 20th International Conference on World Wide Web (WWW); 2011, p. 665-74. \url{https://doi.org/10.1145/1963405.1963499}.
-
-\bibitem[{He et~al.(2012)}]{he2012}
-He X, Song G, Chen W, Jiang Q. Influence blocking maximization in social networks under the competitive linear threshold model. In: Proceedings of the 2012 SIAM International Conference on Data Mining (SDM); 2012, p. 463-74. \url{https://doi.org/10.1137/1.9781611972825.40}.
-
-\bibitem[{Nguyen et~al.(2012)}]{nguyen2012}
-Nguyen NP, Yan G, Thai MT, Eidenbenz S. Containment of misinformation spread in online social networks. In: Proceedings of the 4th Annual ACM Web Science Conference (WebSci); 2012, p. 213-22. \url{https://doi.org/10.1145/2380718.2380746}.
-
-\bibitem[{Wang et~al.(2013)Wang, Zhao, Chen, Li, Zhang, and Xia}]{wang2013blocking}
-Wang S, Zhao X, Chen Y, Li Z, Zhang K, Xia J. Negative influence minimizing by blocking nodes in social networks. In: Late-Breaking Developments in the Field of Artificial Intelligence, Papers Presented at the 27th AAAI Conference on Artificial Intelligence; 2013, p. 134-6.
-
 \bibitem[{Yan et~al.(2020)}]{yan2020}
 Yan R, Li D, Wu W, Du DZ, Wang Y. Minimizing influence of rumors by blockers on social networks: Algorithms and analysis. IEEE Trans Netw Sci Eng 2020;7(3):1067-78. \url{https://doi.org/10.1109/TNSE.2019.2903272}.
-
-\bibitem[{Fan et~al.(2013)}]{fan2013}
-Fan L, Lu Z, Wu W, Thuraisingham B, Ma H, Bi Y. Least cost rumor blocking in social networks. In: Proceedings of the 33rd IEEE International Conference on Distributed Computing Systems (ICDCS); 2013, p. 540-9. \url{https://doi.org/10.1109/ICDCS.2013.34}.
-
+\bibitem[{Yang et~al.(2020)Yang, Li, and Giua}]{yang2020}
+Yang L, Li Z, Giua A. Containment of rumor spread in complex social networks. Inf Sci 2020;506:113-30. \url{https://doi.org/10.1016/j.ins.2019.07.055}.
 \bibitem[{Kuhlman et~al.(2013)}]{kuhlman2013}
 Kuhlman CJ, Tuli G, Swarup S, Marathe MV, Ravi SS. Blocking simple and complex contagion by edge removal. In: Proceedings of the 13th IEEE International Conference on Data Mining (ICDM); 2013, p. 399-408. \url{https://doi.org/10.1109/ICDM.2013.47}.
-
-\bibitem[{Tong et~al.(2012)}]{tong2012}
-Tong H, Prakash BA, Eliassi-Rad T, Faloutsos M, Faloutsos C. Gelling, and melting, large graphs by edge manipulation. In: Proceedings of the 21st ACM International Conference on Information and Knowledge Management (CIKM); 2012, p. 245-54. \url{https://doi.org/10.1145/2396761.2396795}.
-
-\bibitem[{Khalil et~al.(2014)}]{khalil2014}
-Khalil EB, Dilkina B, Song L. Scalable diffusion-aware optimization of network topology. In: Proceedings of the 20th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining; 2014, p. 1226-35. \url{https://doi.org/10.1145/2623330.2623704}.
-
 \bibitem[{Wang et~al.(2016)}]{wang2016drimux}
 Wang B, Chen G, Fu L, Song L, Wang X. DRIMUX: Dynamic rumor influence minimization with user experience in social networks. In: Proceedings of the 30th AAAI Conference on Artificial Intelligence (AAAI); 2016, p. 791-7. \url{https://doi.org/10.1609/aaai.v30i1.10063}.
-
 \bibitem[{Tong et~al.(2018)}]{tong2018}
 Tong G, Wu W, Du DZ. Distributed rumor blocking with multiple positive cascades. IEEE Trans Comput Soc Syst 2018;5(2):468-80.
-
 \bibitem[{Farajtabar et~al.(2017)}]{farajtabar2017}
 Farajtabar M, Yang J, Ye X, Xu H, Trivedi R, Khalil E, et al. Fake news mitigation via point process based intervention. In: Proceedings of the 34th International Conference on Machine Learning (ICML); 2017, p. 1097-106.
-
 \bibitem[{Zareie and Sakellariou(2021)}]{zareie2021}
 Zareie A, Sakellariou R. Minimizing the spread of misinformation in online social networks: A survey. J Netw Comput Appl 2021;186:103094. \url{https://doi.org/10.1016/j.jnca.2021.103094}.
-
 \bibitem[{Pastor-Satorras and Vespignani(2002)}]{pastor2002}
 Pastor-Satorras R, Vespignani A. Immunization of complex networks. Phys Rev E 2002;65(3):036104. \url{https://doi.org/10.1103/PhysRevE.65.036104}.
-
 \bibitem[{Cohen et~al.(2003)Cohen, Havlin, and ben-Avraham}]{cohen2003}
 Cohen R, Havlin S, ben-Avraham D. Efficient immunization strategies for computer networks and populations. Phys Rev Lett 2003;91(24):247901. \url{https://doi.org/10.1103/PhysRevLett.91.247901}.
-
+\bibitem[{Nowzari et~al.(2016)Nowzari, Preciado, and Pappas}]{nowzari2016}
+Nowzari C, Preciado VM, Pappas GJ. Analysis and control of epidemics: A survey of spreading processes on complex networks. IEEE Control Syst Mag 2016;36(1):26-46. \url{https://doi.org/10.1109/MCS.2015.2495000}.
 \bibitem[{Preciado et~al.(2014)}]{preciado2014}
 Preciado VM, Zargham M, Enyioha C, Jadbabaie A, Pappas GJ. Optimal resource allocation for network protection against spreading processes. IEEE Trans Control Netw Syst 2014;1(1):99-108. \url{https://doi.org/10.1109/TCNS.2014.2310911}.
-
 \bibitem[{Li and Aprahamian(2024)}]{li2024}
 Li S, Aprahamian H. Quantifying the benefits of customized vaccination strategies: A network-based optimization approach. Nav Res Logist 2024;71(1):64-86. \url{https://doi.org/10.1002/nav.22134}.
-
 \bibitem[{Smith and Song(2020)}]{smith2020}
 Smith JC, Song Y. A survey of network interdiction models and algorithms. Eur J Oper Res 2020;283(3):797-811. \url{https://doi.org/10.1016/j.ejor.2019.06.024}.
-
 \bibitem[{Cormican et~al.(1998)Cormican, Morton, and Wood}]{cormican1998}
 Cormican KJ, Morton DP, Wood RK. Stochastic network interdiction. Oper Res 1998;46(2):184-97. \url{https://doi.org/10.1287/opre.46.2.184}.
-
+\bibitem[{Janan et~al.(2025)Janan, Sharkey, and Tucker}]{janan2025}
+Janan F, Sharkey TC, Tucker EL. Maximum flow stochastic network interdiction with uncertain restructuring: Applications to critical infrastructure. IISE Trans 2025;58(8):948-63. \url{https://doi.org/10.1080/24725854.2025.2597931}.
+\bibitem[{Bhuiyan et~al.(2021)Bhuiyan, Medal, Nandi, and Halappanavar}]{bhuiyan2021}
+Bhuiyan TH, Medal HR, Nandi AK, Halappanavar M. Risk-averse bi-level stochastic network interdiction model for cyber-security risk management. Int J Crit Infrastruct Prot 2021;32:100408. \url{https://doi.org/10.1016/j.ijcip.2021.100408}.
 \bibitem[{Birge and Louveaux(2011)}]{birge2011}
 Birge JR, Louveaux F. Introduction to Stochastic Programming. 2nd ed. New York: Springer; 2011. \url{https://doi.org/10.1007/978-1-4614-0237-4}.
-
 \bibitem[{Kleywegt et~al.(2002)Kleywegt, Shapiro, and Homem-de-Mello}]{kleywegt2002}
 Kleywegt AJ, Shapiro A, Homem-de-Mello T. The sample average approximation method for stochastic discrete optimization. SIAM J Optim 2002;12(2):479-502. \url{https://doi.org/10.1137/S1052623499363220}.
-
 \bibitem[{Roohnavazfar et~al.(2019)Roohnavazfar, Manerba, De~Martin, and Tadei}]{roohnavazfar2019}
 Roohnavazfar M, Manerba D, De Martin JC, Tadei R. Optimal paths in multi-stage stochastic decision networks. Oper Res Perspect 2019;6:100124. \url{https://doi.org/10.1016/j.orp.2019.100124}.
-
+\bibitem[{Gómez-Rocha et~al.(2026)Gómez-Rocha, Hernández-Gress, and Camacho-Vallejo}]{gomezrocha2026}
+Gómez-Rocha JE, Hernández-Gress ES, Camacho-Vallejo JF. A two-stage stochastic optimization model for human-centric manufacturing network decisions. Decis Anal J 2026;21:100768. \url{https://doi.org/10.1016/j.dajour.2026.100768}.
 \bibitem[{Rempel and Cai(2021)}]{rempel2021}
 Rempel M, Cai J. A review of approximate dynamic programming applications within military operations research. Oper Res Perspect 2021;8:100204. \url{https://doi.org/10.1016/j.orp.2021.100204}.
-
 \bibitem[{Gupta et~al.(2016)Gupta, Nagarajan, and Singla}]{gupta2016}
 Gupta A, Nagarajan V, Singla S. Algorithms and adaptivity gaps for stochastic probing. In: Proceedings of the 27th Annual ACM-SIAM Symposium on Discrete Algorithms (SODA); 2016, p. 1731-47. \url{https://doi.org/10.1137/1.9781611974331.ch120}.
-
 \bibitem[{Mayne et~al.(2000)Mayne, Rawlings, Rao, and Scokaert}]{mayne2000}
 Mayne DQ, Rawlings JB, Rao CV, Scokaert POM. Constrained model predictive control: Stability and optimality. Automatica 2000;36(6):789-814. \url{https://doi.org/10.1016/S0005-1098(99)00214-9}.
-
 \bibitem[{Lengauer and Tarjan(1979)}]{lengauer1979}
 Lengauer T, Tarjan RE. A fast algorithm for finding dominators in a flowgraph. ACM Trans Program Lang Syst 1979;1(1):121-41. \url{https://doi.org/10.1145/357062.357071}.
-
 \bibitem[{Leskovec et~al.(2007a)}]{leskovec2007}
 Leskovec J, Kleinberg J, Faloutsos C. Graph evolution: Densification and shrinking diameters. ACM Trans Knowl Discov Data 2007;1(1):2.
-
 \bibitem[{Watts and Strogatz(1998)}]{watts1998}
 Watts DJ, Strogatz SH. Collective dynamics of `small-world' networks. Nature 1998;393:440-2.
-
 \bibitem[{Barab\'asi and Albert(1999)}]{barabasi1999}
 Barabási AL, Albert R. Emergence of scaling in random networks. Science 1999;286(5439):509-12. \url{https://doi.org/10.1126/science.286.5439.509}.
-
+\bibitem[{Li et~al.(2021)Li, Chen, Collignon, and Ivanov}]{li2021}
+Li Y, Chen K, Collignon S, Ivanov D. Ripple effect in the supply chain network: Forward and backward disruption propagation, network health and firm vulnerability. Eur J Oper Res 2021;291(3):1117-31. \url{https://doi.org/10.1016/j.ejor.2020.09.053}.
+\bibitem[{Dolgui and Ivanov(2021)}]{dolgui2021}
+Dolgui A, Ivanov D. Ripple effect and supply chain disruption management: New trends and research directions. Int J Prod Res 2021;59(1):102-9. \url{https://doi.org/10.1080/00207543.2021.1840148}.
 \bibitem[{Tan{\i}nm{\i}{\c s} et~al.(2022)}]{taninmis2022}
 Tanınmış K, Aras N, Altınel İK. Improved $x$-space algorithm for min-max bilevel problems with an application to misinformation spread in social networks. Eur J Oper Res 2022;297(1):40-52. \url{https://doi.org/10.1016/j.ejor.2021.05.008}.
-
 \bibitem[{Tan{\i}nm{\i}{\c s} et~al.(2024)}]{taninmis2024}
 Tanınmış K, Aras N, Güney E, Sinnl M. Benders decomposition algorithms for minimizing the spread of harmful contagions in networks. Comput Oper Res 2024;167:106675. \url{https://doi.org/10.1016/j.cor.2024.106675}.
 

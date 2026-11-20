@@ -110,3 +110,16 @@ Notes for B: the journal's scope excludes well-studied classical methods, so the
 - Paper B package: `paper/rico-twig/twig_rico.tex`, `paper/rico-twig/submission/twig_rico_latex.zip`, `paper/rico-twig/Highlights_twig.docx`.
 - The desk-rejection reasons from ORP were not shared with us.
 - Open items: Paper B manuscript number; ORCIDs of the two co-authors if wanted on the title page; Paper B abstract is 228 words and RICO's limit was not verified.
+
+## Paper A: Decision Analytics Journal asked for changes (2026-11-20)
+
+The Editor-in-Chief sent the submission back (DAJOUR-D-26-00787) with five-day deadline. Requests and what was done:
+
+- New title: "A Deferred Frontier Blocking Framework for Adaptive Influence Minimization and Network Decision-Making" (manuscript, title page, cover letter; the editorial system field must be changed by hand).
+- New keywords: Influence minimization; Adaptive optimization; Sequential decision-making; Network analytics; Resource allocation; Stochastic optimization.
+- Organizational decision-making: new Section 6.1 with a table of four settings (platform trust-and-safety, public health, cyber-security incident response, supply-chain disruption), decision makers, actions and what is observed, and a discussion of timing, allocation and outcomes. It states these are illustrations, not field studies.
+- Conclusion: Section 6 renamed "Discussion, Limitations and Conclusion", with a new subsection 6.5 Conclusion.
+- References: 57 (limit 40 to 60). Removed 6 conference papers (He 2012, Nguyen 2012, Wang 2013, Fan 2013, Tong 2012, Khalil 2014), added 13 journal papers including two from Decision Analytics Journal (Biswas 2024, Gomez-Rocha 2026). Checked: no author over 3 references, no journal over 3, no self-citations, no citation cluster over 3, every entry cited. 17 entries remain from conference proceedings.
+- Highlights replaced with the five sentences supplied by the editor.
+- Also fixed "Appendix Appendix C" in cross-references.
+- Files: `paper/dajour-defer/defer_dajour.tex`, `paper/dajour-defer/package/`, `paper/dajour-defer/submission/`.
