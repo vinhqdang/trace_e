@@ -84,3 +84,16 @@ Both papers were submitted to ORP (single-blind review, at least two referee rep
 ### If a paper is rejected
 
 For paper A: Computers & Operations Research or EJOR (the editorial agreements with ORP allow transfer of reviewed papers in the other direction); for paper B: Networks again with the new experiments, or Journal of Combinatorial Optimization.
+
+## Desk rejections at ORP and resubmissions (2026-11-20)
+
+Both papers were desk-rejected by Operations Research Perspectives and resubmitted the same day.
+
+| Paper | New venue | Manuscript number |
+|---|---|---|
+| A: Adaptive Influence Minimization via Deferred Frontier Blocking | Decision Analytics Journal (Elsevier) | DAJOUR-D-26-00787 |
+| B: Exact Spread Evaluation for Influence Minimization on Bounded-Pathwidth Graphs | Results in Control and Optimization (Elsevier) | not yet assigned |
+
+Sources: `paper/dajour-defer/` (A) and `paper/rico-twig/` (B); the submission zips are in each `submission/` folder. Only the `\journal{}` line differs from the ORP versions.
+
+Notes for B: the journal's scope excludes well-studied classical methods, so the paper is framed as a new exact method with benchmark results. Its checklist asks for a competing-interests statement and referee suggestions.

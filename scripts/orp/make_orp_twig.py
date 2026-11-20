@@ -84,7 +84,7 @@ PRE = r"""\documentclass[preprint,11pt]{elsarticle}
 \newcommand{\Rspread}{R}
 \newcommand{\FF}{F}
 
-\journal{Operations Research Perspectives}
+\journal{Results in Control and Optimization}
 
 \begin{document}
 
